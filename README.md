@@ -21,3 +21,9 @@ Voters need to know:
 1. how the politician voted (voting records).
 
 By putting these two pieces of information together in a succinct mobile platform, we can turn uninformed voters into informed voters. 
+
+# United Nations Sustainable Development Goals
+
+![U.N. Sustainable Development Goals](/images/un-goal-16-peace-justice.jpg)
+
+This year all projects are aligned with United Nations Sustainable Development Goals.  This project falls under [*Goal 16: Promote just, peaceful and inclusive societies*](http://www.un.org/sustainabledevelopment/peace-justice/).
