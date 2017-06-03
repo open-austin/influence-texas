@@ -12,7 +12,7 @@
 Informing the Texas electorate. 
 
 ## Reason:
-Voting drives are nice, but getting ignorant people to cast ballots is not helping anyone. Voters need a _quick_, _user-friendly_ way to tell who a politician really is.
+Voting drives are nice, but getting uninformed people to cast ballots is not helping anyone. Voters need a _quick_, _user-friendly_ way to tell who a politician really is.
 
 Who has the time to search for hours and hours through newspapers and online articles in the (possibly vain) hope of finding unbiased information on each and every candidate?
 
