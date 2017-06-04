@@ -1,0 +1,2521 @@
+{
+    "metaInfo": {
+        "format": "json",
+        "completeness": {
+            "allReports": "14536",
+            "availableReports": "14536",
+            "completeReports": "14530",
+            "incompleteAvailable": "6",
+            "lastUpdated": "2017-05-24 16:03:02",
+            "mostRecentReportDate": "2017-01-17"
+        },
+        "paging": {
+            "pageLink": "p=4",
+            "minPage": 0,
+            "currentPage": 4,
+            "maxPage": 5,
+            "totalPages": 6,
+            "totalRecords": "570",
+            "recordsPerPage": 100,
+            "recordsThisPage": 100
+        },
+        "grouping": {
+            "groupLink": "gro=f-eid,d-cci",
+            "currentGrouping": {
+                "f-eid": "Filer (General)",
+                "d-cci": "General Industry (Contributors)"
+            },
+            "availableGrouping": {
+                "s": "Election Jurisdiction (General)",
+                "y": "Election Year (General)",
+                "f-s": "Filing Jurisdiction (General)",
+                "c-t-id": "Candidate (General)",
+                "m-t-eid": " Ballot Measure Committee (General)",
+                "pt-eid": "Party Committee (General)",
+                "is-f-eid": "Spender (General)",
+                "f-y": "Filing Year (Advanced)",
+                "c-r-osid": "Office Sought (Advanced)",
+                "c-r-oc": "Office (Advanced)",
+                "c-t-i": "Incumbency Data (Advanced)",
+                "c-t-icod": "Incumbency Advantage (Advanced)",
+                "d-nme": "Original Name (Advanced)",
+                "d-amt": "Amount (Advanced)",
+                "d-dte": "Date (Advanced)",
+                "d-ludte": "Last Updated (Advanced)",
+                "d-typ": "Type of Transaction (Advanced)",
+                "d-file": "DND (Advanced)",
+                "d-llink": "Lobbying Entity? (Advanced)",
+                "d-ad-str": "Street (Advanced)",
+                "empl-search": "DND (Advanced)",
+                "c-t-sts": "Status of Candidate (Candidates)",
+                "c-t-pt": "Specific Party (Candidates)",
+                "c-t-p": "General Party (Candidates)",
+                "c-t-eid": "Career Summary (Candidates)",
+                "c-r-t": "Election Type (Candidates)",
+                "c-r-ot": "General Office (Candidates)",
+                "c-r-id": "Specific Office (Candidates)",
+                "c-t-ico": "Incumbency Status (Candidates)",
+                "law-eid": "Office Holder (Lawmakers)",
+                "law-did": "Office Held (Lawmakers)",
+                "law-oc": "Type of Office (Lawmakers)",
+                "law-ot": "General Office (Lawmakers)",
+                "law-pt": "Specific Party (Lawmakers)",
+                "law-p": "General Party (Lawmakers)",
+                "pt-pt": "Party (Party Committees)",
+                "pt-typ": "Committee Type (Party Committees)",
+                "cis-f-ccg": "Spender Sector (Spender)",
+                "cis-f-cci": "Spender Industry (Spender)",
+                "cis-f-ccb": "Spender Business Classification (Spender)",
+                "cis-et": "Type of Spender (Spender)",
+                "d-id": "Record (Contributors)",
+                "d-eid": "Contributor (Contributors)",
+                "d-et": "Type of Contributor (Contributors)",
+                "d-ccb": "Specific Business (Contributors)",
+                "d-ad-cty": "City (Contributors)",
+                "d-ad-st": "State (Contributors)",
+                "d-ad-zip": "Zip (Contributors)",
+                "d-ins": "In-Jurisdiction (Contributors)",
+                "d-empl": "Employer (Contributors)",
+                "d-occupation": "Occupation (Contributors)"
+            }
+        },
+        "sorting": {
+            "sortLink": "so=u-tot&sod=0",
+            "currentSorting": {
+                "u-tot": "Total_$"
+            },
+            "sortingDirection": "descending",
+            "availableSorting": {
+                "f-eid": "Filer",
+                "d-cci": "General_Industry",
+                "d-ccg": "Broad_Sector",
+                "u-rec": "#_of_Records"
+            }
+        },
+        "recordFormat": {
+            "request": "s=TX&y=2016&d-cci=24,25,109",
+            "Filer": {
+                "token": "f-eid",
+                "id": "token value",
+                "Filer": "display value"
+            },
+            "General_Industry": {
+                "token": "d-cci",
+                "id": "token value",
+                "General_Industry": "display value"
+            },
+            "Broad_Sector": {
+                "token": "d-ccg",
+                "id": "token value",
+                "Broad_Sector": "display value"
+            },
+            "#_of_Records": {
+                "#_of_Records": "display value"
+            },
+            "Total_$": {
+                "Total_$": "display value"
+            }
+        }
+    },
+    "records": [{
+        "record_id": 401,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969747&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969747",
+            "Filer": "ORTEGA, EVELINA (LINA)"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1500.00"
+        }
+    }, {
+        "record_id": 402,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969760&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969760",
+            "Filer": "PRICE IV, WALTER (FOUR)"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "3"
+        },
+        "Total_$": {
+            "Total_$": "1500.00"
+        }
+    }, {
+        "record_id": 403,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969819&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969819",
+            "Filer": "GERVIN-HAWKINS, BARBARA"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1500.00"
+        }
+    }, {
+        "record_id": 404,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969894&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969894",
+            "Filer": "BUCKINGHAM, DAWN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1500.00"
+        }
+    }, {
+        "record_id": 405,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969644&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969644",
+            "Filer": "BAILES, ERNEST"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1300.00"
+        }
+    }, {
+        "record_id": 406,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=19894852&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "19894852",
+            "Filer": "JOHNSON, JARVIS D"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1250.00"
+        }
+    }, {
+        "record_id": 407,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=22216317&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "22216317",
+            "Filer": "TINDERHOLT, TONY D."
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1250.00"
+        }
+    }, {
+        "record_id": 408,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=26783531&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "26783531",
+            "Filer": "BURROWS, DUSTIN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1250.00"
+        }
+    }, {
+        "record_id": 409,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969809&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969809",
+            "Filer": "AREVALO, DIANA"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1250.00"
+        }
+    }, {
+        "record_id": 410,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969832&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969832",
+            "Filer": "FRIENDS OF KEVIN ROBERTS"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1250.00"
+        }
+    }, {
+        "record_id": 411,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=22214697&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "22214697",
+            "Filer": "TEXANS FOR RODNEY ANDERSON"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1025.00"
+        }
+    }, {
+        "record_id": 412,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=2375514&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "2375514",
+            "Filer": "TAYLOR, NICHOLAS VAN CAMPEN (VAN)"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 413,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6386851&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6386851",
+            "Filer": "HOWARD, DONNA"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 414,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6386860&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6386860",
+            "Filer": "KING, TRACY O"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 415,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6387095&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6387095",
+            "Filer": "WATSON, KIRK"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 416,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6387098&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6387098",
+            "Filer": "WHITMIRE, JOHN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 417,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6497342&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6497342",
+            "Filer": "TURNER, CHRIS"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 418,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6582770&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6582770",
+            "Filer": "ESTES, CRAIG"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 419,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6582777&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6582777",
+            "Filer": "FLYNN, DAN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 420,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6583127&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6583127",
+            "Filer": "LAUBENBERG, JODIE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 421,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6583361&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6583361",
+            "Filer": "SMITHEE, JOHN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 422,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6598949&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6598949",
+            "Filer": "ANDERSON, (DOC) CHARLES"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 423,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6599058&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6599058",
+            "Filer": "CREIGHTON, CHARLES BRANDON"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 424,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6668595&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6668595",
+            "Filer": "KING, SUSAN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 425,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6679754&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6679754",
+            "Filer": "PENA, GILBERT"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 426,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6681295&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6681295",
+            "Filer": "WHITE, JAMES"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 427,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6681489&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6681489",
+            "Filer": "KRAUSE, MATT"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 428,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6716263&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6716263",
+            "Filer": "JACKSON LEE, SHEILA"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 429,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=10238396&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "10238396",
+            "Filer": "WU, EUGENE (GENE)"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 430,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=10238405&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "10238405",
+            "Filer": "LONGORIA, OSCAR"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 431,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=10238421&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "10238421",
+            "Filer": "NEVAREZ, PONCHO"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 432,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=10238711&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "10238711",
+            "Filer": "CLARDY, TRAVIS"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 433,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=10238723&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "10238723",
+            "Filer": "BELL JR, CECIL"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 434,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=10238735&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "10238735",
+            "Filer": "SPRINGER, DREW"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 435,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=10244371&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "10244371",
+            "Filer": "HINOJOSA, JUAN (CHUY)"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 436,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=10244574&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "10244574",
+            "Filer": "RIDDLE, DEBBIE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 437,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=10244652&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "10244652",
+            "Filer": "LUNA, ANA E HERNANDEZ"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 438,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=11022489&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "11022489",
+            "Filer": "KLICK, STEPHANIE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 439,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=11022529&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "11022529",
+            "Filer": "PEREZ, MARY ANN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 440,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=11511448&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "11511448",
+            "Filer": "PAUL, DENNIS R"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 441,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=11677005&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "11677005",
+            "Filer": "SHAHEEN, MATTHEW F (MATT)"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 442,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=11677005&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "11677005",
+            "Filer": "SHAHEEN, MATTHEW F (MATT)"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 443,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=12306996&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "12306996",
+            "Filer": "KEOUGH, MARK J."
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 444,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=12553363&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "12553363",
+            "Filer": "LEACH, JEFF"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 445,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=12553365&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "12553365",
+            "Filer": "SANFORD, SCOTT"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 446,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=13006838&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "13006838",
+            "Filer": "BONNEN, DENNIS H"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 447,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=13006958&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "13006958",
+            "Filer": "DARBY, DREW"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 448,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=13006999&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "13006999",
+            "Filer": "ZEDLER, BILL"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 449,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=13007038&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "13007038",
+            "Filer": "MENENDEZ, JOSE ANTONIO"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 450,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=13007052&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "13007052",
+            "Filer": "FLETCHER, ALLEN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 451,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=13007067&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "13007067",
+            "Filer": "DUTTON JR, HAROLD V"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 452,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=13007074&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "13007074",
+            "Filer": "FARRAR, JESSICA CRISTINA"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 453,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=13013641&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "13013641",
+            "Filer": "LUCIO JR, EDDIE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 454,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=13013648&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "13013648",
+            "Filer": "SELIGER, KEL"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 455,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=17872272&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "17872272",
+            "Filer": "CYRIER, JOHN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 456,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=19013861&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "19013861",
+            "Filer": "EMMERT, WADE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 457,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=19894852&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "19894852",
+            "Filer": "JOHNSON, JARVIS D"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 458,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=22205848&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "22205848",
+            "Filer": "BLANCO, CESAR J."
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 459,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=22214147&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "22214147",
+            "Filer": "HARRIS COUNTY REPUBLICAN PARTY (CEC) 'HCRP'"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 460,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=22214577&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "22214577",
+            "Filer": "HALL III, ROBERT L. 'BOB'"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 461,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=22214680&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "22214680",
+            "Filer": "TEXANS FOR KELLY HANCOCK SPAC"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 462,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=22216261&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "22216261",
+            "Filer": "VANDEAVER, GARY W."
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 463,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=22216270&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "22216270",
+            "Filer": "WRAY, JOHN C."
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 464,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=22216285&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "22216285",
+            "Filer": "TEXANS FOR DADE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 465,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=22216289&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "22216289",
+            "Filer": "MURR, ANDREW S. 'ANDY'"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 466,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=23947161&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "23947161",
+            "Filer": "MINJAREZ, INA"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 467,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=26783531&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "26783531",
+            "Filer": "BURROWS, DUSTIN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 468,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=32501160&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "32501160",
+            "Filer": "HEFNER, COLE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 469,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=36933791&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "36933791",
+            "Filer": "DEAN, JAY"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 470,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969714&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969714",
+            "Filer": "SHEFFIELD, J D"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 471,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969735&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969735",
+            "Filer": "LAMBERT, STAN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 472,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969747&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969747",
+            "Filer": "ORTEGA, EVELINA (LINA)"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 473,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969788&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969788",
+            "Filer": "NEAVE, VICTORIA"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 474,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969816&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969816",
+            "Filer": "URESTI, TOMAS"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 475,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969816&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969816",
+            "Filer": "URESTI, TOMAS"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 476,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969894&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969894",
+            "Filer": "BUCKINGHAM, DAWN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 477,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969943&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969943",
+            "Filer": "SWEETEN FOR CONGRESS"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 478,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=42591593&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "42591593",
+            "Filer": "MILES, BORRIS L"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 479,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=42591594&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "42591594",
+            "Filer": "THIERRY, SHAWN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 480,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=42591594&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "42591594",
+            "Filer": "THIERRY, SHAWN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "1000.00"
+        }
+    }, {
+        "record_id": 481,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=22214025&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "22214025",
+            "Filer": "ANNIE'S LIST"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "9"
+        },
+        "Total_$": {
+            "Total_$": "850.00"
+        }
+    }, {
+        "record_id": 482,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6396620&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6396620",
+            "Filer": "CASTRO FOR CONGRESS"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "750.00"
+        }
+    }, {
+        "record_id": 483,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=13710881&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "13710881",
+            "Filer": "NORTHEAST TARRANT TEA PARTY"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "12"
+        },
+        "Total_$": {
+            "Total_$": "750.00"
+        }
+    }, {
+        "record_id": 484,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969832&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969832",
+            "Filer": "FRIENDS OF KEVIN ROBERTS"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "750.00"
+        }
+    }, {
+        "record_id": 485,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969873&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969873",
+            "Filer": "SWANSON, VALOREE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "750.00"
+        }
+    }, {
+        "record_id": 486,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=37969788&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "37969788",
+            "Filer": "NEAVE, VICTORIA"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "2"
+        },
+        "Total_$": {
+            "Total_$": "650.00"
+        }
+    }, {
+        "record_id": 487,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=4631344&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "4631344",
+            "Filer": "DAVIS, YVONNE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 488,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6386687&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6386687",
+            "Filer": "COLEMAN, GARNET"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 489,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6396660&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6396660",
+            "Filer": "DESHOTEL, JOE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 490,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6396741&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6396741",
+            "Filer": "GUILLEN, RYAN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 491,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6453425&d-cci=109",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6453425",
+            "Filer": "ANCHIA, RAFAEL"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "109",
+            "General_Industry": "Automotive"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "13",
+            "Broad_Sector": "Transportation"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 492,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6469591&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6469591",
+            "Filer": "LUCIO III, EDDIE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 493,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6499586&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6499586",
+            "Filer": "JOHNSON, ERIC"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 494,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6582620&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6582620",
+            "Filer": "CRADDICK, TOM"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 495,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6583091&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6583091",
+            "Filer": "KING, PHIL"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 496,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6583361&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6583361",
+            "Filer": "SMITHEE, JOHN"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 497,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6598949&d-cci=24",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6598949",
+            "Filer": "ANDERSON, (DOC) CHARLES"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "24",
+            "General_Industry": "Telecom Services & Equipment"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 498,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6679717&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6679717",
+            "Filer": "HUNTER, TODD"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 499,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6681277&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6681277",
+            "Filer": "GOODEN, LANCE"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }, {
+        "record_id": 500,
+        "request": "show-me?y=2016&d-cci=24%2C25%2C109&f-eid=6681295&d-cci=25",
+        "Filer": {
+            "token": "f-eid",
+            "id": "6681295",
+            "Filer": "WHITE, JAMES"
+        },
+        "General_Industry": {
+            "token": "d-cci",
+            "id": "25",
+            "General_Industry": "Telephone Utilities"
+        },
+        "Broad_Sector": {
+            "token": "d-ccg",
+            "id": "3",
+            "Broad_Sector": "Communications & Electronics"
+        },
+        "#_of_Records": {
+            "#_of_Records": "1"
+        },
+        "Total_$": {
+            "Total_$": "500.00"
+        }
+    }]
+}

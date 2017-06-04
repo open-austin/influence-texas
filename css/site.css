@@ -1,0 +1,52 @@
+img {
+    margin: 25px;
+}
+
+/* This is necessary to highlight rows in tables that already have Bootstrap classes */
+tbody .bg-primary {
+    background-color: #337ab7 !important;
+}
+
+.div-image img {
+    max-width: 300px; max-height: 300px;
+}
+
+.div-table {
+    margin: 50px 0;
+}
+
+.img-main {
+    width: 90%; height: 90%;
+    max-width: 400px; max-height: 400px;
+}
+
+.navbar-brand {
+    padding: 0;
+    width: 250px;
+}
+
+.navbar-img {
+    max-width: 50px; max-height: 50px;
+    margin: 0 10px 0 0;
+    float: left;
+}
+
+.navbar-img-desc {
+    line-height: 50px;
+}
+
+.row {
+    margin-top: 10px; margin-bottom: 10px;
+}
+
+.text-influence {
+    color: #C10000;
+}
+
+.text-tx {
+    color: #001CBF;
+}
+
+#contributors tr td:nth-child(2) {
+    text-align: right;
+}
