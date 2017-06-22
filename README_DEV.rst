@@ -7,6 +7,10 @@ Texas campaign finance and voting records app.
      :target: https://github.com/pydanny/cookiecutter-django/
      :alt: Built with Cookiecutter Django
 
+To set up this app for local development, check out the `installation instructions`_.
+
+.. _installation instructions: ./docs/install.rst
+
 
 Settings
 --------
