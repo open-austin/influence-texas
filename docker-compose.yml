@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=influencetx
+  web:
+    image: python:3.6.1
+    working_dir: /usr/src/app
+    command: bash -exc "pip install -r requirements/local.txt && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DATABASE_URL=psql://postgres:mysecretpassword@postgres:5432/influencetx
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    links:
+      - db:postgres
