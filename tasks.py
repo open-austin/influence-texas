@@ -1,3 +1,6 @@
+import os
+from warnings import warn
+
 from invoke import task
 
 
@@ -51,11 +54,17 @@ def create_app(ctx, app_name, pty=True):
     ctx.run(f'django-admin.py startapp {app_name} {app_dir}', pty=pty)
 
     url = f"url(r'^{app_name}/', include('influencetx.{app_name}.urls', namespace='{app_name}')),"
+    url_module_path = 'influencetx/{app_name}/urls.py'
+    full_app_path = 'influencetx.{app_name}'
+    template_path = 'influencetx/templates/{app_name}'
+    view_docs = 'https://docs.djangoproject.com/en/1.11/intro/tutorial03/'
+
     print(f"\nCreated {app_dir!r}.\n")
-    print("\nYou may also want to add the following url pattern to `config/urls.py`:\n")
-    print(f"   {url}")
-    print("\nAnd the following item to the `INSTALLED_APPS` list in `config/settings/base.py`:\n")
-    print(f"   'influencetx.{app_name}',\n")
+    print("\nYou may also want to do the following:")
+    print(f"- Add app to `LOCAL_APPS` list in `config/settings/base.py`: '{full_app_path}',")
+    print(f"- Add view for your new app: {view_docs}")
+    print(f"- Add url pattern to `config/urls.py`: {url}")
+    print(f"- Add template subdirectory for new app: mkdir {template_path}")
 
 
 def csv_to_args(csv_string):

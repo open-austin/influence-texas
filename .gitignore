@@ -39,6 +39,7 @@ npm-debug.log*
 
 # App specific
 .influencetx-secrets.env
+openstates_cache.sqlite
 
 # Unit test / coverage reports
 htmlcov/

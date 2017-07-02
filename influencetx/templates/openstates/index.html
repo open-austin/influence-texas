@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Open:States{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Open:States interface</h2>
+  <ul>
+    <li>
+      <a class="nav-link" href="{% url 'openstates:legislators' %}">Legislators</a>
+    </li>
+    <li>bills</li>
+  </ul>
+</div>
+{% endblock content %}

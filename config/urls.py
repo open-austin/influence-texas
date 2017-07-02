@@ -16,8 +16,8 @@ urlpatterns = [
     url(r'^users/', include('influencetx.users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
 
-    # Your stuff: custom urls includes go here
-
+    # Custom urls
+    url(r'^openstates/', include('influencetx.openstates.urls', namespace='openstates')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

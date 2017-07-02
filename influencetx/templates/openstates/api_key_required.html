@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Open:States{% endblock %}
+
+{% block content %}
+<h2>Open:States API key required</h2>
+<ol>
+  <li> 
+    <a href="https://openstates.org/api/register/" target="_blank" rel="noopener noreferrer">
+      Register for an Open States API key
+    </a>
+    <ul>
+      <li>Use your own name and email</li>
+      <li>Website: <q>https://www.open-austin.org/</q></li>
+      <li>Organization: <q>Open Austin</q></li>
+      <li>Intended Usage: <q>Local development of influencetx app</q></li>
+    </ul>
+  </li>
+  <li>
+    You should receive an email with your new API key. Follow the activation link.
+  </li>
+  <li>
+    Copy your api key into the following command and run it in the root directory of the repo
+    (i.e. where README.md is located):
+    <p>
+      <code>echo "OPENSTATES_API_KEY=YOUR-API-KEY-HERE" >> .influencetx-secrets.env</code>
+    </p>
+  </li>
+</ol>
+
+{% endblock content %}

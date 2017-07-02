@@ -55,7 +55,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     # custom users app
     'influencetx.users.apps.UsersConfig',
-    # Your stuff: custom apps go here
+    # custom apps
+    'influencetx.openstates.apps.OpenstatesConfig',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

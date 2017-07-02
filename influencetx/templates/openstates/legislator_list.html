@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Open:States{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <h2>Open:States Legislators</h2>
+
+  <p>
+    The following data is from
+    <a href="https://openstates.org/" target="_blank" rel="noopener noreferrer">Open:States</a>.
+  </p>
+
+  <table class="table">
+    <thead>
+      <th> Name </th>
+      <th> District </th>
+      <th> Party </th>
+      <th> Chamber </th>
+    </thead>
+    {% for person in legislators %}
+      <tr>
+        <td> <a href="{% url "openstates:legislator-detail" person.leg_id %}">{{ person.full_name }}</a> </td>
+        <td> {{ person.district }} </td>
+        <td> {{ person.party }} </td>
+        <td> {{ person.chamber }} </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+</div>
+{% endblock content %}

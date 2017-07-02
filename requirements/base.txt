@@ -42,8 +42,5 @@ pytz==2017.2
 django-redis==4.8.0
 redis>=2.10.5
 
-
-
-
-
-# Your custom requirements go here
+requests==2.18.1
+requests-cache==0.4.13

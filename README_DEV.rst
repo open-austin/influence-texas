@@ -29,6 +29,25 @@ the `influencetx` app at http://localhost:8000/.
 
 .. _Install Docker CE: https://docs.docker.com/engine/installation/
 
+Add Open States API Key
+.......................
+
+If you want to use portions of the site that rely on the Open States API, you'll need to add an
+API key to the secrets file.
+
+# `Register for an Open States API key`
+  - Use your own name and email
+  - Website: `https://www.open-austin.org/`
+  - Organization: `Open Austin`
+  - Intended Usage: `Local development of influencetx app`
+# You should receive an email with your new API key. Follow the activation link.
+# Copy your api key into the following command and run it in the root directory of the repo
+  (i.e. where README.md is located)::
+      echo "OPENSTATES_API_KEY=YOUR-API-KEY-HERE" >> .influencetx-secrets.env
+
+Note that *changes to `.influencetx-secrets.env` should never be committed*.
+
+.. _Register for an Open States API key: https://openstates.org/api/register/
 
 Basic Commands
 --------------
@@ -62,9 +81,6 @@ The commands commonly used for maintenance of this project are described below.
 - `docker-compose up -d`: Start up docker container in detached mode (background task). You can
   keep a docker container running continuously, so you may only need to run this after restarting
   your machine.
-- `docker-compose exec web bash`: Run bash shell within web container.
-- `docker-compose logs`: Display bash output for all containers.
-- `docker-compose logs web`: Display bash output for web container.
 - `./djadmin.sh makemigrations`: Make schema migrations to reflect your changes to Django models.
   Any migrations that you make should be committed and pushed with your model changes.
 - `./djadmin.sh migrate`: Migrate database to the current schema. You'll need to run this after
@@ -74,6 +90,15 @@ The commands commonly used for maintenance of this project are described below.
 - `./pyinvoke.sh check`: Check project for problems. At minimum, run this before committing code.
 - `./pyinvoke.sh create-app`: Create `Django app`_. Django apps are small collections of
   functionality for your web application.
+
+Debugging commands
+..................
+
+- `docker-compose logs --follow`: Watch output of containers. (Alias: `-f` = `--follow`.)
+- `docker-compose logs`: Display bash output for all containers.
+- `docker-compose exec web bash`: Run bash shell within web container.
+- `./djadmin.sh shell`: Start IPython shell.
+- `./djadmin.sh dbshell`: Start Postgres shell.
 
 .. _Django app: https://docs.djangoproject.com/en/1.11/ref/applications/#projects-and-applications
 
