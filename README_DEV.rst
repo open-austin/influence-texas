@@ -15,6 +15,8 @@ records.
 Setup
 -----
 
+To get started on this project for the first time, you can follow these simple steps.
+
 - `Install Docker CE`_
 - Clone code::
 
@@ -26,9 +28,9 @@ Setup
       cd influence-texas
       docker-compose up -d
 
-The first time it's run `docker-compose` will pull down a generic python and postgres images
-images. After that, it will install dependendencies specific to the app and start up a server for
-the `influencetx` app at http://localhost:8000/.
+The first time it's run `docker-compose` will pull down generic python and postgres images. After
+that, it will install dependendencies specific to the app and start up a server for the
+`influencetx` app at http://localhost:8000/.
 
 .. _Install Docker CE: https://docs.docker.com/engine/installation/
 
@@ -57,8 +59,9 @@ Note that **changes to .influencetx-secrets.env should never be committed**.
 Basic Commands
 --------------
 
-All of the basic commands are based off of the following commands for interacting with the docker
-container:
+During everyday development, there are a few commands that you'll need to execute to debug, update
+the database, etc. All of the basic commands are based off of the following commands for
+interacting with the docker container:
 
 - `docker-compose`_: Run generic docker commands in docker containers.
 
