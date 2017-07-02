@@ -17,9 +17,12 @@ Setup
 
 - `Install Docker CE`_
 - Clone code::
+
       cd your/code/directory
       git clone https://github.com/open-austin/influence-texas.git
+
 - Start up docker container::
+
       cd influence-texas
       docker-compose up -d
 
@@ -35,17 +38,19 @@ Add Open States API Key
 If you want to use portions of the site that rely on the Open States API, you'll need to add an
 API key to the secrets file.
 
-# `Register for an Open States API key`
-  - Use your own name and email
-  - Website: `https://www.open-austin.org/`
-  - Organization: `Open Austin`
-  - Intended Usage: `Local development of influencetx app`
-# You should receive an email with your new API key. Follow the activation link.
-# Copy your api key into the following command and run it in the root directory of the repo
-  (i.e. where README.md is located)::
-      echo "OPENSTATES_API_KEY=YOUR-API-KEY-HERE" >> .influencetx-secrets.env
+- `Register for an Open States API key`_
 
-Note that *changes to `.influencetx-secrets.env` should never be committed*.
+  - Use your own name and email
+  - Website: ``https://www.open-austin.org/``
+  - Organization: ``Open Austin``
+  - Intended Usage: ``Local development of influencetx app``
+
+- You should receive an email with your new API key. Follow the activation link.
+- Copy your api key into the following command and run it in the root directory of the repo (i.e. where README.md is located)::
+
+    echo "OPENSTATES_API_KEY=YOUR-API-KEY-HERE" >> .influencetx-secrets.env
+
+Note that **changes to .influencetx-secrets.env should never be committed**.
 
 .. _Register for an Open States API key: https://openstates.org/api/register/
 
@@ -56,14 +61,19 @@ All of the basic commands are based off of the following commands for interactin
 container:
 
 - `docker-compose`_: Run generic docker commands in docker containers.
-    - Run `docker-compose -h` to see a full list of commands.
-    - Run `docker-compose help <COMMAND>` to see help on a command.
-- `./pyinvoke.sh`: A shortcut for running invoke_ commands in docker containers.
-    - Run `./pyinvoke.sh -l` to see a full list of commands.
-    - Run `./pyinvoke.sh -h <COMMAND>` to see help on a command.
-- `./djadmin.sh`: A shortcut for running `django admin`_ commands in docker containers.
-    - Run `./djadmin.sh help` to see a full list of commands.
-    - Run `./djadmin.sh help <COMMAND>` to see help on a command.
+
+  - Run ``docker-compose -h`` to see a full list of commands.
+  - Run ``docker-compose help <COMMAND>`` to see help on a command.
+
+- ``./pyinvoke.sh``: A shortcut for running invoke_ commands in docker containers.
+
+  - Run ``./pyinvoke.sh -l`` to see a full list of commands.
+  - Run ``./pyinvoke.sh -h <COMMAND>`` to see help on a command.
+
+- ``./djadmin.sh``: A shortcut for running `django admin`_ commands in docker containers.
+
+  - Run ``./djadmin.sh help`` to see a full list of commands.
+  - Run ``./djadmin.sh help <COMMAND>`` to see help on a command.
 
 These instructions assume you're executing the command from the parent directory of this file. You
 can find details of any commands using the commands above. A few commonly used commands are
@@ -78,47 +88,29 @@ Maintenance commands
 
 The commands commonly used for maintenance of this project are described below.
 
-- `docker-compose up -d`: Start up docker container in detached mode (background task). You can
+- ``docker-compose up -d``: Start up docker container in detached mode (background task). You can
   keep a docker container running continuously, so you may only need to run this after restarting
   your machine.
-- `./djadmin.sh makemigrations`: Make schema migrations to reflect your changes to Django models.
+- ``./djadmin.sh makemigrations``: Make schema migrations to reflect your changes to Django models.
   Any migrations that you make should be committed and pushed with your model changes.
-- `./djadmin.sh migrate`: Migrate database to the current schema. You'll need to run this after
-  running `./djadmin.sh makemigrations` to actually apply migrations. If you pull code from github
+- ``./djadmin.sh migrate``: Migrate database to the current schema. You'll need to run this after
+  running ``./djadmin.sh makemigrations`` to actually apply migrations. If you pull code from github
   that includes migrations, you should run this to sync your database.
-- `./pyinvoke.sh test`: Execute tests using pytest. At minimum, run this before committing code.
-- `./pyinvoke.sh check`: Check project for problems. At minimum, run this before committing code.
-- `./pyinvoke.sh create-app`: Create `Django app`_. Django apps are small collections of
+- ``./pyinvoke.sh test``: Execute tests using pytest. At minimum, run this before committing code.
+- ``./pyinvoke.sh check``: Check project for problems. At minimum, run this before committing code.
+- ``./pyinvoke.sh create-app``: Create `Django app`_. Django apps are small collections of
   functionality for your web application.
 
 Debugging commands
 ..................
 
-- `docker-compose logs --follow`: Watch output of containers. (Alias: `-f` = `--follow`.)
-- `docker-compose logs`: Display bash output for all containers.
-- `docker-compose exec web bash`: Run bash shell within web container.
-- `./djadmin.sh shell`: Start IPython shell.
-- `./djadmin.sh dbshell`: Start Postgres shell.
+- ``docker-compose logs --follow``: Watch output of containers. (Alias: `-f` = `--follow`.)
+- ``docker-compose logs``: Display bash output for all containers.
+- ``docker-compose exec web bash``: Run bash shell within web container.
+- ``./djadmin.sh shell``: Start IPython shell.
+- ``./djadmin.sh dbshell``: Start Postgres shell.
 
 .. _Django app: https://docs.djangoproject.com/en/1.11/ref/applications/#projects-and-applications
-
-
-Live reloading and Sass CSS compilation
-.......................................
-
-Moved to `Live reloading and SASS compilation`_.
-
-.. _`Live reloading and SASS compilation`: http://cookiecutter-django.readthedocs.io/en/latest/live-reloading-and-sass-compilation.html
-
-
-Sentry
-......
-
-Sentry is an error logging aggregator service. You can sign up for a free account at
-https://sentry.io/signup/?code=cookiecutter  or download and host it yourself.  The system is setup
-with reasonable defaults, including 404 logging and integration with the WSGI application.
-
-You must set the DSN url in production.
 
 
 Settings
