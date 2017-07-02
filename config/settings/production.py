@@ -14,8 +14,9 @@ from boto.s3.connection import OrdinaryCallingFormat
 
 import logging
 
-
 from .base import *  # noqa
+# Explicit imports to suppress flake8 errors.
+from .base import DATABASES, INSTALLED_APPS, MIDDLEWARE, TEMPLATES, env
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------

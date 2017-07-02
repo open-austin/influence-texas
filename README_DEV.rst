@@ -62,32 +62,20 @@ The commands commonly used for maintenance of this project are described below.
 - `docker-compose up -d`: Start up docker container in detached mode (background task). You can
   keep a docker container running continuously, so you may only need to run this after restarting
   your machine.
+- `docker-compose exec web bash`: Run bash shell within web container.
+- `docker-compose logs`: Display bash output for all containers.
+- `docker-compose logs web`: Display bash output for web container.
 - `./djadmin.sh makemigrations`: Make schema migrations to reflect your changes to Django models.
   Any migrations that you make should be committed and pushed with your model changes.
 - `./djadmin.sh migrate`: Migrate database to the current schema. You'll need to run this after
   running `./djadmin.sh makemigrations` to actually apply migrations. If you pull code from github
   that includes migrations, you should run this to sync your database.
 - `./pyinvoke.sh test`: Execute tests using pytest. At minimum, run this before committing code.
+- `./pyinvoke.sh check`: Check project for problems. At minimum, run this before committing code.
 - `./pyinvoke.sh create-app`: Create `Django app`_. Django apps are small collections of
   functionality for your web application.
 
 .. _Django app: https://docs.djangoproject.com/en/1.11/ref/applications/#projects-and-applications
-
-
-Additional Docker commands
-..........................
-
-- `docker-compose up`: Start up docker container.
-- `docker-compose down`: Shutdown docker container.
-- `docker-compose logs`: Display bash output for all containers.
-- `docker-compose logs web`: Display bash output for web container.
-- `docker-compose logs ps`: Display list of containers.
-
-
-Additional Django admin commands
-................................
-
-- `./djadmin.sh createsuperuser`: Create superuser account.
 
 
 Live reloading and Sass CSS compilation

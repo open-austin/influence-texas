@@ -10,6 +10,8 @@ Local settings
 """
 
 from .base import *  # noqa
+# Explicit imports to suppress flake8 errors.
+from .base import INSTALLED_APPS, MIDDLEWARE, TEMPLATES, env
 
 # DEBUG
 # ------------------------------------------------------------------------------

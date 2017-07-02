@@ -5,6 +5,8 @@ Test settings
 '''
 
 from .base import *  # noqa
+# Explicit imports to suppress flake8 errors.
+from .base import TEMPLATES, env
 
 
 # DEBUG
