@@ -104,16 +104,31 @@ The commands commonly used for maintenance of this project are described below.
 - ``./pyinvoke.sh create-app``: Create `Django app`_. Django apps are small collections of
   functionality for your web application.
 
+.. _Django app: https://docs.djangoproject.com/en/1.11/ref/applications/#projects-and-applications
+
+
 Debugging commands
 ..................
 
-- ``docker-compose logs --follow``: Watch output of containers. (Alias: `-f` = `--follow`.)
+- ``docker-compose logs --follow``: Watch output of containers. (Alias: ``-f`` = ``--follow``.)
 - ``docker-compose logs``: Display bash output for all containers.
 - ``docker-compose exec web bash``: Run bash shell within web container.
 - ``./djadmin.sh shell``: Start IPython shell.
 - ``./djadmin.sh dbshell``: Start Postgres shell.
 
-.. _Django app: https://docs.djangoproject.com/en/1.11/ref/applications/#projects-and-applications
+
+Debugging Python code
+.....................
+
+You can't use the output window from a ``docker-compose logs --f`` call to debug, since it actually
+interacts with multiple containers. Instead, run the following in a terminal::
+
+    docker attach `docker-compose ps -q web`
+
+This will attach the terminal to the web container and allow you to interact with the running
+process. Now you can add a break point somewhere in your python code::
+
+    import ipdb; ipdb.set_trace()
 
 
 Settings
