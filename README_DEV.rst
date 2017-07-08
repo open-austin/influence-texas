@@ -111,10 +111,16 @@ Debugging commands
 ..................
 
 - ``docker-compose logs --follow``: Watch output of containers. (Alias: ``-f`` = ``--follow``.)
+
+  - This command has a `tendency to cause timeout errors`_. If you experience timeouts, try
+    running: ``COMPOSE_HTTP_TIMEOUT=60000 docker-compose logs -f``.
+
 - ``docker-compose logs``: Display bash output for all containers.
 - ``docker-compose exec web bash``: Run bash shell within web container.
 - ``./djadmin.sh shell``: Start IPython shell.
 - ``./djadmin.sh dbshell``: Start Postgres shell.
+
+.. _tendency to cause timeout errors: https://github.com/docker/compose/issues/3106
 
 
 Debugging Python code
@@ -124,6 +130,11 @@ You can't use the output window from a ``docker-compose logs --f`` call to debug
 interacts with multiple containers. Instead, run the following in a terminal::
 
     docker attach `docker-compose ps -q web`
+
+The ``docker-compose``-part of the command simply returns the id of the web container for the app.
+You can replace the above with::
+
+    docker attach influencetexas_web_1
 
 This will attach the terminal to the web container and allow you to interact with the running
 process. Now you can add a break point somewhere in your python code::
