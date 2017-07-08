@@ -2,6 +2,11 @@
 {% load static i18n %}
 {% block title %}Open:States{% endblock %}
 
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+{% endblock css %}
+
 {% block content %}
 <div class="container">
 
@@ -12,7 +17,7 @@
     <a href="https://openstates.org/" target="_blank" rel="noopener noreferrer">Open:States</a>.
   </p>
 
-  <table class="table">
+  <table id="legislator-list"class="table">
     <thead>
       <th> Name </th>
       <th> District </th>
@@ -31,3 +36,13 @@
 
 </div>
 {% endblock content %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#legislator-list').dataTable({});
+    });
+  </script>
+{% endblock javascript %}
