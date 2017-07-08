@@ -51,10 +51,3 @@ def fetch_json(url, headers=None):
     if response.status_code == 200:
         return response.json()
     return response
-
-
-def _default_bill_created_date(start=None, stop=None):
-    if start is None:
-        start = timezone.now()
-
-    return f'{previous_year}-{current_year}'

@@ -5,7 +5,7 @@ from invoke import task
 
 
 @task()
-def test(ctx, path='influencetx', coverage=True, pty=True):
+def test(ctx, path='influencetx', coverage=True, capture=False, pty=True):
     """Run test suite.
 
     To limit the tests that are run, pass a `--path` argument to the test command:
@@ -14,6 +14,7 @@ def test(ctx, path='influencetx', coverage=True, pty=True):
     """
     test_cmd = 'pytest'
     test_cmd += ' --cov=influencetx --cov-report term-missing' if coverage else ''
+    test_cmd += '' if capture else ' --capture=no'
     ctx.run(f'{test_cmd} {path}', pty=pty)
 
 
