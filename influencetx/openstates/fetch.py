@@ -24,7 +24,7 @@ DEFAULT_HEADERS = {
 DEFAULT_QUERY_DICT = {
     'state': 'tx',
 }
-DEFAULT_TIME_RANGE = timedelta(days=180)
+DEFAULT_BILL_COUNT = 100000  # Use large default bill count to get all bills.
 
 
 def legislators(pk=None):
@@ -34,13 +34,15 @@ def legislators(pk=None):
     return fetch_json(uri.geturl(), headers=DEFAULT_HEADERS)
 
 
-def bills(page=1, per_page=100, session=None, pk=None):
-    if pk is not None:
-        uri = BASE_URI._replace(path=f'{API_PATH}/bills/tx/{session}/{pk}/')
-    else:
-        custom_query = {'search_window': 'session', 'page': page, 'per_page': per_page}
-        query = urllib.parse.urlencode({**DEFAULT_QUERY_DICT, **custom_query})
-        uri = BASE_URI._replace(path=f'{API_PATH}/bills/', query=query)
+def bills(page=1, per_page=DEFAULT_BILL_COUNT, search_window='session'):
+    custom_query = {'search_window': search_window, 'page': page, 'per_page': per_page}
+    query = urllib.parse.urlencode({**DEFAULT_QUERY_DICT, **custom_query})
+    uri = BASE_URI._replace(path=f'{API_PATH}/bills/', query=query)
+    return fetch_json(uri.geturl(), headers=DEFAULT_HEADERS)
+
+
+def bill_detail(session=None, pk=None):
+    uri = BASE_URI._replace(path=f'{API_PATH}/bills/tx/{session}/{pk}/')
     return fetch_json(uri.geturl(), headers=DEFAULT_HEADERS)
 
 
