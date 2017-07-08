@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Open:States{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <h2>Open:States Bills</h2>
+
+  <p>
+    The following data is from
+    <a href="https://openstates.org/" target="_blank" rel="noopener noreferrer">Open:States</a>.
+  </p>
+
+  <table class="table">
+    <thead>
+      <th> Bill </th>
+      <th> Title </th>
+      <th> Subjects </th>
+    </thead>
+    {% for bill in bill_list %}
+      <tr>
+        <td class="text-nowrap"> <a href="{% url "openstates:bill-detail" bill.session bill.bill_id|escape %}">{{ bill.bill_id }}</a> </td>
+        <td>{{ bill.title }}</td>
+        <td>{{ bill.subjects|join:', ' }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+</div>
+{% endblock content %}

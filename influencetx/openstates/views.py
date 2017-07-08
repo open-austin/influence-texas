@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import redirect, render, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import View
@@ -52,3 +53,26 @@ class LegislatorDetailView(View):
         legislator = fetch.legislators(leg_id)
         context = { 'legislator': legislator }
         return render(request, 'openstates/legislator_detail.html', context=context)
+
+
+class BillListView(View):
+
+    @method_decorator(require_api_key)
+    def get(self, request):
+        context = {
+            'bill_list': fetch.bills(),
+        }
+        return render(request, 'openstates/bill_list.html', context=context)
+
+
+class BillDetailView(View):
+
+    @method_decorator(require_api_key)
+    def get(self, request, session=None, id=None):
+        if not session or not id:
+            return HttpResponseBadRequest()
+        bill = fetch.bills(session=session, pk=id)
+        if not bill:
+            raise Http404()
+        context = { 'bill': bill }
+        return render(request, 'openstates/bill_detail.html', context=context)

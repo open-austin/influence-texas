@@ -29,14 +29,18 @@ DEFAULT_TIME_RANGE = timedelta(days=180)
 
 def legislators(pk=None):
     query = urllib.parse.urlencode(DEFAULT_QUERY_DICT)
-    path = API_PATH + ('/legislators/' if pk is None else f'/legislators/{pk}/')
+    path = f'{API_PATH}/legislators/' if pk is None else f'{API_PATH}/legislators/{pk}/'
     uri = BASE_URI._replace(path=path, query=query)
     return fetch_json(uri.geturl(), headers=DEFAULT_HEADERS)
 
 
-def bills():
-    query = urllib.parse.urlencode({**DEFAULT_QUERY_DICT, })
-    uri = BASE_URI._replace(path=API_PATH+'/bills/tx/')
+def bills(page=1, per_page=100, session=None, pk=None):
+    if pk is not None:
+        uri = BASE_URI._replace(path=f'{API_PATH}/bills/tx/{session}/{pk}/')
+    else:
+        custom_query = {'search_window': 'session', 'page': page, 'per_page': per_page}
+        query = urllib.parse.urlencode({**DEFAULT_QUERY_DICT, **custom_query})
+        uri = BASE_URI._replace(path=f'{API_PATH}/bills/', query=query)
     return fetch_json(uri.geturl(), headers=DEFAULT_HEADERS)
 
 
@@ -44,7 +48,7 @@ def fetch_json(url, headers=None):
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         return response.json()
-    return HttpResponse(status=response.status_code)
+    return response
 
 
 def _default_bill_created_date(start=None, stop=None):
