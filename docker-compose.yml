@@ -9,7 +9,7 @@ services:
   web:
     image: python:3.6.1
     working_dir: /usr/src/app
-    command: bash -exc "pip install -r requirements/local.txt && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    command: bash -exc "pip install -r requirements/local.txt && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:5120"
     environment:
       - DATABASE_URL=psql://postgres:mysecretpassword@postgres:5432/influencetx
     env_file:
@@ -17,7 +17,7 @@ services:
     volumes:
       - .:/usr/src/app
     ports:
-      - "8000:8000"
+      - "5120:5120"
     stdin_open: true
     tty: true
     depends_on:
