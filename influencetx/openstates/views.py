@@ -3,15 +3,13 @@ from django.core.exceptions import ImproperlyConfigured
 from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import redirect, render, reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import View
+from django.views.generic import TemplateView, View
 
 from . import fetch
 
 
-class IndexView(View):
-
-    def get(self, request):
-        return render(request, 'openstates/index.html')
+class IndexView(TemplateView):
+    template_name = 'openstates/index.html'
 
 
 def require_api_key(f):
@@ -19,10 +17,6 @@ def require_api_key(f):
     def wrapped(request, *args, **kwargs):
         if not fetch.OPENSTATES_API_KEY:
             if settings.DEBUG:
-                import os
-                print('-'* 50)
-                print(os.environ.get('OPENSTATES_API_KEY'))
-                print('-'* 50)
                 return redirect(reverse('openstates:api-key-required'))
             else:
                 raise ImproperlyConfigured('OPENSTATES_API_KEY is not defined')
@@ -30,10 +24,8 @@ def require_api_key(f):
     return wrapped
 
 
-class APIKeyRequiredView(View):
-
-    def get(self, request):
-        return render(request, 'openstates/api_key_required.html')
+class APIKeyRequiredView(TemplateView):
+    template_name = 'openstates/api_key_required.html'
 
 
 class LegislatorListView(View):
@@ -51,6 +43,8 @@ class LegislatorDetailView(View):
     @method_decorator(require_api_key)
     def get(self, request, leg_id=None):
         legislator = fetch.legislators(leg_id)
+        if not legislator:
+            raise Http404()
         context = { 'legislator': legislator }
         return render(request, 'openstates/legislator_detail.html', context=context)
 
@@ -77,8 +71,6 @@ class BillDetailView(View):
 
     @method_decorator(require_api_key)
     def get(self, request, session=None, id=None):
-        if not session or not id:
-            return HttpResponseBadRequest()
         bill = fetch.bill_detail(session=session, pk=id)
         if not bill:
             raise Http404()

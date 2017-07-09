@@ -13,7 +13,8 @@ from .base import TEMPLATES, env
 # ------------------------------------------------------------------------------
 # Turn debug off so tests run faster
 DEBUG = False
-TEMPLATES[0]['OPTIONS']['debug'] = False
+# django_coverage_plugin complains if this is False
+TEMPLATES[0]['OPTIONS']['debug'] = True
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
