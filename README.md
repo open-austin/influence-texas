@@ -28,3 +28,6 @@ By putting these two pieces of information together in a succinct mobile platfor
 
 This year all projects are aligned with United Nations Sustainable Development Goals.  This project falls under [*Goal 16: Promote just, peaceful and inclusive societies*](http://www.un.org/sustainabledevelopment/peace-justice/).
 
+# Developer Guide
+
+For instructions on getting started with development, go to [README_DEV.rst](README_DEV.rst).

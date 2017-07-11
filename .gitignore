@@ -32,8 +32,14 @@ wheels/
 *.spec
 
 # Installer logs
+logs
 pip-log.txt
 pip-delete-this-directory.txt
+npm-debug.log*
+
+# App specific
+.influencetx-secrets.env
+openstates_cache.sqlite
 
 # Unit test / coverage reports
 htmlcov/
@@ -45,6 +51,7 @@ nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
+htmlcov
 
 # Translations
 *.mo
@@ -91,6 +98,20 @@ ENV/
 .spyderproject
 .spyproject
 
+# SublimeText ###
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+
+# Vim
+*~
+*.swp
+*.swo
+
+# Pycharm
+.idea/*
+
 # Rope project settings
 .ropeproject
 
@@ -99,3 +120,22 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# OSX
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# sftp configuration file
+sftp-config.json
+
+# npm
+node_modules/
+
+# Compass
+.sass-cache
+
+# User-uploaded media
+influencetx/media/
+
+staticfiles/
