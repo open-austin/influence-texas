@@ -55,6 +55,7 @@ def create_app(ctx, app_name, pty=True):
     ctx.run(f'django-admin.py startapp {app_name} {app_dir}', pty=pty)
 
     url = f"url(r'^{app_name}/', include('influencetx.{app_name}.urls', namespace='{app_name}')),"
+    apps_module_path = 'influencetx/{app_name}/apps.py'
     url_module_path = 'influencetx/{app_name}/urls.py'
     full_app_path = 'influencetx.{app_name}'
     template_path = 'influencetx/templates/{app_name}'
@@ -62,6 +63,7 @@ def create_app(ctx, app_name, pty=True):
 
     print(f"\nCreated {app_dir!r}.\n")
     print("\nYou may also want to do the following:")
+    print(f"- Change `name = '{app_name}'` to `name = '{full_app_path}'` in '{apps_module_path}'")
     print(f"- Add app to `LOCAL_APPS` list in `config/settings/base.py`: '{full_app_path}',")
     print(f"- Add view for your new app: {view_docs}")
     print(f"- Add url pattern to `config/urls.py`: {url}")
