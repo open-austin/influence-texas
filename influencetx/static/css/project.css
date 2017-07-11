@@ -1,5 +1,9 @@
 /* These styles are generated from project.scss. */
 
+h1, h2, h3, h4, h5 {
+  margin-top: 1em;
+}
+
 .alert-debug {
   color: black;
   background-color: white;
