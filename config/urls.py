@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
 
     # Custom urls
+    url(r'^bills/', include('influencetx.bills.urls', namespace='bills')),
     url(r'^openstates/', include('influencetx.openstates.urls', namespace='openstates')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
