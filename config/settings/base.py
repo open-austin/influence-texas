@@ -55,7 +55,9 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'influencetx.users.apps.UsersConfig',
     # custom apps
+    'influencetx.core.apps.CoreConfig',
     'influencetx.bills.apps.BillsConfig',
+    'influencetx.legislators.apps.LegislatorsConfig',
     'influencetx.openstates.apps.OpenstatesConfig',
 ]
 

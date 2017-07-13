@@ -6,6 +6,8 @@ services:
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_DB=influencetx
+    volumes:
+      - data:/var/lib/postgres
   web:
     image: python:3.6.1
     working_dir: /usr/src/app
@@ -23,3 +25,6 @@ services:
       - db
     links:
       - db:postgres
+volumes:
+  data:
+    driver: local
