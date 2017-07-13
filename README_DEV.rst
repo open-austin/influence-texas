@@ -94,6 +94,7 @@ The commands commonly used for maintenance of this project are described below.
 - ``docker-compose up -d``: Start up docker container in detached mode (background task). You can
   keep a docker container running continuously, so you may only need to run this after restarting
   your machine.
+- ``docker-compose -f docker-compose.build up -d``: Build docker image and start up container.
 - ``./djadmin.sh makemigrations``: Make schema migrations to reflect your changes to Django models.
   Any migrations that you make should be committed and pushed with your model changes.
 - ``./djadmin.sh migrate``: Migrate database to the current schema. You'll need to run this after
