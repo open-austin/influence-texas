@@ -2,19 +2,19 @@ import json
 import os
 import os.path as pth
 
+import pytest
 from django.forms import ValidationError
-from django.test import TestCase
 
 from influencetx.core.utils import party_enum
 from influencetx.openstates import data, utils
 
 
-class TestDeserializeLegislator(TestCase):
+class TestDeserializeLegislator():
 
     def test_deserialize_from_openstates_sample(self):
         json_data = data.get_sample_legislator_detail()
 
-        legislator = utils.deserialize_openstates_legislator(json_data)
+        legislator = utils.deserialize_openstates_legislator(json_data, commit=False)
 
         assert legislator.first_name == json_data['first_name']
         assert legislator.last_name == json_data['last_name']
@@ -36,5 +36,5 @@ class TestDeserializeLegislator(TestCase):
         json_data = data.get_sample_legislator_detail()
         del json_data['first_name']  # Delete required key, first_name
 
-        with self.assertRaises(ValidationError):
+        with pytest.raises(ValidationError):
             legislator = utils.deserialize_openstates_legislator(json_data)

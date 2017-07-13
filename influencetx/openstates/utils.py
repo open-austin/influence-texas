@@ -19,7 +19,7 @@ def parse_datetime(string):
     return datetime.strptime(string, DATETIME_TEMPLATE)
 
 
-def deserialize_openstates_legislator(json_data):
+def deserialize_openstates_legislator(json_data, commit=True):
     """Return Legislator model deserialized from Open States API data."""
     json_data = json_data.copy()  #
     json_data['party'] = party_enum(json_data['party']).value
@@ -31,6 +31,6 @@ def deserialize_openstates_legislator(json_data):
     form = forms.OpenStatesLegislatorForm(json_data)
 
     if form.is_valid():
-        return form.save()
+        return form.save(commit=commit)
     else:
         raise ValidationError(form.errors)
