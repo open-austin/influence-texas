@@ -50,9 +50,13 @@ API key to the secrets file.
 - You should receive an email with your new API key. Follow the activation link.
 - Copy your api key into the following command and run it in the root directory of the repo (i.e. where README.md is located)::
 
-    echo "OPENSTATES_API_KEY=YOUR-API-KEY-HERE" >> .influencetx-secrets.env
+    echo "export OPENSTATES_API_KEY=YOUR-API-KEY-HERE" >> env.sh
 
-Note that **changes to .influencetx-secrets.env should never be committed**.
+- Export environment variables using the new script::
+
+    source env.sh
+
+Note that **changes to ``env.sh`` should never be committed**.
 
 .. _Register for an Open States API key: https://openstates.org/api/register/
 

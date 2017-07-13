@@ -12,8 +12,7 @@ services:
     command: bash -exc "pip install -r requirements/local.txt && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:5120"
     environment:
       - DATABASE_URL=psql://postgres:mysecretpassword@postgres:5432/influencetx
-    env_file:
-      - .influencetx-secrets.env
+      - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
     volumes:
       - .:/usr/src/app
     ports:

@@ -38,7 +38,7 @@ pip-delete-this-directory.txt
 npm-debug.log*
 
 # App specific
-.influencetx-secrets.env
+env.sh
 openstates_cache.sqlite
 
 # Unit test / coverage reports
