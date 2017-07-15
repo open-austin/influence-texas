@@ -21,6 +21,8 @@ PARTY_MAPPING = {
 
 
 def party_enum(string):
+    if string is None:
+        return constants.Party.UNKNOWN
     party = PARTY_MAPPING.get(string.lower())
     if party is None:
         log.warn(f"Could not determine party from {string!r}")

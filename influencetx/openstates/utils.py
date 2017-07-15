@@ -21,12 +21,13 @@ def parse_datetime(string):
 
 def deserialize_openstates_legislator(json_data, commit=True):
     """Return Legislator model deserialized from Open States API data."""
-    json_data = json_data.copy()  #
-    json_data['party'] = party_enum(json_data['party']).value
+    json_data = json_data.copy()  # Copy data to avoid side-effects (data modified below).
 
+    # Update fields that require pre-processing before deserialization.
     updated_at = json_data.pop('updated_at')
     json_data['openstates_updated_at'] = parse_datetime(updated_at)
     json_data['openstates_leg_id'] = json_data.pop('leg_id')
+    json_data['party'] = party_enum(json_data.get('party')).value
 
     form = forms.OpenStatesLegislatorForm(json_data)
 

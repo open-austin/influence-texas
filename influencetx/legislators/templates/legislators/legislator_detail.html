@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Legislator{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <h2>Legislator Detail</h2>
+
+  <img src="{{ legislator.photo_url }}"/>
+
+  <dl class="row">
+    <dt class="col-2"> Name </dt>
+    <dd class="col-10"> {{ legislator }} </dd>
+    <dt class="col-2"> Open States ID </dt>
+    <dd class="col-10"> {{ legislator.openstates_leg_id }} </dd>
+    <dt class="col-2"> District </dt>
+    <dd class="col-10"> {{ legislator.district }} </dd>
+    <dt class="col-2"> Party </dt>
+    <dd class="col-10"> {{ legislator.party }} </dd>
+    <dt class="col-2"> Chamber </dt>
+    <dd class="col-10"> {{ legislator.chamber }} </dd>
+  </dl>
+
+</div>
+{% endblock content %}

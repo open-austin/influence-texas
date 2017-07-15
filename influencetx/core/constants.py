@@ -16,10 +16,12 @@ class Party(Enum):
     DEMOCRATIC = 'D'
     INDEPENDENT = 'I'
     REPUBLICAN = 'R'
+    UNKNOWN = 'U'
 
 
 PARTY_CHOICES = [
     (Party.DEMOCRATIC.value, 'Democratic'),
     (Party.INDEPENDENT.value, 'Independent'),
     (Party.REPUBLICAN.value, 'Republican'),
+    (Party.UNKNOWN.value, 'Unknown'),
 ]

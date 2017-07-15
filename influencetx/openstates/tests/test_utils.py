@@ -16,7 +16,7 @@ class TestDeserializeLegislator():
 
         legislator = utils.deserialize_openstates_legislator(json_data, commit=False)
 
-        simple_fields = ['first_name', 'last_name', 'middle_name', 'suffixes',
+        simple_fields = ['first_name', 'last_name', 'middle_name', 'suffixes', 'chamber',
                          'transparencydata_id', 'votesmart_id', 'url', 'photo_url']
         assert_simple_attributes_match_data(simple_fields, legislator, json_data)
 
