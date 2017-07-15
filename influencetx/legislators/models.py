@@ -18,8 +18,8 @@ class Legislator(models.Model):
     openstates_updated_at = models.DateTimeField()
     # Legislator ID from Open States API.
     openstates_leg_id = models.CharField(max_length=20, db_index=True)
-    transparencydata_id = models.CharField(max_length=35, db_index=True)
-    votesmart_id = models.CharField(max_length=10, db_index=True)
+    transparencydata_id = models.CharField(max_length=35, db_index=True, blank=True)
+    votesmart_id = models.CharField(max_length=10, db_index=True, blank=True)
 
     # Member url at http://www.house.state.tx.us
     url = models.URLField(blank=True)

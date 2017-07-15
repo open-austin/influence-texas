@@ -1,4 +1,3 @@
-import functools
 import json
 import os
 import os.path as pth
@@ -15,4 +14,11 @@ def get_sample_json(filename):
         return json.load(f)
 
 
-get_sample_legislator_detail = functools.partial(get_sample_json, 'sample_legislator_detail.json')
+def get_sample_legislator_detail(**kwargs):
+    """Return sample data from legislator-detail endpoint.
+
+    Any additional kwargs are used to update the sample data before returning.
+    """
+    api_data = get_sample_json('sample_legislator_detail.json')
+    api_data.update(kwargs)
+    return api_data
