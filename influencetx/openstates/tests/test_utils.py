@@ -16,21 +16,14 @@ class TestDeserializeLegislator():
 
         legislator = utils.deserialize_openstates_legislator(json_data, commit=False)
 
-        assert legislator.first_name == json_data['first_name']
-        assert legislator.last_name == json_data['last_name']
-        assert legislator.middle_name == json_data['middle_name']
-        assert legislator.suffixes == json_data['suffixes']
+        simple_fields = ['first_name', 'last_name', 'middle_name', 'suffixes',
+                         'transparencydata_id', 'votesmart_id', 'url', 'photo_url']
+        assert_simple_attributes_match_data(simple_fields, legislator, json_data)
 
         assert legislator.party == party_enum(json_data['party']).value
         assert legislator.district == int(json_data['district'])
-
         assert utils.format_datetime(legislator.openstates_updated_at) == json_data['updated_at']
         assert legislator.openstates_leg_id == json_data['leg_id']
-        assert legislator.transparencydata_id == json_data['transparencydata_id']
-        assert legislator.votesmart_id == json_data['votesmart_id']
-
-        assert legislator.url == json_data['url']
-        assert legislator.photo_url == json_data['photo_url']
 
     def test_deserialize_with_missing_required_field_raises(self):
         json_data = data.get_sample_legislator_detail()
@@ -38,3 +31,9 @@ class TestDeserializeLegislator():
 
         with pytest.raises(ValidationError):
             legislator = utils.deserialize_openstates_legislator(json_data)
+
+
+def assert_simple_attributes_match_data(attribute_names, instance, data):
+    """Assert attributes on object match keys in data dict."""
+    for name in attribute_names:
+        assert getattr(instance, name) == data[name]
