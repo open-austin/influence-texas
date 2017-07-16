@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Open:States{% endblock %}
+
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+{% endblock css %}
+
+{% block content %}
+<div class="container">
+
+  <h2>Open:States Bills</h2>
+
+  <p>
+    The following data is from
+    <a href="https://openstates.org/" target="_blank" rel="noopener noreferrer">Open:States</a>.
+  </p>
+
+  <table id="bill-list" class="table">
+    <thead>
+      <th> Bill </th>
+      <th> Title </th>
+      <th> Subjects </th>
+    </thead>
+  </table>
+
+</div>
+{% endblock content %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+  <script>
+    $(document).ready(function () {
+
+      $('#bill-list').dataTable({
+        data: {{ bill_rows|safe }},
+        columnDefs: [
+          { // Render first column as a link to the bill-detail page.
+            targets: 0,
+            render: function (data, type, row) {
+              return '<a class="text-nowrap" href="' + row[3] + '">' + data + '</a>'
+            },
+          },
+          { // 4th data-column (index = 3) is used for rendering detail url link in bill id.
+            targets: 3,
+            visible: false,
+          },
+        ],
+
+      });
+    });
+  </script>
+{% endblock javascript %}

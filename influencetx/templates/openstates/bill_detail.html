@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Open:States Bill Detail{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <h2>Open:States Bill Details</h2>
+
+  <p>
+    The following data is from
+    <a href="https://openstates.org/" target="_blank" rel="noopener noreferrer">Open:States</a>.
+  </p>
+
+  <dl class="row">
+    <dt class="col-2"> Bill </dt>
+    <dd class="col-10"> {{ bill.bill_id }} </dd>
+    <dt class="col-2"> Title </dt>
+    <dd class="col-10"> {{ bill.title }} </dd>
+    <dt class="col-2"> Session </dt>
+    <dd class="col-10"> {{ bill.session }} </dd>
+    <dt class="col-2"> Chamber </dt>
+    <dd class="col-10"> {{ bill.chamber }} </dd>
+    <dt class="col-2"> Subjects </dt>
+    <dd class="col-10"> {{ bill.subjects|join:', ' }} </dd>
+    <dt class="col-2"> Action dates </dt>
+    <dd class="col-10">
+      <table class="table table-sm">
+        <thead>
+          <th>Action</th>
+          <th>Date</th>
+        </thead>
+        {% for action, date in bill.action_dates.items %}
+          <tr>
+            <td>{{ action }}</td>
+            <td>{{ date.split|first }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </dd>
+    <dt class="col-2"> Vote count </dt>
+    <dd class="col-10">
+      <table class="table table-sm">
+        <thead>
+          <th>Date</th>
+          <th>Yes</th>
+          <th>No</th>
+          <th>Chamber</th>
+        </thead>
+        {% for vote in bill.votes %}
+          <tr>
+            <td>{{ vote.date.split|first }}</td>
+            <td>{{ vote.yes_count }}</td>
+            <td>{{ vote.no_count }}</td>
+            <td>{{ vote.chamber }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </dd>
+  </dl>
+
+</div>
+{% endblock content %}
