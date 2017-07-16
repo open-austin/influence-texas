@@ -53,17 +53,7 @@ class TestBillDeserialization(TestCase):
 
         with mock.patch.object(utils, 'LOG') as mock_log:
             utils.deserialize_openstates_bill(api_data)
-            utils.deserialize_openstates_bill(api_data)
-
-        assert Bill.objects.all().count() == 1
-
-    def test_deserialize_same_bill_id_twice_adds_single_row(self):
-        """Assert that identitical Open States bill id used to detect and prevent duplicates."""
-        api_data = factories.fake_bill_detail()
-
-        with mock.patch.object(utils, 'LOG') as mock_log:
-            utils.deserialize_openstates_bill(api_data)
-            utils.deserialize_openstates_bill(api_data)
+            bill = utils.deserialize_openstates_bill(api_data)
 
         assert Bill.objects.all().count() == 1
 

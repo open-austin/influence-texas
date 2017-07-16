@@ -103,16 +103,25 @@ def adapt_openstates_vote_tally(vote_data):
 @transaction.atomic
 def deserialize_openstates_bill(api_data, instance=None):
     """Return Bill model deserialized from Open States API data."""
-    api_data = adapt_openstates_bill(api_data)
+    adapted_data = adapt_openstates_bill(api_data)
     if instance is None:
-        instance = find_matching_bill(api_data)
-    form = forms.OpenStatesBillForm(api_data, instance=instance)
+        instance = find_matching_bill(adapted_data)
+    adapted_data['subjects'] = [s.id for s in deserialize_subject_tags(adapted_data['subjects'])]
+    form = forms.OpenStatesBillForm(adapted_data, instance=instance)
+
     bill = clean_form(form, commit=True)
-    for vote_data in api_data['votes']:
+    for vote_data in adapted_data['votes']:
         vote_data['bill'] = bill.id
         deserialize_vote_tally(vote_data)
     return bill
 
+    
+def deserialize_subject_tags(subject_list):
+    slug_list = [slugify(label, to_lower=True) for label in subject_list]
+    return [
+        models.SubjectTag.objects.get_or_create(slug=slug, defaults={'label': label})[0]
+        for slug, label in zip(slug_list, subject_list)
+    ]
 
 def deserialize_vote_tally(adapted_data, instance=None):
     if instance is None:

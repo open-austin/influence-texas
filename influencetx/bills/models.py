@@ -7,7 +7,7 @@ from influencetx.legislators.models import Legislator
 class SubjectTag(models.Model):
     """A tag describing a subject-area for a bill."""
 
-    subject = models.CharField(max_length=50)
+    label = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50)
 
 

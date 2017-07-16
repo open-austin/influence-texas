@@ -7,7 +7,7 @@ class OpenStatesBillForm(forms.ModelForm):
 
     class Meta:
         model = models.Bill
-        fields = ('title', 'session',
+        fields = ('title', 'session', 'subjects',
                   'bill_id', 'openstates_bill_id', 'openstates_updated_at')
 
 
