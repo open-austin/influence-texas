@@ -27,24 +27,24 @@ def test_api_key_required_view():
 
 class BaseOpenStatesAPITestCase(SimpleTestCase):
 
-    def assert_redirect_when_debugging(self, view_name, args=None, kwargs=None):
+    def assert_fetch_redirects(self, view_name, args=None, kwargs=None):
         """Assert view redirects to error page when api-key is missing and in debug mode."""
-        with mock_fetch_with_no_api_key(), use_debug_mode(True):
-            response = response_from_view(view_name, args=args, kwargs=kwargs)
-            self.assertRedirects(response, reverse('openstates:api-key-required'))
+        response = response_from_view(view_name, args=args, kwargs=kwargs)
+        self.assertRedirects(response, reverse('openstates:api-key-required'))
 
-    def assert_raises_when_not_debugging(self, view_name, args=None, kwargs=None):
+    def assert_fetch_raises(self, view_name, args=None, kwargs=None):
         """Assert view raises error when api-key is missing and in debug mode."""
-        with mock_fetch_with_no_api_key(), use_debug_mode(False):
-            with self.assertRaises(ImproperlyConfigured):
-                response_from_view(view_name, args=args, kwargs=kwargs)
+        with self.assertRaises(ImproperlyConfigured):
+            response_from_view(view_name, args=args, kwargs=kwargs)
 
 
 class TestLegislatorListView(BaseOpenStatesAPITestCase):
 
     def test_no_api_key(self):
-        self.assert_redirect_when_debugging('openstates:legislator-list')
-        self.assert_raises_when_not_debugging('openstates:legislator-list')
+        with mock_fetch_with_no_api_key(debug_mode=True):
+            self.assert_fetch_redirects('openstates:legislator-list')
+        with mock_fetch_with_no_api_key(debug_mode=False):
+            self.assert_fetch_raises('openstates:legislator-list')
 
     def test_data_rendering(self):
         legislator = fake_legislator()
@@ -63,8 +63,10 @@ class TestLegislatorDetailView(BaseOpenStatesAPITestCase):
 
     def test_no_api_key(self):
         args = (FAKE.pyint(), FAKE.pystr())
-        self.assert_redirect_when_debugging('openstates:bill-detail', args=args)
-        self.assert_raises_when_not_debugging('openstates:bill-detail', args=args)
+        with mock_fetch_with_no_api_key(debug_mode=True):
+            self.assert_fetch_redirects('openstates:bill-detail', args=args)
+        with mock_fetch_with_no_api_key(debug_mode=False):
+            self.assert_fetch_raises('openstates:bill-detail', args=args)
 
     def test_data_rendering(self):
         legislator = fake_legislator()
@@ -90,8 +92,10 @@ class TestLegislatorDetailView(BaseOpenStatesAPITestCase):
 class TestBillListView(BaseOpenStatesAPITestCase):
 
     def test_no_api_key(self):
-        self.assert_redirect_when_debugging('openstates:bill-list')
-        self.assert_raises_when_not_debugging('openstates:bill-list')
+        with mock_fetch_with_no_api_key(debug_mode=True):
+            self.assert_fetch_redirects('openstates:bill-list')
+        with mock_fetch_with_no_api_key(debug_mode=False):
+            self.assert_fetch_raises('openstates:bill-list')
 
     def test_data_rendering(self):
         bill = {
@@ -116,8 +120,10 @@ class TestBillDetailView(BaseOpenStatesAPITestCase):
 
     def test_no_api_key(self):
         args = (FAKE.pyint(), FAKE.pystr())
-        self.assert_redirect_when_debugging('openstates:bill-detail', args=args)
-        self.assert_raises_when_not_debugging('openstates:bill-detail', args=args)
+        with mock_fetch_with_no_api_key(debug_mode=True):
+            self.assert_fetch_redirects('openstates:bill-detail', args=args)
+        with mock_fetch_with_no_api_key(debug_mode=False):
+            self.assert_fetch_raises('openstates:bill-detail', args=args)
 
     def test_data_rendering(self):
         bill_id = FAKE.pystr()
@@ -178,10 +184,11 @@ def mock_fetch():
         yield fetch
 
 @contextmanager
-def mock_fetch_with_no_api_key():
-    with mock_fetch() as fetch:
-        fetch.OPENSTATES_API_KEY = None
-        yield fetch
+def mock_fetch_with_no_api_key(debug_mode=True):
+    with use_debug_mode(debug_mode):
+        with mock_fetch() as fetch:
+            fetch.OPENSTATES_API_KEY = None
+            yield fetch
 
 
 @contextmanager
