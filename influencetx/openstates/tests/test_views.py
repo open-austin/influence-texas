@@ -7,7 +7,7 @@ from django.shortcuts import reverse
 from django.test import SimpleTestCase
 from faker import Factory
 
-from influencetx.openstates import views
+from influencetx.openstates import factories, views
 from influencetx.testing.view_utils import render_view, response_from_view
 
 
@@ -47,7 +47,7 @@ class TestLegislatorListView(BaseOpenStatesAPITestCase):
             self.assert_fetch_raises('openstates:legislator-list')
 
     def test_data_rendering(self):
-        legislator = fake_legislator()
+        legislator = factories.fake_legislator()
         detail_url = reverse('openstates:legislator-detail', args=(legislator['leg_id'],))
 
         with mock_fetch() as fetch:
@@ -69,7 +69,7 @@ class TestLegislatorDetailView(BaseOpenStatesAPITestCase):
             self.assert_fetch_raises('openstates:bill-detail', args=args)
 
     def test_data_rendering(self):
-        legislator = fake_legislator()
+        legislator = factories.fake_legislator()
         leg_id = legislator['leg_id']
 
         with mock_fetch() as fetch:
@@ -98,12 +98,7 @@ class TestBillListView(BaseOpenStatesAPITestCase):
             self.assert_fetch_raises('openstates:bill-list')
 
     def test_data_rendering(self):
-        bill = {
-            'bill_id': FAKE.pystr(),
-            'title': FAKE.pystr(),
-            'subjects': FAKE.pystr(),
-            'session': str(FAKE.pyint()),
-        }
+        bill = factories.fake_bill()
         detail_url = reverse('openstates:bill-detail', args=(bill['session'], bill['bill_id']))
 
         with mock_fetch() as fetch:
@@ -126,23 +121,9 @@ class TestBillDetailView(BaseOpenStatesAPITestCase):
             self.assert_fetch_raises('openstates:bill-detail', args=args)
 
     def test_data_rendering(self):
-        bill_id = FAKE.pystr()
-        session = FAKE.pyint()
-        bill = {
-            'bill_id': bill_id,
-            'title': FAKE.pystr(),
-            'subjects': [FAKE.pystr()],
-            'session': session,
-            'action_dates': {
-                FAKE.pystr(): fake_openstates_timestamp(),
-            },
-            'votes': [{
-                'date': fake_openstates_timestamp(),
-                'yes_count': FAKE.pyint(),
-                'no_count': FAKE.pyint(),
-                'chamber': FAKE.pystr(),
-            }],
-        }
+        bill = factories.fake_bill_detail()
+        bill_id = bill['bill_id']
+        session = bill['session']
 
         with mock_fetch() as fetch:
             fetch.bill_detail.return_value = bill
@@ -196,19 +177,3 @@ def use_debug_mode(is_debug):
     with mock.patch.object(views, 'settings') as settings:
         settings.DEBUG = is_debug
         yield
-
-
-def fake_legislator():
-    legislator = {
-        'leg_id': FAKE.pystr(),
-        'full_name': FAKE.name(),
-        'district': FAKE.pystr(),
-        'party': FAKE.pystr(),
-        'chamber': FAKE.pystr(),
-    }
-    return legislator
-
-
-def fake_openstates_timestamp():
-    """Return fake timestamp matching Open States' formatting."""
-    return FAKE.iso8601().replace('T', ' ')

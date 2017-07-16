@@ -5,6 +5,9 @@ from influencetx.core import constants, utils
 
 class TestPartyEnum():
 
+    def test_null_input(self):
+        assert utils.party_enum(None) == constants.Party.UNKNOWN
+
     def test_democrat_input(self):
         assert utils.party_enum('democrat') == constants.Party.DEMOCRATIC
 

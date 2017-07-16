@@ -3,21 +3,31 @@ from influencetx.core.utils import party_enum
 from influencetx.openstates import utils
 
 
-# "Simple" fields match one-to-one on Legislator model and Open States json API.
-SIMPLE_LEGISLATOR_FIELDS = [
-    'first_name', 'last_name', 'middle_name', 'suffixes', 'chamber',
-    'transparencydata_id', 'votesmart_id', 'url', 'photo_url',
-]
-
-
-def assert_legislator_fields_match_data(legislator, data):
+def assert_legislator_fields_match_data(legislator, api_data):
     """Assert fields on legislator instance match values in Open States data."""
-    assert_simple_attributes_match_data(SIMPLE_LEGISLATOR_FIELDS, legislator, data)
-    _assert_adapted_legislator_fields_match_data(legislator, data)
+    data = utils.adapt_openstates_legislator(api_data)
+    fields = [
+        'first_name', 'last_name', 'middle_name', 'suffixes',
+        'party', 'chamber', 'district', 'url', 'photo_url',
+        'openstates_updated_at', 'openstates_leg_id',
+        'transparencydata_id', 'votesmart_id',
+    ]
+    assert_simple_attributes_match_data(fields, legislator, data)
 
 
-def _assert_adapted_legislator_fields_match_data(legislator, data):
-    assert legislator.party == party_enum(data['party']).value
-    assert legislator.district == int(data['district'])
-    assert utils.format_datetime(legislator.openstates_updated_at) == data['updated_at']
-    assert legislator.openstates_leg_id == data['leg_id']
+def assert_bill_fields_match_data(bill, api_data):
+    """Assert fields on legislator instance match values in Open States data."""
+    data = utils.adapt_openstates_bill(api_data)
+    simple_fields = ['title', 'bill_id', 'openstates_bill_id', 'openstates_updated_at']
+    assert_simple_attributes_match_data(simple_fields, bill, data)
+    for tally_model, tally_data in zip(bill.vote_results.all(), data['votes']):
+        assert_vote_tally_fields_match_adapted_data(tally_model, tally_data)
+
+
+def assert_vote_tally_fields_match_adapted_data(instance, data):
+    """"""
+    fields = [
+        'chamber', 'session', 'passed', 'date',
+        'yes_count', 'no_count', 'other_count', 'openstates_vote_id',
+    ]
+    assert_simple_attributes_match_data(fields, instance, data)

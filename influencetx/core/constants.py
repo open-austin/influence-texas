@@ -25,3 +25,16 @@ PARTY_CHOICES = [
     (Party.REPUBLICAN.value, 'Republican'),
     (Party.UNKNOWN.value, 'Unknown'),
 ]
+
+
+class Vote(Enum):
+    YAY = 'Y'
+    NAY = 'N'
+    OTHER = 'O'
+
+
+VOTE_CHOICES = [
+    (Vote.YAY, 'Yay'),
+    (Vote.NAY, 'Nay'),
+    (Vote.OTHER, 'Other'),
+]

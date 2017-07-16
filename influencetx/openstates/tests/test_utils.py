@@ -1,38 +1,97 @@
-import json
-import os
-import os.path as pth
+from unittest import mock
 
 import pytest
 from django.forms import ValidationError
+from django.test import TestCase
 
-from influencetx.legislators import factories
-from influencetx.openstates import data, utils
-from influencetx.openstates.testing import assert_legislator_fields_match_data
-
-
-def test_deserialize_from_openstates_sample():
-    json_data = data.get_sample_legislator_detail()
-
-    legislator = utils.deserialize_openstates_legislator(json_data, commit=False)
-
-    assert_legislator_fields_match_data(legislator, json_data)
+from influencetx.bills.models import Bill, VoteTally
+from influencetx.legislators.factories import LegislatorFactory
+from influencetx.openstates import data, factories, testing, utils
 
 
-def test_deserialize_with_missing_required_field_raises():
-    json_data = data.get_sample_legislator_detail()
-    del json_data['first_name']  # Delete required key, first_name
+class TestLegislatorDeserialization(object):
 
-    with pytest.raises(ValidationError):
-        legislator = utils.deserialize_openstates_legislator(json_data)
+    def test_deserialize_from_openstates_sample(self):
+        api_data = data.get_sample_legislator_detail()
+        legislator = utils.deserialize_openstates_legislator(api_data, commit=False)
+        testing.assert_legislator_fields_match_data(legislator, api_data)
+
+    def test_deserialize_with_missing_required_field_raises(self):
+        api_data = data.get_sample_legislator_detail()
+        del api_data['first_name']  # Delete required key, first_name
+
+        with pytest.raises(ValidationError):
+            legislator = utils.deserialize_openstates_legislator(api_data)
+
+    @pytest.mark.django_db
+    def test_update_legislator_instance(self):
+        original = LegislatorFactory()
+        original_id = original.id
+
+        api_data = data.get_sample_legislator_detail()
+        legislator = utils.update_legislator_instance(original, api_data)
+
+        testing.assert_legislator_fields_match_data(legislator, api_data)
+        assert legislator.id == original_id
 
 
-@pytest.mark.django_db
-def test_update_legislator_instance():
-    original = factories.LegislatorFactory()
-    original_id = original.id
+class TestBillDeserialization(TestCase):
+    """Test deserialization of data from Open States API to Bill model.
 
-    json_data = data.get_sample_legislator_detail()
-    legislator = utils.update_legislator_instance(original, json_data)
+    Note that all tests touch database because bill deserialization is wrapped in a transaction.
+    """
 
-    assert_legislator_fields_match_data(legislator, json_data)
-    assert legislator.id == original_id
+    def test_deserialize_from_openstates_sample(self):
+        self.assert_data_adds_single_row(data.get_sample_bill_detail())
+
+    def test_deserialize_fake_bill_detail(self):
+        self.assert_data_adds_single_row(factories.fake_bill_detail())
+
+    def test_deserialize_same_bill_id_twice_adds_single_row(self):
+        """Assert that identitical Open States bill id used to detect and prevent duplicates."""
+        api_data = factories.fake_bill_detail()
+
+        with mock.patch.object(utils, 'LOG') as mock_log:
+            utils.deserialize_openstates_bill(api_data)
+            utils.deserialize_openstates_bill(api_data)
+
+        assert Bill.objects.all().count() == 1
+
+    def test_deserialize_same_bill_id_twice_adds_single_row(self):
+        """Assert that identitical Open States bill id used to detect and prevent duplicates."""
+        api_data = factories.fake_bill_detail()
+
+        with mock.patch.object(utils, 'LOG') as mock_log:
+            utils.deserialize_openstates_bill(api_data)
+            utils.deserialize_openstates_bill(api_data)
+
+        assert Bill.objects.all().count() == 1
+
+    def test_deserialize_same_vote_id_twice_adds_single_row(self):
+        """Assert that identitical Open States vote id used to detect and prevent duplicates."""
+        api_data = factories.fake_bill_detail()
+
+        with mock.patch.object(utils, 'LOG') as mock_log:
+            utils.deserialize_openstates_bill(api_data)
+
+        assert VoteTally.objects.all().count() == 1
+
+        bill = Bill.objects.all().first()
+
+        # Deserializing vote data from fake-bill should not add the same vote tally again.
+        with mock.patch.object(utils, 'LOG') as mock_log:
+            vote_data = api_data['votes'][0]
+            vote_data['bill'] = bill.id
+            utils.adapt_openstates_vote_tally(vote_data)  # modifies data in-place.
+            utils.deserialize_vote_tally(vote_data)
+
+        assert VoteTally.objects.all().count() == 1
+
+    def assert_data_adds_single_row(self, api_data):
+        assert not Bill.objects.all().exists()
+
+        with mock.patch.object(utils, 'LOG') as mock_log:
+            bill = utils.deserialize_openstates_bill(api_data)
+
+        testing.assert_bill_fields_match_data(bill, api_data)
+        assert Bill.objects.all().count() == 1
