@@ -3,24 +3,43 @@
 {% block title %}Legislator{% endblock %}
 
 {% block content %}
-<div class="container">
+  <div class="container">
 
-  <h2>Legislator Detail</h2>
+    <h2>Legislator Detail</h2>
 
-  <img src="{{ legislator.photo_url }}"/>
+    <img src="{{ legislator.photo_url }}"/>
 
-  <dl class="row">
-    <dt class="col-2"> Name </dt>
-    <dd class="col-10"> {{ legislator }} </dd>
-    <dt class="col-2"> Open States ID </dt>
-    <dd class="col-10"> {{ legislator.openstates_leg_id }} </dd>
-    <dt class="col-2"> District </dt>
-    <dd class="col-10"> {{ legislator.district }} </dd>
-    <dt class="col-2"> Party </dt>
-    <dd class="col-10"> {{ legislator.party }} </dd>
-    <dt class="col-2"> Chamber </dt>
-    <dd class="col-10"> {{ legislator.chamber }} </dd>
-  </dl>
+    <dl class="row">
+      <dt class="col-2"> Name </dt>
+      <dd class="col-10"> {{ legislator }} </dd>
+      <dt class="col-2"> Open States ID </dt>
+      <dd class="col-10"> {{ legislator.openstates_leg_id }} </dd>
+      <dt class="col-2"> District </dt>
+      <dd class="col-10"> {{ legislator.district }} </dd>
+      <dt class="col-2"> Party </dt>
+      <dd class="col-10"> {{ legislator.party }} </dd>
+      <dt class="col-2"> Chamber </dt>
+      <dd class="col-10"> {{ legislator.chamber }} </dd>
 
-</div>
+      <dt class="col-2"> Vote count </dt>
+      <dd class="col-10">
+        <table class="table table-sm">
+          <thead>
+            <th>Date</th>
+            <th>Bill</th>
+            <th>Vote</th>
+          </thead>
+          {% for vote in legislator.votes.all %}
+            <tr>
+              <td>{{ vote.vote_tally.date.split|first }}</td>
+              <td>{{ vote.vote_tally.bill.bill_id }}</td>
+              <td>{{ vote.value }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      </dd>
+
+    </dl>
+
+  </div>
 {% endblock content %}

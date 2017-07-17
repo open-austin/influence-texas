@@ -104,6 +104,8 @@ class TestBillDeserialization(TestCase):
         with mock.patch.object(utils, 'LOG') as mock_log:
             legislator = utils.deserialize_openstates_legislator(legislator_data)
             bill = utils.deserialize_openstates_bill(bill_data)
+            # Deserializing a second time should not create a second vote.
+            utils.deserialize_openstates_bill(bill_data)
 
         assert SingleVote.objects.all().count() == 1
         vote = SingleVote.objects.all().first()

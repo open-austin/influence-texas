@@ -129,6 +129,10 @@ def deserialize_vote_tally(adapted_data, instance=None):
     if instance is None:
         instance = find_matching_vote_tally(adapted_data)
 
+    # If an existing vote tally is found, re-tally votes (which would add duplicates).
+    if instance is not None:
+        return instance
+
     tally_form = forms.VoteTallyForm(adapted_data, instance=instance)
     tally = clean_form(tally_form, commit=True)
 
