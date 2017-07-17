@@ -15,6 +15,7 @@ class Bill(models.Model):
 
     title = models.TextField()
     session = models.IntegerField()
+    chamber = models.CharField(max_length=5, choices=constants.CHAMBER_CHOICES)
     subjects = models.ManyToManyField(SubjectTag)
     sponsors = models.ManyToManyField(Legislator, related_name='bills_sponsored')
 

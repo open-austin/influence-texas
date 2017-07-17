@@ -10,7 +10,7 @@ from influencetx.legislators import models
 
 class Command(BaseCommand):
 
-    help = 'Sync legislator data from Open States API'
+    help = 'Sync legislators data from Open States API'
 
     def add_arguments(self, parser):
         parser.add_argument('--max', default=None, type=int,

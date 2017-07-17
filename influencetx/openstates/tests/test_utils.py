@@ -4,7 +4,8 @@ import pytest
 from django.forms import ValidationError
 from django.test import TestCase
 
-from influencetx.bills.models import Bill, VoteTally
+from influencetx.bills.models import Bill, SingleVote, VoteTally
+from influencetx.legislators.models import Legislator
 from influencetx.legislators.factories import LegislatorFactory
 from influencetx.openstates import data, factories, testing, utils
 
@@ -47,6 +48,19 @@ class TestBillDeserialization(TestCase):
     def test_deserialize_fake_bill_detail(self):
         self.assert_data_adds_single_row(factories.fake_bill_detail())
 
+    def test_deserialize_bill_detail_with_no_votes(self):
+        bill_detail = factories.fake_bill_detail()
+        del bill_detail['votes']
+        self.assert_data_adds_single_row(bill_detail)
+
+    def test_deserialize_bill_item_fails(self):
+        """Assert that syncing using bill-list data (not bill-detail data) fails."""
+        api_data = factories.fake_bill()
+
+        with mock.patch.object(utils, 'LOG') as mock_log:
+            with self.assertRaises(Exception):
+                utils.deserialize_openstates_bill(api_data)
+
     def test_deserialize_same_bill_id_twice_adds_single_row(self):
         """Assert that identitical Open States bill id used to detect and prevent duplicates."""
         api_data = factories.fake_bill_detail()
@@ -76,6 +90,25 @@ class TestBillDeserialization(TestCase):
             utils.deserialize_vote_tally(vote_data)
 
         assert VoteTally.objects.all().count() == 1
+
+    def test_deserialize_bill_with_valid_legislator_vote(self):
+        """Most tests skip vote attribution because legislators been created.
+
+        This test adds a legislator to the database so that a vote can be attributed to that
+        legislator on the given bill.
+        """
+        bill_data = factories.fake_bill_detail()
+        legislator_data = factories.fake_legislator()
+        bill_data['votes'][0]['yes_votes'][0]['leg_id'] = legislator_data['leg_id']
+
+        with mock.patch.object(utils, 'LOG') as mock_log:
+            legislator = utils.deserialize_openstates_legislator(legislator_data)
+            bill = utils.deserialize_openstates_bill(bill_data)
+
+        assert SingleVote.objects.all().count() == 1
+        vote = SingleVote.objects.all().first()
+        assert vote.legislator == legislator
+        assert vote.vote_tally.bill == bill
 
     def assert_data_adds_single_row(self, api_data):
         assert not Bill.objects.all().exists()

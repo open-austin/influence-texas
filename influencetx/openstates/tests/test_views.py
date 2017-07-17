@@ -55,8 +55,11 @@ class TestLegislatorListView(BaseOpenStatesAPITestCase):
             html = render_view('openstates:legislator-list')
 
         assert detail_url in html
-        for value in legislator.values():
-            assert value in html
+        assert legislator['leg_id'] in html
+        assert legislator['full_name'] in html
+        assert legislator['district'] in html
+        assert legislator['party'] in html
+        assert legislator['chamber'] in html
 
 
 class TestLegislatorDetailView(BaseOpenStatesAPITestCase):
@@ -106,9 +109,10 @@ class TestBillListView(BaseOpenStatesAPITestCase):
             html = render_view('openstates:bill-list')
 
         assert detail_url in html
-        for key, value in bill.items():
-            assert value in html
-
+        assert bill['bill_id'] in html
+        assert bill['title'] in html
+        assert bill['subjects'] in html
+        assert bill['session'] in html
 
 
 class TestBillDetailView(BaseOpenStatesAPITestCase):

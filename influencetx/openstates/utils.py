@@ -62,10 +62,10 @@ def update_legislator_instance(instance, new_data, commit=True):
     return deserialize_openstates_legislator(combined_data, instance=instance, commit=commit)
 
 
-def find_matching_bill(api_data):
+def find_matching_bill(openstates_bill_id):
     """Return Bill model matching Open States API data, if found in database."""
     # TODO: Add matching on official bill_id + session.
-    return models.Bill.objects.filter(openstates_bill_id=api_data['openstates_bill_id']).first()
+    return models.Bill.objects.filter(openstates_bill_id=openstates_bill_id).first()
 
 
 def find_matching_vote_tally(data):
@@ -84,6 +84,8 @@ def adapt_openstates_bill(api_data):
     adapted_data['openstates_bill_id'] = adapted_data.pop('id')
     adapted_data['session'] = int(adapted_data['session'])
 
+    if 'votes' not in adapted_data:
+        adapted_data['votes'] = []
     for vote_data in adapted_data['votes']:
         adapt_openstates_vote_tally(vote_data)
 
@@ -105,7 +107,7 @@ def deserialize_openstates_bill(api_data, instance=None):
     """Return Bill model deserialized from Open States API data."""
     adapted_data = adapt_openstates_bill(api_data)
     if instance is None:
-        instance = find_matching_bill(adapted_data)
+        instance = find_matching_bill(adapted_data['openstates_bill_id'])
     adapted_data['subjects'] = [s.id for s in deserialize_subject_tags(adapted_data['subjects'])]
     form = forms.OpenStatesBillForm(adapted_data, instance=instance)
 
@@ -130,20 +132,22 @@ def deserialize_vote_tally(adapted_data, instance=None):
     tally_form = forms.VoteTallyForm(adapted_data, instance=instance)
     tally = clean_form(tally_form, commit=True)
 
-    deserialize_votes(adapted_data['yes_votes'], tally, vote_value=Vote.YAY)
-    deserialize_votes(adapted_data['no_votes'], tally, vote_value=Vote.NAY)
-    deserialize_votes(adapted_data['other_votes'], tally, vote_value=Vote.OTHER)
+    deserialize_votes(adapted_data['yes_votes'], tally, vote_enum=Vote.YAY)
+    deserialize_votes(adapted_data['no_votes'], tally, vote_enum=Vote.NAY)
+    deserialize_votes(adapted_data['other_votes'], tally, vote_enum=Vote.OTHER)
 
     return tally
 
 
-def deserialize_votes(vote_list, tally, vote_value):
+def deserialize_votes(vote_list, tally, vote_enum):
     openstates_leg_ids = [vote['leg_id'] for vote in vote_list]
     individual_votes = []
     for leg_id in openstates_leg_ids:
         legislator = Legislator.objects.filter(openstates_leg_id=leg_id).first()
         if legislator:
-            vote = models.SingleVote(legislator=legislator, vote_tally=tally, value=vote_value)
+            vote = models.SingleVote(legislator=legislator,
+                                     vote_tally=tally,
+                                     value=vote_enum.value)
             vote.save()
             individual_votes.append(vote)
         else:
