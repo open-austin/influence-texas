@@ -2,6 +2,11 @@
 {% load static i18n %}
 {% block title %}Legislator{% endblock %}
 
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+{% endblock css %}
+
 {% block content %}
   <div class="container">
 
@@ -23,17 +28,21 @@
 
       <dt class="col-2"> Vote count </dt>
       <dd class="col-10">
-        <table class="table table-sm">
+        <table id="vote-list" class="table table-sm">
           <thead>
             <th>Date</th>
             <th>Bill</th>
             <th>Vote</th>
+            <th>Subjects</th>
           </thead>
-          {% for vote in legislator.votes.all %}
+          {% for vote in votes %}
             <tr>
-              <td>{{ vote.vote_tally.date.split|first }}</td>
-              <td>{{ vote.vote_tally.bill.bill_id }}</td>
+              <td class="text-nowrap">{{ vote.date|date:'Y-m-d' }}</td>
+              <td class="text-nowrap">
+                <a href="{% url 'openstates:bill-detail' vote.bill.session vote.bill.bill_id %}">{{ vote.bill.bill_id }}</a>
+              </td>
               <td>{{ vote.value }}</td>
+              <td>{{ vote.subjects|join:', ' }}</td>
             </tr>
           {% endfor %}
         </table>
@@ -43,3 +52,13 @@
 
   </div>
 {% endblock content %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#vote-list').dataTable({});
+    });
+  </script>
+{% endblock javascript %}
