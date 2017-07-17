@@ -60,6 +60,25 @@ Note that **changes to ``env.sh`` should never be committed**.
 
 .. _Register for an Open States API key: https://openstates.org/api/register/
 
+
+Syncing data from Open States API
+.................................
+
+Custom django-admin commands are used to sync data from Open States API. To pull data for
+legislators and bills from Open States, run the following *in order*::
+
+    ./djadmin.sh sync_legislators_from_openstate
+    ./djadmin.sh sync_bills_from_openstate
+
+Note that the order matters because bills have voting data which requires legislators to be
+in the database for correct attribution.
+
+The number of bills in the database is quite large. For testing purposes, you can grab a subset of
+the data by replacing the second command above with::
+
+    ./djadmin.sh sync_bills_from_openstate --max 30
+
+
 Basic Commands
 --------------
 
