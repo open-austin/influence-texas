@@ -10,6 +10,9 @@ class SubjectTag(models.Model):
     label = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50)
 
+    def __str__(self):
+        return self.label
+
 
 class Bill(models.Model):
 
@@ -26,6 +29,9 @@ class Bill(models.Model):
     # updated_at field from Open States API. Used to check whether bill-detail needs update.
     openstates_updated_at = models.DateTimeField()
 
+    def __str__(self):
+        return f'{self.bill_id} (session: {self.session}, openstates_id: {self.openstates_bill_id}])'
+
 
 class ActionDates(models.Model):
 
@@ -35,6 +41,9 @@ class ActionDates(models.Model):
     passed_lower = models.DateTimeField(blank=True, null=True)
     passed_upper = models.DateTimeField(blank=True, null=True)
     signed = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.bill}'
 
 
 class VoteTally(models.Model):
@@ -56,6 +65,9 @@ class VoteTally(models.Model):
     def is_null(self):
         return all(count == 0 for count in (self.yes_count, self.no_count, self.other_count))
 
+    def __str__(self):
+        return f'{self.bill}: yes={self.yes_count}, no={self.no_count}, other={self.other_count}'
+
 
 class SingleVote(models.Model):
     """Single vote from from an individual legislator on an individual tally."""
@@ -63,3 +75,6 @@ class SingleVote(models.Model):
     vote_tally = models.ForeignKey(VoteTally, on_delete=models.CASCADE, related_name='votes')
     legislator = models.ForeignKey(Legislator, on_delete=models.CASCADE, related_name='votes')
     value = models.CharField(max_length=1, choices=constants.VOTE_CHOICES)
+
+    def __str__(self):
+        return f'{self.legislator}, {self.vote_tally.bill}, vote={self.value}'
