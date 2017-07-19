@@ -53,6 +53,11 @@ class TestBillDeserialization(TestCase):
         del bill_detail['votes']
         self.assert_data_adds_single_row(bill_detail)
 
+    def test_deserialize_bill_detail_with_no_subjects(self):
+        bill_detail = factories.fake_bill_detail()
+        del bill_detail['subjects']
+        self.assert_data_adds_single_row(bill_detail)
+
     def test_deserialize_bill_item_fails(self):
         """Assert that syncing using bill-list data (not bill-detail data) fails."""
         api_data = factories.fake_bill()

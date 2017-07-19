@@ -108,7 +108,8 @@ def deserialize_openstates_bill(api_data, instance=None):
     adapted_data = adapt_openstates_bill(api_data)
     if instance is None:
         instance = find_matching_bill(adapted_data['openstates_bill_id'])
-    adapted_data['subjects'] = [s.id for s in deserialize_subject_tags(adapted_data['subjects'])]
+    subject_models = deserialize_subject_tags(adapted_data.get('subjects', []))
+    adapted_data['subjects'] = [s.id for s in subject_models]
     form = forms.OpenStatesBillForm(adapted_data, instance=instance)
 
     bill = clean_form(form, commit=True)
