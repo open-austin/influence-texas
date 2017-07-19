@@ -12,6 +12,12 @@ CHAMBER_CHOICES = [
 ]
 
 
+CHAMBER_LABELS = {
+    Chamber.LOWER: 'Representative',
+    Chamber.UPPER: 'Senator',
+}
+
+
 class Party(Enum):
     DEMOCRATIC = 'D'
     INDEPENDENT = 'I'
@@ -25,6 +31,12 @@ PARTY_CHOICES = [
     (Party.REPUBLICAN.value, 'Republican'),
     (Party.UNKNOWN.value, 'Unknown'),
 ]
+
+PARTY_LABELS = {
+    Party.DEMOCRATIC: 'Democrat',
+    Party.INDEPENDENT: 'Independent',
+    Party.REPUBLICAN: 'Republican',
+}
 
 
 class Vote(Enum):

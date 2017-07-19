@@ -1,12 +1,4 @@
-
-
-
-
-// project specific CSS goes here
-
-////////////////////////////////
-		//Variables//
-////////////////////////////////
+// Variables-------------------------------------------------------------------------------------//
 
 // Alert colors
 
@@ -17,17 +9,13 @@ $pink: #f2dede;
 $dark-pink: #eed3d7;
 $red: #b94a48;
 
-////////////////////////////////
-		//Core elements//
-////////////////////////////////
+// Core elements---------------------------------------------------------------------------------//
 
 h1, h2, h3, h4, h5 {
   margin-top: 1em;
 }
 
-////////////////////////////////
-		//Alerts//
-////////////////////////////////
+//Alerts-----------------------------------------------------------------------------------------//
 
 // bootstrap alert CSS, translated to the django-standard levels of
 // debug, info, success, warning, error
@@ -44,9 +32,7 @@ h1, h2, h3, h4, h5 {
   color: $red;
 }
 
-////////////////////////////////
-		//Navbar//
-////////////////////////////////
+// Navbar----------------------------------------------------------------------------------------//
 
 // This is a fix for the bootstrap4 alpha release
 
@@ -70,9 +56,7 @@ h1, h2, h3, h4, h5 {
   }
 }
 
-////////////////////////////////
-		//Django Toolbar//
-////////////////////////////////
+// Django Toolbar--------------------------------------------------------------------------------//
 
 // Display django-debug-toolbar.
 // See https://github.com/django-debug-toolbar/django-debug-toolbar/issues/742
@@ -80,4 +64,12 @@ h1, h2, h3, h4, h5 {
 
 [hidden][style="display: block;"] {
   display: block !important;
+}
+
+// Custom headers--------------------------------------------------------------------------------//
+
+.summary-info h4 {
+  margin-top: 0px;
+  color: gray;
+  font-weight: lighter;
 }

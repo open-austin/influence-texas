@@ -1,6 +1,6 @@
 from django.db import models
 
-from influencetx.core import constants
+from influencetx.core import constants, utils
 
 
 class Legislator(models.Model):
@@ -24,6 +24,16 @@ class Legislator(models.Model):
     # Member url at http://www.house.state.tx.us
     url = models.URLField(blank=True)
     photo_url = models.URLField(blank=True)
+
+    @property
+    def party_label(self):
+        """User-friendly party label."""
+        return utils.party_label(self.party)
+
+    @property
+    def chamber_label(self):
+        """User-friendly label for chamber of congress."""
+        return utils.chamber_label(self.chamber)
 
     def __str__(self):
         name_parts = (self.first_name, self.middle_name, self.last_name, self.suffixes)
