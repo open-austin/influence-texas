@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Legislator{% endblock %}
+
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+{% endblock css %}
+
+{% block content %}
+  <div class="container summary-info text-xs-center text-sm-center">
+
+    <img src="{{ legislator.photo_url }}"/>
+    <h2>{{ legislator }}</h2>
+    <h4>{{ legislator.party_label }}</h3>
+    <h4>{{ legislator.chamber_label }}</h3>
+    <h4> District {{ legislator.district  }}</h3>
+
+  </div>
+
+
+  <div class="container">
+    <h3>Votes</h3>
+
+    <table id="vote-list" class="table table-sm">
+      <thead>
+        <th class="hidden-sm-down">Date</th>
+        <th>Bill</th>
+        <th>Vote</th>
+        <th class="hidden-sm-down">Subjects</th>
+      </thead>
+      {% for vote in votes %}
+        <tr>
+          <td class="hidden-sm-down text-nowrap">{{ vote.date|date:'Y-m-d' }}</td>
+          <td class="text-nowrap">
+            <a href="{% url 'openstates:bill-detail' vote.bill.session vote.bill.bill_id %}">{{ vote.bill.bill_id }}</a>
+          </td>
+          <td>{{ vote.value }}</td>
+          <td class="hidden-sm-down">{{ vote.subjects|join:', ' }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endblock content %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#vote-list').dataTable({});
+    });
+  </script>
+{% endblock javascript %}

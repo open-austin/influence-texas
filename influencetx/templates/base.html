@@ -37,12 +37,15 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'home' %}">influencetx</a>
+        <a class="navbar-brand" href="{% url 'legislators:legislator-list' %}">influencetx</a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
               <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'legislators:legislator-list' %}">Legislators</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'openstates:index' %}">Open:States</a>
