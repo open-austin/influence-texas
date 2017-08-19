@@ -101,6 +101,13 @@ interacting with the docker container:
   - Run ``./djadmin.sh help`` to see a full list of commands.
   - Run ``./djadmin.sh help <COMMAND>`` to see help on a command.
 
+- ``npm``: Node package manager CLI.
+
+  - Run ``npm run sass`` to compile project sass file to css
+
+    - Style changes are made to ``influencetx/static/sass/project.scss`` and compiled into the
+      corresponding css file. Note that changes for both should be checked into the repo.
+
 These instructions assume you're executing the command from the parent directory of this file. You
 can find details of any commands using the commands above. A few commonly used commands are
 

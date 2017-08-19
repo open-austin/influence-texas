@@ -19,12 +19,11 @@ h1, h2, h3, h4, h5 {
     display: inline-block;
     float: none;
     width: 100%; }
-
   .navbar-nav .nav-item + .nav-item {
     margin-left: 0; }
-
   .nav.navbar-nav.pull-xs-right {
     float: none !important; } }
+
 [hidden][style="display: block;"] {
   display: block !important; }
 
@@ -32,5 +31,3 @@ h1, h2, h3, h4, h5 {
   margin-top: 0px;
   color: gray;
   font-weight: lighter; }
-
-/*# sourceMappingURL=project.css.map */

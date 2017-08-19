@@ -1,0 +1,27 @@
+{
+  "name": "influence-texas",
+  "version": "1.0.0",
+  "description": "~Inform the Texas electorate by putting politicians' campaign finance records next to their voting records in one succinct, mobile platform.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "sass": "./node_modules/.bin/node-sass --include-path node_modules influencetx/static/sass/project.scss > influencetx/static/css/project.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/open-austin/influence-texas.git"
+  },
+  "author": "open-austin-devs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/open-austin/influence-texas/issues"
+  },
+  "homepage": "https://github.com/open-austin/influence-texas#readme",
+  "devDependencies": {
+    "bootstrap-material-design": "^0.5.10",
+    "node-sass": "^4.5.3"
+  }
+}
