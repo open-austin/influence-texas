@@ -9,6 +9,10 @@ $pink: #f2dede;
 $dark-pink: #eed3d7;
 $red: #b94a48;
 
+// Bootstrap material design
+$brand-primary: #3f51b5;
+@import "bootstrap-material-design/sass/core";
+
 // Core elements---------------------------------------------------------------------------------//
 
 h1, h2, h3, h4, h5 {
