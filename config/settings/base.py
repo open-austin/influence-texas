@@ -113,6 +113,14 @@ MANAGERS = ADMINS
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     'default': env.db('DATABASE_URL', default='postgres:///influencetx'),
+    'tpj': {
+        'NAME': 'tec',
+        'ENGINE': 'sql_server.pyodbc',
+        'HOST': '75.103.119.113',
+        'PORT': '1433',
+        'USER': env('TPJ_DB_USER'),
+        'PASSWORD': env('TPJ_DB_PASSWORD'),
+    }
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 

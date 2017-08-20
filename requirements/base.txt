@@ -28,9 +28,12 @@ argon2-cffi==16.3.0
 # Well-built with regular release cycles!
 django-allauth==0.32.0
 
-
 # Python-PostgreSQL Database Adapter
 psycopg2==2.7.1
+
+# SQL Server Database support
+pyodbc==4.0.17
+django-pyodbc-azure==1.11.0.0
 
 # Unicode slugification
 awesome-slugify==1.6.5
