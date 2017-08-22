@@ -34,7 +34,7 @@ To get started on this project for the first time, you can follow these simple s
 
       docker-compose up -d
 
-The first time it's run `docker-compose` will pull down generic python and postgres images. After
+The first time it's run, `docker-compose` will pull down generic python and postgres images. After
 that, it will install dependendencies specific to the app and start up a server for the
 `influencetx` app at http://localhost:5120/.
 

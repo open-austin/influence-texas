@@ -120,6 +120,10 @@ DATABASES = {
         'PORT': '1433',
         'USER': env('TPJ_DB_USER'),
         'PASSWORD': env('TPJ_DB_PASSWORD'),
+        'OPTIONS': {
+            'dsn': 'TPJ',
+        }
+
     }
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True

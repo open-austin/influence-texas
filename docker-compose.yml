@@ -14,7 +14,7 @@ services:
     command: >
         bash -exc "
             # Install postgres so that `./djadmin.sh dbshell` command works.
-            apt-get update && apt-get install -y postgresql unixodbc unixodbc-dev freetds-dev tdsodbc;
+            apt-get update && apt-get install -y postgresql unixodbc unixodbc-dev freetds-bin freetds-dev tdsodbc;
             pip install -r requirements/local.txt;
             python3 manage.py migrate;
             python3 manage.py runserver 0.0.0.0:5120;
@@ -24,6 +24,8 @@ services:
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
       - TPJ_DB_USER=${TPJ_DB_USER}
       - TPJ_DB_PASSWORD=${TPJ_DB_PASSWORD}
+      - ODBCSYSINI=/etc
+      - ODBCINI=/etc/odbc.ini
     volumes:
       - .:/usr/src/app
     ports:
