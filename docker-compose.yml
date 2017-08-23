@@ -13,8 +13,9 @@ services:
     working_dir: /usr/src/app
     command: >
         bash -exc "
-            # Install postgres so that `./djadmin.sh dbshell` command works.
+            # Install postgres and sql-server dependencies so that `./djadmin.sh dbshell` command works.
             apt-get update && apt-get install -y postgresql unixodbc unixodbc-dev freetds-bin freetds-dev tdsodbc;
+
             pip install -r requirements/local.txt;
             python3 manage.py migrate;
             python3 manage.py runserver 0.0.0.0:5120;
