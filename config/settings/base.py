@@ -59,6 +59,7 @@ LOCAL_APPS = [
     'influencetx.bills.apps.BillsConfig',
     'influencetx.legislators.apps.LegislatorsConfig',
     'influencetx.openstates.apps.OpenstatesConfig',
+    'influencetx.tpj.apps.TPJConfig',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -123,10 +124,10 @@ DATABASES = {
         'OPTIONS': {
             'dsn': 'TPJ',
         }
-
     }
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
+DATABASE_ROUTERS = ['influencetx.core.routers.DatabaseRouter']
 
 
 # GENERAL CONFIGURATION
