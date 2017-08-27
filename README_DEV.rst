@@ -95,7 +95,7 @@ in the database for correct attribution.
 The number of bills in the database is quite large. For testing purposes, you can grab a subset of
 the data by replacing the second command above with::
 
-    ./djadmin.sh sync_bills_from_openstate --max 30
+    ./djadmin.sh sync_bills_from_openstate --max 100
 
 
 Basic Commands

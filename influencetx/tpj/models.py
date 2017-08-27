@@ -76,7 +76,7 @@ class Filer(models.Model):
     candidate_name = models.CharField(db_column='CandidateName', max_length=290, blank=True, null=True)
 
     city = models.CharField(max_length=30, blank=True, null=True)
-    stateabbr = models.CharField(db_column='StateAbbr', max_length=2, blank=True, null=True)
+    state = models.CharField(db_column='StateAbbr', max_length=2, blank=True, null=True)
     zipcode = models.CharField(db_column='Zipcode', max_length=10, blank=True, null=True)
     office = models.CharField(db_column='Office', max_length=100, blank=True, null=True)
     district = models.CharField(db_column='District', max_length=100, blank=True, null=True)
@@ -98,8 +98,7 @@ class Contribution(models.Model):
 
     amount = models.DecimalField(db_column='CTRIB_AMT', max_digits=19, decimal_places=4, blank=True, null=True)
 
-    date_contributed = models.CharField(db_column='CONT_DATE', max_length=27, blank=True, null=True)
-    date_recorded = models.CharField(db_column='DATE_RECD', max_length=27, blank=True, null=True)
+    date = models.DateTimeField(db_column='CONT_DATE', blank=True, null=True)
 
     class Meta:
         managed = False
