@@ -1,0 +1,18 @@
+---
+postgresql_databases:
+  - name: influencetx
+    owner: influencetx          # optional; specify the owner of the database
+    hstore: no                  # flag to install the hstore extension on this database (yes/no)
+    uuid_ossp: no               # flag to install the uuid-ossp extension on this database (yes/no)
+    citext: no                  # flag to install the citext extension on this database (yes/no)
+    encoding: 'UTF-8'           # override global {{ postgresql_encoding }} variable per database
+    lc_collate: 'en_US.UTF-8'   # override global {{ postgresql_locale }} variable per database
+    lc_ctype: 'en_US.UTF-8'     # override global {{ postgresql_ctype }} variable per database
+postgresql_users:
+  - name: influencetx
+    pass: mysecretpassword
+    encrypted: no               # denotes if the password is already encrypted.
+postgresql_user_privileges:
+  - name: influencetx           # user name
+    db: influencetx             # database
+    priv: "ALL"                 # privilege string format: example: INSERT,UPDATE/table:SELECT/anothertable:ALL
