@@ -17,7 +17,7 @@ Voting drives are nice, but getting uninformed people to cast ballots is not hel
 Who has the time to search for hours and hours through newspapers and online articles in the (possibly vain) hope of finding unbiased information on each and every candidate?
 
 Voters need to know:
-1. who is paying the politician off (campaign finance records).
+1. whose money has the potential to influence a politician (campaign finance records).
 1. how the politician voted (voting records).
 
 By putting these two pieces of information together in a succinct mobile platform, we can turn uninformed voters into informed voters. 
