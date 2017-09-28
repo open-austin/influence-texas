@@ -1,4 +1,4 @@
-# Accountable Texas
+# Influence Texas
 
 ## An [ATX Hack for Change](http://atxhackforchange.org/) Project
 ### June 2-4 at St. Edward's campus
@@ -24,10 +24,10 @@ By putting these two pieces of information together in a succinct mobile platfor
 
 # United Nations Sustainable Development Goals
 
-![U.N. Sustainable Development Goals](/images/un-goal-16-peace-justice.jpg)
-
 This year all projects are aligned with United Nations Sustainable Development Goals.  This project falls under [*Goal 16: Promote just, peaceful and inclusive societies*](http://www.un.org/sustainabledevelopment/peace-justice/).
 
 # Developer Guide
 
 For instructions on getting started with development, go to [README_DEV.rst](README_DEV.rst).
+
+All participants should follow the Open Austin [Code of Conduct](https://www.open-austin.org/about/#code-of-conduct).
