@@ -5,7 +5,7 @@ services:
   oauth2:
     image: machinedata/oauth2_proxy
     ports:
-      - "4180:4180"
+      - "443:4180"
     volumes:
       - "/etc/ssl/private:/etc/ssl/private:ro"
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
