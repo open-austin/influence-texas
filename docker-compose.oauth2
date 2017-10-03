@@ -24,8 +24,5 @@ services:
 
   django:
     build: .
-      args:
-        DATABASE_URL: "psql://influencetx:mysecretpassword@localhost:5432/influencetx"
-        OPENSTATES_API_KEY: "${OPENSTATES_API_KEY}"
     image: inftxdb:dev
-    network_mode: "host"
+
