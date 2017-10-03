@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+
+  oauth2:
+    image: machinedata/oauth2_proxy
+    ports:
+      - "4180:4180"
+    volumes:
+      - "/etc/ssl/private:/etc/ssl/private:ro"
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+    environment:
+      OAUTH2_PROXY_UPSTREAM: "http://django:5120/"
+      OAUTH2_PROXY_TLS_CERT: "/etc/ssl/certs/example.com.crt"
+      OAUTH2_PROXY_TLS_KEY: "/etc/ssl/private/example.com.key"
+      OAUTH2_PROXY_PROVIDER: "github"
+      OAUTH2_PROXY_COOKIE_SECURE: "true"
+      OAUTH2_PROXY_GITHUB_ORG: "${OAUTH2_PROXY_GITHUB_ORG}"
+      OAUTH2_PROXY_COOKIE_SECRET: "${OAUTH2_PROXY_COOKIE_SECRET}"
+      OAUTH2_PROXY_CLIENT_ID: "${OAUTH2_PROXY_CLIENT_ID}"
+      OAUTH2_PROXY_CLIENT_SECRET: "${OAUTH2_PROXY_CLIENT_SECRET}"
+    links:
+      - django
+
+  django:
+    build: .
+    image: inftxdb:dev
+
