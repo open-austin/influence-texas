@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+
+  django:
+    build: .
+    image: inftxdb:dev
+    ports:
+      - "5120:5120"
+

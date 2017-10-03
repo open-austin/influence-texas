@@ -11,4 +11,6 @@ WORKDIR /usr/src/app
 
 RUN pip install -r requirements/local.txt
 
+EXPOSE 5120
+
 CMD python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:5120
