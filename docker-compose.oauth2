@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+
+  oauth2:
+    image: oauth2proxy:ssl
+    network_mode: "host"
+    ports:
+      - "443:443"
+    volumes:
+      - "/etc/ssl/private:/etc/ssl/private:ro"
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "/etc/oauth2_proxy:/config:ro"
+    entrypoint: ''
+    command: oauth2_proxy -config /config/oauth2_proxy.cfg.django -github-org="influence-texas"
+
+  django:
+    build: .
+    image: inftxdb:dev
+    network_mode: "host"
+    ports:
+      - "5120:5120"
+    environment:
+      - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}

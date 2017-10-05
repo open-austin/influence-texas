@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    - role-postgresql
+    - ansible-role-docker
+  tasks:
+    - name: setup root key
+      authorized_key:
+        user: root
+        key: "{{ lookup('file', item) }}"
+        state: present
+        exclusive: True
+      with_fileglob:
+        - public_keys/*.pub
