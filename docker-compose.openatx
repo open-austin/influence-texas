@@ -12,7 +12,7 @@ services:
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       - "/etc/oauth2_proxy:/config:ro"
     entrypoint: ''
-    command: oauth2_proxy -config /config/oauth2_proxy.cfg.django -github-org="influence-texas"
+    command: oauth2_proxy -config /config/oauth2_proxy.cfg.openaustin -github-org="open-austin"
 
   django:
     build: .
