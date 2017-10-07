@@ -45,6 +45,11 @@ CACHES = {
 # ------------------------------------------------------------------------------
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
+# Avoid TPJ database when executing tests.
+DATABASES['tpj'] = {
+    'ENGINE': 'django.db.backends.sqlite3',
+}
+
 
 # PASSWORD HASHING
 # ------------------------------------------------------------------------------
