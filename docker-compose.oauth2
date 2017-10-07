@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+
+  oauth2:
+    image: machinedata/oauth2_proxy
+    ports:
+      - "443:4180"
+    volumes:
+      - "/etc/ssl/private:/etc/ssl/private:ro"
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "/etc/oauth2_proxy:/config:ro"
+    entrypoint: ''
+    command: oauth2_proxy -config /config/oauth2_proxy.cfg.django -github-org="influence-texas"
+
+  django:
+    build: .
+    image: inftxdb:dev
+
