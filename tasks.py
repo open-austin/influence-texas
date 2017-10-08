@@ -39,7 +39,7 @@ def install_requirements(ctx, pty=True):
 def check(ctx, pty=True):
     """Check project for any problems."""
     ctx.run(f'python manage.py check', pty=pty)
-    ctx.run(f'flake8', pty=pty)
+    ctx.run(f'flake8 influencetx', pty=pty)
 
 
 @task(aliases=['create-app'])

@@ -68,13 +68,13 @@ class TestSyncLegislatorData(TestCase):
     def test_sync_legislator_data_for_existing_data(self, mock_sync_existing):
         instance = factories.LegislatorFactory.create()
         data = {'leg_id': instance.openstates_leg_id}
-        info = services.sync_legislator_data(data)
+        services.sync_legislator_data(data)
         mock_sync_existing.assert_called_once_with(instance, data, commit=True)
 
     @mock.patch.object(services, 'sync_new_legislator_data')
     def test_sync_legislator_data_for_new_data(self, mock_sync_new):
         data = {'leg_id': 'TX00001'}
-        info = services.sync_legislator_data(data)
+        services.sync_legislator_data(data)
         mock_sync_new.assert_called_once_with(data, commit=True)
 
 

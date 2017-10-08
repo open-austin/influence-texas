@@ -2,7 +2,7 @@ from contextlib import contextmanager
 from unittest import mock
 
 from django.core.exceptions import ImproperlyConfigured
-from django.http import Http404, HttpResponseBadRequest
+from django.http import Http404
 from django.shortcuts import reverse
 from django.test import SimpleTestCase
 from faker import Factory
@@ -132,7 +132,7 @@ class TestBillDetailView(BaseOpenStatesAPITestCase):
         with mock_fetch() as fetch:
             fetch.bill_detail.return_value = bill
             html = render_view('openstates:bill-detail',
-                                       kwargs={'session': session, 'id': bill_id})
+                               kwargs={'session': session, 'id': bill_id})
 
         fetch.bill_detail.assert_called_once_with(session=session, pk=bill_id)
 
@@ -167,6 +167,7 @@ class TestBillDetailView(BaseOpenStatesAPITestCase):
 def mock_fetch():
     with mock.patch.object(views, 'fetch') as fetch:
         yield fetch
+
 
 @contextmanager
 def mock_fetch_with_no_api_key(debug_mode=True):

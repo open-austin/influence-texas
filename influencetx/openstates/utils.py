@@ -1,8 +1,6 @@
 import dateutil.parser
 import logging
 from copy import deepcopy
-from datetime import datetime
-from dateutil.tz import gettz
 
 from django.db import transaction
 from django.forms import ValidationError
@@ -72,6 +70,7 @@ def find_matching_vote_tally(data):
     """Return VoteTally model data adapted from Open States API, if found in database."""
     return models.VoteTally.objects.filter(openstates_vote_id=data['openstates_vote_id']).first()
 
+
 def adapt_openstates_bill(api_data):
     """Return bill data adapted to match Bill model.
 
@@ -118,7 +117,7 @@ def deserialize_openstates_bill(api_data, instance=None):
         deserialize_vote_tally(vote_data)
     return bill
 
-    
+
 def deserialize_subject_tags(subject_list):
     slug_list = [slugify(label, to_lower=True) for label in subject_list]
     return [

@@ -1,5 +1,4 @@
 import factory.django
-import pytest
 from factory import Faker
 
 from influencetx.tpj import models

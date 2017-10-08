@@ -1,8 +1,7 @@
 """
 Django admin command wrapper around `sync_bill_data` in `influencetx.openstates.services`.
 """
-from django.core.exceptions import ValidationError
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from influencetx.openstates import fetch, services
 

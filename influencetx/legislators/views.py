@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
 from . import models
@@ -16,7 +15,7 @@ class LegislatorDetailView(DetailView):
     context_object_name = 'legislator'
     queryset = (
         models.Legislator.objects.all()
-            .prefetch_related('votes__vote_tally__bill__subjects')
+        .prefetch_related('votes__vote_tally__bill__subjects')
     )
 
     def get_context_data(self, *args, **kwargs):

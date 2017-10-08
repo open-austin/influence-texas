@@ -28,4 +28,3 @@ def render_view(view_name, encoding='utf8', args=None, kwargs=None):
         response.render()
 
     return response.content.decode(encoding)
-

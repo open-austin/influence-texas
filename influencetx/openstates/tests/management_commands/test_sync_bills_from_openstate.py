@@ -2,7 +2,6 @@ from collections import namedtuple
 from contextlib import contextmanager
 from unittest import mock
 
-from django.core.management.base import BaseCommand, CommandError
 from django.test import TestCase
 
 from influencetx.core.testing import StringContaining

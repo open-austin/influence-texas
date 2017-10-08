@@ -11,10 +11,9 @@ the Contributor model was created using the following command:
 
 The resulting output was copied below and modified appropriately. You'll have to do the following
 manually to clean this up:
-  * Rearrange models' order
-  * Make sure each model has one field with primary_key=True
+  * Rearrange models' order.
+  * Make sure each model has one field with primary_key=True.
   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
-  * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
   * You can rename the models, but don't rename db_table.
   * If you rename a field, make sure there's a db_column value matching the original column name.
 
@@ -27,7 +26,8 @@ from django.db import models
 class Donor(models.Model):
 
     id = models.IntegerField(db_column='Ctrib_ID', primary_key=True)
-    employer_id = models.IntegerField(db_column='Employer_ID', blank=True, null=True, db_index=True)
+    employer_id = models.IntegerField(db_column='Employer_ID', db_index=True,
+                                      blank=True, null=True)
 
     full_name = models.CharField(db_column='FullName', max_length=150, blank=True, null=True)
     last_name = models.CharField(db_column='Surname', max_length=100, blank=True, null=True)
@@ -44,7 +44,8 @@ class Donor(models.Model):
     employer = models.CharField(db_column='EMPLOYER', max_length=60, blank=True, null=True)
     occupation = models.CharField(db_column='Occupation', max_length=160, blank=True, null=True)
     interest_code = models.CharField(db_column='InterestCode', max_length=5)
-    other_interests = models.CharField(db_column='OtherInterests', max_length=255, blank=True, null=True)
+    other_interests = models.CharField(db_column='OtherInterests', max_length=255,
+                                       blank=True, null=True)
 
     total_contributions = models.DecimalField(db_column='CTRIB_AMT', max_digits=11,
                                               decimal_places=2, blank=True, null=True)
@@ -73,7 +74,8 @@ class Filer(models.Model):
     first_name = models.CharField(db_column='firstname', max_length=45, blank=True, null=True)
     last_name = models.CharField(db_column='surname', max_length=100, blank=True, null=True)
     suffix = models.CharField(max_length=5, blank=True, null=True)
-    candidate_name = models.CharField(db_column='CandidateName', max_length=290, blank=True, null=True)
+    candidate_name = models.CharField(db_column='CandidateName', max_length=290,
+                                      blank=True, null=True)
 
     city = models.CharField(max_length=30, blank=True, null=True)
     state = models.CharField(db_column='StateAbbr', max_length=2, blank=True, null=True)
@@ -96,7 +98,8 @@ class Contribution(models.Model):
     donor = models.ForeignKey(Donor, db_column='CTRIB_ID', blank=True, null=True)
     filer = models.ForeignKey(Filer, db_column='FILER_ID', blank=True, null=True)
 
-    amount = models.DecimalField(db_column='CTRIB_AMT', max_digits=19, decimal_places=4, blank=True, null=True)
+    amount = models.DecimalField(db_column='CTRIB_AMT', max_digits=19, decimal_places=4,
+                                 blank=True, null=True)
 
     date = models.DateTimeField(db_column='CONT_DATE', blank=True, null=True)
 

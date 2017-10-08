@@ -7,7 +7,7 @@ from influencetx.openstates import fetch
 
 def test_fetch_legislator_list():
     with mock_get_request() as mock_get:
-        legistlators = fetch.legislators()
+        fetch.legislators()
 
     url, headers = url_and_headers_from_mock_get_request(mock_get)
     assert_valid_openstates_url_and_headers(url, headers)
@@ -17,7 +17,7 @@ def test_fetch_legislator_list():
 
 def test_fetch_bill_list():
     with mock_get_request() as mock_get:
-        legistlators = fetch.bills()
+        fetch.bills()
 
     url, headers = url_and_headers_from_mock_get_request(mock_get)
     assert_valid_openstates_url_and_headers(url, headers)
@@ -30,10 +30,10 @@ def test_fetch_bill_list():
 
 
 def test_fetch_bill_detail():
-    session= 85
+    session = 85
     pk = 'HB%20512'
     with mock_get_request() as mock_get:
-        legistlators = fetch.bill_detail(session=session, pk=pk)
+        fetch.bill_detail(session=session, pk=pk)
 
     url, headers = url_and_headers_from_mock_get_request(mock_get)
     assert_valid_openstates_url_and_headers(url, headers)

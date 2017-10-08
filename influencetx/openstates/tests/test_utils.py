@@ -5,7 +5,6 @@ from django.forms import ValidationError
 from django.test import TestCase
 
 from influencetx.bills.models import Bill, SingleVote, VoteTally
-from influencetx.legislators.models import Legislator
 from influencetx.legislators.factories import LegislatorFactory
 from influencetx.openstates import data, factories, testing, utils
 
@@ -22,7 +21,7 @@ class TestLegislatorDeserialization(object):
         del api_data['first_name']  # Delete required key, first_name
 
         with pytest.raises(ValidationError):
-            legislator = utils.deserialize_openstates_legislator(api_data)
+            utils.deserialize_openstates_legislator(api_data)
 
     @pytest.mark.django_db
     def test_update_legislator_instance(self):
@@ -62,7 +61,7 @@ class TestBillDeserialization(TestCase):
         """Assert that syncing using bill-list data (not bill-detail data) fails."""
         api_data = factories.fake_bill()
 
-        with mock.patch.object(utils, 'LOG') as mock_log:
+        with mock.patch.object(utils, 'LOG'):
             with self.assertRaises(Exception):
                 utils.deserialize_openstates_bill(api_data)
 
@@ -70,9 +69,9 @@ class TestBillDeserialization(TestCase):
         """Assert that identitical Open States bill id used to detect and prevent duplicates."""
         api_data = factories.fake_bill_detail()
 
-        with mock.patch.object(utils, 'LOG') as mock_log:
+        with mock.patch.object(utils, 'LOG'):
             utils.deserialize_openstates_bill(api_data)
-            bill = utils.deserialize_openstates_bill(api_data)
+            utils.deserialize_openstates_bill(api_data)
 
         assert Bill.objects.all().count() == 1
 
@@ -80,7 +79,7 @@ class TestBillDeserialization(TestCase):
         """Assert that identitical Open States vote id used to detect and prevent duplicates."""
         api_data = factories.fake_bill_detail()
 
-        with mock.patch.object(utils, 'LOG') as mock_log:
+        with mock.patch.object(utils, 'LOG'):
             utils.deserialize_openstates_bill(api_data)
 
         assert VoteTally.objects.all().count() == 1
@@ -88,7 +87,7 @@ class TestBillDeserialization(TestCase):
         bill = Bill.objects.all().first()
 
         # Deserializing vote data from fake-bill should not add the same vote tally again.
-        with mock.patch.object(utils, 'LOG') as mock_log:
+        with mock.patch.object(utils, 'LOG'):
             vote_data = api_data['votes'][0]
             vote_data['bill'] = bill.id
             utils.adapt_openstates_vote_tally(vote_data)  # modifies data in-place.
@@ -107,7 +106,7 @@ class TestBillDeserialization(TestCase):
         # Attribute vote on bill to legislator.
         bill_data['votes'][0]['yes_votes'][0]['leg_id'] = legislator_data['leg_id']
 
-        with mock.patch.object(utils, 'LOG') as mock_log:
+        with mock.patch.object(utils, 'LOG'):
             legislator = utils.deserialize_openstates_legislator(legislator_data)
             bill = utils.deserialize_openstates_bill(bill_data)
             # Deserializing a second time should not create a second vote.
@@ -121,7 +120,7 @@ class TestBillDeserialization(TestCase):
     def assert_data_adds_single_row(self, api_data):
         assert not Bill.objects.all().exists()
 
-        with mock.patch.object(utils, 'LOG') as mock_log:
+        with mock.patch.object(utils, 'LOG'):
             bill = utils.deserialize_openstates_bill(api_data)
 
         testing.assert_bill_fields_match_data(bill, api_data)

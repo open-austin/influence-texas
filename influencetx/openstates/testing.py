@@ -1,5 +1,4 @@
 from influencetx.core.testing import assert_simple_attributes_match_data
-from influencetx.core.utils import party_enum
 from influencetx.openstates import utils
 
 
