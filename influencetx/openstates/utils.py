@@ -126,13 +126,10 @@ def deserialize_subject_tags(subject_list):
         for slug, label in zip(slug_list, subject_list)
     ]
 
+
 def deserialize_vote_tally(adapted_data, instance=None):
     if instance is None:
         instance = find_matching_vote_tally(adapted_data)
-
-    # If an existing vote tally is found, re-tally votes (which would add duplicates).
-    if instance is not None:
-        return instance
 
     tally_form = forms.VoteTallyForm(adapted_data, instance=instance)
     tally = clean_form(tally_form, commit=True)
@@ -150,10 +147,11 @@ def deserialize_votes(vote_list, tally, vote_enum):
     for leg_id in openstates_leg_ids:
         legislator = Legislator.objects.filter(openstates_leg_id=leg_id).first()
         if legislator:
-            vote = models.SingleVote(legislator=legislator,
-                                     vote_tally=tally,
-                                     value=vote_enum.value)
-            vote.save()
+            vote = models.SingleVote.objects.update_or_create(
+                legislator=legislator,
+                vote_tally=tally,
+                defaults={'value': vote_enum.value},
+            )
             individual_votes.append(vote)
         else:
             LOG.warn(f"Legislator with openstates id {leg_id!r} not found.")

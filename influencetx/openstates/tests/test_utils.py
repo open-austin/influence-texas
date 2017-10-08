@@ -104,6 +104,7 @@ class TestBillDeserialization(TestCase):
         """
         bill_data = factories.fake_bill_detail()
         legislator_data = factories.fake_legislator()
+        # Attribute vote on bill to legislator.
         bill_data['votes'][0]['yes_votes'][0]['leg_id'] = legislator_data['leg_id']
 
         with mock.patch.object(utils, 'LOG') as mock_log:
