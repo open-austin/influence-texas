@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -5,6 +6,9 @@ from django.db import models
 
 from influencetx.core import constants, utils
 from influencetx.tpj import models as tpj_models
+
+
+log = logging.getLogger(__name__)
 
 
 class Legislator(models.Model):
@@ -45,6 +49,7 @@ class Legislator(models.Model):
         try:
             id_map = LegislatorIdMap.objects.get(openstates_leg_id=self.openstates_leg_id)
         except LegislatorIdMap.DoesNotExist:
+            log.warn(f"Filer id not found for openstates leg-id {self.openstates_leg_id!r}.")
             return []
         if since is None:
             since = datetime.now() - relativedelta(years=3)
