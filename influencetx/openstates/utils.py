@@ -152,8 +152,10 @@ def deserialize_votes(vote_list, tally, vote_enum):
                 defaults={'value': vote_enum.value},
             )
             individual_votes.append(vote)
-        else:
+        elif leg_id:
             LOG.warn(f"Legislator with openstates id {leg_id!r} not found.")
+        else:
+            LOG.debug(f"Vote has no associated leg_id.")
     return individual_votes
 
 
