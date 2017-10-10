@@ -19,12 +19,12 @@ Read our vision, become familiar with our manifesto, and learn about the origins
 We communicate in a couple different ways. Here are the ways you can reach us in order of team preference:
 
 - **Github** 
-You can open an issue to start a discussion here within Github. The project leads will get an email with your message and we will do our best to respond promptly. 
-https://github.com/open-austin/influence-texas/issues/new
+You can [open an issue to start a discussion here within Github](https://github.com/open-austin/influence-texas/issues/new). The project leads will get an email with your message and we will do our best to respond promptly. 
+
 
 - **Slack**
 Invite yourself to the Open Austin Slack Channel slack.open-austin.org
-Join the #p-texas-lege-apps channel https://open-austin.slack.com/messages/C49B15V2A/
+Join the [#p-texas-lege-apps channel](https://open-austin.slack.com/messages/C49B15V2A/) 
 Introduce yourself in the channel OR
 You can direct message the Product Manager @amy.m.mosle
 
@@ -47,5 +47,4 @@ Examples:
 - Any issues with the functionality or design (if you’re working on UX) 
 - TBD (if you’re working in Data Science)
 
-Report a bug by creating an issue in our repo: 
-https://github.com/open-austin/influence-texas/issues/new
+[Report a bug by creating an issue in our repo](https://github.com/open-austin/influence-texas/issues/new).  
