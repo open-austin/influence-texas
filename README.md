@@ -31,6 +31,17 @@ This product is a mobile-first responsive web app (with an advanced-user desktop
 
 Unlike product like FollowTheMoney.org, which offers no explanation of (1) where they got their data (2) how “fresh” it is (3) matching methodology of associating certain monetary donations with certain industry segments, and also does not offer voting records
 
+### Manifesto
+Three ITX team members are in Mozilla Open Leaders Training Program. The principles that guide the INFLUENCE TX mission to provide information that creates transparency in government are those of The Mozilla Manifesto. Principle No. 10 is particularly relevant: “Magnifying the public benefit aspects of the Internet is an important goal, worthy of time, attention and commitment.”
+
+- INFLUENCE TX a nonpartisan, open source project devoted to developing a research tool that empowers citizens with varying degrees of technical skill to be their own reporters -- they don’t have to wait for a biased gatekeeper to give them the news.
+- INFLUENCE TX will never advocate for or affiliate itself with a political party.
+- INFLUENCE TX is an inclusive organization that welcomes people of all political persuasions -- including Democrats, Republicans, and independents.
+- We advocate for curiosity over judgment. We are dedicated to sound research. In so doing, we are courageous and willing to have our own views and opinions challenged by facts and new ways of looking at the world. We are willing to be surprised.
+- We seek greater understanding of those around us.
+- We pledge to value people as human beings and to foster an atmosphere of kindness, cooperation, and understanding.
+- A primary goal of INFLUENCE TX is to be inclusive to the largest number of contributors, with the most varied and diverse backgrounds possible.
+
 
 ### Reason
 Voting drives are nice, but getting uninformed people to cast ballots is not helping anyone. Voters need a _quick_, _user-friendly_ way to tell who a politician really is.
