@@ -10,6 +10,18 @@ This project was first worked on June 2-4 at St. Edward's campus for the 2017 AT
 ## Purpose 
 Informing the Texas electorate. 
 
+## Project Vision 
+INFLUENCE TX puts campaign finance records next to voting records so taxpayers can track the influence of money in the Texas state political process. This is the only product people can use to find out who paid off their Texas state politicians and how they voted as a result.
+
+
+For citizens interested in Texas state government who need an unbiased source they can use to determine what their politicians are really doing.
+
+
+This product is a mobile-first responsive web app (with an advanced-user desktop version planned for future releases) that puts campaign finance and voting records in a usable format so citizens can see how money is influencing the political process
+
+Unlike product like FollowTheMoney.org, which offers no explanation of (1) where they got their data (2) how “fresh” it is (3) matching methodology of associating certain monetary donations with certain industry segments, and also does not offer voting records
+
+
 ## Reason
 Voting drives are nice, but getting uninformed people to cast ballots is not helping anyone. Voters need a _quick_, _user-friendly_ way to tell who a politician really is.
 
