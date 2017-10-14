@@ -216,4 +216,6 @@ To open a terminal on the virtual machine:
 
       vagrant ssh
 
-To deploy the application, follow the instructions from above.
+To rebuild and deploy the application:
+
+      vagrant provision
