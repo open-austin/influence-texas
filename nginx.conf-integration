@@ -25,20 +25,22 @@ http {
   ssl_certificate_key     /etc/ssl/private/example.com.key;
 
   server {
-    listen       443 https;
+    listen       443 ssl;
     server_name  jenkins.influencetx.com;
 
     location / {
       proxy_pass   	http://oauth2_inftx:4180/;
+      proxy_redirect    default;
     }
   }
 
   server {
-    listen       443 https;
+    listen       443 ssl;
     server_name  django.influencetx.com influencetx.com;
 
     location / {
       proxy_pass   	http://oauth2_oatx:4180/;
+      proxy_redirect    default;
     }
   }
 
