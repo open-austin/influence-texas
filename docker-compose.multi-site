@@ -1,0 +1,50 @@
+version: '2'
+
+services:
+  nginx-proxy:
+    image: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/nginx:/etc/nginx
+      - /etc/ssl:/etc/ssl
+    links:
+      - oauth2_oatx
+      - oauth2_inftx
+
+  oauth2_oatx:
+    image: machinedata/oauth2_proxy 
+    network_mode: "host"
+    ports:
+      - "4180:4180"
+    env_file: ../oatx-env.sh
+    environment:
+      - OAUTH2_PROXY_UPSTREAM=http://localhost:5120/
+      - OAUTH2_PROXY_PROVIDER=github
+
+  oauth2_inftx:
+    image: machinedata/oauth2_proxy 
+    env_file: ../inftx-env.sh
+    environment:
+      - OAUTH2_PROXY_UPSTREAM=http://jenkins:8080/
+      - OAUTH2_PROXY_PROVIDER=github
+    links:
+      - jenkins
+
+  django:
+    build: .
+    image: inftxdb:dev
+    network_mode: "host"
+    ports:
+      - "5120:5120"
+    environment:
+      - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
+
+  jenkins:
+    image: jenkins:2.60.3
+    volumes:
+      - "jenkins_data:/var/jenkins_home"
+
+volumes:
+  jenkins_data:
