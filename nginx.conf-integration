@@ -15,32 +15,60 @@ http {
   sendfile     on;
   tcp_nopush   on;
   server_names_hash_bucket_size 128; # this seems to be required for some vhosts
-  ssl                     on;
-  ssl_prefer_server_ciphers on;
-  ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;
-  ssl_ciphers             HIGH:!RC4:!3DES:!aDSS:!aNULL:!kPSK:!kSRP:!MD5:@STRENGTH:+SHA1:+kRSA;
-  ssl_session_cache       shared:TLSSL:16m;
-  ssl_session_timeout     10m;
-  ssl_certificate         /etc/ssl/certs/example.com.crt;
-  ssl_certificate_key     /etc/ssl/private/example.com.key;
 
   server {
-    listen       443 ssl;
-    server_name  jenkins.influencetx.com;
+    listen	80;
+    server_name	influencetx.com www.influencetx.com;
 
     location / {
-      proxy_pass   	http://oauth2_inftx:4180/;
-      proxy_redirect    default;
+      root	/var/www/;
     }
   }
 
   server {
     listen       443 ssl;
-    server_name  django.influencetx.com influencetx.com;
+    server_name  influencetx.com;
+    ssl                     on;
+    ssl_prefer_server_ciphers on;
+    ssl_protocols           TLSv1.2;
+    ssl_ciphers             HIGH:!RC4:!3DES:!aDSS:!aNULL:!kPSK:!kSRP:!MD5:@STRENGTH:+SHA1:+kRSA;
+    ssl_session_cache       shared:TLSSL:16m;
+    ssl_session_timeout     10m;
+    ssl_certificate         /etc/ssl/certs/example.com.crt;
+    ssl_certificate_key     /etc/ssl/private/example.com.key;
 
     location / {
-      proxy_pass   	http://oauth2_oatx:4180/;
-      proxy_redirect    default;
+      proxy_pass   	    http://oauth2_oatx:4180/;
+    }
+  }
+
+  upstream jenkins_proxy {
+    server oauth2_inftx:4180 fail_timeout=0;
+  }
+
+  server {
+    listen       443 ssl;
+    server_name  jenkins.influencetx.com;
+    ssl                     on;
+    ssl_prefer_server_ciphers on;
+    ssl_protocols           TLSv1.2;
+    ssl_ciphers             HIGH:!RC4:!3DES:!aDSS:!aNULL:!kPSK:!kSRP:!MD5:@STRENGTH:+SHA1:+kRSA;
+    ssl_session_cache       shared:TLSSL:16m;
+    ssl_session_timeout     10m;
+    ssl_certificate         /etc/ssl/certs/example.com.crt;
+    ssl_certificate_key     /etc/ssl/private/example.com.key;
+
+    location / {
+      proxy_pass            http://jenkins_proxy;
+      proxy_set_header      Host              jenkins.influencetx.com;
+      proxy_set_header      X-Forwarded-Proto https;
+      proxy_redirect        default;
+      proxy_redirect        http://           https://;
+      # Required for new HTTP-based CLI
+      proxy_http_version 1.1;
+      proxy_request_buffering off;
+      # workaround for https://issues.jenkins-ci.org/browse/JENKINS-45651
+      add_header 'X-SSH-Endpoint' 'jenkins.domain.tld:50022' always;
     }
   }
 

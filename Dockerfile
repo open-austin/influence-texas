@@ -2,6 +2,8 @@ FROM python:3.6.1
 
 LABEL maintaner="<Michael Rollins influencetx@gmail.com>"
 
+ARG BUILD_ENVIRONMENT=local
+
 ENV DATABASE_URL=psql://influencetx:mysecretpassword@localhost:5432/influencetx
 ENV OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
 ENV TPJ_DB_USER=${TPJ_DB_USER}
@@ -20,7 +22,9 @@ freetds-dev \
 tdsodbc && \
 apt-get clean
 
-RUN pip install -r requirements/local.txt
+RUN pip install -r requirements/${BUILD_ENVIRONMENT}.txt
+
+COPY ./entrypoint.sh /
 
 EXPOSE 5120
 

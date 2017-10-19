@@ -1,4 +1,8 @@
 ---
+postgresql_listen_addresses:
+  - 0.0.0.0
+postgresql_pg_hba_passwd_hosts:
+  - 172.18.0.0/16
 postgresql_databases:
   - name: influencetx
     owner: influencetx          # optional; specify the owner of the database
