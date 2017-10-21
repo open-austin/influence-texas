@@ -190,3 +190,32 @@ Settings
 Moved to settings_.
 
 .. _settings: http://cookiecutter-django.readthedocs.io/en/latest/settings.html
+
+
+Vagrant
+=======
+
+A Vagrant based deployment method is also available, which mirrors the configurations of the live integration/production server.
+It provides a virtual machine for running the postgresql database, and is configured as a docker host.
+The benefits to using an isolated VM for development is that your work is encapsulated within the VM, thereby allowing you to work on more than one project.
+Another benefit is that by developing in an environment that is the same as the integration/production servers, then a CI/CD pipeline can be setup.
+The primary reason for the vagrant environment was to provide a development environment for ansible development.
+
+Usage
+-----
+
+To start the virtual machine:
+
+      vagrant up
+
+To stop the virtual machine:
+
+      vagrant halt
+
+To open a terminal on the virtual machine:
+
+      vagrant ssh
+
+To rebuild and deploy the application:
+
+      vagrant provision
