@@ -201,6 +201,14 @@ The benefits to using an isolated VM for development is that your work is encaps
 Another benefit is that by developing in an environment that is the same as the integration/production servers, then a CI/CD pipeline can be setup.
 The primary reason for the vagrant environment was to provide a development environment for ansible development.
 
+Pre-requisites
+--------------
+
+You must first install the following software to utilize the Vagrant development environment:
+* [Virtualbox](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0ahUKEwieo-Sy_YfXAhUOwGMKHR88DHsQFggvMAE&url=https%3A%2F%2Fwww.virtualbox.org%2Fwiki%2FDownloads&usg=AOvVaw2aIAdQV7iMGmQmEtwhZCT0)
+* [Ansible](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwi89dTL_YfXAhUN3WMKHa25A0kQFggoMAA&url=http%3A%2F%2Fdocs.ansible.com%2Fintro_installation.html&usg=AOvVaw0QBIODybz7M47MR5vx6WwZ)
+* [Vagrant](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwiptbnS_ofXAhXLq1QKHbSCDccQFggoMAA&url=https%3A%2F%2Fwww.vagrantup.com%2Fdownloads.html&usg=AOvVaw1_WWrxUNUP1qec3zvvV1Vp)
+
 Usage
 -----
 
@@ -215,7 +223,20 @@ To stop the virtual machine:
 To open a terminal on the virtual machine:
 
       vagrant ssh
-
+      
 To rebuild and deploy the application:
 
       vagrant provision
+
+Devlopment Workflow
+-------------------
+
+There are two uses of the Vagrant environment for development, from inside the VM or from outside the VM.
+
+### Internal
+
+To perform development from inside the VM, perform the ```vagrant ssh``` command, then change directory to "/vagrant".  The git repository is mounted automatically inside the VM at the "/vagrant" directory.  The docker-compose files will be accessible, as well as the code which is built using the docker-compose files.  You can perform updates to the code, then perform ```sudo docker-compose -f docker-compose.build build``` command to generate the docker image inside the VM, then re-deploy the containers with the new images by issuing a ```sudo docker-compose -f docker-compose.build up -d``` command.  You can also make git commits and push, but you will need to use an HTTPS checkout and supply your github credentials with each ```git push```
+
+### External
+
+You can also perform development outside the VM by making code updates, then issuing a `vagrant provision` command.  This method allows SSH based checkouts of the git repository.
