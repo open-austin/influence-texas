@@ -1,8 +1,7 @@
 """
 Django admin command wrapper around `sync_bill_data` in `influencetx.openstates.services`.
 """
-from django.core.exceptions import ValidationError
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from influencetx.openstates import fetch, services
 
@@ -16,6 +15,8 @@ class Command(BaseCommand):
                             help='Max number of bills to sync. Mainly used for testing.')
         parser.add_argument('--force-update', action='store_true', default=False,
                             help='Force update, even if database is up-to-date.')
+        parser.add_argument('--session', type=int, default=None,
+                            help='Pull data for specified session. Defaults to most recent.')
 
     def handle(self, *args, **options):
         bill_list = self._fetch_bills(options)
@@ -50,4 +51,8 @@ class Command(BaseCommand):
     def _fetch_bills(self, options):
         """Return list of bill data from Open States API."""
         bill_count = options['max'] or fetch.DEFAULT_BILL_COUNT
-        return fetch.bills(per_page=bill_count)
+        if options['session']:
+            search_window = 'session:{}'.format(options['session'])
+        else:
+            search_window = 'session'
+        return fetch.bills(per_page=bill_count, search_window=search_window)

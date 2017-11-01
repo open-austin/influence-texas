@@ -1,13 +1,9 @@
-import functools
 import os
 import urllib
 from datetime import timedelta
 
 import requests
 import requests_cache
-from django.contrib import messages
-from django.http import HttpResponse
-from django.utils import timezone
 
 
 API_PATH = '/api/v1'

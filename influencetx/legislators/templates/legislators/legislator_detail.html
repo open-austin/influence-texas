@@ -18,7 +18,6 @@
 
   </div>
 
-
   <div class="container">
     <h3>Votes</h3>
 
@@ -37,6 +36,31 @@
           </td>
           <td>{{ vote.value }}</td>
           <td class="hidden-sm-down">{{ vote.subjects|join:', ' }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="container">
+    <h3>Campaign contributions</h3>
+
+    <table id="vote-list" class="table table-sm">
+      <thead>
+        <th class="hidden-sm-down">Date</th>
+        <th>Amount</th>
+        <th>Donor</th>
+      </thead>
+      {% for contrib in legislator.contributions %}
+        <tr>
+          <td class="hidden-sm-down text-nowrap">
+            {{ contrib.date|date:"N j, Y" }}
+          </td>
+          <td class="text-nowrap">
+            {{ contrib.amount }}
+          </td>
+          <td class="text-nowrap">
+            {{ contrib.donor }}
+          </td>
         </tr>
       {% endfor %}
     </table>

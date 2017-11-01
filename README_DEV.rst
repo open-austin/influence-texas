@@ -1,3 +1,4 @@
+===========
 influencetx
 ===========
 
@@ -13,7 +14,8 @@ records.
 
 
 Setup
------
+=====
+
 
 To get started on this project for the first time, you can follow these simple steps.
 
@@ -22,17 +24,42 @@ To get started on this project for the first time, you can follow these simple s
 
       cd your/code/directory
       git clone https://github.com/open-austin/influence-texas.git
+      cd influence-texas
+
+- Define environment variables (see below) and export those variables::
+
+      source env.sh
 
 - Start up docker container::
 
-      cd influence-texas
       docker-compose up -d
 
-The first time it's run `docker-compose` will pull down generic python and postgres images. After
+The first time it's run, `docker-compose` will pull down generic python and postgres images. After
 that, it will install dependendencies specific to the app and start up a server for the
 `influencetx` app at http://localhost:5120/.
 
 .. _Install Docker CE: https://docs.docker.com/engine/installation/
+
+Define environment variables
+----------------------------
+
+Credentials are stored as environment variables that are not committed to source control. To make
+your environment reproducible, you'll add these environment variables to a script named `env.sh`
+with the following values::
+
+    export OPENSTATES_API_KEY=YOUR-API-KEY
+    export TPJ_DB_USER=YOUR-USERNAME
+    export TPJ_DB_PASSWORD=YOUR-PASSWORD
+
+The TPJ variables require credentials from Texans for Public Justice. Currently, there's no
+established process for acquiring those credentials. See the following section to acquire an
+OpenStates key.
+
+When you start up a new shell, you should run the following to setup environment variables::
+
+    source env.sh
+
+Note that **changes to ``env.sh`` should never be committed**.
 
 Add Open States API Key
 .......................
@@ -48,21 +75,13 @@ API key to the secrets file.
   - Intended Usage: ``Local development of influencetx app``
 
 - You should receive an email with your new API key. Follow the activation link.
-- Copy your api key into the following command and run it in the root directory of the repo (i.e. where README.md is located)::
-
-    echo "export OPENSTATES_API_KEY=YOUR-API-KEY-HERE" >> env.sh
-
-- Export environment variables using the new script::
-
-    source env.sh
-
-Note that **changes to ``env.sh`` should never be committed**.
+- Copy key to ``env.sh``.
 
 .. _Register for an Open States API key: https://openstates.org/api/register/
 
 
 Syncing data from Open States API
-.................................
+---------------------------------
 
 Custom django-admin commands are used to sync data from Open States API. To pull data for
 legislators and bills from Open States, run the following *in order*::
@@ -76,11 +95,11 @@ in the database for correct attribution.
 The number of bills in the database is quite large. For testing purposes, you can grab a subset of
 the data by replacing the second command above with::
 
-    ./djadmin.sh sync_bills_from_openstate --max 30
+    ./djadmin.sh sync_bills_from_openstate --max 100
 
 
 Basic Commands
---------------
+==============
 
 During everyday development, there are a few commands that you'll need to execute to debug, update
 the database, etc. All of the basic commands are based off of the following commands for
@@ -110,7 +129,7 @@ can find details of any commands using the commands above. A few commonly used c
 
 
 Maintenance commands
-....................
+--------------------
 
 The commands commonly used for maintenance of this project are described below.
 
@@ -131,9 +150,9 @@ The commands commonly used for maintenance of this project are described below.
 
 
 Debugging commands
-..................
+------------------
 
-- ``docker-compose logs --follow``: Watch output of containers. (Alias: ``-f`` = ``--follow``.)
+- ``docker-compose logs -f --tail=5`: Watch output of containers. (Alias: ``-f`` = ``--follow``.)
 
   - This command has a `tendency to cause timeout errors`_. If you experience timeouts, try
     running: ``COMPOSE_HTTP_TIMEOUT=60000 docker-compose logs -f``.
@@ -147,7 +166,7 @@ Debugging commands
 
 
 Debugging Python code
-.....................
+---------------------
 
 You can't use the output window from a ``docker-compose logs --f`` call to debug, since it actually
 interacts with multiple containers. Instead, run the following in a terminal::
@@ -166,8 +185,58 @@ process. Now you can add a break point somewhere in your python code::
 
 
 Settings
---------
+========
 
 Moved to settings_.
 
 .. _settings: http://cookiecutter-django.readthedocs.io/en/latest/settings.html
+
+
+Vagrant
+=======
+
+A Vagrant based deployment method is also available, which mirrors the configurations of the live integration/production server.
+It provides a virtual machine for running the postgresql database, and is configured as a docker host.
+The benefits to using an isolated VM for development is that your work is encapsulated within the VM, thereby allowing you to work on more than one project.
+Another benefit is that by developing in an environment that is the same as the integration/production servers, then a CI/CD pipeline can be setup.
+The primary reason for the vagrant environment was to provide a development environment for ansible development.
+
+Pre-requisites
+--------------
+
+You must first install the following software to utilize the Vagrant development environment:
+* [Virtualbox](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0ahUKEwieo-Sy_YfXAhUOwGMKHR88DHsQFggvMAE&url=https%3A%2F%2Fwww.virtualbox.org%2Fwiki%2FDownloads&usg=AOvVaw2aIAdQV7iMGmQmEtwhZCT0)
+* [Ansible](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwi89dTL_YfXAhUN3WMKHa25A0kQFggoMAA&url=http%3A%2F%2Fdocs.ansible.com%2Fintro_installation.html&usg=AOvVaw0QBIODybz7M47MR5vx6WwZ)
+* [Vagrant](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwiptbnS_ofXAhXLq1QKHbSCDccQFggoMAA&url=https%3A%2F%2Fwww.vagrantup.com%2Fdownloads.html&usg=AOvVaw1_WWrxUNUP1qec3zvvV1Vp)
+
+Usage
+-----
+
+To start the virtual machine:
+
+      vagrant up
+
+To stop the virtual machine:
+
+      vagrant halt
+
+To open a terminal on the virtual machine:
+
+      vagrant ssh
+      
+To rebuild and deploy the application:
+
+      vagrant provision
+
+Devlopment Workflow
+-------------------
+
+There are two uses of the Vagrant environment for development, from inside the VM or from outside the VM.
+
+### Internal
+
+To perform development from inside the VM, perform the ```vagrant ssh``` command, then change directory to "/vagrant".  The git repository is mounted automatically inside the VM at the "/vagrant" directory.  The docker-compose files will be accessible, as well as the code which is built using the docker-compose files.  You can perform updates to the code, then perform ```sudo docker-compose -f docker-compose.build build``` command to generate the docker image inside the VM, then re-deploy the containers with the new images by issuing a ```sudo docker-compose -f docker-compose.build up -d``` command.  You can also make git commits and push, but you will need to use an HTTPS checkout and supply your github credentials with each ```git push```
+
+### External
+
+You can also perform development outside the VM by making code updates, then issuing a `vagrant provision` command.  This method allows SSH based checkouts of the git repository.

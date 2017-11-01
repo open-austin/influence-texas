@@ -1,8 +1,6 @@
 import dateutil.parser
 import logging
 from copy import deepcopy
-from datetime import datetime
-from dateutil.tz import gettz
 
 from django.db import transaction
 from django.forms import ValidationError
@@ -72,6 +70,7 @@ def find_matching_vote_tally(data):
     """Return VoteTally model data adapted from Open States API, if found in database."""
     return models.VoteTally.objects.filter(openstates_vote_id=data['openstates_vote_id']).first()
 
+
 def adapt_openstates_bill(api_data):
     """Return bill data adapted to match Bill model.
 
@@ -118,7 +117,7 @@ def deserialize_openstates_bill(api_data, instance=None):
         deserialize_vote_tally(vote_data)
     return bill
 
-    
+
 def deserialize_subject_tags(subject_list):
     slug_list = [slugify(label, to_lower=True) for label in subject_list]
     return [
@@ -126,13 +125,10 @@ def deserialize_subject_tags(subject_list):
         for slug, label in zip(slug_list, subject_list)
     ]
 
+
 def deserialize_vote_tally(adapted_data, instance=None):
     if instance is None:
         instance = find_matching_vote_tally(adapted_data)
-
-    # If an existing vote tally is found, re-tally votes (which would add duplicates).
-    if instance is not None:
-        return instance
 
     tally_form = forms.VoteTallyForm(adapted_data, instance=instance)
     tally = clean_form(tally_form, commit=True)
@@ -150,13 +146,16 @@ def deserialize_votes(vote_list, tally, vote_enum):
     for leg_id in openstates_leg_ids:
         legislator = Legislator.objects.filter(openstates_leg_id=leg_id).first()
         if legislator:
-            vote = models.SingleVote(legislator=legislator,
-                                     vote_tally=tally,
-                                     value=vote_enum.value)
-            vote.save()
+            vote = models.SingleVote.objects.update_or_create(
+                legislator=legislator,
+                vote_tally=tally,
+                defaults={'value': vote_enum.value},
+            )
             individual_votes.append(vote)
-        else:
+        elif leg_id:
             LOG.warn(f"Legislator with openstates id {leg_id!r} not found.")
+        else:
+            LOG.debug(f"Vote has no associated leg_id.")
     return individual_votes
 
 

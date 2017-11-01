@@ -39,7 +39,7 @@ def install_requirements(ctx, pty=True):
 def check(ctx, pty=True):
     """Check project for any problems."""
     ctx.run(f'python manage.py check', pty=pty)
-    ctx.run(f'flake8', pty=pty)
+    ctx.run(f'flake8 influencetx', pty=pty)
 
 
 @task(aliases=['create-app'])
@@ -55,10 +55,10 @@ def create_app(ctx, app_name, pty=True):
     ctx.run(f'django-admin.py startapp {app_name} {app_dir}', pty=pty)
 
     url = f"url(r'^{app_name}/', include('influencetx.{app_name}.urls', namespace='{app_name}')),"
-    apps_module_path = 'influencetx/{app_name}/apps.py'
-    url_module_path = 'influencetx/{app_name}/urls.py'
-    full_app_path = 'influencetx.{app_name}'
-    template_path = 'influencetx/templates/{app_name}'
+    apps_module_path = f'influencetx/{app_name}/apps.py'
+    url_module_path = f'influencetx/{app_name}/urls.py'
+    full_app_path = f'influencetx.{app_name}'
+    template_path = f'influencetx/templates/{app_name}'
     view_docs = 'https://docs.djangoproject.com/en/1.11/intro/tutorial03/'
 
     print(f"\nCreated {app_dir!r}.\n")

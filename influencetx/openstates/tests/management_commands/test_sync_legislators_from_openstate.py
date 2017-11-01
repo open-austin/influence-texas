@@ -2,7 +2,6 @@ from collections import namedtuple
 from contextlib import contextmanager
 from unittest import mock
 
-from django.core.management.base import BaseCommand, CommandError
 from django.test import TestCase
 
 from influencetx.legislators.factories import LegislatorFactory
@@ -44,7 +43,6 @@ class TestSyncLegislatorsFromOpenState(TestCase):
 
     def test_sync_func_is_failure(self):
         command = sync_legislators_from_openstate.Command()
-        legislator = {'leg_id': 'TX00001'}
 
         failure_info = ActionInfo.fail('error message')
         with mock_dependencies(command, return_sync_info=failure_info) as mocked:

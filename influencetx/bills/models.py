@@ -30,7 +30,8 @@ class Bill(models.Model):
     openstates_updated_at = models.DateTimeField()
 
     def __str__(self):
-        return f'{self.bill_id} (session: {self.session}, openstates_id: {self.openstates_bill_id}])'
+        details = f'session: {self.session}, openstates_id: {self.openstates_bill_id}'
+        return f'{self.bill_id} ({details})'
 
 
 class ActionDates(models.Model):

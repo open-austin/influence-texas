@@ -2,7 +2,6 @@ from collections import namedtuple
 from contextlib import contextmanager
 from unittest import mock
 
-from django.core.management.base import BaseCommand, CommandError
 from django.test import TestCase
 
 from influencetx.core.testing import StringContaining
@@ -18,9 +17,9 @@ class TestSyncLegislatorsFromOpenState(TestCase):
         command = sync_bills_from_openstate.Command()
         with mock_dependencies(command) as mocked:
             mocked.fetch.bills.return_value = ()
-            command.handle(max=3, force_update=False)
+            command.handle(max=3, force_update=False, session=None)
 
-        mocked.fetch.bills.assert_called_once_with(per_page=3)
+        mocked.fetch.bills.assert_called_once_with(per_page=3, search_window='session')
         mocked.stdout.write.assert_called_once_with(StringContaining('No data'))
 
     def test_sync_func_is_successful(self):
@@ -33,7 +32,7 @@ class TestSyncLegislatorsFromOpenState(TestCase):
         with mock_dependencies(command, return_sync_info=success_info) as mocked:
             mocked.fetch.bills.return_value = [bill_item]
             mocked.fetch.bill_detail.return_value = bill_detail_data
-            command.handle(max=None, force_update=False)
+            command.handle(max=None, force_update=False, session=None)
 
         # `fetch.bill_detail` should be called with official `bill_id` not openstates `id`.
         mocked.fetch.bill_detail.assert_called_once_with(bill_item['session'], bill_item['bill_id'])
@@ -47,7 +46,7 @@ class TestSyncLegislatorsFromOpenState(TestCase):
         with mock_dependencies(command, return_sync_info=failure_info) as mocked:
             mocked.fetch.bills.return_value = [factories.fake_bill()]
             mocked.fetch.bill_detail.return_value = factories.fake_bill_detail()
-            command.handle(max=None, force_update=False)
+            command.handle(max=None, force_update=False, session=None)
 
         mocked.sync_func.assert_called_once()
         mocked.stdout.write.assert_any_call(StringContaining('error message'))
@@ -58,7 +57,7 @@ class TestSyncLegislatorsFromOpenState(TestCase):
         with mock_dependencies(command) as mocked:
             mocked.fetch.bills.return_value = [factories.fake_bill()]
             mocked.fetch.bill_detail.return_value = mock.Mock(status_code=404, reason='Not Found')
-            command.handle(max=None, force_update=False)
+            command.handle(max=None, force_update=False, session=None)
 
         mocked.sync_func.assert_not_called()
         mocked.stdout.write.assert_any_call(StringContaining('Not Found'))

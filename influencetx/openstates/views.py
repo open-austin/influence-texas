@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.http import Http404, HttpResponseBadRequest
+from django.http import Http404
 from django.shortcuts import redirect, render, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, View
@@ -45,7 +45,7 @@ class LegislatorDetailView(View):
         legislator = fetch.legislators(leg_id)
         if not legislator:
             raise Http404()
-        context = { 'legislator': legislator }
+        context = {'legislator': legislator}
         return render(request, 'openstates/legislator_detail.html', context=context)
 
 
@@ -74,5 +74,5 @@ class BillDetailView(View):
         bill = fetch.bill_detail(session=session, pk=id)
         if not bill:
             raise Http404()
-        context = { 'bill': bill }
+        context = {'bill': bill}
         return render(request, 'openstates/bill_detail.html', context=context)

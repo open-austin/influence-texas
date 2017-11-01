@@ -59,6 +59,7 @@ LOCAL_APPS = [
     'influencetx.bills.apps.BillsConfig',
     'influencetx.legislators.apps.LegislatorsConfig',
     'influencetx.openstates.apps.OpenstatesConfig',
+    'influencetx.tpj.apps.TPJConfig',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -113,8 +114,20 @@ MANAGERS = ADMINS
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     'default': env.db('DATABASE_URL', default='postgres:///influencetx'),
+    'tpj': {
+        'NAME': 'tec',
+        'ENGINE': 'sql_server.pyodbc',
+        'HOST': '75.103.119.113',
+        'PORT': '1433',
+        'USER': env('TPJ_DB_USER'),
+        'PASSWORD': env('TPJ_DB_PASSWORD'),
+        'OPTIONS': {
+            'dsn': 'TPJ',
+        }
+    }
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
+DATABASE_ROUTERS = ['influencetx.core.routers.DatabaseRouter']
 
 
 # GENERAL CONFIGURATION
@@ -271,6 +284,47 @@ AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
 # Location of root django.contrib.admin URL, use {% url 'admin:index' %}
 ADMIN_URL = r'^admin/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+        'null': {
+            'level':'DEBUG',
+            'class':'logging.NullHandler',
+        },
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'logfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': str(ROOT_DIR('django.log')),
+            'maxBytes': 1024*1024*5, # 5MB
+            'backupCount': 0,
+            'formatter': 'verbose',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[%(asctime)s] %(levelname)s - %(name)s:%(lineno)s: %(msg)s',
+            'datefmt' : "%d/%b/%Y %H:%M:%S",
+        },
+    },
+    'loggers': {
+        'influencetx': {
+            'handlers': ['console', 'logfile', 'mail_admins'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
 
 # Your common stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------

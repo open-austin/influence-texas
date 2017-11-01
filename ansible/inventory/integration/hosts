@@ -1,0 +1,1 @@
+influencetx.com ansible_user=root ansible_host=74.208.87.214 ansible_port=22 ansible_ssh_private_key_file=/home/lazarus/.ssh/id_ecdsa
