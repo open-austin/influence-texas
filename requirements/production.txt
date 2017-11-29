@@ -3,7 +3,6 @@
 -r base.txt
 
 
-
 # WSGI Handler
 # ------------------------------------------------
 gevent==1.2.2
@@ -23,4 +22,5 @@ django-anymail==0.10
 # --------------------------
 raven==6.1.0
 
-
+# custom packages
+python-dateutil
