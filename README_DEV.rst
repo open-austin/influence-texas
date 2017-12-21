@@ -97,6 +97,13 @@ the data by replacing the second command above with::
 
     ./djadmin.sh sync_bills_from_openstate --max 100
 
+.. note::
+
+   By default, `sync_bills_from_openstate` syncs data from the most recent session, but the most
+   recent special session currently has some data missing, so you may want to use data from the
+   85th session instead.
+   
+       ./djadmin.sh sync_bills_from_openstate --max 100 --session 85
 
 Basic Commands
 ==============
