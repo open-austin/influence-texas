@@ -44,7 +44,7 @@ Define environment variables
 ----------------------------
 
 Credentials are stored as environment variables that are not committed to source control. To make
-your environment reproducible, you'll add these environment variables to a script named `env.sh`
+your environment reproducible, you'll add these environment variables to a script named ``env.sh``
 with the following values::
 
     export OPENSTATES_API_KEY=YOUR-API-KEY
@@ -59,7 +59,7 @@ When you start up a new shell, you should run the following to setup environment
 
     source env.sh
 
-Note that **changes to ``env.sh`` should never be committed**.
+Note that **changes to env.sh should never be committed**.
 
 Add Open States API Key
 .......................
@@ -152,7 +152,7 @@ The commands commonly used for maintenance of this project are described below.
 Debugging commands
 ------------------
 
-- ``docker-compose logs -f --tail=5`: Watch output of containers. (Alias: ``-f`` = ``--follow``.)
+- ``docker-compose logs -f --tail=5``: Watch output of containers. (Alias: ``-f`` = ``--follow``.)
 
   - This command has a `tendency to cause timeout errors`_. If you experience timeouts, try
     running: ``COMPOSE_HTTP_TIMEOUT=60000 docker-compose logs -f``.
