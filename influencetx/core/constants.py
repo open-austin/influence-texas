@@ -36,6 +36,7 @@ PARTY_LABELS = {
     Party.DEMOCRATIC: 'Democrat',
     Party.INDEPENDENT: 'Independent',
     Party.REPUBLICAN: 'Republican',
+    Party.UNKNOWN: 'Unknown',
 }
 
 

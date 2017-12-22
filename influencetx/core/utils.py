@@ -1,4 +1,3 @@
-import functools
 import logging
 
 from . import constants
@@ -39,7 +38,7 @@ def chamber_enum(string):
 def chamber_label(string):
     """Return user-friendly label for a valid chamber-identifier string."""
     chamber = chamber_enum(string)
-    return constants.CHAMBER_LABELS[chamber]
+    return constants.CHAMBER_LABELS.get(chamber, '')
 
 
 def party_enum(string):
@@ -55,7 +54,7 @@ def party_enum(string):
 def party_label(string):
     """Return user-friendly label for a valid party-identifier string."""
     party = party_enum(string)
-    return constants.PARTY_LABELS[party]
+    return constants.PARTY_LABELS.get(party, '')
 
 
 def handle_error(error_class, error_handler, log_level='info'):

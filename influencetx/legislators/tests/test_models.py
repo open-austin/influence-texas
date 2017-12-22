@@ -1,3 +1,4 @@
+from influencetx.core import constants
 from influencetx.legislators.factories import LegislatorFactory
 
 
@@ -12,3 +13,11 @@ class TestLegislatorModel():
         legislator = LegislatorFactory.build(first_name='First', last_name='Last',
                                              middle_name='', suffixes='')
         assert str(legislator) == 'First Last'
+
+    def test_party_label(self):
+        legislator = LegislatorFactory.build(party='D')
+        assert legislator.party_label == constants.PARTY_LABELS[constants.Party.DEMOCRATIC]
+
+    def test_chamber_label(self):
+        legislator = LegislatorFactory.build(chamber='upper')
+        assert legislator.chamber_label == constants.CHAMBER_LABELS[constants.Chamber.UPPER]
