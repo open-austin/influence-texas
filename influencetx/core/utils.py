@@ -1,3 +1,4 @@
+import functools
 import logging
 
 from . import constants
@@ -55,3 +56,26 @@ def party_label(string):
     """Return user-friendly label for a valid party-identifier string."""
     party = party_enum(string)
     return constants.PARTY_LABELS[party]
+
+
+def handle_error(error_class, error_handler, log_level='info'):
+    """Function decorator that catches error and delegates to a handler function.
+
+    Args:
+        error_class (class): The error class that will be caught and handled.
+        error_handler (func): Function that handles error. This function should take the exception
+            and all input args/kwargs.
+        log_level (str): Log level. If set to None, then nothing is logged.
+    """
+    def decorator(func):
+        def wrapped(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except error_class as error:
+                if log_level:
+                    logger = logging.getLogger(func.__module__)
+                    log = getattr(logger, log_level)
+                    log("Handled error: {}".format(error))
+                return error_handler(error, *args, **kwargs)
+        return wrapped
+    return decorator

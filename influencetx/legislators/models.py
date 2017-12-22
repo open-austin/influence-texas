@@ -3,6 +3,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from django.db import models
+from django.db.utils import Error as DbError
 
 from influencetx.core import constants, utils
 from influencetx.tpj import models as tpj_models
@@ -43,7 +44,8 @@ class Legislator(models.Model):
         """User-friendly label for chamber of congress."""
         return utils.chamber_label(self.chamber)
 
-    @property
+    # FIXME: This should return an empty Filer QuerySet, but that requires a database connection.
+    @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
     def contributions(self, max_count=10, since=None):
         """Campaign contributions to legislator."""
         try:
@@ -58,6 +60,7 @@ class Legislator(models.Model):
             filer.contribution_set
             .filter(date__range=(since, datetime.now()))
             .order_by('-amount')[:max_count]
+            .select_related('donor')
         )
         return contributions
 
