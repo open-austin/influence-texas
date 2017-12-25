@@ -18,13 +18,16 @@
         <li>
           <a href="{% url "legislators:legislator-detail" person.id %}">
             <div class="list-group-item list-group-item-action">
-              <div class="col-3 col-md-2 col-lg-1">
+              <div>
                 {% if person.photo_url %}
                   <img src="{{ person.photo_url }}" alt="photo of {{ person }}"
                                                     class="rounded-circle"/>
+                {% else %}
+                  <img src="http://via.placeholder.com/125x175/F52887/FFFFFF?text={{ person.initial }}"
+                       class="rounded-circle">
                 {% endif %}
               </div>
-              <div class="col-9">
+              <div class="col">
                 <h5 class="legislator-name">{{ person }}</h5>
                 <p class="text-muted">{{ person.party_label }}</p>
                 <p class="text-muted district">District {{ person.district }}</p>

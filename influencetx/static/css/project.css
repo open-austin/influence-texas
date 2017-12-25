@@ -38,12 +38,16 @@ h1, h2, h3, h4, h5 {
 }
 
 .list-group-item :first-child {
-  margin-right: 0;
+  margin-right: 1em;
 }
 
 .list-group-item img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 3em;
+}
+
+.list-group-item .img-placeholder {
+  width: 3em;
+  max-width: 3em;
 }
 
 
