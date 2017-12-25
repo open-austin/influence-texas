@@ -9,6 +9,16 @@ $pink: #f2dede;
 $dark-pink: #eed3d7;
 $red: #b94a48;
 
+// Hack colors since we're not building bootstrap from sass files--------------------------------//
+
+.bg-intx-primary {
+  background-color: #3f51b5;
+}
+
+.bg-intx-secondary {
+  background-color: #7986cb;
+}
+
 // Core elements---------------------------------------------------------------------------------//
 
 h1, h2, h3, h4, h5 {
@@ -79,7 +89,6 @@ h1, h2, h3, h4, h5 {
 .section-title {
   text-align: center;
   color: white;
-  background-color: #7986cb;
   padding: .3em 0;
 }
 
