@@ -11,24 +11,43 @@
 
   <h2>Legislators</h2>
 
-  <div id="legislator-list" class="list-group">
-    {% for person in legislators %}
-      <a href="{% url "legislators:legislator-detail" person.id %}">
-        <div class="list-group-item list-group-item-action">
-          <div class="col-3 col-md-2">
-            {% if person.photo_url %}
-              <img src="{{ person.photo_url }}" alt="photo of {{ person }}"
-                   class="rounded-circle"/>
-            {% endif %}
-          </div>
-          <div class="col-9">
-            <h5 class="clearfix">{{ person }}</h5>
-            <p class="text-muted clearfix">{{ person.party_label }}</p>
-            <p class="text-muted clearfix">District {{ person.district }}</p>
-          </div>
-        </div>
-      </a>
-    {% endfor %}
+  <div id="legislator-list">
+    <input class="search form-control" placeholder="Search by name or district" />
+    <ul class="list-group list list-unstyled">
+      {% for person in legislators %}
+        <li>
+          <a href="{% url "legislators:legislator-detail" person.id %}">
+            <div class="list-group-item list-group-item-action">
+              <div class="col-3 col-md-2 col-lg-1">
+                {% if person.photo_url %}
+                  <img src="{{ person.photo_url }}" alt="photo of {{ person }}"
+                                                    class="rounded-circle"/>
+                {% endif %}
+              </div>
+              <div class="col-9">
+                <h5 class="legislator-name">{{ person }}</h5>
+                <p class="text-muted">{{ person.party_label }}</p>
+                <p class="text-muted district">District {{ person.district }}</p>
+              </div>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
   </div>
 
 {% endblock content %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.js"
+          integrity="sha256-2VBPy2n7sERBn+tpZos/5j8jVBCE5uzGkceIwP9aAP0="
+          crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function () {
+      var legislatorList = new List('legislator-list', {
+        valueNames: ['legislator-name', 'district'],
+      });
+    });
+  </script>
+{% endblock javascript %}
