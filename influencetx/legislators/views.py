@@ -7,6 +7,10 @@ class LegislatorListView(ListView):
 
     model = models.Legislator
     context_object_name = 'legislators'
+    queryset = (
+        models.Legislator.objects.all()
+        .order_by('first_name', 'last_name')
+    )
 
 
 class LegislatorDetailView(DetailView):

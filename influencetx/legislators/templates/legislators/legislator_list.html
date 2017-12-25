@@ -8,36 +8,27 @@
 {% endblock css %}
 
 {% block content %}
-<div class="container">
 
   <h2>Legislators</h2>
 
-  <table id="legislator-list"class="table">
-    <thead>
-      <th> Name </th>
-      <th> District </th>
-      <th> Party </th>
-      <th> Chamber </th>
-    </thead>
+  <div id="legislator-list" class="list-group">
     {% for person in legislators %}
-      <tr>
-        <td> <a href="{% url "legislators:legislator-detail" person.id %}">{{ person }}</a> </td>
-        <td> {{ person.district }} </td>
-        <td> {{ person.party }} </td>
-        <td> {{ person.chamber }} </td>
-      </tr>
+      <a href="{% url "legislators:legislator-detail" person.id %}">
+        <div class="list-group-item list-group-item-action">
+          <div class="col-3 col-md-2">
+            {% if person.photo_url %}
+              <img src="{{ person.photo_url }}" alt="photo of {{ person }}"
+                   class="rounded-circle"/>
+            {% endif %}
+          </div>
+          <div class="col-9">
+            <h5 class="clearfix">{{ person }}</h5>
+            <p class="text-muted clearfix">{{ person.party_label }}</p>
+            <p class="text-muted clearfix">District {{ person.district }}</p>
+          </div>
+        </div>
+      </a>
     {% endfor %}
-  </table>
+  </div>
 
-</div>
 {% endblock content %}
-
-{% block javascript %}
-  {{ block.super }}
-  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
-  <script>
-    $(document).ready(function () {
-      $('#legislator-list').dataTable({});
-    });
-  </script>
-{% endblock javascript %}

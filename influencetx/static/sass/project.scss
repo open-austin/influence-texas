@@ -73,3 +73,42 @@ h1, h2, h3, h4, h5 {
   color: gray;
   font-weight: lighter;
 }
+
+// Custom list items-----------------------------------------------------------------------------//
+
+.list-group-item {
+  border: none;
+}
+
+.list-group-item :first-child {
+  margin-right: 0;
+}
+
+.list-group-item img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+.list-group-item h5 {
+  margin-top: .5rem;
+  font-size: 1rem;
+}
+
+.list-group-item p {
+  margin-bottom: .5rem;
+  font-size: .8rem;
+}
+
+
+@media (min-width: 576px) {
+  .list-group-item h5 {
+    margin-top: 1rem;
+    font-size: 1.25rem;
+  }
+
+  .list-group-item p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+}
