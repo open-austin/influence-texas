@@ -66,12 +66,21 @@ h1, h2, h3, h4, h5 {
   display: block !important;
 }
 
-// Custom headers--------------------------------------------------------------------------------//
+// Custom legislator-detail elements-------------------------------------------------------------//
 
-.summary-info h4 {
-  margin-top: 0px;
-  color: gray;
-  font-weight: lighter;
+.summary-info h2 {
+  font-size: 1em;
+}
+
+.summary-info p {
+  margin: 0;
+}
+
+.section-title {
+  text-align: center;
+  color: white;
+  background-color: #7986cb;
+  padding: .3em 0;
 }
 
 // Custom list items-----------------------------------------------------------------------------//

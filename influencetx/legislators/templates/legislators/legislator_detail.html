@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load static i18n %}
+{% load humanize %}
+
 {% block title %}Legislator{% endblock %}
 
 {% block css %}
@@ -8,71 +10,75 @@
 {% endblock css %}
 
 {% block content %}
-  <div class="container summary-info text-xs-center text-sm-center">
+  <div class="summary-info text-center mt-3">
 
     <img src="{{ legislator.photo_url }}"/>
     <h2>{{ legislator }}</h2>
-    <h4>{{ legislator.party_label }}</h3>
-    <h4>{{ legislator.chamber_label }}</h3>
-    <h4> District {{ legislator.district  }}</h3>
+    <p class="text-muted">{{ legislator.party_label }}</p>
+    <p class="text-muted">{{ legislator.chamber_label }}</p>
+    <p class="text-muted"> District {{ legislator.district  }}</p>
 
   </div>
 
-  <div class="container">
-    <h3>Votes</h3>
+  <h5 class="section-title">Votes</h5>
 
-    <table id="vote-list" class="table table-sm">
-      <thead>
-        <th class="hidden-sm-down">Date</th>
-        <th>Bill</th>
-        <th>Vote</th>
-        <th class="hidden-sm-down">Subjects</th>
-      </thead>
-      {% for vote in votes %}
-        <tr>
-          <td class="hidden-sm-down text-nowrap">{{ vote.date|date:'Y-m-d' }}</td>
-          <td class="text-nowrap">
-            <a href="{% url 'openstates:bill-detail' vote.bill.session vote.bill.bill_id %}">{{ vote.bill.bill_id }}</a>
-          </td>
-          <td>{{ vote.value }}</td>
-          <td class="hidden-sm-down">{{ vote.subjects|join:', ' }}</td>
-        </tr>
-      {% endfor %}
-    </table>
-  </div>
+  <table id="vote-list" class="table table-sm">
+    <thead>
+      <th class="hidden-sm-down">Date</th>
+      <th>Bill</th>
+      <th>Vote</th>
+      <th class="hidden-sm-down">Subjects</th>
+    </thead>
+    {% for vote in votes %}
+      <tr>
+        <td class="hidden-sm-down text-nowrap">{{ vote.date|date:'Y-m-d' }}</td>
+        <td class="text-nowrap">
+          <a href="{% url 'openstates:bill-detail' vote.bill.session vote.bill.bill_id %}">{{ vote.bill.bill_id }}</a>
+        </td>
+        <td>{{ vote.value }}</td>
+        <td class="hidden-sm-down">{{ vote.subjects|join:', ' }}</td>
+      </tr>
+    {% endfor %}
+  </table>
 
-  <div class="container">
-    <h3>Campaign contributions</h3>
+  <h5 class="section-title">Top Donors</h5>
 
-    <table id="vote-list" class="table table-sm">
-      <thead>
-        <th class="hidden-sm-down">Date</th>
-        <th>Amount</th>
-        <th>Donor</th>
-      </thead>
-      {% for contrib in legislator.contributions %}
-        <tr>
-          <td class="hidden-sm-down text-nowrap">
-            {{ contrib.date|date:"N j, Y" }}
-          </td>
-          <td class="text-nowrap">
-            {{ contrib.amount }}
-          </td>
-          <td class="text-nowrap">
-            {{ contrib.donor }}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
-  </div>
+  <table id="vote-list" class="table table-sm">
+    <thead>
+      <th class="hidden-sm-down">Date</th>
+      <th>Amount</th>
+      <th>Donor</th>
+    </thead>
+    {% for contrib in legislator.contributions %}
+      <tr>
+        <td class="hidden-sm-down text-nowrap">
+          {{ contrib.date|date:"N j, Y" }}
+        </td>
+        <td class="text-nowrap">
+          ${{ contrib.amount|floatformat:0|intcomma }}
+        </td>
+        <td>
+          {{ contrib.donor }}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
 {% endblock content %}
 
 {% block javascript %}
   {{ block.super }}
   <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
   <script>
+    var dataTableOptions = {};
+    if (getBootstrapBreakpoint() === 'xs') {
+      dataTableOptions = {
+        "iDisplayLength": 5,
+        "bLengthChange": false,
+        "pagingType": "simple",
+      };
+    }
     $(document).ready(function () {
-      $('#vote-list').dataTable({});
+      $('#vote-list').dataTable(dataTableOptions);
     });
   </script>
 {% endblock javascript %}
