@@ -37,10 +37,10 @@ class TestChamberLabel():
             assert utils.chamber_label('not valid') == ''
 
     def test_lower_chamber_label(self):
-        utils.chamber_label('lower') == constants.CHAMBER_LABELS[constants.Chamber.LOWER]
+        assert utils.chamber_label('lower') == constants.CHAMBER_LABELS[constants.Chamber.LOWER]
 
     def test_higher_chamber_label(self):
-        utils.chamber_label('upper') == constants.CHAMBER_LABELS[constants.Chamber.UPPER]
+        assert utils.chamber_label('upper') == constants.CHAMBER_LABELS[constants.Chamber.UPPER]
 
 
 class TestPartyEnum():
@@ -87,20 +87,20 @@ class TestPartyEnum():
 class TestPartyLabel():
 
     def test_null_input(self):
-        utils.party_label(None) == constants.PARTY_LABELS[constants.Party.UNKNOWN]
+        assert utils.party_label(None) == constants.PARTY_LABELS[constants.Party.UNKNOWN]
 
     def test_invalid_input(self):
         with assert_log_warning():
             assert utils.party_label('not valid') == ''
 
     def test_democrat_label(self):
-        utils.party_label('democrat') == constants.PARTY_LABELS[constants.Party.DEMOCRATIC]
+        assert utils.party_label('democrat') == constants.PARTY_LABELS[constants.Party.DEMOCRATIC]
 
     def test_independent_label(self):
-        utils.party_label('independent') == constants.PARTY_LABELS[constants.Party.INDEPENDENT]
+        assert utils.party_label('independent') == constants.PARTY_LABELS[constants.Party.INDEPENDENT]
 
     def test_republican_label(self):
-        utils.party_label('republican') == constants.PARTY_LABELS[constants.Party.REPUBLICAN]
+        assert utils.party_label('republican') == constants.PARTY_LABELS[constants.Party.REPUBLICAN]
 
 
 class TestHandleError():

@@ -35,7 +35,3 @@ def create_assert_log_context(log_level):
 
 def assert_log_warning(logger_import, message=None):
     return create_assert_log_context('warn')(logger_import, message=None)
-
-
-def assert_log_info(logger_import, message=None):
-    return create_assert_log_context('info')(logger_import, message=None)
