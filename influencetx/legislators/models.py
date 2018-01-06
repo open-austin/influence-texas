@@ -35,6 +35,11 @@ class Legislator(models.Model):
     photo_url = models.URLField(blank=True)
 
     @property
+    def initial(self):
+        """First initial used for placeholder image."""
+        return self.first_name[0]
+
+    @property
     def party_label(self):
         """User-friendly party label."""
         return utils.party_label(self.party)

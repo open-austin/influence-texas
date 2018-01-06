@@ -1,6 +1,15 @@
 h1, h2, h3, h4, h5 {
   margin-top: 1em; }
 
+/* Hack colors since we're not building bootstrap from sass files.*/
+.bg-intx-primary {
+  background-color: #3f51b5;
+}
+
+.bg-intx-secondary {
+  background-color: #7986cb;
+}
+
 .alert-debug {
   background-color: #fff;
   border-color: #d6e9c6;
@@ -28,9 +37,59 @@ h1, h2, h3, h4, h5 {
 [hidden][style="display: block;"] {
   display: block !important; }
 
-.summary-info h4 {
-  margin-top: 0px;
-  color: gray;
-  font-weight: lighter; }
+.summary-info h2 {
+  font-size: 1em;
+}
+
+.summary-info p {
+  margin: 0;
+}
+
+.section-title {
+  text-align: center;
+  color: white;
+  padding: .3em 0;
+}
+
+.list-group-item {
+  border: none;
+}
+
+.list-group-item :first-child {
+  margin-right: 1em;
+}
+
+.list-group-item img {
+  max-width: 3em;
+}
+
+.list-group-item .img-placeholder {
+  width: 3em;
+  max-width: 3em;
+}
+
+
+.list-group-item h5 {
+  margin-top: .5rem;
+  font-size: 1rem;
+}
+
+.list-group-item p {
+  margin-bottom: .5rem;
+  font-size: .8rem;
+}
+
+
+@media (min-width: 576px) {
+  .list-group-item h5 {
+    margin-top: 1rem;
+    font-size: 1.25rem;
+  }
+
+  .list-group-item p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+}
 
 /*# sourceMappingURL=project.css.map */

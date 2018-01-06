@@ -8,36 +8,49 @@
 {% endblock css %}
 
 {% block content %}
-<div class="container">
 
-  <h2>Legislators</h2>
+  <h2>{{ title|default:"Legislators" }}</h2>
 
-  <table id="legislator-list"class="table">
-    <thead>
-      <th> Name </th>
-      <th> District </th>
-      <th> Party </th>
-      <th> Chamber </th>
-    </thead>
-    {% for person in legislators %}
-      <tr>
-        <td> <a href="{% url "legislators:legislator-detail" person.id %}">{{ person }}</a> </td>
-        <td> {{ person.district }} </td>
-        <td> {{ person.party }} </td>
-        <td> {{ person.chamber }} </td>
-      </tr>
-    {% endfor %}
-  </table>
+  <div id="legislator-list">
+    <input class="search form-control" placeholder="Search by name or district" />
+    <ul class="list-group list list-unstyled">
+      {% for person in legislators %}
+        <li>
+          <a href="{% url "legislators:legislator-detail" person.id %}">
+            <div class="list-group-item list-group-item-action">
+              <div>
+                {% if person.photo_url %}
+                  <img src="{{ person.photo_url }}" alt="photo of {{ person }}"
+                                                    class="rounded-circle"/>
+                {% else %}
+                  <img src="http://via.placeholder.com/125x175/F52887/FFFFFF?text={{ person.initial }}"
+                       class="rounded-circle">
+                {% endif %}
+              </div>
+              <div class="col">
+                <h5 class="legislator-name">{{ person }}</h5>
+                <p class="text-muted">{{ person.party_label }}</p>
+                <p class="text-muted district">District {{ person.district }}</p>
+              </div>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 
-</div>
 {% endblock content %}
 
 {% block javascript %}
   {{ block.super }}
-  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.js"
+          integrity="sha256-2VBPy2n7sERBn+tpZos/5j8jVBCE5uzGkceIwP9aAP0="
+          crossorigin="anonymous"></script>
   <script>
     $(document).ready(function () {
-      $('#legislator-list').dataTable({});
+      var legislatorList = new List('legislator-list', {
+        valueNames: ['legislator-name', 'district'],
+      });
     });
   </script>
 {% endblock javascript %}
