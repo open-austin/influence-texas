@@ -3,7 +3,10 @@ version: '2'
 services:
 
   django:
-    build: .
+    build: 
+      context: .
+      args:
+        - BUILD_ENVIRONMENT=local
     image: inftxdb:dev
     network_mode: "host"
     ports:

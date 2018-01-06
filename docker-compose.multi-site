@@ -13,7 +13,6 @@ services:
       - ../InfluenceLanding:/var/www
     links:
       - oauth2_oatx
-      - oauth2_inftx
 
   oauth2_oatx:
     image: machinedata/oauth2_proxy 
@@ -25,23 +24,13 @@ services:
     links:
       - web
 
-  oauth2_inftx:
-    image: machinedata/oauth2_proxy 
-    container_name: oauth2_inftx
-    env_file: ../inftx-env.sh
-    environment:
-      - OAUTH2_PROXY_UPSTREAM=http://jenkins:8080/
-      - OAUTH2_PROXY_PROVIDER=github
-    links:
-      - jenkins
-
   web:
     image: inftxdb:dev
     container_name: web
     env_file: ../env.sh
     environment:
       - DATABASE_URL=psql://influencetx:mysecretpassword@influencetx.com:5432/influencetx
-      - DJANGO_SETTINGS_MODULE=config.settings.local
+      - DJANGO_SETTINGS_MODULE=config.settings.production_debug
       - ODBCSYSINI=/usr/src/app/docker_config_files
       - ODBCINI=/usr/src/app/docker_config_files/odbc.ini
     volumes:
@@ -55,10 +44,3 @@ services:
     ports:
       - "16379:16379"
 
-  jenkins:
-    image: jenkins/jenkins:lts
-    container_name: jenkins
-    volumes:
-      - "/data/jenkins:/var/jenkins_home:rw"
-    environment:
-      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
