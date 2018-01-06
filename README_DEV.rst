@@ -97,13 +97,11 @@ the data by replacing the second command above with::
 
     ./djadmin.sh sync_bills_from_openstate --max 100
 
-.. note::
+**Note**: By default, `sync_bills_from_openstate` syncs data from the most recent session, but the
+most recent special session currently has some data missing, so you may want to use data from the
+85th session instead.
 
-   By default, `sync_bills_from_openstate` syncs data from the most recent session, but the most
-   recent special session currently has some data missing, so you may want to use data from the
-   85th session instead.
-   
-       ./djadmin.sh sync_bills_from_openstate --max 100 --session 85
+    ./djadmin.sh sync_bills_from_openstate --max 100 --session 85
 
 Basic Commands
 ==============
@@ -254,3 +252,22 @@ External
 --------
 
 You can also perform development outside the VM by making code updates, then issuing a `vagrant provision` command.  This method allows SSH based checkouts of the git repository.
+
+
+Production Build and Deployment
+-------------------------------
+
+This requires root privileges on the deployment server::
+
+    ssh root@influencetx.com
+    cd influence-texas
+    git pull
+    docker-compose -f docker-compose.build build
+    docker-compose -f docker-compose.multi-site up -d --force-recreate
+
+The first `docker-compose` command builds the docker container with the influencetx codebase, and
+the second starts the web application and associated services.
+
+You can access the logs on the production server using::
+
+    docker logs web
