@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Donor List{% endblock %}
+
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+{% endblock css %}
+
+{% block content %}
+
+  <h2>{{ title|default:"Donors" }}</h2>
+
+  <div id="donor-list">
+    <input class="search form-control" placeholder="Search by name" />
+    <ul class="list-group list list-unstyled">
+      {% for donor in donors %}
+        <li>
+          <a href="{% url "donors:donor-detail" donor.id %}">
+            <div class="list-group-item list-group-item-action">
+              <div>
+                <h5 class="donor-name">{{ donor.full_name }}</h5>
+              </div>
+              <div class="col">
+                <h4 class="donor-amount">{{ donor.total_contributions }}</h4>
+                <p class="text-muted">{{ donor.party }}</p>
+                <p class="text-muted district">{{ donor.city }},{{ donor.state }}</p>
+              </div>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endblock content %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.js"
+          integrity="sha256-2VBPy2n7sERBn+tpZos/5j8jVBCE5uzGkceIwP9aAP0="
+          crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function () {
+      var donorList = new List('donor-list', {
+        valueNames: ['donor-name', 'amount'],
+      });
+    });
+  </script>
+{% endblock javascript %}

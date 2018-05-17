@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^bills/', include('influencetx.bills.urls', namespace='bills')),
     url(r'^legislators/', include('influencetx.legislators.urls', namespace='legislators')),
     url(r'^openstates/', include('influencetx.openstates.urls', namespace='openstates')),
+    url(r'^donors/', include('influencetx.tpj.urls', namespace='donors')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
