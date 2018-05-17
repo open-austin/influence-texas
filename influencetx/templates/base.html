@@ -50,6 +50,9 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'legislators:representative-list' %}">Representatives</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'donors:donor-list' %}">Donors</a>
+            </li>
             {% if request.user.is_staff %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'openstates:index' %}">Open:States</a>
@@ -102,4 +105,3 @@
     {% endblock javascript %}
   </body>
 </html>
-
