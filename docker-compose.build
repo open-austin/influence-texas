@@ -13,6 +13,10 @@ services:
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
       - TPJ_DB_USER=${TPJ_DB_USER}
       - TPJ_DB_PASSWORD=${TPJ_DB_PASSWORD}
+      - TPJ_DB_NAME=${TPJ_DB_NAME}
+      - TPJ_DB_HOST=${TPJ_DB_HOST}
+      - TPJ_DB_PORT=${TPJ_DB_PORT}
+      - TPJ_DB_ENGINE=${TPJ_DB_ENGINE}
       - ODBCSYSINI=/usr/src/app/docker_config_files
       - ODBCINI=/usr/src/app/docker_config_files/odbc.ini
     volumes:

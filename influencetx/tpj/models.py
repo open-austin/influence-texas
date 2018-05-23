@@ -20,8 +20,17 @@ manually to clean this up:
 The models in this file have been aggressively trimmed of fields. If you need other data, they may
 be available on the source tables for these models---you should check the source tables.
 """
-from django.db import models
+import logging
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
+from django.db import models
+from django.db.utils import Error as DbError
+
+from influencetx.core import constants, utils
+from influencetx.tpj import models as tpj_models
+
+log = logging.getLogger(__name__)
 
 class Donor(models.Model):
 
@@ -47,15 +56,37 @@ class Donor(models.Model):
     other_interests = models.CharField(db_column='OtherInterests', max_length=255,
                                        blank=True, null=True)
 
-    total_contributions = models.DecimalField(db_column='CTRIB_AMT', max_digits=11,
-                                              decimal_places=2, blank=True, null=True)
+    total_contributions = models.DecimalField(db_column='CTRIB_AMT', max_digits=11, decimal_places=2, blank=True, null=True)
+
     party = models.CharField(db_column='Party', max_length=7, blank=True, null=True)
     politics = models.CharField(db_column='Politics', max_length=8000, blank=True, null=True)
     dem_score = models.SmallIntegerField(db_column='DemScore')
 
     class Meta:
         managed = False
-        db_table = 'vIdealContributor_v2a'
+        db_table = 'contributors'
+
+    @property
+    def total_amounts(self, election_year=2016):
+        """Total Campaign contributions to legislators."""
+#        if since is None:
+#            since = datetime.now() - relativedelta(years=3)
+#        contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(date__range=(since, datetime.now()))
+        contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(election_year=election_year)
+        total_amount = 0
+        for contrib in contributions:
+            total_amount += contrib.amount
+        return total_amount
+
+    @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
+    def contributions(self, max_count=20, election_year=2016):
+        """Campaign contributions to legislators."""
+#        if since is None:
+#            since = datetime.now() - relativedelta(years=3)
+#        contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(date__range=(since, datetime.now())).order_by('amount').reverse()[:max_count]
+        contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(election_year=election_year).order_by('amount').reverse()[:max_count]
+        return contributions
+
 
     def __str__(self):
         return self.full_name
@@ -87,7 +118,7 @@ class Filer(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'vIdealFiler'
+        db_table = 'filers'
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'.strip()
@@ -95,17 +126,15 @@ class Filer(models.Model):
 
 class Contribution(models.Model):
     id = models.IntegerField(db_column='IDNO', primary_key=True)
-    donor = models.ForeignKey(Donor, db_column='CTRIB_ID', blank=True, null=True)
+    donor = models.ForeignKey(Donor, db_column='ctrib_ID', blank=True, null=True)
     filer = models.ForeignKey(Filer, db_column='iFiler_ID', blank=True, null=True)
-
-    amount = models.DecimalField(db_column='CTRIB_AMT', max_digits=19, decimal_places=4,
-                                 blank=True, null=True)
-
+    amount = models.DecimalField(db_column='CTRIB_AMT', max_digits=19, decimal_places=2, blank=True, null=True)
     date = models.DateTimeField(db_column='CONT_DATE', blank=True, null=True)
+    election_year = models.IntegerField(db_column='eYear', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'contribs'
 
     def __str__(self):
-        return f'{self.amount} {self.donor!r} {self.filer!r}'
+        return f'{self.id} {self.amount}'
