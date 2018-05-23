@@ -75,7 +75,6 @@ class Legislator(models.Model):
 
 
 class LegislatorIdMap(models.Model):
-    id = models.IntegerField(primary_key=True)
     openstates_leg_id = models.CharField(db_index=True, max_length=20)
     tec_filer_id = models.IntegerField()
 
