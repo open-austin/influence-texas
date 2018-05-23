@@ -96,7 +96,7 @@ class Filer(models.Model):
 class Contribution(models.Model):
     id = models.IntegerField(db_column='IDNO', primary_key=True)
     donor = models.ForeignKey(Donor, db_column='CTRIB_ID', blank=True, null=True)
-    filer = models.ForeignKey(Filer, db_column='FILER_ID', blank=True, null=True)
+    filer = models.ForeignKey(Filer, db_column='iFiler_ID', blank=True, null=True)
 
     amount = models.DecimalField(db_column='CTRIB_AMT', max_digits=19, decimal_places=4,
                                  blank=True, null=True)

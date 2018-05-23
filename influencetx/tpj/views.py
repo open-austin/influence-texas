@@ -30,11 +30,8 @@ class DonorDetailView(DetailView):
     context_object_name = 'donor'
 
     def get_context_data(self, *args, **kwargs):
+        # Call the base implementation first to get a context
         context = super(DonorDetailView, self).get_context_data(*args, **kwargs)
-        contributions = []
-        for each in models.Contribution.objects.all().order_by('amount').reverse()[0:20]:
-            amount = each.amount
-            date = each.date
-            contributions.append({'amount': amount, 'date': date})
-        context['contributions'] = contributions
+        # Add in a QuerySet of all the contributions
+        context['contributions'] = models.Contribution.objects.all().order_by('filer')
         return context

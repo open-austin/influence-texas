@@ -56,17 +56,17 @@ class Legislator(models.Model):
         try:
             id_map = LegislatorIdMap.objects.get(openstates_leg_id=self.openstates_leg_id)
         except LegislatorIdMap.DoesNotExist:
-            log.warn(f"Filer id not found for openstates leg-id {self.openstates_leg_id!r}.")
+            log.warn(f"Filer id not found for openstates_leg_id {self.openstates_leg_id!r} in {LegislatorIdMap.objects.first}.")
             return []
+        except Exception as e:
+            log.warn(e.message, type(e))
+            return []
+
         if since is None:
             since = datetime.now() - relativedelta(years=3)
+
         filer = tpj_models.Filer.objects.get(id=id_map.tec_filer_id)
-        contributions = (
-            filer.contribution_set
-            .filter(date__range=(since, datetime.now()))
-            .order_by('-amount')[:max_count]
-            .select_related('donor')
-        )
+        contributions = tpj_models.Contribution.objects.filter(filer=filer.id).filter(date__range=(since, datetime.now())).order_by('-amount')[:max_count]
         return contributions
 
     def __str__(self):
@@ -75,6 +75,9 @@ class Legislator(models.Model):
 
 
 class LegislatorIdMap(models.Model):
-
-    openstates_leg_id = models.CharField(max_length=20, db_index=True)
+    id = models.IntegerField(primary_key=True)
+    openstates_leg_id = models.CharField(db_index=True, max_length=20)
     tec_filer_id = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.id} {self.openstates_leg_id!r} {self.tec_filer_id}'
