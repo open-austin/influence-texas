@@ -24,15 +24,13 @@
 
   <table id="contributions-list" class="table table-sm">
     <thead>
-      <th>Date</th>
       <th>Amount</th>
-      <th>Legislator</th>
+      <th>Recipient</th>
     </thead>
     {% for contribution in donor.contributions %}
       <tr>
-        <td class="hidden-sm-down">{{ contribution.date }}</td>
         <td class="text-nowrap">${{ contribution.amount|floatformat:0|intcomma }}</td>
-        <td class="hidden-sm-down">{{ contribution.filer.candidate_name }}<p class="text-muted">{{ contribution.filer.office }}</p></td>
+        <td class="hidden-sm-down">{{ contribution.filer.candidate_name }}<br>{{ contribution.filer.office }}</td>
       </tr>
     {% endfor %}
   </table>
