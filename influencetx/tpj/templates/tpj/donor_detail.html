@@ -29,8 +29,8 @@
     </thead>
     {% for contribution in donor.contributions %}
       <tr>
-        <td class="text-nowrap">${{ contribution.amount|floatformat:0|intcomma }}</td>
-        <td class="hidden-sm-down">{{ contribution.filer.candidate_name }}<br>{{ contribution.filer.office }}</td>
+        <td class="text-nowrap" width="10em">${{ contribution.amount|floatformat:0|intcomma }}</td>
+        <td class="text-nowrap">{{ contribution.filer.candidate_name }}<br>{{ contribution.filer.office }}</td>
       </tr>
     {% endfor %}
   </table>
