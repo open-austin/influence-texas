@@ -66,17 +66,16 @@ class Donor(models.Model):
         managed = False
         db_table = 'contributors'
 
-    @property
-    def total_amounts(self, election_year=2016):
-        """Total Campaign contributions to legislators."""
+#    def total_amounts(self, election_year=2016):
+#        """Total Campaign contributions to legislators."""
 #        if since is None:
 #            since = datetime.now() - relativedelta(years=3)
 #        contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(date__range=(since, datetime.now()))
-        contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(election_year=election_year)
-        total_amount = 0
-        for contrib in contributions:
-            total_amount += contrib.amount
-        return total_amount
+#        contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(election_year=election_year)
+#        total_amount = 0
+#        for contrib in contributions:
+#            total_amount += contrib.amount
+#        return total_amount
 
     @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
     def contributions(self, max_count=20, election_year=2016):

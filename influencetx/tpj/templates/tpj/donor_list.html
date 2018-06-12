@@ -17,15 +17,12 @@
     <ul class="list-group list list-unstyled">
       {% for donor in donors %}
         <li>
-          <a href="{% url "donors:donor-detail" donor.id %}">
-            <div class="list-group-item list-group-item-action">
-              <div>
-                <h4 class="donor-name">{{ donor.full_name }}</h4>
-                <h4 class="donor-amount">${{ donor.total_amounts|floatformat:0|intcomma }}</h4>
-                <p class="text-muted district">{{ donor.city }},{{ donor.state }}</p>
-              </div>
-            </div>
-          </a>
+          <table id="donor-list" class="table table-sm">
+              <tr>
+                <td class="text-nowrap donor-name"><a href="{% url "donors:donor-detail" donor.id %}">{{ donor.full_name }} <div class="text-muted district">({{ donor.city }},{{ donor.state }})</div></a></td>
+                <td align="right" class="text-nowrap donor-amount"><a href="{% url "donors:donor-detail" donor.id %}">${{ donor.total_contributions|floatformat:0|intcomma }}</a></td>
+              </tr>
+          </table>
         </li>
       {% endfor %}
     </ul>
