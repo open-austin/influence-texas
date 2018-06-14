@@ -66,23 +66,9 @@ class Donor(models.Model):
         managed = False
         db_table = 'contributors'
 
-#    def total_amounts(self, election_year=2016):
-#        """Total Campaign contributions to legislators."""
-#        if since is None:
-#            since = datetime.now() - relativedelta(years=3)
-#        contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(date__range=(since, datetime.now()))
-#        contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(election_year=election_year)
-#        total_amount = 0
-#        for contrib in contributions:
-#            total_amount += contrib.amount
-#        return total_amount
-
     @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
     def contributions(self, max_count=20, election_year=2016):
         """Campaign contributions to legislators."""
-#        if since is None:
-#            since = datetime.now() - relativedelta(years=3)
-#        contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(date__range=(since, datetime.now())).order_by('amount').reverse()[:max_count]
         contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(election_year=election_year).order_by('amount').reverse()[:max_count]
         return contributions
 
@@ -134,6 +120,22 @@ class Contribution(models.Model):
     class Meta:
         managed = False
         db_table = 'contribs'
+
+    def __str__(self):
+        return f'{self.id} {self.amount}'
+
+
+class Contributiontotalbyfiler(models.Model):
+    filer = models.IntegerField(db_column='ifiler_ID', primary_key=True)
+    donor = models.ForeignKey(Donor, db_column='Ctrib_ID')
+    amount = models.DecimalField(db_column='cycle_total', max_digits=19, decimal_places=2, blank=True, null=True)
+    full_name = models.CharField(db_column='FullName', max_length=150, blank=True, null=True)
+    city = models.CharField(db_column='City', max_length=30, blank=True, null=True)
+    state = models.CharField(db_column='StateAbbr', max_length=2, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'vfiler_top_donors_2016'
 
     def __str__(self):
         return f'{self.id} {self.amount}'

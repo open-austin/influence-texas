@@ -51,7 +51,7 @@ class Legislator(models.Model):
 
     # FIXME: This should return an empty Filer QuerySet, but that requires a database connection.
     @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
-    def contributions(self, max_count=20, election_year=2016):
+    def contributions(self, max_count=30, election_year=2016):
         """Campaign contributions to legislator."""
         try:
             id_map = LegislatorIdMap.objects.get(openstates_leg_id=self.openstates_leg_id)
@@ -62,18 +62,13 @@ class Legislator(models.Model):
             log.warn(e.message, type(e))
             return []
 
-#        if since is None:
-#            since = datetime.now() - relativedelta(years=3)
-#        contributions = tpj_models.Contribution.objects.filter(filer=filer.id).filter(date__range=(since, datetime.now())).order_by('-amount')[:max_count]
-
         filer = tpj_models.Filer.objects.get(id=id_map.tec_filer_id)
-        contributions = tpj_models.Contribution.objects.filter(filer=filer.id).filter(election_year=election_year).order_by('-amount')[:max_count]
+        contributions = tpj_models.Contributiontotalbyfiler.objects.filter(filer=filer.id).order_by('-amount')[:max_count]
         return contributions
 
     def __str__(self):
         name_parts = (self.first_name, self.middle_name, self.last_name, self.suffixes)
         return ' '.join(name for name in name_parts if name)
-
 
 class LegislatorIdMap(models.Model):
     openstates_leg_id = models.CharField(db_index=True, max_length=20)

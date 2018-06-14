@@ -46,24 +46,16 @@
 
   <table id="donors-list" class="table table-sm">
     <thead>
-      <th class="hidden-sm-down">Date</th>
       <th>Amount</th>
       <th>Donor</th>
-      <th>Donor Employer</th>
     </thead>
     {% for contrib in legislator.contributions %}
       <tr>
-        <td class="hidden-sm-down text-nowrap">
-          {{ contrib.date|date:"N j, Y" }}
-        </td>
         <td class="text-nowrap">
           ${{ contrib.amount|floatformat:0|intcomma }}
         </td>
         <td>
-          {{ contrib.donor }}
-        </td>
-        <td>
-          {{ contrib.donor.employer }}
+          {{ contrib.full_name }}<p class="text-muted">({{ contrib.city }},{{ contrib.state }})</p>
         </td>
       </tr>
     {% endfor %}
@@ -74,12 +66,13 @@
   {{ block.super }}
   <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
   <script>
-    var dataTableOptions = {};
+    var dataTableOptions = {"order": [[ 0, "desc" ]]};
     if (getBootstrapBreakpoint() === 'xs') {
       dataTableOptions = {
         "iDisplayLength": 5,
         "bLengthChange": false,
         "pagingType": "simple",
+        "order": [[ 0, "desc" ]]
       };
     }
     $(document).ready(function () {
