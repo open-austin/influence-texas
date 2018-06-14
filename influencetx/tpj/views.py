@@ -20,7 +20,7 @@ class DonorListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(DonorListView, self).get_context_data(*args, **kwargs)
         context.update(**self.extra_context)
-#        context['total_amounts'] = models.Donor.total_amounts
+
         return context
 
 

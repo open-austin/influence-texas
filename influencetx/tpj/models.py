@@ -67,7 +67,7 @@ class Donor(models.Model):
         db_table = 'contributors'
 
     @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
-    def contributions(self, max_count=20, election_year=2016):
+    def contributions(self, max_count=30, election_year=2016):
         """Campaign contributions to legislators."""
         contributions = tpj_models.Contributionsummary.objects.filter(donor=self.id).filter(election_year=election_year).order_by('amount').reverse()[:max_count]
         return contributions

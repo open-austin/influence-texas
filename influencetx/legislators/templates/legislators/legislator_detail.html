@@ -55,7 +55,7 @@
           ${{ contrib.amount|floatformat:0|intcomma }}
         </td>
         <td>
-          {{ contrib.full_name }}<p class="text-muted">({{ contrib.city }},{{ contrib.state }})</p>
+          <a href="{% url "donors:donor-detail" contrib.donor.id %}">{{ contrib.full_name }}</a>
         </td>
       </tr>
     {% endfor %}
