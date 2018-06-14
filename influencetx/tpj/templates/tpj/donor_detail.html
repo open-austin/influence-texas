@@ -25,12 +25,14 @@
   <table id="contributions-list" class="table table-sm">
     <thead>
       <th>Amount</th>
-      <th>Recipient</th>
+      <th>Legislator</th>
+      <th>Office</th>
     </thead>
     {% for contribution in donor.contributions %}
       <tr>
         <td class="text-nowrap" width="10em">${{ contribution.amount|floatformat:0|intcomma }}</td>
-        <td>{{ contribution.filer.candidate_name }}<br>{{ contribution.filer.office }}</td>
+        <td>{{ contribution.filer.candidate_name }}</td>
+        <td>{{ contribution.filer.office }}</td>
       </tr>
     {% endfor %}
   </table>
@@ -41,12 +43,13 @@
   {{ block.super }}
   <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
   <script>
-    var dataTableOptions = {};
+    var dataTableOptions = {"order": [[ 0, "desc" ]]};
     if (getBootstrapBreakpoint() === 'xs') {
       dataTableOptions = {
         "iDisplayLength": 5,
         "bLengthChange": false,
         "pagingType": "simple",
+        "order": [[ 0, "desc" ]]
       };
     }
     $(document).ready(function () {

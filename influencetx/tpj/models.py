@@ -69,7 +69,7 @@ class Donor(models.Model):
     @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
     def contributions(self, max_count=20, election_year=2016):
         """Campaign contributions to legislators."""
-        contributions = tpj_models.Contribution.objects.filter(donor=self.id).filter(election_year=election_year).order_by('amount').reverse()[:max_count]
+        contributions = tpj_models.Contributionsummary.objects.filter(donor=self.id).filter(election_year=election_year).order_by('amount').reverse()[:max_count]
         return contributions
 
 
@@ -138,4 +138,18 @@ class Contributiontotalbyfiler(models.Model):
         db_table = 'vfiler_top_donors_2016'
 
     def __str__(self):
-        return f'{self.id} {self.amount}'
+        return f'{self.filer} {self.donor} {self.amount}'
+
+
+class Contributionsummary(models.Model):
+    donor = models.IntegerField(db_column='ctrib_id', primary_key=True)
+    filer = models.ForeignKey(Filer, db_column='iFiler_ID')
+    amount = models.DecimalField(db_column='cycle_total', max_digits=19, decimal_places=2, blank=True, null=True)
+    election_year = models.IntegerField(db_column='eYear')
+
+    class Meta:
+        managed = False
+        db_table = 'total_donor_filer'
+
+    def __str__(self):
+        return f'{self.donor} {self.amount}'
