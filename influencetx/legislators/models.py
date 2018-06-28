@@ -51,30 +51,28 @@ class Legislator(models.Model):
 
     # FIXME: This should return an empty Filer QuerySet, but that requires a database connection.
     @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
-    def contributions(self, max_count=10, since=None):
+    def contributions(self, max_count=25, election_year=2016):
         """Campaign contributions to legislator."""
         try:
             id_map = LegislatorIdMap.objects.get(openstates_leg_id=self.openstates_leg_id)
         except LegislatorIdMap.DoesNotExist:
-            log.warn(f"Filer id not found for openstates leg-id {self.openstates_leg_id!r}.")
+            log.warn(f"Filer id not found for openstates_leg_id {self.openstates_leg_id!r} in {LegislatorIdMap.objects.first}.")
             return []
-        if since is None:
-            since = datetime.now() - relativedelta(years=3)
+        except Exception as e:
+            log.warn(e.message, type(e))
+            return []
+
         filer = tpj_models.Filer.objects.get(id=id_map.tec_filer_id)
-        contributions = (
-            filer.contribution_set
-            .filter(date__range=(since, datetime.now()))
-            .order_by('-amount')[:max_count]
-            .select_related('donor')
-        )
+        contributions = tpj_models.Contributiontotalbyfiler.objects.filter(filer=filer.id).order_by('-amount')[:max_count]
         return contributions
 
     def __str__(self):
         name_parts = (self.first_name, self.middle_name, self.last_name, self.suffixes)
         return ' '.join(name for name in name_parts if name)
 
-
 class LegislatorIdMap(models.Model):
-
-    openstates_leg_id = models.CharField(max_length=20, db_index=True)
+    openstates_leg_id = models.CharField(db_index=True, max_length=20)
     tec_filer_id = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.id} {self.openstates_leg_id!r} {self.tec_filer_id}'

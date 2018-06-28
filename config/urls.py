@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
+    url(r'^$', TemplateView.as_view(template_name='account/signup.html'), name='home'),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
 
     # Django Admin, use {% url 'admin:index' %}
@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^bills/', include('influencetx.bills.urls', namespace='bills')),
     url(r'^legislators/', include('influencetx.legislators.urls', namespace='legislators')),
     url(r'^openstates/', include('influencetx.openstates.urls', namespace='openstates')),
+    url(r'^donors/', include('influencetx.tpj.urls', namespace='donors')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
