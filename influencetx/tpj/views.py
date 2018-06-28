@@ -13,14 +13,15 @@ class DonorListView(ListView):
     def get_queryset(self, *args, **kwargs):
         return (
             models.Donor.objects
-            .filter(**self.filters)
-            .order_by('total_contributions').reverse()[:20]
+            .order_by('contributiontotalbydonor__cycle_total')
+            .reverse()[:25]
         )
 
     def get_context_data(self, *args, **kwargs):
         context = super(DonorListView, self).get_context_data(*args, **kwargs)
         context.update(**self.extra_context)
 
+        context['cycle_total'] = models.Donor.cycle_total
         return context
 
 

@@ -33,11 +33,7 @@ from influencetx.tpj import models as tpj_models
 log = logging.getLogger(__name__)
 
 class Donor(models.Model):
-
     id = models.IntegerField(db_column='Ctrib_ID', primary_key=True)
-    employer_id = models.IntegerField(db_column='Employer_ID', db_index=True,
-                                      blank=True, null=True)
-
     full_name = models.CharField(db_column='FullName', max_length=150, blank=True, null=True)
     last_name = models.CharField(db_column='Surname', max_length=100, blank=True, null=True)
     first_name = models.CharField(db_column='FirstName', max_length=45, blank=True, null=True)
@@ -50,12 +46,11 @@ class Donor(models.Model):
     zip = models.CharField(db_column='Zip', max_length=5, blank=True, null=True)
     city = models.CharField(db_column='CityPreferred', max_length=64, blank=True, null=True)
 
+    employer_id = models.IntegerField(db_column='Employer_ID', db_index=True,blank=True, null=True)
     employer = models.CharField(db_column='EMPLOYER', max_length=60, blank=True, null=True)
     occupation = models.CharField(db_column='Occupation', max_length=160, blank=True, null=True)
     interest_code = models.CharField(db_column='InterestCode', max_length=5)
-    other_interests = models.CharField(db_column='OtherInterests', max_length=255,
-                                       blank=True, null=True)
-
+    other_interests = models.CharField(db_column='OtherInterests', max_length=255, blank=True, null=True)
     total_contributions = models.DecimalField(db_column='CTRIB_AMT', max_digits=11, decimal_places=2, blank=True, null=True)
 
     party = models.CharField(db_column='Party', max_length=7, blank=True, null=True)
@@ -66,19 +61,31 @@ class Donor(models.Model):
         managed = False
         db_table = 'contributors'
 
-    @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
-    def contributions(self, max_count=30, election_year=2016):
+
+    def contributions(self, max_count=25, election_year=2016):
         """Campaign contributions to legislators."""
         contributions = tpj_models.Contributionsummary.objects.filter(donor=self.id).filter(election_year=election_year).order_by('amount').reverse()[:max_count]
         return contributions
 
+    @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
+    def cycle_total(self, election_year=2016):
+        """Total contributions for cycle."""
+        try:
+            this_object = tpj_models.Contributiontotalbydonor.objects.get(donor=self.id)
+        except tpj_models.Contributiontotalbydonor.DoesNotExist:
+            log.warn(f"Contrib id not found for {self.id!r} in {tpj_models.Contributiontotalbydonor.objects.first}.")
+            return []
+        except Exception as e:
+            log.warn(e, type(e))
+            return []
+
+        return this_object.cycle_total
 
     def __str__(self):
         return self.full_name
 
 
 class Filer(models.Model):
-
     id = models.IntegerField(db_column='iFILER_ID', primary_key=True)
     candidate_id = models.IntegerField(db_column='iCand_ID', blank=True, null=True, db_index=True)
     parent_candidate_id = models.IntegerField(
@@ -90,8 +97,7 @@ class Filer(models.Model):
     first_name = models.CharField(db_column='firstname', max_length=45, blank=True, null=True)
     last_name = models.CharField(db_column='surname', max_length=100, blank=True, null=True)
     suffix = models.CharField(max_length=5, blank=True, null=True)
-    candidate_name = models.CharField(db_column='CandidateName', max_length=290,
-                                      blank=True, null=True)
+    candidate_name = models.CharField(db_column='CandidateName', max_length=290,blank=True, null=True)
 
     city = models.CharField(max_length=30, blank=True, null=True)
     state = models.CharField(db_column='StateAbbr', max_length=2, blank=True, null=True)
@@ -152,4 +158,17 @@ class Contributionsummary(models.Model):
         db_table = 'total_donor_filer'
 
     def __str__(self):
-        return f'{self.donor} {self.amount}'
+        return f'{self.donor} {self.filer} {self.amount}'
+
+
+class Contributiontotalbydonor(models.Model):
+    donor = models.OneToOneField(Donor, db_column='ctrib_id', primary_key=True)
+    election_year = models.IntegerField(db_column='eYear', blank=True, null=True)
+    cycle_total = models.DecimalField(db_column='cycle_total', max_digits=19, decimal_places=2, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'total_donor'
+
+    def __str__(self):
+        return f'{self.donor} {self.cycle_total}'

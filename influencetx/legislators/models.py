@@ -51,7 +51,7 @@ class Legislator(models.Model):
 
     # FIXME: This should return an empty Filer QuerySet, but that requires a database connection.
     @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
-    def contributions(self, max_count=30, election_year=2016):
+    def contributions(self, max_count=25, election_year=2016):
         """Campaign contributions to legislator."""
         try:
             id_map = LegislatorIdMap.objects.get(openstates_leg_id=self.openstates_leg_id)

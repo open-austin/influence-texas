@@ -14,7 +14,7 @@
 
     <h2>{{ donor.full_name }}</h2>
     <p class="text-muted">{{ donor.employer }}</p>
-    <p class="text-muted">${{ donor.total_contributions|floatformat:0|intcomma }}</p>
+    <p class="text-muted">${{ donor.cycle_total|floatformat:0|intcomma }}</p>
     <p class="text-muted">{{ donor.party }}</p>
     <p class="text-muted">{{ donor.city }},{{ donor.state }}</p>
 
@@ -25,14 +25,14 @@
   <table id="contributions-list" class="table table-sm">
     <thead>
       <th>Amount</th>
-      <th>Legislator</th>
-      <th>Office</th>
+      <th>Entity</th>
+      <th class="hidden-sm-down">Office</th>
     </thead>
     {% for contribution in donor.contributions %}
       <tr>
         <td class="text-nowrap" width="10em">${{ contribution.amount|floatformat:0|intcomma }}</td>
         <td>{{ contribution.filer.candidate_name }}</td>
-        <td>{{ contribution.filer.office }}</td>
+        <td class="hidden-sm-down">{{ contribution.filer.office }}</td>
       </tr>
     {% endfor %}
   </table>
