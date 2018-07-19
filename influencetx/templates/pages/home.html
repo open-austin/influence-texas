@@ -1,1 +1,20 @@
 {% extends "base.html" %}
+{% load static i18n %}
+{% load humanize %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div align="center">
+  <img src="{% static 'images/logo.png' %}"  alt="Influence Texas Logo" width="300px">
+</div>
+<table class="table">
+  <tr>
+    <td>
+      <p><a class="navbar-brand" href="{% url 'legislators:legislator-list' %}">Votes</a></p>
+    </td><td align="right">
+      <p><a class="navbar-brand" href="{% url 'donors:donor-list' %}">Money</a><p>
+    </td>
+  </tr>
+</table>
+{% endblock content %}
