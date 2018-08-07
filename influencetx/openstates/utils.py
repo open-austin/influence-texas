@@ -85,6 +85,8 @@ def adapt_openstates_bill(api_data):
 
     if 'votes' not in adapted_data:
         adapted_data['votes'] = []
+
+#    adapted_data['votes'] = adapted_data['votes'][-2:]
     for vote_data in adapted_data['votes']:
         adapt_openstates_vote_tally(vote_data)
 
