@@ -12,9 +12,11 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--max', default=None, type=int,
-                            help='Max number of legislators to sync. Mainly used for testing.')
+                            help='Max number of legislators to sync. Mainly used for testing. Default is none.')
         parser.add_argument('--leg-ids', nargs='+',
-                            help='Open States leg_ids of legislators to sync.')
+                            help='Open States leg_ids of legislators to sync. Defaults to all.')
+        parser.add_argument('--session', type=int, default=None,
+                            help='Pull data for specified session. Defaults to most recent.')
 
     def handle(self, *args, **options):
         legislator_list = self._fetch_legislators(options)
@@ -40,7 +42,11 @@ class Command(BaseCommand):
     def _fetch_legislators(self, options):
         """Return list of legislator data from Open States API."""
         legislator_ids = options.get('leg_ids')
-        legislator_list = fetch.legislators()
+        if options['session']:
+            search_window = 'session:{}'.format(options['session'])
+        else:
+            search_window = 'session'
+        legislator_list = fetch.legislators(search_window=search_window)
         if legislator_ids:
             legislator_list = [data for data in legislator_list
                                if data['leg_id'] in legislator_ids]

@@ -8,7 +8,8 @@ from django.core.exceptions import ValidationError
 
 from . import utils
 from influencetx.legislators import models
-
+import logging
+log = logging.getLogger(__name__)
 
 class Action(Enum):
     ADDED = 'Added'

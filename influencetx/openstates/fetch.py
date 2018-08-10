@@ -1,11 +1,11 @@
 import os
 import urllib
 from datetime import timedelta
-
+import logging
 import requests
 import requests_cache
 
-
+LOG = logging.getLogger(__name__)
 API_PATH = '/api/v1'
 BASE_URI = urllib.parse.urlparse('https://openstates.org')
 
@@ -22,16 +22,18 @@ DEFAULT_QUERY_DICT = {
 }
 DEFAULT_BILL_COUNT = 100000  # Use large default bill count to get all bills.
 
+# term is a two year - seperated value, e.g. 2016-2017
+def legislators(pk=None, search_window='session'):
+    custom_query = {'search_window': search_window}
 
-def legislators(pk=None):
-    query = urllib.parse.urlencode(DEFAULT_QUERY_DICT)
+    query = urllib.parse.urlencode({**DEFAULT_QUERY_DICT, **custom_query})
     path = f'{API_PATH}/legislators/' if pk is None else f'{API_PATH}/legislators/{pk}/'
     uri = BASE_URI._replace(path=path, query=query)
     return fetch_json(uri.geturl(), headers=DEFAULT_HEADERS)
 
 
 def bills(page=1, per_page=DEFAULT_BILL_COUNT, search_window='session'):
-    custom_query = {'search_window': search_window, 'page': page, 'per_page': per_page}
+    custom_query = {'search_window': search_window, 'page': page, 'per_page': per_page, 'type': 'bill'}
     query = urllib.parse.urlencode({**DEFAULT_QUERY_DICT, **custom_query})
     uri = BASE_URI._replace(path=f'{API_PATH}/bills/', query=query)
     return fetch_json(uri.geturl(), headers=DEFAULT_HEADERS)
@@ -46,4 +48,6 @@ def fetch_json(url, headers=None):
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         return response.json()
+    else:
+        log.WARN(response.error_message)
     return response
