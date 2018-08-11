@@ -13,8 +13,8 @@ urlpatterns = [
     url(settings.ADMIN_URL, admin.site.urls),
 
     # User management
-    url(r'^users/', include('influencetx.users.urls', namespace='users')),
-    url(r'^accounts/', include('allauth.urls')),
+#    url(r'^users/', include('influencetx.users.urls', namespace='users')),
+#    url(r'^accounts/', include('allauth.urls')),
 
     # Custom urls
     url(r'^bills/', include('influencetx.bills.urls', namespace='bills')),

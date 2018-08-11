@@ -98,13 +98,13 @@ FIXTURE_DIRS = (
 
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
-EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+#EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = [
-    ("""open-austin-devs""", 'info@open-austin.org'),
+    ("""Influence Texas Admins""", 'webmaster@influencetx.com'),
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -269,7 +269,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
+ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', False)
 ACCOUNT_ADAPTER = 'influencetx.users.adapters.AccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'influencetx.users.adapters.SocialAccountAdapter'
 

@@ -16,11 +16,16 @@ from .base import *  # noqa
 # Explicit imports to suppress flake8 errors.
 from .base import DATABASES, INSTALLED_APPS, MIDDLEWARE, TEMPLATES, env
 
+# DEBUG
+# ------------------------------------------------------------------------------
+DEBUG = env.bool('DJANGO_DEBUG', default=False)
+TEMPLATES[0]['OPTIONS']['debug'] = False
+
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Raises ImproperlyConfigured exception if DJANGO_SECRET_KEY not in os.environ
-SECRET_KEY = env('DJANGO_SECRET_KEY')
+SECRET_KEY = env('DJANGO_SECRET_KEY', default='O~TBa::OFqYvU**7&unz~UVP7[ACpr7aV^x8he5Kp/``s_Vuh.')
 
 
 # This ensures that Django will be able to detect a secure connection
@@ -56,10 +61,10 @@ X_FRAME_OPTIONS = 'DENY'
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['influencetx.com', 'api.influencetx.com'])
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['influencetx.com', 'app.influencetx.com', 'app.influencetexas.com'])
 # END SITE CONFIGURATION
 
-# INSTALLED_APPS += ['gunicorn', ]
+INSTALLED_APPS += ['gunicorn', ]
 
 
 # STORAGE CONFIGURATION
@@ -95,14 +100,15 @@ ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['influencetx.com', 'ap
 # Static Assets
 # ------------------------
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_URL = 'http://media.influencetx.com/static/'
 
 
 # EMAIL
 # ------------------------------------------------------------------------------
-DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
-                         default='influencetx <noreply@influencetx.com>')
-EMAIL_SUBJECT_PREFIX = env('DJANGO_EMAIL_SUBJECT_PREFIX', default='[influencetx]')
-SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
+#DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
+#                         default='influencetx <noreply@influencetx.com>')
+#EMAIL_SUBJECT_PREFIX = env('DJANGO_EMAIL_SUBJECT_PREFIX', default='[influencetx]')
+#SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
 
 # Anymail with Mailgun
 #INSTALLED_APPS += ['anymail', ]
@@ -149,6 +155,7 @@ CACHES = {
 # Sentry Configuration
 #SENTRY_DSN = env('DJANGO_SENTRY_DSN')
 #SENTRY_CLIENT = env('DJANGO_SENTRY_CLIENT', default='raven.contrib.django.raven_compat.DjangoClient')
+#
 #LOGGING = {
 #    'version': 1,
 #    'disable_existing_loggers': True,
@@ -201,7 +208,7 @@ CACHES = {
 #    'CELERY_LOGLEVEL': env.int('DJANGO_SENTRY_LOG_LEVEL', logging.INFO),
 #    'DSN': SENTRY_DSN
 #}
-#
+
 ## Custom Admin URL, use {% url 'admin:index' %}
 #ADMIN_URL = env('DJANGO_ADMIN_URL')
 
