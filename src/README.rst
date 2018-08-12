@@ -243,12 +243,20 @@ To rebuild and deploy the application:
 Devlopment Workflow
 -------------------
 
-There are two uses of the Vagrant environment for development, from inside the VM or from outside the VM.
+There are two uses of the Vagrant environment for testing production deployments, from inside the VM or from outside the VM.
+
+The Vagrant VM is run by default with the settings:
+```
+    vb.memory = "2048"
+    vb.cpus   = "2"
+```
+
+Reduce these numbers for running on smaller hardware. 
 
 Internal
 --------
 
-To perform development from inside the VM, perform the ``vagrant ssh`` command, then change directory to "/vagrant".  The git repository is mounted automatically inside the VM at the "/vagrant" directory.  The docker-compose files will be accessible, as well as the code which is built using the docker-compose files.  You can perform updates to the code, then perform ``sudo docker-compose -f docker-compose.build build`` command to generate the docker image inside the VM, then re-deploy the containers with the new images by issuing a ``sudo docker-compose -f docker-compose.build up -d`` command.  You can also make git commits and push, but you will need to use an HTTPS checkout and supply your github credentials with each ``git push``
+To perform development from inside the VM, perform the ``vagrant ssh`` command, then change directory to "/vagrant".  The git repository is mounted automatically inside the VM at the "/vagrant" directory.  The docker-compose files will be accessible, as well as the code which is built using the docker-compose files.  You can perform updates to the code, then perform ``sudo docker-compose build`` command to generate the docker image inside the VM, then re-deploy the containers with the new images by issuing a ``sudo docker-compose up -d`` command.  You can also make git commits and push, but you will need to use an HTTPS checkout and supply your github credentials with each ``git push``
 
 External
 --------
@@ -265,7 +273,7 @@ This requires root privileges on the deployment server::
     cd influence-texas
     git pull
     docker-compose build
-    docker-compose -f docker-compose.multi-site up -d --force-recreate
+    docker-compose up -d --force-recreate
 
 The first `docker-compose` command builds the docker container with the influencetx codebase, and
 the second starts the web application and associated services.
