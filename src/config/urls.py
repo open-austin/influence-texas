@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
 
     # Django Admin, use {% url 'admin:index' %}
-    url(settings.ADMIN_URL, admin.site.urls),
+    #url(settings.ADMIN_URL, admin.site.urls),
 
     # User management
 #    url(r'^users/', include('influencetx.users.urls', namespace='users')),
@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^openstates/', include('influencetx.openstates.urls', namespace='openstates')),
     url(r'^donors/', include('influencetx.tpj.urls', namespace='donors')),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL)
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit

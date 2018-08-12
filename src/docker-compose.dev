@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=influencetx
+    volumes:
+      - data:/var/lib/postgres
+  web:
+    image: python:3.6.1
+    working_dir: /usr/src/app
+    command: >
+        bash -exc "
+            # Install postgres and sql-server dependencies so that `./djadmin.sh dbshell` command works.
+            apt-get update && apt-get install -y postgresql-client unixodbc unixodbc-dev freetds-bin freetds-dev tdsodbc;
+
+            pip install -r requirements/local.txt;
+            python3 manage.py migrate;
+            python3 manage.py runserver 0.0.0.0:5120;
+        "
+    environment:
+      - DATABASE_URL=psql://postgres:mysecretpassword@postgres:5432/influencetx
+      - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
+      - TPJ_DB_USER=${TPJ_DB_USER}
+      - TPJ_DB_PASSWORD=${TPJ_DB_PASSWORD}
+      - ODBCSYSINI=/usr/src/app/docker_config_files
+      - ODBCINI=/usr/src/app/docker_config_files/odbc.ini
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "5120:5120"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+    links:
+      - db:postgres
+volumes:
+  data:
+    driver: local

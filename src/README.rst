@@ -90,7 +90,9 @@ legislators and bills from Open States, run the following *in order*::
     ./djadmin.sh sync_bills_from_openstate
 
 Note that the order matters because bills have voting data which requires legislators to be
-in the database for correct attribution.
+in the database for correct attribution.::
+
+    ./djadmin.sh sync_legislators_from_openstate --session 85
 
 The number of bills in the database is quite large. For testing purposes, you can grab a subset of
 the data by replacing the second command above with::
@@ -138,7 +140,7 @@ Maintenance commands
 
 The commands commonly used for maintenance of this project are described below.
 
-- ``docker-compose up -d``: Start up docker container in detached mode (background task). You can
+- ``docker-compose -f docker-compose.dev up -d``: Start up docker container in detached mode (background task). You can
   keep a docker container running continuously, so you may only need to run this after restarting
   your machine.
 - ``./djadmin.sh makemigrations``: Make schema migrations to reflect your changes to Django models.
@@ -162,8 +164,8 @@ Debugging commands
   - This command has a `tendency to cause timeout errors`_. If you experience timeouts, try
     running: ``COMPOSE_HTTP_TIMEOUT=60000 docker-compose logs -f``.
 
-- ``docker-compose logs``: Display bash output for all containers.
-- ``docker-compose exec web bash``: Run bash shell within web container.
+- ``docker-compose -f docker-compose.dev logs``: Display bash output for all containers.
+- ``docker-compose -f docker-compose.dev exec web bash``: Run bash shell within web container.
 - ``./djadmin.sh shell``: Start IPython shell.
 - ``./djadmin.sh dbshell``: Start Postgres shell.
 
@@ -176,7 +178,7 @@ Debugging Python code
 You can't use the output window from a ``docker-compose logs --f`` call to debug, since it actually
 interacts with multiple containers. Instead, run the following in a terminal::
 
-    docker attach `docker-compose ps -q web`
+    docker attach `docker-compose -f docker-compose.dev ps -q web`
 
 The ``docker-compose``-part of the command simply returns the id of the web container for the app.
 You can replace the above with::
@@ -262,7 +264,7 @@ This requires root privileges on the deployment server::
     ssh root@influencetx.com
     cd influence-texas
     git pull
-    docker-compose -f docker-compose.build build
+    docker-compose build
     docker-compose -f docker-compose.multi-site up -d --force-recreate
 
 The first `docker-compose` command builds the docker container with the influencetx codebase, and

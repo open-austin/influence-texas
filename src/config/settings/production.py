@@ -34,8 +34,8 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Use Whitenoise to serve static files
 # See: https://whitenoise.readthedocs.io/
-WHITENOISE_MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware', ]
-MIDDLEWARE = WHITENOISE_MIDDLEWARE + MIDDLEWARE
+#WHITENOISE_MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware', ]
+#MIDDLEWARE = WHITENOISE_MIDDLEWARE + MIDDLEWARE
 
 
 # SECURITY CONFIGURATION
@@ -52,7 +52,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 SECURE_BROWSER_XSS_FILTER = True
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
-SECURE_SSL_REDIRECT = env.bool('DJANGO_SECURE_SSL_REDIRECT', default=True)
+SECURE_SSL_REDIRECT = env.bool('DJANGO_SECURE_SSL_REDIRECT', default=False)
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 X_FRAME_OPTIONS = 'DENY'
@@ -94,12 +94,12 @@ INSTALLED_APPS += ['gunicorn', ]
 #
 ## URL that handles the media served from MEDIA_ROOT, used for managing
 ## stored files.
-#MEDIA_URL = 'https://s3.amazonaws.com/%s/' % AWS_STORAGE_BUCKET_NAME
+#MEDIA_URL = '/static/'
 
 
 # Static Assets
 # ------------------------
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = 'http://media.influencetx.com/static/'
 
 
