@@ -10,18 +10,25 @@
 {% endblock css %}
 
 {% block content %}
+<nav class="nav nav-pills nav-fill">
+  <a class="nav-item nav-link active" href="#nav-summary">Summary</a>
+  <a class="nav-item nav-link" href="#nav-votes">Votes</a>
+  <a class="nav-item nav-link" href="#nav-donors">Top Donors</a>
+  
+</nav>
+<div id="nav-summary">
   <div class="summary-info text-center mt-3">
-
     <img src="{{ legislator.photo_url }}"/>
     <h2>{{ legislator }}</h2>
     <p class="text-muted">{{ legislator.party_label }}</p>
     <p class="text-muted">{{ legislator.chamber_label }}</p>
     <p class="text-muted"> District {{ legislator.district  }}</p>
     <p><a href="{{ legislator.url }}">Full Biography</a></p>
-
   </div>
+</div>
 
-  <h5 class="section-title bg-intx-secondary">Votes</h5>
+  <div id="nav-votes">
+  <!-- <h5 class="section-title bg-intx-secondary">Votes</h5> -->
 
   <table id="vote-list" class="table table-sm">
     <thead>
@@ -41,9 +48,10 @@
       </tr>
     {% endfor %}
   </table>
+</div>
 
-
-  <h5 class="section-title bg-intx-secondary">Top Donors</h5>
+<div id="nav-donors">
+  <!-- <h5 class="section-title bg-intx-secondary">Top Donors</h5> -->
 
   <table id="donors-list" class="table table-sm">
     <thead>
@@ -61,6 +69,7 @@
       </tr>
     {% endfor %}
   </table>
+</div>
 {% endblock content %}
 
 {% block javascript %}
