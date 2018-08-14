@@ -123,7 +123,7 @@ DATABASES = {
         'USER': env('TPJ_DB_USER'),
         'PASSWORD': env('TPJ_DB_PASSWORD'),
         'OPTIONS': {
-            'dsn': 'TPJ',
+            'dsn': 'tpj'
         }
     }
 }
