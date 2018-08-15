@@ -123,13 +123,19 @@ DATABASES = {
         'USER': env('TPJ_DB_USER'),
         'PASSWORD': env('TPJ_DB_PASSWORD'),
         'OPTIONS': {
-            'dsn': 'tpj'
+            'driver': 'FreeTDS',
+            'unicode_results': True,
+            'host_is_server': True,
+            'extra_params': 'tds_version=9.1',
         }
     }
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 DATABASE_ROUTERS = ['influencetx.core.routers.DatabaseRouter']
 
+#        'OPTIONS': {
+#            'dsn': 'tpj'
+#        }
 
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------

@@ -2,6 +2,8 @@ FROM python:3.6.1
 
 LABEL maintaner="<Michael Rollins michael@influencetx.com>"
 
+ARG APP_ENV=production
+
 WORKDIR /usr/src/app
 
 COPY . .
@@ -17,7 +19,7 @@ freetds-dev \
 tdsodbc && \
 apt-get clean
 
-RUN pip install -r requirements/production.txt
+RUN pip install -r requirements/${APP_ENV}.txt
 
 COPY ./entrypoint.sh /
 
