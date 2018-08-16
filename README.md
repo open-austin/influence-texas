@@ -63,5 +63,5 @@ View the work needed for our [upcoming milestone](https://github.com/open-austin
 
 
 ### Development
-For instructions on getting started with development, go to [README_DEV.rst](README_DEV.rst).
+For instructions on getting started with development, go to [src/README.rst](src/README.rst).
 
