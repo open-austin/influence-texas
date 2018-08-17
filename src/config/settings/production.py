@@ -100,7 +100,7 @@ INSTALLED_APPS += ['gunicorn', ]
 # Static Assets
 # ------------------------
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_URL = 'http://media.influencetx.com/static/'
+STATIC_URL = 'https://media.influencetx.com/static/'
 
 
 # EMAIL
