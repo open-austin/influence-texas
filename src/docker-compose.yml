@@ -7,7 +7,7 @@ services:
       context: .
     image: inftxos:0.1.85
     environment:
-      - DATABASE_URL=psql://postgres:mysecretpassword@localhost:5432/influencetx
+      - DATABASE_URL=${DATABASE_URL}
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
       - TPJ_DB_USER=${TPJ_DB_USER}
       - TPJ_DB_PASSWORD=${TPJ_DB_PASSWORD}
