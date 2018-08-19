@@ -17,8 +17,8 @@ services:
             apt-get update && apt-get install -y postgresql-client unixodbc unixodbc-dev freetds-bin freetds-dev tdsodbc;
 
             pip install -r requirements/local.txt;
-            python3 manage-dev.py migrate;
-            python3 manage-dev.py runserver 0.0.0.0:5120;
+            python3 manage.py migrate;
+            python3 manage.py runserver 0.0.0.0:5120;
         "
     environment:
       - DATABASE_URL=psql://postgres:mysecretpassword@postgres:5432/influencetx
