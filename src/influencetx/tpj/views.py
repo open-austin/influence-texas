@@ -10,18 +10,17 @@ class DonorListView(ListView):
     extra_context = {'title': 'Top Donors'}
     filters = {}
 
-    def get_queryset(self, *args, **kwargs):
-        return (
-            models.Donor.objects
-            .order_by('contributiontotalbydonor__cycle_total')
-            .reverse()[:25]
-        )
+    queryset = (
+        models.Donor.objects
+        .prefetch_related('contributiontotalbydonor')
+        .order_by('contributiontotalbydonor__cycle_total')
+        .reverse()[:25]
+    )
 
     def get_context_data(self, *args, **kwargs):
         context = super(DonorListView, self).get_context_data(*args, **kwargs)
         context.update(**self.extra_context)
 
-        context['cycle_total'] = models.Donor.cycle_total
         return context
 
 
@@ -30,10 +29,11 @@ class DonorDetailView(DetailView):
     model = models.Donor
     context_object_name = 'donor'
 
+
     def get_context_data(self, *args, **kwargs):
         # Call the base implementation first to get a context
         context = super(DonorDetailView, self).get_context_data(*args, **kwargs)
-        # Add in a QuerySet of all the contributions
 
-        context['contributions'] = models.Donor.contributions
+        contributions = models.tpj_models.Contributionsummary.objects.prefetch_related('filer').filter(donor=self.object.id).order_by('amount').reverse()[:25]
+        context['top_contributions'] = contributions
         return context

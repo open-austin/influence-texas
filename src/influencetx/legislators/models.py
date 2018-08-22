@@ -1,16 +1,13 @@
-import logging
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-
 from django.db import models
 from django.db.utils import Error as DbError
 
 from influencetx.core import constants, utils
 from influencetx.tpj import models as tpj_models
 
-
+import logging
 log = logging.getLogger(__name__)
-
 
 class Legislator(models.Model):
 
@@ -48,23 +45,6 @@ class Legislator(models.Model):
     def chamber_label(self):
         """User-friendly label for chamber of congress."""
         return utils.chamber_label(self.chamber)
-
-    # FIXME: This should return an empty Filer QuerySet, but that requires a database connection.
-    @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
-    def contributions(self, max_count=25, election_year=2016):
-        """Campaign contributions to legislator."""
-        try:
-            id_map = LegislatorIdMap.objects.get(openstates_leg_id=self.openstates_leg_id)
-        except LegislatorIdMap.DoesNotExist:
-            log.warn(f"Filer id not found for openstates_leg_id {self.openstates_leg_id!r} in {LegislatorIdMap.objects.first}.")
-            return []
-        except Exception as e:
-            log.warn(e.message, type(e))
-            return []
-
-        filer = tpj_models.Filer.objects.get(id=id_map.tec_filer_id)
-        contributions = tpj_models.Contributiontotalbyfiler.objects.filter(filer=filer.id).order_by('-amount')[:max_count]
-        return contributions
 
     def __str__(self):
         name_parts = (self.first_name, self.middle_name, self.last_name, self.suffixes)
