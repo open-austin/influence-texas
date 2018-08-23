@@ -14,7 +14,7 @@
 
     <h2>{{ donor.full_name }}</h2>
     <p class="text-muted">{{ donor.employer }}</p>
-    <p class="text-muted">${{ donor.cycle_total|floatformat:0|intcomma }}</p>
+    <p class="text-muted">${{ donor.contributiontotalbydonor.cycle_total|floatformat:0|intcomma }}</p>
     <p class="text-muted">{{ donor.party }}</p>
     <p class="text-muted">{{ donor.city }},{{ donor.state }}</p>
 
@@ -28,7 +28,7 @@
       <th>Entity</th>
       <th class="hidden-sm-down">Office</th>
     </thead>
-    {% for contribution in donor.contributions %}
+    {% for contribution in top_contributions %}
       <tr>
         <td class="text-nowrap" width="10em">${{ contribution.amount|floatformat:0|intcomma }}</td>
         <td>{{ contribution.filer.candidate_name }}</td>
