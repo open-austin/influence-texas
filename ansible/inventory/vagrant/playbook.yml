@@ -13,3 +13,8 @@
         exclusive: True
       with_fileglob:
         - public_keys/*.pub
+    - name: Add the user vagrant to the docker group
+      user:
+        name: vagrant
+        groups: docker
+        append: yes
