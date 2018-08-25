@@ -56,13 +56,13 @@
       <th>Donor</th>
       <th>Amount</th>
     </thead>
-    {% for contrib in legislator.contributions %}
+    {% for contribution in top_contributions %}
       <tr>
         <td align="left">
-          <a href="{% url "donors:donor-detail" contrib.donor.id %}">{{ contrib.full_name }}</a>
+          <a href="{% url "donors:donor-detail" contribution.donor.id %}">{{ contribution.full_name }}</a>
         </td>
         <td class="text-nowrap" align="left">
-          ${{ contrib.amount|floatformat:0|intcomma }}
+          ${{ contribution.amount|floatformat:0|intcomma }}
         </td>
       </tr>
     {% endfor %}
