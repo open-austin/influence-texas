@@ -59,13 +59,13 @@ class LegislatorDetailView(DetailView):
         context['votes'] = votes
 
         #"""Campaign contributions to legislator."""
+        contributions = []
         try:
             id_map = models.LegislatorIdMap.objects.get(openstates_leg_id=self.object.openstates_leg_id)
+            filer = models.tpj_models.Filer.objects.get(id=id_map.tec_filer_id)
+            contributions = models.tpj_models.Contributiontotalbyfiler.objects.prefetch_related('donor').filter(filer=filer.id).order_by('-amount')[:25]
         except models.LegislatorIdMap.DoesNotExist:
-            log.warn(f"Filer id not found for openstates_leg_id {self.openstates_leg_id!r} in {models.LegislatorIdMap.objects.first}.")
-
-        filer = models.tpj_models.Filer.objects.get(id=id_map.tec_filer_id)
-        contributions = models.tpj_models.Contributiontotalbyfiler.objects.prefetch_related('donor').filter(filer=filer.id).order_by('-amount')[:25]
+            log.warn(f"Filer id not found for openstates_leg_id {self.object.openstates_leg_id!r} in {models.LegislatorIdMap.objects.first}.")
 
         context['top_contributions'] = contributions
         return context
