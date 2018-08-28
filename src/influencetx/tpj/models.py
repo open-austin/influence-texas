@@ -20,7 +20,6 @@ manually to clean this up:
 The models in this file have been aggressively trimmed of fields. If you need other data, they may
 be available on the source tables for these models---you should check the source tables.
 """
-import logging
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -30,6 +29,7 @@ from django.db.utils import Error as DbError
 from influencetx.core import constants, utils
 from influencetx.tpj import models as tpj_models
 
+import logging
 log = logging.getLogger(__name__)
 
 class Donor(models.Model):
@@ -60,26 +60,6 @@ class Donor(models.Model):
     class Meta:
         managed = False
         db_table = 'contributors'
-
-
-    def contributions(self, max_count=25, election_year=2016):
-        """Campaign contributions to legislators."""
-        contributions = tpj_models.Contributionsummary.objects.filter(donor=self.id).filter(election_year=election_year).order_by('amount').reverse()[:max_count]
-        return contributions
-
-    @utils.handle_error(DbError, lambda *args, **kwargs: [], log_level='warn')
-    def cycle_total(self, election_year=2016):
-        """Total contributions for cycle."""
-        try:
-            this_object = tpj_models.Contributiontotalbydonor.objects.get(donor=self.id)
-        except tpj_models.Contributiontotalbydonor.DoesNotExist:
-            log.warn(f"Contrib id not found for {self.id!r} in {tpj_models.Contributiontotalbydonor.objects.first}.")
-            return []
-        except Exception as e:
-            log.warn(e, type(e))
-            return []
-
-        return this_object.cycle_total
 
     def __str__(self):
         return self.full_name
@@ -132,7 +112,7 @@ class Contribution(models.Model):
 
 
 class Contributiontotalbyfiler(models.Model):
-    filer = models.IntegerField(db_column='ifiler_ID', primary_key=True)
+    filer = models.OneToOneField(Filer, db_column='ifiler_ID', primary_key=True)
     donor = models.ForeignKey(Donor, db_column='Ctrib_ID')
     amount = models.DecimalField(db_column='cycle_total', max_digits=19, decimal_places=2, blank=True, null=True)
     full_name = models.CharField(db_column='FullName', max_length=150, blank=True, null=True)
@@ -148,8 +128,8 @@ class Contributiontotalbyfiler(models.Model):
 
 
 class Contributionsummary(models.Model):
-    donor = models.IntegerField(db_column='ctrib_id', primary_key=True)
-    filer = models.ForeignKey(Filer, db_column='iFiler_ID')
+    donor = models.ForeignKey(Donor, db_column='ctrib_id', on_delete=models.CASCADE)
+    filer = models.OneToOneField(Filer, db_column='iFiler_ID', primary_key=True)
     amount = models.DecimalField(db_column='cycle_total', max_digits=19, decimal_places=2, blank=True, null=True)
     election_year = models.IntegerField(db_column='eYear')
 
