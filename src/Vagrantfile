@@ -41,7 +41,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", :privileged => true, inline: <<-SHELL
     source /vagrant/env.sh
     cd /vagrant
-    docker-compose -f docker-compose.build up --build --force-recreate -d
+    docker-compose -f docker-compose.build up -d
   SHELL
 
 end
