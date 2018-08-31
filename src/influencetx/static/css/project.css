@@ -34,6 +34,10 @@ h1, h2, h3, h4, h5 {
 .navbar {
   border-radius: 0px; }
 
+.nav-tabs .nav-link.active {
+  background-color: #7986cb;
+  color: white; }
+
 @media (max-width: 47.9em) {
   .navbar-nav .nav-item {
     display: inline-block;
