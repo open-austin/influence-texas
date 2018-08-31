@@ -18,7 +18,8 @@ h1, h2, h3, h4, h5 {
 }
 
 .flatten li {
-  padding: 0 .7em;
+  padding: .5em 2em 0 0;
+  font-size: small;
   display: inline-block; }
 
 .alert-debug {
