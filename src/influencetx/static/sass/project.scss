@@ -130,3 +130,22 @@ h1, h2, h3, h4, h5 {
     font-size: 1rem;
   }
 }
+
+/* Override default nav active */
+#nav-custom .active {
+color: white !important;
+background: #7986cb !important;
+}
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:hover, 
+.navbar-default .navbar-nav > .active > a:focus {
+background-color: #7986cb !important;
+color: white !important;
+}
+
+.nav-tabs .nav-item.show .nav-link, 
+.nav-tabs .nav-link.active{
+  background-color: #7986cb !important;
+color: white !important;
+
+}
