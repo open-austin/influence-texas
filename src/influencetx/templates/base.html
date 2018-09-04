@@ -26,6 +26,17 @@
 
     {% endblock %}
 
+    <!-- Global site tag (gtag.js) Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125051879-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-125051879-1');
+    </script>
+    <!-- Google Analytics -->
+
   </head>
 
   <body>
@@ -34,7 +45,7 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'donors:donor-list' %}">INFLUENCE TEXAS<sup>os</sup></a>
+        <a class="navbar-brand" href="{% url 'home' %}">INFLUENCE TEXAS<sup>os</sup></a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
@@ -71,7 +82,7 @@
       {% endif %}
 
       {% block content %}
-        <p>Use this document as a way to quick start any new project.</p>
+        <p>Welcome to the INFLUENCE TEXAS OS project.</p>
       {% endblock content %}
 
     </div> <!-- /container -->

@@ -10,20 +10,25 @@
 {% endblock css %}
 
 {% block content %}
-  <div class="summary-info text-center mt-3">
 
-    <img src="{{ legislator.photo_url }}"/>
-    <h2>{{ legislator }}</h2>
-    <p class="text-muted">{{ legislator.party_label }}</p>
-    <p class="text-muted">{{ legislator.chamber_label }}</p>
-    <p class="text-muted"> District {{ legislator.district  }}</p>
-    <p><a href="{{ legislator.url }}">Full Biography</a></p>
+<div class="summary-info text-center mt-3 mb-4">
+  <img src="{{ legislator.photo_url }}"/>
+  <h2>{{ legislator }}</h2>
+  <p class="text-muted">{{ legislator.party_label }}</p>
+  <p class="text-muted">{{ legislator.chamber_label }}</p>
+  <p class="text-muted"> District {{ legislator.district  }}</p>
+  <p><a target="_blank" href="{{ legislator.url }}">Full Biography</a></p>
+</div>
 
-  </div>
+<nav class="nav nav-tabs nav-fill mb-3">
+  <a class="nav-item nav-link active" data-toggle="tab" href="#nav-votes">Votes</a>
+  <a class="nav-item nav-link" data-toggle="tab" href="#nav-donors">Top Donors</a>
+</nav>
+<div class="tab-content">
+  <div id="nav-votes" class="tab-pane active">
+  <!-- <h5 class="section-title bg-intx-secondary">Votes</h5> -->
 
-  <h5 class="section-title bg-intx-secondary">Votes</h5>
-
-  <table id="vote-list" class="table table-sm">
+  <table id="vote-list" class="table table-striped table-sm">
     <thead>
       <th class="hidden-sm-down">Date</th>
       <th>Bill</th>
@@ -41,11 +46,12 @@
       </tr>
     {% endfor %}
   </table>
+</div><!-- end #vote-list -->
 
+<div id="nav-donors" class="tab-pane">
+  <!-- <h5 class="section-title bg-intx-secondary">Top Donors</h5> -->
 
-  <h5 class="section-title bg-intx-secondary">Top Donors</h5>
-
-  <table id="donors-list" class="table table-sm">
+  <table id="donors-list" class="table table-striped table-sm">
     <thead>
       <th>Donor</th>
       <th>Amount</th>
@@ -61,6 +67,10 @@
       </tr>
     {% endfor %}
   </table>
+</div> <!-- end #nav-donors -->
+</div><!-- end .tab-content -->
+<br><br><br>
+{% include "pages/footer.html" %}
 {% endblock content %}
 
 {% block javascript %}

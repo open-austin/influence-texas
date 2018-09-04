@@ -10,6 +10,18 @@ h1, h2, h3, h4, h5 {
   background-color: #7986cb;
 }
 
+.footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.flatten li {
+  padding: .5em 2em 0 0;
+  font-size: small;
+  display: inline-block; }
+
 .alert-debug {
   background-color: #fff;
   border-color: #d6e9c6;
@@ -22,6 +34,10 @@ h1, h2, h3, h4, h5 {
 
 .navbar {
   border-radius: 0px; }
+
+.nav-tabs .nav-link.active {
+  background-color: #7986cb;
+  color: white; }
 
 @media (max-width: 47.9em) {
   .navbar-nav .nav-item {
