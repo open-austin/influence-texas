@@ -1,4 +1,7 @@
-# Welcome & Project Summary 
+# Influence Texas has launched!  Checkout the live webapp at https://app.influencetexas.com/
+Find more information at https://www.influencetexas.com/
+
+# Welcome & Project Summary
 Welcome! We’re so glad you’ve found your way to INFLUENCE TX. This project was started at [ATX Hack for Change](http://atxhackforchange.org/) June 2-4, 2017 by [Amy M. Mosley](https://github.com/AmyMosley), a former investigative reporter who was frustrated by a fruitless search for fact-based, unbiased sources for information during the toxic 2016 election cycle. In 2017 all ATX Hack for Change projects were aligned with United Nations Sustainable Development Goals. This project falls under [*Goal 16: Promote just, peaceful and inclusive societies*](http://www.un.org/sustainabledevelopment/peace-justice/). 
 
 The premise is this, Politicians lie.
