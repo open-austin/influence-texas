@@ -114,28 +114,10 @@ MANAGERS = ADMINS
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///influencetx'),
-    'tpj': {
-        'NAME': env('TPJ_DB_NAME'),
-        'ENGINE': env('TPJ_DB_ENGINE'),
-        'HOST': env('TPJ_DB_HOST'),
-        'PORT': env('TPJ_DB_PORT'),
-        'USER': env('TPJ_DB_USER'),
-        'PASSWORD': env('TPJ_DB_PASSWORD'),
-        'OPTIONS': {
-            'driver': 'FreeTDS',
-            'unicode_results': True,
-            'host_is_server': True,
-            'extra_params': 'tds_version=9.1',
-        }
-    }
+    'default': env.db('DATABASE_URL', default='postgres:///influencetx')
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 DATABASE_ROUTERS = ['influencetx.core.routers.DatabaseRouter']
-
-#        'OPTIONS': {
-#            'dsn': 'tpj'
-#        }
 
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
