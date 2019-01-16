@@ -38,7 +38,7 @@ def sync_legislator_data(api_data, commit=True):
     Returns:
         info (ActionInfo): Action performed and legislator instance.
     """
-    match = models.Legislator.objects.filter(openstates_leg_id=api_data['leg_id'])
+    match = models.Legislator.objects.filter(openstates_leg_id=api_data['id'])
     if match.exists():
         return sync_existing_legislator_data(match.first(), api_data, commit=commit)
     else:
@@ -52,16 +52,17 @@ def sync_new_legislator_data(api_data, commit=True):
     except KeyError as error:
         return ActionInfo.fail(f'Input legislator data missing key: {error}')
     except ValidationError as error:
-        info = f'{api_data["first_name"]} {api_data["last_name"]} ({api_data["leg_id"]})'
+        info = f"{api_data['name']} ({api_data['id']})"
         error_message = str(error)
         msg = f'Failed to add legislator, {info}, with errors {error_message}'
         return ActionInfo.fail(msg)
 
 
 def sync_existing_legislator_data(instance, api_data, commit=True):
-    new_data_date = utils.parse_datetime(api_data['updated_at']).date()
+    new_data_date = utils.parse_datetime(api_data['updatedAt']).date()
     if instance.openstates_updated_at.date() < new_data_date:
-        instance = utils.update_legislator_instance(instance, api_data, commit=commit)
+        new_instance = utils.deserialize_openstates_legislator(api_data, commit=commit)
+        instance = utils.update_legislator_instance(new_instance, api_data, commit=commit)
         return ActionInfo.create(Action.UPDATED, instance)
     else:
         return ActionInfo.create(Action.SKIPPED, instance)

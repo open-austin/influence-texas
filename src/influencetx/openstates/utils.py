@@ -27,7 +27,7 @@ def format_datetime(dt):
 def parse_datetime(string):
     """Return datetime object from Open-States-style datetime string."""
     # FIXME: CT, CST don't seem to work here.
-    return dateutil.parser.parse(string + ' UTC')
+    return dateutil.parser.parse(string)
 
 
 def adapt_openstates_legislator(api_data):
@@ -38,10 +38,14 @@ def adapt_openstates_legislator(api_data):
     adapted_data = deepcopy(api_data)
 
     # Update fields that require pre-processing before deserialization.
-    adapted_data['openstates_updated_at'] = parse_datetime(adapted_data.pop('updated_at'))
-    adapted_data['openstates_leg_id'] = adapted_data.pop('leg_id')
-    adapted_data['district'] = int(adapted_data.pop('district'))
-    adapted_data['party'] = party_enum(adapted_data.get('party')).value
+    adapted_data['openstates_leg_id'] = adapted_data['id']
+    adapted_data['name'] = adapted_data['name']
+    adapted_data['openstates_updated_at'] = parse_datetime(adapted_data['updatedAt'])
+    adapted_data['party'] = party_enum(adapted_data['party'][0]['organization']['name']).value
+    adapted_data['district'] = int(adapted_data['chamber'][0]['post']['label'])
+    adapted_data['url'] = adapted_data['links'][0]['url']
+    adapted_data['chamber'] = adapted_data['chamber'][0]['organization']['name']
+    adapted_data['photo_url'] = adapted_data['image']
 
     return adapted_data
 

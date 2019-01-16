@@ -16,7 +16,7 @@ class LegislatorListView(ListView):
         return (
             models.Legislator.objects
             .filter(**self.filters)
-            .order_by('first_name', 'last_name')
+            .order_by('name')
         )
 
     def get_context_data(self, *args, **kwargs):

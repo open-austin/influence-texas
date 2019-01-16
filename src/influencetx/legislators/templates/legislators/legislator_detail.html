@@ -15,17 +15,38 @@
   <img src="{{ legislator.photo_url }}"/>
   <h2>{{ legislator }}</h2>
   <p class="text-muted">{{ legislator.party_label }}</p>
-  <p class="text-muted">{{ legislator.chamber_label }}</p>
+  <p class="text-muted">{{ legislator.chamber }}</p>
   <p class="text-muted"> District {{ legislator.district  }}</p>
   <p><a target="_blank" href="{{ legislator.url }}">Full Biography</a></p>
 </div>
 
 <nav class="nav nav-tabs nav-fill mb-3">
-  <a class="nav-item nav-link active" data-toggle="tab" href="#nav-votes">Votes</a>
-  <a class="nav-item nav-link" data-toggle="tab" href="#nav-donors">Top Donors</a>
+  <a class="nav-item nav-link active" data-toggle="tab" href="#nav-donors">Top Donors</a>
+  <a class="nav-item nav-link" data-toggle="tab" href="#nav-votes">Votes</a>
 </nav>
 <div class="tab-content">
-  <div id="nav-votes" class="tab-pane active">
+  <div id="nav-donors" class="tab-pane active">
+    <!-- <h5 class="section-title bg-intx-secondary">Top Donors</h5> -->
+
+    <table id="donors-list" class="table table-striped table-sm">
+      <thead>
+        <th>Donor</th>
+        <th>Amount</th>
+      </thead>
+      {% for contribution in top_contributions %}
+        <tr>
+          <td align="left">
+            <a href="{% url "donors:donor-detail" contribution.donor.id %}">{{ contribution.full_name }}</a>
+          </td>
+          <td class="text-nowrap" align="left">
+            ${{ contribution.amount|floatformat:0|intcomma }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div> <!-- end #nav-donors -->
+
+  <div id="nav-votes" class="tab-pane">
   <!-- <h5 class="section-title bg-intx-secondary">Votes</h5> -->
 
   <table id="vote-list" class="table table-striped table-sm">
@@ -48,26 +69,6 @@
   </table>
 </div><!-- end #vote-list -->
 
-<div id="nav-donors" class="tab-pane">
-  <!-- <h5 class="section-title bg-intx-secondary">Top Donors</h5> -->
-
-  <table id="donors-list" class="table table-striped table-sm">
-    <thead>
-      <th>Donor</th>
-      <th>Amount</th>
-    </thead>
-    {% for contribution in top_contributions %}
-      <tr>
-        <td align="left">
-          <a href="{% url "donors:donor-detail" contribution.donor.id %}">{{ contribution.full_name }}</a>
-        </td>
-        <td class="text-nowrap" align="left">
-          ${{ contribution.amount|floatformat:0|intcomma }}
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-</div> <!-- end #nav-donors -->
 </div><!-- end .tab-content -->
 <br><br><br>
 {% include "pages/footer.html" %}
