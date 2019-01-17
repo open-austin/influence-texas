@@ -12,7 +12,25 @@
 {% block content %}
 
 <div class="summary-info text-center mt-3 mb-4">
-  <img src="{{ legislator.photo_url }}"/>
+  <div class="flexcontainer-leg-share">
+    <img src="{{ legislator.photo_url }}">
+      <div class="itemright-leg-share">
+          <a href="" onclick="window.open('http://www.facebook.com/share.php?u=' + 
+          encodeURIComponent(location.href))" target="_blank">
+            <span class='symbol'>circlefacebook</span>
+          </a>
+          <a href="" onclick="window.open('https://twitter.com/intent/tweet?text=' + 
+          encodeURIComponent(location.href))" target="_blank">
+            <span class='symbol'>circletwitterbird</span>
+          </a>
+          <a href="" onclick="window.open('https://www.linkedin.com/shareArticle?url=' + 
+          encodeURIComponent(location.href))" target="_blank">
+            <span class='symbol'>circlelinkedin</span>
+          </a>
+      </div>
+  </img>    
+  </div>
+  
   <h2>{{ legislator }}</h2>
   <p class="text-muted">{{ legislator.party_label }}</p>
   <p class="text-muted">{{ legislator.chamber_label }}</p>
