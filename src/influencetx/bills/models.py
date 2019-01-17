@@ -16,18 +16,14 @@ class SubjectTag(models.Model):
 
 class Bill(models.Model):
 
+    openstates_bill_id = models.CharField(max_length=48, db_index=True)    # Bill ID from Open States API.
+    bill_id = models.CharField(max_length=10)    # Official Bill ID.
     title = models.TextField()
     session = models.IntegerField()
-    chamber = models.CharField(max_length=5, choices=constants.CHAMBER_CHOICES)
+    chamber = models.CharField(max_length=6, choices=constants.CHAMBER_CHOICES)
     subjects = models.ManyToManyField(SubjectTag, blank=True, related_name='bills')
     sponsors = models.ManyToManyField(Legislator, related_name='bills_sponsored')
-
-    # Official Bill ID.
-    bill_id = models.CharField(max_length=10)
-    # Bill ID from Open States API.
-    openstates_bill_id = models.CharField(max_length=20)
-    # updated_at field from Open States API. Used to check whether bill-detail needs update.
-    openstates_updated_at = models.DateTimeField()
+    openstates_updated_at = models.DateTimeField()    # updated_at field from Open States API. Used to check whether bill-detail needs update.
 
     def __str__(self):
         details = f'session: {self.session}, openstates_id: {self.openstates_bill_id}'
@@ -51,7 +47,7 @@ class VoteTally(models.Model):
     """Result of a legislative vote on a bill."""
 
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE, related_name='vote_results')
-    chamber = models.CharField(max_length=5, choices=constants.CHAMBER_CHOICES)
+    chamber = models.CharField(max_length=6, choices=constants.CHAMBER_CHOICES)
     session = models.IntegerField()
 
     yes_count = models.IntegerField(default=0)

@@ -17,6 +17,8 @@ class Command(BaseCommand):
                             help='Open States ocd ids of legislators to sync. Defaults to all.')
         parser.add_argument('--session', type=int, default=None,
                             help='Pull data for specified session. Defaults to most recent.')
+        parser.add_argument('--force-update', action='store_true', default=False,
+                            help='Force update, even if database is up-to-date.')
 
     def handle(self, *args, **options):
         legislator_list = self._fetch_legislators(options)
@@ -25,7 +27,7 @@ class Command(BaseCommand):
             return
         total_action=0
         for data in legislator_list:
-            info = services.sync_legislator_data(data)
+            info = services.sync_legislator_data(data, options)
             self._write_info(info)
             total_action+=1
 

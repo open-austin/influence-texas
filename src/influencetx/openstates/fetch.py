@@ -81,6 +81,8 @@ def legislator_list(id_list):
       p{count}: person(id: "{leg_id}") {{
         id
         name
+        givenName
+        familyName
         updatedAt
         party: currentMemberships(classification: "party") {{
           organization {{
@@ -117,11 +119,71 @@ def legislator_list(id_list):
     return leg_data_list
 
 
-def bills(page=1, per_page=DEFAULT_COUNT, search_window='session'):
-    custom_query = {'search_window': search_window, 'page': page, 'per_page': per_page, 'type': 'bill'}
-    query = urllib.parse.urlencode({**DEFAULT_QUERY_DICT, **custom_query})
-    uri = BASE_URI._replace(path=f'{API_PATH}/bills/', query=query)
-    return fetch_json(uri.geturl(), headers=DEFAULT_HEADERS)
+def bills(total_bills, session=''):
+    bill_data = []
+    first_query=f'''query={{
+  b0: bills(first: 1, jurisdiction: "Texas", session: "{session}", classification: "bill") {{
+    edges {{
+      node {{
+        id
+        identifier
+        title
+        subject
+        sponsorships {{
+          name
+          primary
+          classification
+        }}
+        fromOrganization {{
+          name
+        }}
+        updatedAt
+        legislativeSession {{
+          identifier
+          name
+        }}
+        actions {{
+          date
+          description
+          classification
+          vote {{
+            id
+          }}
+          order
+        }}
+        votes {{
+          edges {{
+            node {{
+              id
+            }}
+          }}
+        }}
+      }}
+    }}
+    totalCount
+    pageInfo {{
+      startCursor
+      endCursor
+    }}
+  }}
+}}
+    '''
+    try:
+        fetched_data = fetch_json(query=first_query)
+        first_data = fetched_data['data']['b0']['edges'][0]['node']
+        if first_data:
+            bill_data.append(first_data)
+    except:
+        LOG.warn(f'Unable to retrieve bills: {fetched_data}')
+
+    bill_total=fetched_data['data']['b0']['totalCount']
+    bill_session=fetched_data['data']['b0']['edges'][0]['node']['legislativeSession']['identifier']
+    if bill_total > 1 :
+        page_token=fetched_data['data']['b0']['pageInfo']['endCursor']
+        print(f"Found {bill_total} Bills for the {bill_session} session.")
+
+#    LOG.warn(bill_data)
+    return bill_data
 
 
 def bill_detail(session=None, pk=None):

@@ -40,6 +40,8 @@ def adapt_openstates_legislator(api_data):
     # Update fields that require pre-processing before deserialization.
     adapted_data['openstates_leg_id'] = adapted_data['id']
     adapted_data['name'] = adapted_data['name']
+    adapted_data['first_name'] = adapted_data['givenName']
+    adapted_data['last_name'] = adapted_data['familyName']
     adapted_data['openstates_updated_at'] = parse_datetime(adapted_data['updatedAt'])
     adapted_data['party'] = party_enum(adapted_data['party'][0]['organization']['name']).value
     adapted_data['district'] = int(adapted_data['chamber'][0]['post']['label'])
@@ -83,21 +85,24 @@ def adapt_openstates_bill(api_data):
     adapted_data = deepcopy(api_data)
 
     # Update fields that require pre-processing before deserialization.
-    adapted_data['openstates_updated_at'] = parse_datetime(adapted_data.pop('updated_at'))
-    adapted_data['openstates_bill_id'] = adapted_data.pop('id')
-    adapted_data['session'] = int(adapted_data['session'])
+    adapted_data['openstates_bill_id'] = adapted_data['id']
+    adapted_data['bill_id'] = adapted_data['identifier']
+    adapted_data['session'] = int(adapted_data['legislativeSession']['identifier'])
+    adapted_data['chamber'] = adapted_data['fromOrganization']['name']
+    adapted_data['subjects'] = adapted_data['subject']
+    adapted_data['sponsors'] = [sponsor['name'] for sponsor in adapted_data['sponsorships']]
+    adapted_data['openstates_updated_at'] = parse_datetime(adapted_data['updatedAt'])
+    adapted_data['votes'] = adapted_data['votes']['edges']
 
-    if 'votes' not in adapted_data:
-        adapted_data['votes'] = []
-
-#    adapted_data['votes'] = adapted_data['votes'][-2:]
     for vote_data in adapted_data['votes']:
-        adapt_openstates_vote_tally(vote_data)
+        if vote_data['node']:
+            adapt_openstates_vote_tally(vote_data['node'])
 
     return adapted_data
 
 
 def adapt_openstates_vote_tally(vote_data):
+    ### TODO: Fix votes
     """Adapt vote-tally data from Open States API to match VoteTally model.
 
     Unlike top-level adaptation functions, this modifies data in-place.
@@ -115,6 +120,8 @@ def deserialize_openstates_bill(api_data, instance=None):
         instance = find_matching_bill(adapted_data['openstates_bill_id'])
     subject_models = deserialize_subject_tags(adapted_data.get('subjects', []))
     adapted_data['subjects'] = [s.id for s in subject_models]
+    sponsor_models = deserialize_sponsor_names(adapted_data.get('sponsors', []))
+    adapted_data['sponsors'] = [l.id for l in sponsor_models]
     form = forms.OpenStatesBillForm(adapted_data, instance=instance)
 
     bill = clean_form(form, commit=True)
@@ -130,6 +137,20 @@ def deserialize_subject_tags(subject_list):
         models.SubjectTag.objects.get_or_create(slug=slug, defaults={'label': label})[0]
         for slug, label in zip(slug_list, subject_list)
     ]
+
+
+def deserialize_sponsor_names(sponsor_names):
+    model_list = []
+    for fullname in sponsor_names:
+        [last_name,first_name] = fullname.split(", ")
+        legislator = Legislator.objects.filter(
+            last_name=last_name,
+            first_name=first_name
+            ).first()
+        if legislator:
+            model_list.append(legislator)
+
+    return model_list
 
 
 def deserialize_vote_tally(adapted_data, instance=None):

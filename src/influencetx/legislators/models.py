@@ -14,6 +14,8 @@ class Legislator(models.Model):
     openstates_leg_id = models.CharField(max_length=48, db_index=True)
 
     name = models.CharField(max_length=45)
+    first_name = models.CharField(max_length=20, blank=True)
+    last_name = models.CharField(max_length=20, blank=True)
     party = models.CharField(max_length=1, choices=constants.PARTY_CHOICES)
     chamber = models.CharField(max_length=6, choices=constants.CHAMBER_CHOICES)
     district = models.IntegerField()
