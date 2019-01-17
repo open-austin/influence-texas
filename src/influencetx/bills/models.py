@@ -7,8 +7,8 @@ from influencetx.legislators.models import Legislator
 class SubjectTag(models.Model):
     """A tag describing a subject-area for a bill."""
 
-    label = models.CharField(max_length=50)
-    slug = models.SlugField(max_length=50)
+    label = models.CharField(max_length=150)
+    slug = models.SlugField(max_length=150)
 
     def __str__(self):
         return self.label
@@ -22,7 +22,7 @@ class Bill(models.Model):
     session = models.IntegerField()
     chamber = models.CharField(max_length=6, choices=constants.CHAMBER_CHOICES)
     subjects = models.ManyToManyField(SubjectTag, blank=True, related_name='bills')
-    sponsors = models.ManyToManyField(Legislator, related_name='bills_sponsored')
+    sponsors = models.ManyToManyField(Legislator, blank=True, related_name='bills_sponsored')
     openstates_updated_at = models.DateTimeField()    # updated_at field from Open States API. Used to check whether bill-detail needs update.
 
     def __str__(self):

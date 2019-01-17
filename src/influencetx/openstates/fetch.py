@@ -119,10 +119,13 @@ def legislator_list(id_list):
     return leg_data_list
 
 
-def bills(total_bills, session=''):
+def bills(startCursor, options):
     bill_data = []
-    first_query=f'''query={{
-  b0: bills(first: 1, jurisdiction: "Texas", session: "{session}", classification: "bill") {{
+    first_count = DEFAULT_COUNT
+    if options['max'] < DEFAULT_COUNT and options['max'] != 0:
+        first_count = options['max']
+    custom_query=f'''query={{
+  b0: bills(first: {first_count}, after: "{startCursor}", jurisdiction: "Texas", session: "{options['session']}", classification: "bill") {{
     edges {{
       node {{
         id
@@ -169,26 +172,23 @@ def bills(total_bills, session=''):
 }}
     '''
     try:
-        fetched_data = fetch_json(query=first_query)
-        first_data = fetched_data['data']['b0']['edges'][0]['node']
-        if first_data:
-            bill_data.append(first_data)
+        fetched_data = fetch_json(query=custom_query)
+        for data in fetched_data['data']['b0']['edges']:
+            if 'node' in data:
+                bill_data.append(data['node'])
     except:
         LOG.warn(f'Unable to retrieve bills: {fetched_data}')
 
     bill_total=fetched_data['data']['b0']['totalCount']
-    bill_session=fetched_data['data']['b0']['edges'][0]['node']['legislativeSession']['identifier']
-    if bill_total > 1 :
+    #bill_session=fetched_data['data']['b0']['edges'][0]['node']['legislativeSession']['identifier']
+    if bill_total > 0 :
         page_token=fetched_data['data']['b0']['pageInfo']['endCursor']
-        print(f"Found {bill_total} Bills for the {bill_session} session.")
+        #print(f"Found {bill_total} Bills for the {bill_session} session.")
 
-#    LOG.warn(bill_data)
+    #LOG.warn(bill_data)
+    bill_data.append(page_token)
+    bill_data.append(bill_total)
     return bill_data
-
-
-def bill_detail(session=None, pk=None):
-    uri = BASE_URI._replace(path=f'{API_PATH}/bills/tx/{session}/{pk}/')
-    return fetch_json(uri.geturl(), headers=DEFAULT_HEADERS)
 
 
 def fetch_json(query, headers=DEFAULT_HEADERS):

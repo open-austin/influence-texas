@@ -11,7 +11,7 @@ class Command(BaseCommand):
     help = 'Sync bills data from Open States API'
 
     def add_arguments(self, parser):
-        parser.add_argument('--max', default=10, type=int,
+        parser.add_argument('--max', default=0, type=int,
                             help='Max number of bills to sync. Mainly used for testing.')
         parser.add_argument('--force-update', action='store_true', default=False,
                             help='Force update, even if database is up-to-date.')
@@ -19,20 +19,38 @@ class Command(BaseCommand):
                             help='Pull data for specified session. Defaults to most recent.')
 
     def handle(self, *args, **options):
-        bill_list = self._fetch_bills(options)
-        if not bill_list:
-            self.stdout.write(self.style.SUCCESS('No data to sync'))
-            return
-
-        force_update = options['force_update']
         total_bill_count = 0
-        for data in bill_list:
-            info = services.sync_bill_data(data, force_update=force_update)
-            self._write_info(info)
-            if info.action != services.Action.FAILED:
-                total_bill_count += 1
+        start_token=''
+        loop = 0
+        while loop < 100:
+            bill_list = self._fetch_bills(start_token, options)
+            if not bill_list:
+                self.stdout.write(self.style.SUCCESS('No data to sync'))
+                return
+            bills_total = bill_list.pop()
+            start_token = bill_list.pop()
+            total_count = options['max'] if options['max'] > 0 else bills_total
+            #print(f'Processing {len(bill_list)} bills in loop #{loop}. Next cursor: {start_token}')
+            for data in bill_list:
+                info = services.sync_bill_data(data, options['force_update'])
+                self._write_info(info)
+                if info.action == services.Action.ADDED or info.action == services.Action.UPDATED:
+                    total_bill_count += 1
+                    if total_count == total_bill_count:
+                        break
+
+            #print(f'Total bills processed so far: {total_bill_count}.  Out of a max of: {total_count}')
+            loop += 1
+            if total_bill_count >= total_count:
+                self.stdout.write(self.style.SUCCESS(f'Reached the maximum bill count of {total_bill_count}/{total_count}'))
+                loop = 100
+
+            if not start_token:
+                self.stdout.write(self.style.SUCCESS(f'Reached the end of bill pages.'))
+                loop = 100
 
         self.stdout.write(self.style.SUCCESS(f'Successfully synced {total_bill_count} bills'))
+        return
 
     def _write_info(self, info):
         if info.action == services.Action.FAILED:
@@ -43,7 +61,8 @@ class Command(BaseCommand):
             bill = info.instance
             self.stdout.write(f'{action}: {bill} ({bill.openstates_bill_id}, {bill.bill_id})')
 
-    def _fetch_bills(self, options):
+
+    def _fetch_bills(self, startCursor, options):
         """Return list of bill data from Open States API."""
-        bill_count = options['max'] or 0
-        return fetch.bills(total_bills=bill_count, session=options['session'])
+        #print(f'Requesting {options["Max"]} starting at cursor: {startCursor}')
+        return fetch.bills(startCursor, options)
