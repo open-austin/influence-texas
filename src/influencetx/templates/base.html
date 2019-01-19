@@ -62,6 +62,9 @@
               <a class="nav-link" href="{% url 'legislators:representative-list' %}">Representatives</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="{% url 'bills:bill-list' %}">Bills</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'donors:donor-list' %}">Top Donors</a>
             </li>
             {% if request.user.is_staff %}

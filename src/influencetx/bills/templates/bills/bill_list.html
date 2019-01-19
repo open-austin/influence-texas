@@ -9,28 +9,26 @@
 
 {% block content %}
 <div class="container">
-
-  <h2>Texas Bills</h2>
-
-  <p>
-    The following data is from
-    <a href="https://openstates.org/" target="_blank" rel="noopener noreferrer">Open:States</a>.
-  </p>
+  <h2 align="center"> {{ total_bills }} Texas Bills</h2>
 
   <table id="bill-list" class="table">
     <thead>
       <th> Bill </th>
       <th> Title </th>
+      <th> Subjects </th>
     </thead>
     {% for bill in bills %}
       <tr>
-        <td> <a href="{% url "bills:bill-detail" bill.id %}">{{ bill.bill_id }}</a> </td>
+        <td class="text-nowrap"> <a href="{% url "bills:bill-detail" bill.id %}">{{ bill.bill_id }}</a> </td>
         <td> {{ bill.title }} </td>
+        <td> {{ bill.subjects.all|join:", " }} </td>
       </tr>
     {% endfor %}
   </table>
 
 </div>
+<br><br><br>
+{% include "pages/footer.html" %}
 {% endblock content %}
 
 {% block javascript %}

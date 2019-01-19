@@ -14,11 +14,13 @@ class BillListView(ListView):
     def get_queryset(self, *args, **kwargs):
         return (
             models.Bill.objects.all()
+            .prefetch_related('subjects__bills')
             .order_by('bill_id')
         )
 
     def get_context_data(self, *args, **kwargs):
         context = super(BillListView, self).get_context_data(*args, **kwargs)
+        context['total_bills'] = models.Bill.objects.all().count()
         return context
 
 

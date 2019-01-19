@@ -16,13 +16,11 @@
     <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.session }} </dd>
     <dt class="col-sm-2 text-muted"> Chamber </dt>
     <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.chamber }} </dd>
+    <dt class="col-sm-2 text-muted"> Subjects </dt>
+    <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.subjects.all|join:", " }} </dd>
   </dl>
-
-  <p class="small text-muted text-center">
-    Data taken from
-    <a href="https://openstates.org/" target="_blank" rel="noopener noreferrer">Open:States</a>
-  </p>
 
 </div>
 <br><br><br>
+{% include "pages/footer.html" %}
 {% endblock content %}
