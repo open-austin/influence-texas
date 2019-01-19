@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Bill Details{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <h2>Bill Details</h2>
+
+  <dl class="row">
+    <dt class="col-sm-2 text-muted"> Bill </dt>
+    <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.bill_id }} </dd>
+    <dt class="col-sm-2 text-muted"> Title </dt>
+    <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.title }} </dd>
+    <dt class="col-sm-2 text-muted"> Session </dt>
+    <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.session }} </dd>
+    <dt class="col-sm-2 text-muted"> Chamber </dt>
+    <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.chamber }} </dd>
+  </dl>
+
+  <p class="small text-muted text-center">
+    Data taken from
+    <a href="https://openstates.org/" target="_blank" rel="noopener noreferrer">Open:States</a>
+  </p>
+
+</div>
+<br><br><br>
+{% endblock content %}

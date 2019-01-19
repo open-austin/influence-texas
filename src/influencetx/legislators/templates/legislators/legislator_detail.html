@@ -54,16 +54,16 @@
       <th class="hidden-sm-down">Date</th>
       <th>Bill</th>
       <th>Vote</th>
-      <th class="hidden-sm-down">Subjects</th>
+      <th class="hidden-sm-down">Title</th>
     </thead>
     {% for vote in votes %}
       <tr>
         <td class="hidden-sm-down text-nowrap">{{ vote.date|date:'Y-m-d' }}</td>
         <td class="text-nowrap">
-          <a href="{% url 'openstates:bill-detail' vote.bill.session vote.bill.bill_id %}">{{ vote.bill.bill_id }}</a>
+          <a href="{% url 'bills:bill-detail' vote.bill.bill_id %}">{{ vote.bill.bill_id }}</a>
         </td>
         <td>{{ vote.value }}</td>
-        <td class="hidden-sm-down">{{ vote.subjects|join:', ' }}</td>
+        <td class="hidden-sm-down">{{ bill.title }}</td>
       </tr>
     {% endfor %}
   </table>

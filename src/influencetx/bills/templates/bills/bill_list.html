@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Bill List{% endblock %}
+
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+{% endblock css %}
+
+{% block content %}
+<div class="container">
+
+  <h2>Texas Bills</h2>
+
+  <p>
+    The following data is from
+    <a href="https://openstates.org/" target="_blank" rel="noopener noreferrer">Open:States</a>.
+  </p>
+
+  <table id="bill-list" class="table">
+    <thead>
+      <th> Bill </th>
+      <th> Title </th>
+    </thead>
+    {% for bill in bills %}
+      <tr>
+        <td> <a href="{% url "bills:bill-detail" bill.id %}">{{ bill.bill_id }}</a> </td>
+        <td> {{ bill.title }} </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+</div>
+{% endblock content %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#bill-list').dataTable({});
+    });
+  </script>
+{% endblock javascript %}

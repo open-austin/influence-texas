@@ -6,7 +6,12 @@ from . import views
 urlpatterns = [
     url(
         regex=r'^$',
-        view=views.IndexView.as_view(),
-        name='index'
+        view=views.BillListView.as_view(),
+        name='bill-list'
+    ),
+    url(
+        regex=r'^(?P<pk>.+)/$',
+        view=views.BillDetailView.as_view(),
+        name='bill-detail'
     ),
 ]
