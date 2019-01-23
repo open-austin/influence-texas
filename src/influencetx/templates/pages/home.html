@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 {% load static i18n %}
 {% load humanize %}
-{% load social_share %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
 <script>
-    function myFunc() {
-        var myPage = window.location.href;
-    }
+    var sharePage = "https://app.influencetexas.com";
 </script>
 <div align="center">
   <img src="{% static 'images/logo.png' %}"  alt="Influence Texas Logo" width="300px">
@@ -26,15 +23,15 @@
 </table>
 <div align="center">
     <a href="" onclick="window.open('http://www.facebook.com/share.php?u=' + 
-    encodeURIComponent(location.href))" target="_blank">
+    sharePage)" target="_blank">
       <span class='symbol'>circlefacebook</span>
     </a>
     <a href="" onclick="window.open('https://twitter.com/intent/tweet?text=' + 
-    encodeURIComponent(location.href))" target="_blank">
+    sharePage)" target="_blank">
       <span class='symbol'>circletwitterbird</span>
     </a>
     <a href="" onclick="window.open('https://www.linkedin.com/shareArticle?url=' + 
-    encodeURIComponent(location.href))" target="_blank">
+    sharePage)" target="_blank">
       <span class='symbol'>circlelinkedin</span>
     </a>
 </div>
