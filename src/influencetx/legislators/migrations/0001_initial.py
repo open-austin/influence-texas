@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('openstates_leg_id', models.CharField(db_index=True, max_length=48)),
-                ('tec_filer_id', models.IntegerField()),
+                ('tpj_filer_id', models.IntegerField()),
             ],
         ),
     ]

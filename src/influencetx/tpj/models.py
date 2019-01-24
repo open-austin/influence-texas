@@ -105,50 +105,34 @@ class Contribution(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'contribs'
+        db_table = 'contribs_2018'
 
     def __str__(self):
         return f'{self.id} {self.amount}'
 
 
-class Contributiontotalbyfiler(models.Model):
-    filer = models.OneToOneField(Filer, db_column='ifiler_ID', primary_key=True)
-    donor = models.ForeignKey(Donor, db_column='Ctrib_ID')
-    amount = models.DecimalField(db_column='cycle_total', max_digits=19, decimal_places=2, blank=True, null=True)
-    full_name = models.CharField(db_column='FullName', max_length=150, blank=True, null=True)
-    city = models.CharField(db_column='City', max_length=30, blank=True, null=True)
-    state = models.CharField(db_column='StateAbbr', max_length=2, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'vfiler_top_donors_2016'
-
-    def __str__(self):
-        return f'{self.filer} {self.donor} {self.amount}'
-
-
 class Contributionsummary(models.Model):
     donor = models.ForeignKey(Donor, db_column='ctrib_id', on_delete=models.CASCADE)
-    filer = models.OneToOneField(Filer, db_column='iFiler_ID', primary_key=True)
+    filer = models.OneToOneField(Filer, db_column='ifiler_ID', primary_key=True)
+    election_year = models.IntegerField(db_column='eyear')
     amount = models.DecimalField(db_column='cycle_total', max_digits=19, decimal_places=2, blank=True, null=True)
-    election_year = models.IntegerField(db_column='eYear')
 
     class Meta:
         managed = False
-        db_table = 'total_donor_filer'
+        db_table = 'total_donorbyfiler_2018'
 
     def __str__(self):
         return f'{self.donor} {self.filer} {self.amount}'
 
 
 class Contributiontotalbydonor(models.Model):
-    donor = models.OneToOneField(Donor, db_column='ctrib_id', primary_key=True)
-    election_year = models.IntegerField(db_column='eYear', blank=True, null=True)
+    donor = models.OneToOneField(Donor, db_column='ctrib_ID', primary_key=True)
+    election_year = models.IntegerField(db_column='eyear', blank=True, null=True)
     cycle_total = models.DecimalField(db_column='cycle_total', max_digits=19, decimal_places=2, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'total_donor'
+        db_table = 'total_donor_2018'
 
     def __str__(self):
         return f'{self.donor} {self.cycle_total}'

@@ -30,16 +30,16 @@
 
     <table id="donors-list" class="table table-striped table-sm">
       <thead>
-        <th>Donor</th>
         <th>Amount</th>
+        <th>Donor</th>
       </thead>
       {% for contribution in top_contributions %}
         <tr>
-          <td align="left">
-            <a href="{% url "donors:donor-detail" contribution.donor.id %}">{{ contribution.full_name }}</a>
-          </td>
-          <td class="text-nowrap" align="left">
+          <td class="text-nowrap" align="left" width="12em">
             ${{ contribution.amount|floatformat:0|intcomma }}
+          </td>
+          <td align="left">
+            <a href="{% url "donors:donor-detail" contribution.donor.id %}">{{ contribution.donor.full_name }}</a>
           </td>
         </tr>
       {% endfor %}
@@ -78,7 +78,7 @@
   {{ block.super }}
   <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
   <script>
-    var dataTableOptions = {"order": [[ 1, "desc" ]]};
+    var dataTableOptions = {"order": [[ 0, "desc" ]]};
     if (getBootstrapBreakpoint() === 'xs') {
       dataTableOptions = {
         "iDisplayLength": 5,

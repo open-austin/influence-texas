@@ -1,7 +1,9 @@
 from django.views.generic import DetailView, ListView
-
 from influencetx.core import constants
 from . import models
+
+import logging
+log = logging.getLogger(__name__)
 
 class DonorListView(ListView):
 

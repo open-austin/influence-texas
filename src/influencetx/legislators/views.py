@@ -62,8 +62,8 @@ class LegislatorDetailView(DetailView):
         contributions = []
         try:
             id_map = models.LegislatorIdMap.objects.get(openstates_leg_id=self.object.openstates_leg_id)
-            filer = models.tpj_models.Filer.objects.get(id=id_map.tec_filer_id)
-            contributions = models.tpj_models.Contributiontotalbyfiler.objects.prefetch_related('donor').filter(filer=filer.id).order_by('-amount')[:25]
+            filer = models.tpj_models.Filer.objects.get(id=id_map.tpj_filer_id)
+            contributions = models.tpj_models.Contributionsummary.objects.select_related('donor').filter(filer=filer.id).order_by('-amount')[:25]
         except models.LegislatorIdMap.DoesNotExist:
             log.warn(f"Filer id not found for openstates_leg_id {self.object.openstates_leg_id!r} in {models.LegislatorIdMap.objects.first}.")
 
