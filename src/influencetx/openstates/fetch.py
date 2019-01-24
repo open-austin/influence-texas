@@ -28,7 +28,7 @@ def legislator_ids(options):
         session=1
     custom_query=f'''query={{
   jurisdiction(name: "Texas") {{
-    legislativeSessions(first: {session}) {{
+    legislativeSessions(first: 1) {{
       edges {{
         node {{
           identifier
@@ -61,15 +61,20 @@ def legislator_ids(options):
     leg_id_groups = fetched_data["data"]["jurisdiction"]["legislativeSessions"]["edges"][0]["node"]["jurisdiction"]["organizations"]["edges"][0]["node"]["children"]["edges"]
     leg_id_session = fetched_data["data"]["jurisdiction"]["legislativeSessions"]["edges"][0]["node"]["identifier"]
     leg_ids = []
-    for group in leg_id_groups:
-        memberships = group["node"]["currentMemberships"]
-        for person in memberships:
-            ocd_id = person["person"]["id"]
-            if len(ocd_id) > 1:
-                leg_ids.append(ocd_id)
-
-    print(f"Found {len(leg_ids)} Legislators for the {leg_id_session} session.")
-    return leg_ids[:options['max']]
+    try:
+        for group in leg_id_groups:
+            memberships = group["node"]["currentMemberships"]
+            for person in memberships:
+                #LOG.warn(person)
+                if person["person"] and person["person"]["id"]:
+                    ocd_id = person["person"]["id"]
+                    if len(ocd_id) > 1:
+                        leg_ids.append(ocd_id)
+        print(f"Found {len(leg_ids)} Legislators for the {leg_id_session} session.")
+        return leg_ids[:options['max']]
+    except Exception as e:
+        print(f"Unable to get Legislators for the {leg_id_session} session. Error: {e}")
+        return []
 
 
 def legislator_list(id_list):
