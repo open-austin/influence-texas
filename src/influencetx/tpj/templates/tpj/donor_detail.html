@@ -12,7 +12,7 @@
 {% block content %}
   <div class="summary-info text-center mt-3">
 
-    <h2>{{ donor.full_name }}</h2>
+    <h2><a class="navbar-brand" href="{{request.META.HTTP_REFERER}}"><</a>{{ donor.full_name }}</h2>
     <p class="text-muted">{{ donor.employer }}</p>
     <p class="text-muted">${{ donor.contributiontotalbydonor.cycle_total|floatformat:0|intcomma }}</p>
     <p class="text-muted">{{ donor.party }}</p>

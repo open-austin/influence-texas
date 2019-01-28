@@ -9,7 +9,7 @@
 
 {% block content %}
 
-  <h2>{{ title|default:"Legislators" }}</h2>
+  <h2><a class="navbar-brand" href="{{request.META.HTTP_REFERER}}"><</a>{{ title|default:"Legislators" }}</h2>
 
   <div id="legislator-list">
     <input class="search form-control" placeholder="Search by name or district" />
