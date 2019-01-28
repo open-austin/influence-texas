@@ -62,7 +62,7 @@ class LegislatorDetailView(DetailView):
         contributions = []
         try:
             id_map = models.LegislatorIdMap.objects.get(openstates_leg_id=self.object.openstates_leg_id)
-            #log.warn(id_map)
+            #log.warn(models.tpj_models)
             filer = models.tpj_models.Filer.objects.filter(id=id_map.tpj_filer_id).first()
             #log.warn(filer)
             contributions = models.tpj_models.Contributionsummary.objects.select_related('donor').filter(filer=filer.id).order_by('-amount')[:25]

@@ -27,7 +27,7 @@ from django.db import models
 from django.db.utils import Error as DbError
 
 from influencetx.core import constants, utils
-from influencetx.tpj import models as tpj_models
+from influencetx.legislators import models as leg_models
 
 import logging
 log = logging.getLogger(__name__)
@@ -94,6 +94,15 @@ class Filer(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'.strip()
 
+    def leg_id(self):
+        """Get PK for matching Legislator."""
+        id_map = leg_models.LegislatorIdMap.objects.get(tpj_filer_id=self.id)
+        #log.warn(id_map)
+        if id_map.openstates_leg_id:
+            leg_obj = leg_models.Legislator.objects.get(openstates_leg_id=id_map.openstates_leg_id)
+            return leg_obj.id
+        else:
+            return None
 
 class Contribution(models.Model):
     id = models.IntegerField(db_column='IDNO', primary_key=True)

@@ -8,25 +8,28 @@
 {% endblock css %}
 
 {% block content %}
+<div class="summary-info text-center mt-3 mb-4">
+  <h2 align="center">Texas Bills</h2>
+  <p class="text-muted">Session: {{ session }}, Total: {{ total_bills }}</p>
+  <p class="text-muted">Updated: {{ updated }}</p>
+</div>
 <div class="container">
-  <h2 align="center"> {{ total_bills }} Texas Bills</h2>
-
   <table id="bill-list" class="table">
     <thead>
       <th> Bill </th>
       <th> Title </th>
-      <th> Subjects </th>
+      <th class="hidden-sm-down"> Subjects </th>
     </thead>
     {% for bill in bills %}
       <tr>
-        <td class="text-nowrap"> <a href="{% url "bills:bill-detail" bill.id %}">{{ bill.bill_id }}</a> </td>
+        <td class="text-nowrap"> <a href="{% url "bills:bill-detail" bill.id %}">{{ bill.bill_id }} </a> </td>
         <td> {{ bill.title }} </td>
-        <td> {{ bill.subjects.all|join:", " }} </td>
+        <td class="hidden-sm-down"> {{ bill.subjects.all|join:", " }} </td>
       </tr>
     {% endfor %}
   </table>
-
 </div>
+
 <br><br><br>
 {% include "pages/footer.html" %}
 {% endblock content %}
