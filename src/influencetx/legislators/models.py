@@ -44,7 +44,7 @@ class Legislator(models.Model):
 class LegislatorIdMap(models.Model):
     # Provide mapping between TPJ FILER_ID and Legislator ID from Open States API.
     openstates_leg_id = models.CharField(db_index=True, max_length=48)
-    tpj_filer_id = models.IntegerField(blank=True, null=True)
+    tpj_filer_id = models.IntegerField()
 
     def __str__(self):
         return f'{self.id} {self.openstates_leg_id!r} {self.tpj_filer_id}'

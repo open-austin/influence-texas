@@ -19,6 +19,7 @@ class Bill(models.Model):
     openstates_bill_id = models.CharField(max_length=48, db_index=True)    # Bill ID from Open States API.
     bill_id = models.CharField(max_length=10)    # Official Bill ID.
     title = models.TextField()
+    bill_text = models.SlugField(max_length=200, blank=True, null=True)
     session = models.IntegerField()
     chamber = models.CharField(max_length=6, choices=constants.CHAMBER_CHOICES)
     subjects = models.ManyToManyField(SubjectTag, blank=True, related_name='bills')
@@ -30,17 +31,17 @@ class Bill(models.Model):
         return f'{self.bill_id} ({details})'
 
 
-class ActionDates(models.Model):
+class ActionDate(models.Model):
 
-    bill = models.OneToOneField(Bill, on_delete=models.CASCADE, related_name='action_dates')
-    first = models.DateTimeField(blank=True, null=True)
-    last = models.DateTimeField(blank=True, null=True)
-    passed_lower = models.DateTimeField(blank=True, null=True)
-    passed_upper = models.DateTimeField(blank=True, null=True)
-    signed = models.DateTimeField(blank=True, null=True)
+    bill = models.ForeignKey(Bill, on_delete=models.CASCADE, related_name='action_dates')
+    date = models.DateTimeField(blank=True, null=True)
+    description = models.CharField(max_length=150, blank=True, null=True)
+    classification = models.CharField(max_length=150, blank=True, null=True)
+    #vote = models.OneToOneField(VoteTally, blank=True, null=True, on_delete=models.CASCADE, related_name='votes')
+    order = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return f'{self.bill}'
+        return f'{self.order} {self.bill}'
 
 
 class VoteTally(models.Model):

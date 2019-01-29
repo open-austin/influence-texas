@@ -22,6 +22,21 @@
     </dd>
     <dt class="col-sm-2 text-muted"> Subjects </dt>
     <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.subjects.all|join:", " }} </dd>
+    <dt class="section-title col-12 bg-intx-secondary"> Action dates </dt>
+    <dd class="col-12">
+      <table class="table table-sm">
+        <thead>
+          <th>Action</th>
+          <th>Date</th>
+        </thead>
+        {% for action in actions %}
+          <tr>
+            <td>{{ action.description }}</td>
+            <td>{{ action.date }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </dd>
   </dl>
 
 

@@ -114,9 +114,12 @@ def deserialize_openstates_bill(api_data, instance=None):
     adapted_data['subjects'] = [s.id for s in subject_models]
     sponsor_models = deserialize_sponsor_names(adapted_data.get('sponsors', []))
     adapted_data['sponsors'] = [l.id for l in sponsor_models]
-    form = forms.OpenStatesBillForm(adapted_data, instance=instance)
 
+    form = forms.OpenStatesBillForm(adapted_data, instance=instance)
     bill = clean_form(form, commit=True)
+
+    actiondate_models = deserialize_action_dates(adapted_data.get('actions', []), bill)
+    adapted_data['actions'] = [s.id for s in actiondate_models]
     ### TODO: Fix this once we get vote data
     for vote_data in adapted_data['votes']:
         vote_data['bill'] = bill.id
@@ -153,6 +156,25 @@ def deserialize_sponsor_names(sponsor_names):
             model_list.append(legislator)
 
     return model_list
+
+def deserialize_action_dates(action_list, instance):
+    actiondate_models = []
+    for action in action_list:
+        if action:
+            #LOG.warn(action)
+            action_model, created = models.ActionDate.objects.get_or_create(
+                bill = instance,
+                date = action['date'],
+                description = action['description'],
+                classification = ", ".join(action['classification']),
+                #vote = action['vote'],
+                order = action['order'],
+            )
+            #LOG.warn(action_model.id, created)
+            actiondate_models.append(action_model)
+
+    return actiondate_models
+
 
     ### TODO: Fix this once we get vote data
 def deserialize_vote_tally(adapted_data, instance=None):

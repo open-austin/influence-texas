@@ -34,6 +34,7 @@ class BillDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(BillDetailView, self).get_context_data(*args, **kwargs)
         bill = models.Bill.objects.get(openstates_bill_id=self.object.openstates_bill_id)
+        context['actions'] = models.ActionDate.objects.filter(bill=self.object.id)
         if not bill:
             raise Http404()
         return context

@@ -159,6 +159,12 @@ def bills(startCursor, options):
           }}
           order
         }}
+        versions {{
+          note
+          links {{
+            url
+          }}
+        }}
         votes {{
           edges {{
             node {{
