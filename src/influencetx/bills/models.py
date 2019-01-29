@@ -19,7 +19,7 @@ class Bill(models.Model):
     openstates_bill_id = models.CharField(max_length=48, db_index=True)    # Bill ID from Open States API.
     bill_id = models.CharField(max_length=10)    # Official Bill ID.
     title = models.TextField()
-    bill_text = models.SlugField(max_length=200, blank=True, null=True)
+    bill_text = models.TextField(max_length=200, blank=True, null=True)
     session = models.IntegerField()
     chamber = models.CharField(max_length=6, choices=constants.CHAMBER_CHOICES)
     subjects = models.ManyToManyField(SubjectTag, blank=True, related_name='bills')

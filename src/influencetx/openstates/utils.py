@@ -80,6 +80,7 @@ def adapt_openstates_bill(api_data):
     # Update fields that require pre-processing before deserialization.
     adapted_data['openstates_bill_id'] = adapted_data['id']
     adapted_data['bill_id'] = adapted_data['identifier']
+    adapted_data['bill_text'] = adapted_data['versions'][-1]['links'][-1]['url']
     adapted_data['session'] = int(adapted_data['legislativeSession']['identifier'])
     adapted_data['chamber'] = adapted_data['fromOrganization']['name']
     adapted_data['subjects'] = adapted_data['subject']

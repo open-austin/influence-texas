@@ -34,10 +34,9 @@ class Command(BaseCommand):
             for data in bill_list:
                 info = services.sync_bill_data(data, options['force_update'])
                 self._write_info(info)
-                if info.action == services.Action.ADDED or info.action == services.Action.UPDATED:
-                    total_bill_count += 1
-                    if total_count == total_bill_count:
-                        break
+                total_bill_count += 1
+                if total_count == total_bill_count:
+                    break
 
             #print(f'Total bills processed so far: {total_bill_count}.  Out of a max of: {total_count}')
             loop += 1
