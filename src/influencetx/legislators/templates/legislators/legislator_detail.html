@@ -14,8 +14,7 @@
   var sharePage = "https://app.influencetexas.com/legislators/legislators/{{ legislator.id }}/";
 </script>
 <div class="summary-info text-center mt-3 mb-4">
-  <div class="flexcontainer-leg-share">
-    <img src="{{ legislator.photo_url }}">
+  <div class="flexcontainer-leg-share">    
       <div class="itemright-leg-share">
           <a href="" onclick="window.open('https://www.facebook.com/share.php?u=' +
           sharePage)" target="_blank">
@@ -30,9 +29,8 @@
             <span class='symbol'>circlelinkedin</span>
           </a>
       </div>
-  </img>
   </div>
-
+  <img src="{{ legislator.photo_url }}"></img>
   <h2><a class="navbar-brand" href="{{request.META.HTTP_REFERER}}"><</a>{{ legislator }}</h2>
   <p class="text-muted">{{ legislator.party_label }}</p>
   <p class="text-muted">{{ legislator.chamber }}</p>
