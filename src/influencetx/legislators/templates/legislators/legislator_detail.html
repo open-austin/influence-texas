@@ -24,7 +24,7 @@
           </a>
       </div>
   </div>
-  
+
   <img src="{{ legislator.photo_url }}"></img>
   <h2><a class="navbar-brand" href="{{request.META.HTTP_REFERER}}"><</a>{{ legislator }}</h2>
   <p class="text-muted">{{ legislator.party_label }}</p>
@@ -97,7 +97,7 @@
         "iDisplayLength": 5,
         "bLengthChange": false,
         "pagingType": "simple",
-        "order": [[ 1, "desc" ]]
+        "order": [[ 0, "desc" ]]
       };
     }
     $(document).ready(function () {
