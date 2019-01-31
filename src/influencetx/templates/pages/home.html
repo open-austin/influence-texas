@@ -5,6 +5,9 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<script>
+    var sharePage = "https://app.influencetexas.com";
+</script>
 <table class="table">
   <tr>
     <td>
@@ -28,6 +31,21 @@
     </td>
   </tr>
 </table>
+<div align="center">
+    <a href="" onclick="window.open('http://www.facebook.com/share.php?u=' +
+    sharePage)" target="_blank">
+      <span class='symbol'>circlefacebook</span>
+    </a>
+    <a href="" onclick="window.open('https://twitter.com/intent/tweet?text=' +
+    sharePage)" target="_blank">
+      <span class='symbol'>circletwitterbird</span>
+    </a>
+    <a href="" onclick="window.open('https://www.linkedin.com/shareArticle?url=' +
+    sharePage)" target="_blank">
+      <span class='symbol'>circlelinkedin</span>
+    </a>
+</div>
+
 <br><br><br>
 {% include "pages/footer.html" %}
 {% endblock content %}
