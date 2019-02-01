@@ -26,7 +26,19 @@
       <link href="{% static 'css/project.css' %}" rel="stylesheet">
       <link href="{% static 'css/monosocialiconsfont.css' %}" rel="stylesheet">
       <link href="{% static 'css/legislator_share.css' %}" rel="stylesheet">
-
+      <style>
+      @font-face {
+          font-family: 'Mono Social Icons Font';
+          src: url({% static "fonts/MonoSocialIconsFont-1.10.eot" %});
+          src: url({% static "fonts/MonoSocialIconsFont-1.10.eot?#iefix" %}) format('embedded-opentype'),
+               url({% static "fonts/MonoSocialIconsFont-1.10.woff" %}) format('woff'),
+               url({% static "fonts/MonoSocialIconsFont-1.10.ttf" %}) format('truetype'),
+               url({% static "fonts/MonoSocialIconsFont-1.10.svg#MonoSocialIconsFont" %}) format('svg');
+          src: url({% static "fonts/MonoSocialIconsFont-1.10.ttf" %}) format('truetype');
+          font-weight: normal;
+          font-style: normal;
+      }
+      </style>
 
     {% endblock %}
 
