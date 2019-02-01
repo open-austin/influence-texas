@@ -27,14 +27,14 @@
       <link href="{% static 'css/monosocialiconsfont.css' %}" rel="stylesheet">
       <link href="{% static 'css/legislator_share.css' %}" rel="stylesheet">
       <style>
+      {% get_static_prefix as STATIC_PREFIX %}
       @font-face {
           font-family: 'Mono Social Icons Font';
-          src: url({% static "fonts/MonoSocialIconsFont-1.10.eot" %});
-          src: url({% static "fonts/MonoSocialIconsFont-1.10.eot?#iefix" %}) format('embedded-opentype'),
-               url({% static "fonts/MonoSocialIconsFont-1.10.woff" %}) format('woff'),
-               url({% static "fonts/MonoSocialIconsFont-1.10.ttf" %}) format('truetype'),
-               url({% static "fonts/MonoSocialIconsFont-1.10.svg#MonoSocialIconsFont" %}) format('svg');
-          src: url({% static "fonts/MonoSocialIconsFont-1.10.ttf" %}) format('truetype');
+          src: url("{{ STATIC_PREFIX }}fonts/MonoSocialIconsFont-1.10.eot");
+          src: url("{{ STATIC_PREFIX }}fonts/MonoSocialIconsFont-1.10.eot?#iefix") format('embedded-opentype'),
+               url("{{ STATIC_PREFIX }}fonts/MonoSocialIconsFont-1.10.woff") format('woff'),
+               url("{{ STATIC_PREFIX }}fonts/MonoSocialIconsFont-1.10.ttf") format('truetype'),
+               url("{{ STATIC_PREFIX }}fonts/MonoSocialIconsFont-1.10.svg#MonoSocialIconsFont") format('svg');
           font-weight: normal;
           font-style: normal;
       }
