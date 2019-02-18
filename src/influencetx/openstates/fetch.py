@@ -188,7 +188,7 @@ def bills(startCursor, options):
             if 'node' in data:
                 bill_data.append(data['node'])
     except:
-        LOG.warn(f'Unable to retrieve bills: {fetched_data}')
+        LOG.warn(f'Unable to retrieve bills.')
 
     bill_total=fetched_data['data']['b0']['totalCount']
     #bill_session=fetched_data['data']['b0']['edges'][0]['node']['legislativeSession']['identifier']

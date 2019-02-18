@@ -146,7 +146,7 @@ def deserialize_sponsor_names(sponsor_names):
     model_list = []
     pattern = ','
     for aname in sponsor_names:
-#        LOG.warn(f'Finding {aname}')
+        # LOG.warn(f'Finding {aname}')
         if pattern in aname:
             [last_name,first_name] = aname.split(", ")
             legislator = Legislator.objects.filter(
@@ -155,9 +155,9 @@ def deserialize_sponsor_names(sponsor_names):
             ).first()
         else:
             legislator = Legislator.objects.filter(
-                last_name=aname
+                name__contains=aname
             ).first()
-#        LOG.warn(f'Found {legislator}')
+        # LOG.warn(f'Found sponsor {legislator}')
         if legislator:
             model_list.append(legislator)
 

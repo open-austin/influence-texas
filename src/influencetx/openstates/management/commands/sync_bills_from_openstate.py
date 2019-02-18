@@ -17,10 +17,15 @@ class Command(BaseCommand):
                             help='Force update, even if database is up-to-date.')
         parser.add_argument('--session', type=str, default=86,
                             help='Pull data for specified session. Defaults to most recent.')
+        parser.add_argument('--start', type=str, default=None,
+                            help='Start pulling data from OpenState cursor. Defaults to None.')
 
     def handle(self, *args, **options):
         total_bill_count = 0
-        start_token=''
+        if options['start']:
+            start_token=options['start']
+        else:
+            start_token=''
         loop = 0
         while loop < 100:
             bill_list = self._fetch_bills(start_token, options)
@@ -30,7 +35,7 @@ class Command(BaseCommand):
             bills_total = bill_list.pop()
             start_token = bill_list.pop()
             total_count = options['max'] if options['max'] > 0 else bills_total
-            #print(f'Processing {len(bill_list)} bills in loop #{loop}. Next cursor: {start_token}')
+            print(f'Processing {len(bill_list)} bills in loop #{loop}. Next cursor: {start_token}')
             for data in bill_list:
                 info = services.sync_bill_data(data, options['force_update'])
                 self._write_info(info)
@@ -58,7 +63,7 @@ class Command(BaseCommand):
         else:
             action = self.style.SUCCESS(info.action)
             bill = info.instance
-            self.stdout.write(f'{action}: {bill} ({bill.openstates_bill_id}, {bill.bill_id})')
+            self.stdout.write(f'{action}: {bill}')
 
 
     def _fetch_bills(self, startCursor, options):
