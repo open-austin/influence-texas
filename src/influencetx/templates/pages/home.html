@@ -5,26 +5,17 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<table class="table">
-  <tr>
-    <td>
-      <p><a class="navbar-brand" href="{% url 'legislators:legislator-list' %}">Votes</a></p>
-    </td><td align="right">
-      <p><a class="navbar-brand" href="{% url 'donors:donor-list' %}">Money</a><p>
-    </td>
-  </tr>
-</table>
-<hr>
+<br>
 <div align="center">
-  <img src="{% static 'images/logo.png' %}"  alt="Influence Texas Logo" width="300px">
+  <a class="navbar-brand" href="{% url 'legislators:legislator-list' %}">Votes</a>
+  <img src="{% static 'images/logo.png' %}"  alt="Influence Texas Logo" width="320px">
+  <a class="navbar-brand" href="{% url 'donors:donor-list' %}">Money</a>
 </div>
 <br>
 <table class="table">
   <tr>
-    <td>
-      <p><a class="navbar-brand" href="{% url 'bills:bill-list' %}">Bills</a></p>
-    </td><td align="right">
-      <p><a class="navbar-brand" href="{% url 'legislators:legislator-list' %}">Find Reps</a><p>
+    <td align="center">
+      <a class="navbar-brand" href="{% url 'bills:bill-list' %}">Bills</a>
     </td>
   </tr>
 </table>
