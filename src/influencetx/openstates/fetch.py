@@ -1,32 +1,27 @@
-import os
-import urllib
 from datetime import timedelta
-import json
+import os
 import logging
 import requests
 import requests_cache
-
 LOG = logging.getLogger(__name__)
-
 EXPIRE_CACHE_AFTER = timedelta(hours=24)
 # Cache open states data to limit API calls
 requests_cache.install_cache('openstates_cache', expire_after=EXPIRE_CACHE_AFTER)
-
 BASE_URI = 'https://openstates.org/graphql'
 OPENSTATES_API_KEY = os.environ.get('OPENSTATES_API_KEY')
 DEFAULT_HEADERS = {
     'X-API-KEY': OPENSTATES_API_KEY,
     'Content-Type': 'application/x-www-form-urlencoded',
 }
-
 DEFAULT_COUNT = 100  # 100 is the maximum count allowed by openstates
+
 
 def legislator_ids(options):
     if options['session']:
-        session=options['session']
+        session = options['session']
     else:
-        session=1
-    custom_query=f'''query={{
+        session = 1
+    custom_query = f'''query={{
   jurisdiction(name: "Texas") {{
     legislativeSessions(first: 1) {{
       edges {{
@@ -65,7 +60,7 @@ def legislator_ids(options):
         for group in leg_id_groups:
             memberships = group["node"]["currentMemberships"]
             for person in memberships:
-                #LOG.warn(person)
+                # LOG.warn(person)
                 if person["person"] and person["person"]["id"]:
                     ocd_id = person["person"]["id"]
                     if len(ocd_id) > 1:
@@ -79,10 +74,10 @@ def legislator_ids(options):
 
 def legislator_list(id_list):
     leg_data_list = []
-    custom_query='query={'
-    count=0
+    custom_query = 'query={'
+    count = 0
     for leg_id in id_list:
-        custom_query+=f'''
+        custom_query += f'''
       p{count}: person(id: "{leg_id}") {{
         id
         name
@@ -112,13 +107,13 @@ def legislator_list(id_list):
         }}
       }}
         '''
-        count+=1
-    custom_query+='}'
+        count += 1
+    custom_query += '}'
     fetched_data = fetch_json(query=custom_query)
     leg_id_data = fetched_data["data"]
     for c in range(count):
         data = leg_id_data[f'p{c}']
-#        LOG.warn(data)
+        # LOG.warn(data)
         leg_data_list.append(data)
 
     return leg_data_list
@@ -129,7 +124,7 @@ def bills(startCursor, options):
     first_count = DEFAULT_COUNT
     if options['max'] < DEFAULT_COUNT and options['max'] != 0:
         first_count = options['max']
-    custom_query=f'''query={{
+    custom_query = f'''query={{
   b0: bills(first: {first_count}, after: "{startCursor}", jurisdiction: "Texas", session: "{options['session']}", classification: "bill") {{
     edges {{
       node {{
@@ -190,13 +185,13 @@ def bills(startCursor, options):
     except:
         LOG.warn(f'Unable to retrieve bills.')
 
-    bill_total=fetched_data['data']['b0']['totalCount']
-    #bill_session=fetched_data['data']['b0']['edges'][0]['node']['legislativeSession']['identifier']
-    if bill_total > 0 :
-        page_token=fetched_data['data']['b0']['pageInfo']['endCursor']
-        #print(f"Found {bill_total} Bills for the {bill_session} session.")
+    bill_total = fetched_data['data']['b0']['totalCount']
+    # bill_session=fetched_data['data']['b0']['edges'][0]['node']['legislativeSession']['identifier']
+    if bill_total > 0:
+        page_token = fetched_data['data']['b0']['pageInfo']['endCursor']
+        # print(f"Found {bill_total} Bills for the {bill_session} session.")
 
-    #LOG.warn(bill_data)
+    # LOG.warn(bill_data)
     bill_data.append(page_token)
     bill_data.append(bill_total)
     return bill_data
@@ -208,4 +203,4 @@ def fetch_json(query, headers=DEFAULT_HEADERS):
         return response.json()
     else:
         LOG.warn(response.json())
-        raise Exception(f"Query failed to run by returning code of {response.status_code}. {query}")
+        raise Exception(f"Query failed to run by returning code of {response.status_code} {query}")

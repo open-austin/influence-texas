@@ -1,9 +1,9 @@
 from django.views.generic import DetailView, ListView
 from influencetx.core import constants
 from . import models
-
 import logging
 log = logging.getLogger(__name__)
+
 
 class LegislatorListView(ListView):
 
@@ -58,16 +58,19 @@ class LegislatorDetailView(DetailView):
                           'bill': tally.bill, 'subjects': subjects})
         context['votes'] = votes
 
-        #"""Campaign contributions to legislator."""
+        # """Campaign contributions to legislator."""
         contributions = []
         try:
-            id_map = models.LegislatorIdMap.objects.get(openstates_leg_id=self.object.openstates_leg_id)
-            #log.warn(models.tpj_models)
+            id_map = models.LegislatorIdMap.objects.get(
+                openstates_leg_id=self.object.openstates_leg_id)
+            # log.warn(models.tpj_models)
             filer = models.tpj_models.Filer.objects.filter(id=id_map.tpj_filer_id).first()
-            #log.warn(filer)
-            contributions = models.tpj_models.Contributionsummary.objects.select_related('donor').filter(filer=filer.id).order_by('-amount')[:25]
+            # log.warn(filer)
+            contributions = models.tpj_models.Contributionsummary.objects.select_related(
+                'donor').filter(filer=filer.id).order_by('-amount')[:25]
         except models.LegislatorIdMap.DoesNotExist:
-            log.warn(f"Filer id not found for openstates_leg_id {self.object.openstates_leg_id!r} in {models.LegislatorIdMap.objects.first}.")
+            log.warn(f"Filer id not found for openstates_leg_id {self.object.openstates_leg_id}" +
+                     "in {models.LegislatorIdMap.objects.first}.")
 
         context['top_contributions'] = contributions
         return context

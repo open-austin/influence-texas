@@ -20,17 +20,11 @@ manually to clean this up:
 The models in this file have been aggressively trimmed of fields. If you need other data, they may
 be available on the source tables for these models---you should check the source tables.
 """
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-
 from django.db import models
-from django.db.utils import Error as DbError
-
-from influencetx.core import constants, utils
 from influencetx.legislators import models as leg_models
-
 import logging
 log = logging.getLogger(__name__)
+
 
 class Donor(models.Model):
     id = models.IntegerField(db_column='Ctrib_ID', primary_key=True)
@@ -46,12 +40,15 @@ class Donor(models.Model):
     zip = models.CharField(db_column='Zip', max_length=5, blank=True, null=True)
     city = models.CharField(db_column='CityPreferred', max_length=64, blank=True, null=True)
 
-    employer_id = models.IntegerField(db_column='Employer_ID', db_index=True,blank=True, null=True)
+    employer_id = models.IntegerField(db_column='Employer_ID', db_index=True,
+                                      blank=True, null=True)
     employer = models.CharField(db_column='EMPLOYER', max_length=60, blank=True, null=True)
     occupation = models.CharField(db_column='Occupation', max_length=160, blank=True, null=True)
     interest_code = models.CharField(db_column='InterestCode', max_length=5)
-    other_interests = models.CharField(db_column='OtherInterests', max_length=255, blank=True, null=True)
-    total_contributions = models.DecimalField(db_column='CTRIB_AMT', max_digits=11, decimal_places=2, blank=True, null=True)
+    other_interests = models.CharField(db_column='OtherInterests', max_length=255,
+                                       blank=True, null=True)
+    total_contributions = models.DecimalField(db_column='CTRIB_AMT', max_digits=11,
+                                              decimal_places=2, blank=True, null=True)
 
     party = models.CharField(db_column='Party', max_length=7, blank=True, null=True)
     politics = models.CharField(db_column='Politics', max_length=8000, blank=True, null=True)
@@ -77,8 +74,8 @@ class Filer(models.Model):
     first_name = models.CharField(db_column='firstname', max_length=45, blank=True, null=True)
     last_name = models.CharField(db_column='surname', max_length=100, blank=True, null=True)
     suffix = models.CharField(max_length=5, blank=True, null=True)
-    candidate_name = models.CharField(db_column='CandidateName', max_length=290,blank=True, null=True)
-
+    candidate_name = models.CharField(db_column='CandidateName', max_length=290,
+                                      blank=True, null=True)
     city = models.CharField(max_length=30, blank=True, null=True)
     state = models.CharField(db_column='StateAbbr', max_length=2, blank=True, null=True)
     zipcode = models.CharField(db_column='Zipcode', max_length=10, blank=True, null=True)
@@ -97,18 +94,20 @@ class Filer(models.Model):
     def leg_id(self):
         """Get PK for matching Legislator."""
         id_map = leg_models.LegislatorIdMap.objects.get(tpj_filer_id=self.id)
-        #log.warn(id_map)
+        # log.warn(id_map)
         if id_map.openstates_leg_id:
             leg_obj = leg_models.Legislator.objects.get(openstates_leg_id=id_map.openstates_leg_id)
             return leg_obj.id
         else:
             return None
 
+
 class Contribution(models.Model):
     id = models.IntegerField(db_column='IDNO', primary_key=True)
     donor = models.ForeignKey(Donor, db_column='ctrib_ID', blank=True, null=True)
     filer = models.ForeignKey(Filer, db_column='iFiler_ID', blank=True, null=True)
-    amount = models.DecimalField(db_column='CTRIB_AMT', max_digits=19, decimal_places=2, blank=True, null=True)
+    amount = models.DecimalField(db_column='CTRIB_AMT', max_digits=19,
+                                 decimal_places=2, blank=True, null=True)
     date = models.DateTimeField(db_column='CONT_DATE', blank=True, null=True)
     election_year = models.IntegerField(db_column='eYear', blank=True, null=True)
 
@@ -124,7 +123,8 @@ class Contributionsummary(models.Model):
     donor = models.ForeignKey(Donor, db_column='ctrib_id', on_delete=models.CASCADE)
     filer = models.OneToOneField(Filer, db_column='ifiler_ID', primary_key=True)
     election_year = models.IntegerField(db_column='eyear')
-    amount = models.DecimalField(db_column='cycle_total', max_digits=19, decimal_places=2, blank=True, null=True)
+    amount = models.DecimalField(db_column='cycle_total', max_digits=19,
+                                 decimal_places=2, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -137,7 +137,8 @@ class Contributionsummary(models.Model):
 class Contributiontotalbydonor(models.Model):
     donor = models.OneToOneField(Donor, db_column='ctrib_ID', primary_key=True)
     election_year = models.IntegerField(db_column='eyear', blank=True, null=True)
-    cycle_total = models.DecimalField(db_column='cycle_total', max_digits=19, decimal_places=2, blank=True, null=True)
+    cycle_total = models.DecimalField(db_column='cycle_total', max_digits=19,
+                                      decimal_places=2, blank=True, null=True)
 
     class Meta:
         managed = False

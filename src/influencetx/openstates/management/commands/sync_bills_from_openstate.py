@@ -23,9 +23,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         total_bill_count = 0
         if options['start']:
-            start_token=options['start']
+            start_token = options['start']
         else:
-            start_token=''
+            start_token = ''
         loop = 0
         while loop < 100:
             bill_list = self._fetch_bills(start_token, options)
@@ -43,10 +43,10 @@ class Command(BaseCommand):
                 if total_count == total_bill_count:
                     break
 
-            #print(f'Total bills processed so far: {total_bill_count}.  Out of a max of: {total_count}')
             loop += 1
             if total_bill_count >= total_count:
-                self.stdout.write(self.style.SUCCESS(f'Reached the maximum bill count of {total_bill_count}/{total_count}'))
+                self.stdout.write(self.style.SUCCESS(f'Reached the maximum bill count of' +
+                                                     '{total_bill_count}/{total_count}'))
                 loop = 100
 
             if not start_token:
@@ -65,8 +65,7 @@ class Command(BaseCommand):
             bill = info.instance
             self.stdout.write(f'{action}: {bill}')
 
-
     def _fetch_bills(self, startCursor, options):
         """Return list of bill data from Open States API."""
-        #print(f'Requesting {options["Max"]} starting at cursor: {startCursor}')
+        # print(f'Requesting {options["Max"]} starting at cursor: {startCursor}')
         return fetch.bills(startCursor, options)

@@ -1,10 +1,9 @@
-from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic import DetailView, ListView
 from django.http import Http404
-from django.shortcuts import redirect, render, reverse
 from influencetx.bills import models
-
 import logging
 log = logging.getLogger(__name__)
+
 
 class BillListView(ListView):
 

@@ -2,11 +2,11 @@
 Application services for Legislators.
 """
 from collections import namedtuple
-from django.core.exceptions import ValidationError
 from enum import Enum
 from . import models
 import logging
 log = logging.getLogger(__name__)
+
 
 class Action(Enum):
     ADDED = 'Added'
@@ -43,7 +43,7 @@ def sync_legidmap_data(csv_row, options, commit=True):
                 openstates_leg_id=csv_row[0],
                 tpj_filer_id=csv_row[1]
             )
-            #log.warn(model, created)
+            # log.warn(model, created)
             if created:
                 return ActionInfo.create(Action.UPDATED, model)
             else:
@@ -53,7 +53,7 @@ def sync_legidmap_data(csv_row, options, commit=True):
                 openstates_leg_id=csv_row[0],
                 tpj_filer_id=csv_row[1]
             )
-            #log.warn(model, created)
+            # log.warn(model, created)
             if created:
                 return ActionInfo.create(Action.ADDED, model)
             else:

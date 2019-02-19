@@ -1,13 +1,8 @@
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 from django.db import models
-from django.db.utils import Error as DbError
-
 from influencetx.core import constants, utils
-from influencetx.tpj import models as tpj_models
-
 import logging
 log = logging.getLogger(__name__)
+
 
 class Legislator(models.Model):
     # Legislator ID from Open States API.
@@ -19,7 +14,8 @@ class Legislator(models.Model):
     party = models.CharField(max_length=1, choices=constants.PARTY_CHOICES)
     chamber = models.CharField(max_length=6, choices=constants.CHAMBER_CHOICES)
     district = models.IntegerField()
-    openstates_updated_at = models.DateTimeField()    # updated_at field from Open States API. Used to check whether legislator-detail needs update
+    # updated_at field from Open States API. Used to check whether legislator-detail needs update
+    openstates_updated_at = models.DateTimeField()
     url = models.URLField(blank=True)
     photo_url = models.URLField(blank=True)
 
@@ -40,6 +36,7 @@ class Legislator(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class LegislatorIdMap(models.Model):
     # Provide mapping between TPJ FILER_ID and Legislator ID from Open States API.

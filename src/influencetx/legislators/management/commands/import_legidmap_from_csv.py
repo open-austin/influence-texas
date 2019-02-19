@@ -7,9 +7,10 @@ import csv
 import logging
 log = logging.getLogger(__name__)
 
+
 class Command(BaseCommand):
 
-    help = 'Sync legislators data from Open States API'
+    help = 'Import legislator ID map from CSV'
 
     def add_arguments(self, parser):
         parser.add_argument('--max', default=200, type=int,
@@ -22,17 +23,17 @@ class Command(BaseCommand):
         if not legislator_list:
             self.stdout.write(self.style.SUCCESS('No data to sync'))
             return
-        total_action=0
+        total_action = 0
         for data in legislator_list:
-            if total_action==0:
-                total_action+=1
+            if total_action == 0:
+                total_action += 1
                 continue
             if total_action > options['max']:
                 break
-            #log.warn(data)
+            # log.warn(data)
             info = services.sync_legidmap_data(data, options)
             self._write_info(info)
-            total_action+=1
+            total_action += 1
 
         self.stdout.write(self.style.SUCCESS(f'Successfully synced {total_action - 1} legislators'))
 

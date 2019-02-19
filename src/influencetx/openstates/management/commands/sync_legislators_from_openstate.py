@@ -2,7 +2,6 @@
 Django admin command wrapper around `sync_legislator_data` in `influencetx.openstates.services`.
 """
 from django.core.management.base import BaseCommand
-
 from influencetx.openstates import fetch, services
 
 
@@ -12,7 +11,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--max', default=200, type=int,
-                            help='Max number of legislators to sync. Mainly used for testing. Default is 200.')
+                            help='Max number of legislators to sync. Mainly used for testing.' +
+                                 'Default is 200.')
         parser.add_argument('--leg-ids', nargs='+',
                             help='Open States ocd ids of legislators to sync. Defaults to all.')
         parser.add_argument('--session', type=int, default=None,
@@ -25,11 +25,11 @@ class Command(BaseCommand):
         if not legislator_list:
             self.stdout.write(self.style.SUCCESS('No data to sync'))
             return
-        total_action=0
+        total_action = 0
         for data in legislator_list:
             info = services.sync_legislator_data(data, options)
             self._write_info(info)
-            total_action+=1
+            total_action += 1
 
         self.stdout.write(self.style.SUCCESS(f'Successfully synced {total_action} legislators'))
 

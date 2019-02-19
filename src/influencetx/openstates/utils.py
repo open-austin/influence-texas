@@ -1,20 +1,18 @@
-import dateutil.parser
-import logging
 from copy import deepcopy
-
+import dateutil.parser
 from django.db import transaction
 from django.forms import ValidationError
 from django.forms.models import model_to_dict
 from slugify import slugify
-
 from influencetx.core.constants import Vote
 from influencetx.core.utils import party_enum
 from influencetx.bills import forms, models
 from influencetx.legislators.models import Legislator
 from influencetx.legislators.forms import OpenStatesLegislatorForm
-
+import logging
 LOG = logging.getLogger(__name__)
 DATETIME_TEMPLATE = '%Y-%m-%d %H:%M:%S'
+
 
 def format_datetime(dt):
     """Return Open-States-style datetime string from datetime object."""
@@ -80,7 +78,7 @@ def adapt_openstates_bill(api_data):
     # Update fields that require pre-processing before deserialization.
     adapted_data['openstates_bill_id'] = adapted_data['id']
     adapted_data['bill_id'] = adapted_data['identifier']
-    if len(adapted_data['versions']) > 0 :
+    if len(adapted_data['versions']) > 0:
         last_version = adapted_data['versions'].pop()
         last_link = last_version['links'].pop()
         adapted_data['bill_text'] = last_link['url']
@@ -101,7 +99,7 @@ def adapt_openstates_bill(api_data):
 
 
 def adapt_openstates_vote_tally(vote_data):
-    ### TODO: Fix this once we get vote data
+    # TODO: Fix this once we get vote data
     """Adapt vote-tally data from Open States API to match VoteTally model.
     Unlike top-level adaptation functions, this modifies data in-place.
     """
@@ -126,7 +124,7 @@ def deserialize_openstates_bill(api_data, instance=None):
 
     actiondate_models = deserialize_action_dates(adapted_data.get('actions', []), bill)
     adapted_data['actions'] = [s.id for s in actiondate_models]
-    ### TODO: Fix this once we get vote data
+    # TODO: Fix this once we get vote data
     for vote_data in adapted_data['votes']:
         vote_data['bill'] = bill.id
         deserialize_vote_tally(vote_data)
@@ -148,7 +146,7 @@ def deserialize_sponsor_names(sponsor_names):
     for aname in sponsor_names:
         # LOG.warn(f'Finding {aname}')
         if pattern in aname:
-            [last_name,first_name] = aname.split(", ")
+            [last_name, first_name] = aname.split(", ")
             legislator = Legislator.objects.filter(
                 last_name=last_name,
                 first_name=first_name
@@ -163,27 +161,28 @@ def deserialize_sponsor_names(sponsor_names):
 
     return model_list
 
+
 def deserialize_action_dates(action_list, instance):
     actiondate_models = []
     for action in action_list:
         if action:
-            #LOG.warn(action)
+            # LOG.warn(action)
             action_model, created = models.ActionDate.objects.get_or_create(
-                bill = instance,
-                date = action['date'],
-                description = action['description'],
-                classification = ", ".join(action['classification']),
-                #vote = action['vote'],
-                order = action['order'],
+                bill=instance,
+                date=action['date'],
+                description=action['description'],
+                classification=", ".join(action['classification']),
+                # vote = action['vote'],
+                order=action['order'],
             )
-            #LOG.warn(action_model.id, created)
+            # LOG.warn(action_model.id, created)
             actiondate_models.append(action_model)
 
     return actiondate_models
 
 
-    ### TODO: Fix this once we get vote data
 def deserialize_vote_tally(adapted_data, instance=None):
+    # TODO: Fix this once we get vote data
     if instance is None:
         instance = find_matching_vote_tally(adapted_data)
 
@@ -196,8 +195,9 @@ def deserialize_vote_tally(adapted_data, instance=None):
 
     return tally
 
-    ### TODO: Fix this once we get vote data
+
 def deserialize_votes(vote_list, tally, vote_enum):
+    # TODO: Fix this once we get vote data
     openstates_leg_ids = [vote['leg_id'] for vote in vote_list]
     individual_votes = []
     for leg_id in openstates_leg_ids:
