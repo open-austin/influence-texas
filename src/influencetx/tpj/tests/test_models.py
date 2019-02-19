@@ -48,4 +48,4 @@ class TestContribution:
 
     def test_str(self):
         contrib = ContributionFactory.build(amount=42)
-        assert str(contrib) == f'{contrib.amount} {contrib.donor!r} {contrib.filer!r}'
+        assert str(contrib) == f'{contrib.donor!r} {contrib.filer!r} {contrib.amount} '

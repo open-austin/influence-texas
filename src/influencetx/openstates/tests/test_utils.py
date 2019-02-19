@@ -18,7 +18,7 @@ class TestLegislatorDeserialization(object):
 
     def test_deserialize_with_missing_required_field_raises(self):
         api_data = data.get_sample_legislator_detail()
-        del api_data['first_name']  # Delete required key, first_name
+        del api_data['name']  # Delete required key, name
 
         with pytest.raises(ValidationError):
             utils.deserialize_openstates_legislator(api_data)

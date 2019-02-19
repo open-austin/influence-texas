@@ -30,7 +30,7 @@ def test_sync_new_legislator_with_data_with_missing_keys_fails():
 
 def test_sync_new_legislator_without_leg_id_fails():
     data_with_invalid_id = data.get_sample_legislator_detail()
-    data_with_invalid_id['leg_id'] = ''  # 'leg_id' is a required field.
+    data_with_invalid_id['openstates_leg_id'] = ''  # 'openstates_leg_id' is a required field.
     info = services.sync_new_legislator_data(data_with_invalid_id, commit=False)
 
     assert info.action == services.Action.FAILED
@@ -67,13 +67,13 @@ class TestSyncLegislatorData(TestCase):
     @mock.patch.object(services, 'sync_existing_legislator_data')
     def test_sync_legislator_data_for_existing_data(self, mock_sync_existing):
         instance = factories.LegislatorFactory.create()
-        data = {'leg_id': instance.openstates_leg_id}
+        data = {'openstates_leg_id': instance.openstates_leg_id}
         services.sync_legislator_data(data)
         mock_sync_existing.assert_called_once_with(instance, data, commit=True)
 
     @mock.patch.object(services, 'sync_new_legislator_data')
     def test_sync_legislator_data_for_new_data(self, mock_sync_new):
-        data = {'leg_id': 'TX00001'}
+        data = {'openstates_leg_id': 'ocd-person/51535358-7f46-4505-9a70-f7d611d33af2'}
         services.sync_legislator_data(data)
         mock_sync_new.assert_called_once_with(data, commit=True)
 
@@ -81,7 +81,7 @@ class TestSyncLegislatorData(TestCase):
 class TestSyncBillData(TestCase):
 
     def test_sync_new_bill(self):
-        new_data = {'id': 'BILL0001', 'updated_at': fake_openstates_timestamp()}
+        new_data = {'id': 'ocd-bill/117a7e45-11d8-4874-a01f-338b1efc2e5e', 'updated_at': fake_openstates_timestamp()}
 
         with mock.patch.object(utils, 'deserialize_openstates_bill') as mock_deserialize:
             info = services.sync_bill_data(new_data)
