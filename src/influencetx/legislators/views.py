@@ -1,6 +1,7 @@
 from django.views.generic import DetailView, ListView
 from influencetx.core import constants
 from . import models
+from influencetx.tpj import models as tpj_models
 import logging
 log = logging.getLogger(__name__)
 
@@ -64,9 +65,9 @@ class LegislatorDetailView(DetailView):
             id_map = models.LegislatorIdMap.objects.get(
                 openstates_leg_id=self.object.openstates_leg_id)
             # log.warn(models.tpj_models)
-            filer = models.tpj_models.Filer.objects.filter(id=id_map.tpj_filer_id).first()
+            filer = tpj_models.Filer.objects.filter(id=id_map.tpj_filer_id).first()
             # log.warn(filer)
-            contributions = models.tpj_models.Contributionsummary.objects.select_related(
+            contributions = tpj_models.Contributionsummary.objects.select_related(
                 'donor').filter(filer=filer.id).order_by('-amount')[:25]
         except models.LegislatorIdMap.DoesNotExist:
             log.warn(f"Filer id not found for openstates_leg_id {self.object.openstates_leg_id}" +
