@@ -14,14 +14,14 @@ class BillListView(ListView):
         return (
             models.Bill.objects.all()
             .prefetch_related('subjects__bills')
-            .order_by('bill_id')
         )
 
     def get_context_data(self, *args, **kwargs):
         context = super(BillListView, self).get_context_data(*args, **kwargs)
         context['total_bills'] = models.Bill.objects.all().count()
-        context['session'] = models.Bill.objects.first().session
-        context['updated'] = models.Bill.objects.first().openstates_updated_at
+        object = models.Bill.objects.first()
+        context['session'] = object.session
+        context['updated'] = object.openstates_updated_at
         return context
 
 

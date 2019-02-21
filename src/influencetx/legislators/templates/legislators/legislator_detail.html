@@ -35,12 +35,11 @@
 
 <nav class="nav nav-tabs nav-fill mb-3">
   <a class="nav-item nav-link active" data-toggle="tab" href="#nav-donors">Top Donors</a>
-  <a class="nav-item nav-link" data-toggle="tab" href="#nav-votes">Votes</a>
+  <a class="nav-item nav-link" data-toggle="tab" href="#nav-bills">Sponsored Bills</a>
 </nav>
 <div class="tab-content">
   <div id="nav-donors" class="tab-pane active">
-    <!-- <h5 class="section-title bg-intx-secondary">Top Donors</h5> -->
-
+    <!-- Top Donors -->
     <table id="donors-list" class="table table-striped table-sm">
       <thead>
         <th>Amount</th>
@@ -58,29 +57,49 @@
       {% endfor %}
     </table>
   </div> <!-- end #nav-donors -->
+  <!-- Sponsored Bills -->
+  <div id="nav-bills" class="tab-pane">
+    <table id="bill-list" class="table table-striped table-sm">
+      <thead>
+        <th>Bill</th>
+        <th>Title</th>
+        <th class="hidden-sm-down">Subjects</th>
+      </thead>
+      {% for bill in bills %}
+        <tr>
+          <td class="text-nowrap">
+            <a href="{% url 'bills:bill-detail' bill.id %}">{{ bill.bill_id }}</a>
+          </td>
+          <td>{{ bill.title }}</td>
+          <td class="hidden-sm-down"> {{ bill.subjects.all|join:", " }} </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div><!-- end #bill-list -->
 
+{% comment %}
   <div id="nav-votes" class="tab-pane">
-  <!-- <h5 class="section-title bg-intx-secondary">Votes</h5> -->
-
-  <table id="vote-list" class="table table-striped table-sm">
-    <thead>
-      <th class="hidden-sm-down">Date</th>
-      <th>Bill</th>
-      <th>Vote</th>
-      <th class="hidden-sm-down">Title</th>
-    </thead>
-    {% for vote in votes %}
-      <tr>
-        <td class="hidden-sm-down text-nowrap">{{ vote.date|date:'Y-m-d' }}</td>
-        <td class="text-nowrap">
-          <a href="{% url 'bills:bill-detail' vote.bill.bill_id %}">{{ vote.bill.bill_id }}</a>
-        </td>
-        <td>{{ vote.value }}</td>
-        <td class="hidden-sm-down">{{ bill.title }}</td>
-      </tr>
-    {% endfor %}
-  </table>
-</div><!-- end #vote-list -->
+  <!-- Votes -->
+    <table id="vote-list" class="table table-striped table-sm">
+      <thead>
+        <th class="hidden-sm-down">Date</th>
+        <th>Bill</th>
+        <th>Vote</th>
+        <th class="hidden-sm-down">Title</th>
+      </thead>
+      {% for vote in votes %}
+        <tr>
+          <td class="hidden-sm-down text-nowrap">{{ vote.date|date:'Y-m-d' }}</td>
+          <td class="text-nowrap">
+            <a href="{% url 'bills:bill-detail' vote.bill.bill_id %}">{{ vote.bill.bill_id }}</a>
+          </td>
+          <td>{{ vote.value }}</td>
+          <td class="hidden-sm-down">{{ bill.title }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div><!-- end #vote-list -->
+{% endcomment %}
 
 </div><!-- end .tab-content -->
 <br><br><br>
@@ -105,6 +124,9 @@
     });
     $(document).ready(function () {
       $('#donors-list').dataTable(dataTableOptions);
+    });
+    $(document).ready(function () {
+      $('#bill-list').dataTable(dataTableOptions);
     });
   </script>
 {% endblock javascript %}

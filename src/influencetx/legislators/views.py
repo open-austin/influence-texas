@@ -2,6 +2,7 @@ from django.views.generic import DetailView, ListView
 from influencetx.core import constants
 from . import models
 from influencetx.tpj import models as tpj_models
+from influencetx.bills import models as bill_models
 import logging
 log = logging.getLogger(__name__)
 
@@ -44,20 +45,25 @@ class LegislatorDetailView(DetailView):
     context_object_name = 'legislator'
     queryset = (
         models.Legislator.objects.all()
-        .prefetch_related('votes__vote_tally__bill__subjects')
+        .prefetch_related('votes__vote_tally__bills__bills_sponsored')
     )
 
     def get_context_data(self, *args, **kwargs):
         context = super(LegislatorDetailView, self).get_context_data(*args, **kwargs)
 
-        votes = []
-        for each in self.object.votes.all():
-            tally = each.vote_tally
-            bill = tally.bill
-            subjects = [subject.label for subject in bill.subjects.all()]
-            votes.append({'value': each.value, 'date': tally.date,
-                          'bill': tally.bill, 'subjects': subjects})
-        context['votes'] = votes
+        # TODO: Fix this once we get vote data
+        # """Last vote on bill by legislator."""
+        # votes = []
+        # for each in self.object.votes.all():
+        #     tally = each.vote_tally
+        #     bill = tally.bill
+        #     subjects = [subject.label for subject in bill.subjects.all()]
+        #     votes.append({'value': each.value, 'date': tally.date,
+        #                   'bill': tally.bill, 'subjects': subjects})
+        # context['votes'] = votes
+
+        # """Bills sponsored by legislator."""
+        context['bills'] = bill_models.Bill.objects.filter(sponsors=self.object.id)
 
         # """Campaign contributions to legislator."""
         contributions = []
