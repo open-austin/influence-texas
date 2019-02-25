@@ -48,15 +48,15 @@ class TestLegislatorListView(BaseOpenStatesAPITestCase):
 
     def test_data_rendering(self):
         legislator = factories.fake_legislator()
-        detail_url = reverse('openstates:legislator-detail', args=(legislator['leg_id'],))
+        detail_url = reverse('openstates:legislator-detail', args=(legislator['openstates_leg_id'],))
 
         with mock_fetch() as fetch:
             fetch.legislators.return_value = [legislator]
             html = render_view('openstates:legislator-list')
 
         assert detail_url in html
-        assert legislator['leg_id'] in html
-        assert legislator['full_name'] in html
+        assert legislator['openstates_leg_id'] in html
+        assert legislator['name'] in html
         assert legislator['district'] in html
         assert legislator['party'] in html
         assert legislator['chamber'] in html
@@ -73,14 +73,14 @@ class TestLegislatorDetailView(BaseOpenStatesAPITestCase):
 
     def test_data_rendering(self):
         legislator = factories.fake_legislator()
-        leg_id = legislator['leg_id']
+        openstates_leg_id = legislator['openstates_leg_id']
 
         with mock_fetch() as fetch:
             fetch.legislators.return_value = legislator
-            html = render_view('openstates:legislator-detail', args=(leg_id,))
+            html = render_view('openstates:legislator-detail', args=(openstates_leg_id,))
 
-        fetch.legislators.assert_called_once_with(leg_id)
-        assert legislator['full_name'] in html
+        fetch.legislators.assert_called_once_with(openstates_leg_id)
+        assert legislator['name'] in html
         assert legislator['district'] in html
         assert legislator['party'] in html
         assert legislator['chamber'] in html
@@ -89,7 +89,7 @@ class TestLegislatorDetailView(BaseOpenStatesAPITestCase):
         with mock_fetch() as fetch:
             fetch.legislators.return_value = None
             with self.assertRaises(Http404):
-                render_view('openstates:legislator-detail', kwargs={'leg_id': FAKE.pystr()})
+                render_view('openstates:legislator-detail', kwargs={'openstates_leg_id': FAKE.pystr()})
 
 
 class TestBillListView(BaseOpenStatesAPITestCase):

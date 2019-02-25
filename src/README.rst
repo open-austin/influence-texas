@@ -92,18 +92,26 @@ legislators and bills from Open States, run the following *in order*::
 Note that the order matters because bills have voting data which requires legislators to be
 in the database for correct attribution.::
 
-    ./djadmin.sh sync_legislators_from_openstate --session 85
+    ./djadmin.sh sync_legislators_from_openstate
 
 The number of bills in the database is quite large. For testing purposes, you can grab a subset of
-the data by replacing the second command above with::
+the data by using the "max" option.::
 
     ./djadmin.sh sync_bills_from_openstate --max 100
 
-**Note**: By default, `sync_bills_from_openstate` syncs data from the most recent session, but the
-most recent special session currently has some data missing, so you may want to use data from the
-85th session instead::
+**Note**: openstates only provides data for the most recent session currently.
 
-    ./djadmin.sh sync_bills_from_openstate --max 100 --session 85
+
+Import crosswalk CSV
+--------------------
+
+To match up the ids used by TPJ with the ids used by Openstates, we must manually create a crosswalk
+then import it using the following command::
+
+    ./djadmin.sh import_legidmap_from_csv --file [path/to/file]
+
+**Note**: The crosswalk for the 86 session can be found inside `influencetx/legislators/data`
+
 
 Basic Commands
 ==============
@@ -202,10 +210,13 @@ Moved to settings_.
 Vagrant
 =======
 
-A Vagrant based deployment method is also available, which mirrors the configurations of the live integration/production server.
+A Vagrant based deployment method is also available, which mirrors the configurations of the live
+ integration/production server.
 It provides a virtual machine for running the postgresql database, and is configured as a docker host.
-The benefits to using an isolated VM for development is that your work is encapsulated within the VM, thereby allowing you to work on more than one project.
-Another benefit is that by developing in an environment that is the same as the integration/production servers, then a CI/CD pipeline can be setup.
+The benefits to using an isolated VM for development is that your work is encapsulated within the VM,
+ thereby allowing you to work on more than one project.
+Another benefit is that by developing in an environment that is the same as the integration/production servers,
+ then a CI/CD pipeline can be setup.
 The primary reason for the vagrant environment was to provide a development environment for ansible development.
 
 Pre-requisites
@@ -240,10 +251,11 @@ To rebuild and deploy the application:
 
       vagrant provision
 
-Devlopment Workflow
+Development Workflow
 -------------------
 
-There are two uses of the Vagrant environment for testing production deployments, from inside the VM or from outside the VM.
+There are two uses of the Vagrant environment for testing production deployments, from inside the VM or
+ from outside the VM.
 
 The Vagrant VM is run by default with the settings:
 ```
@@ -251,17 +263,28 @@ The Vagrant VM is run by default with the settings:
     vb.cpus   = "2"
 ```
 
-Reduce these numbers for running on smaller hardware. 
+Reduce these numbers for running on smaller hardware.
 
 Internal
 --------
 
-To perform development from inside the VM, perform the ``vagrant ssh`` command, then change directory to "/vagrant".  The git repository is mounted automatically inside the VM at the "/vagrant" directory.  The docker-compose files will be accessible, as well as the code which is built using the docker-compose files.  You can perform updates to the code, then perform ``sudo docker-compose build`` command to generate the docker image inside the VM, then re-deploy the containers with the new images by issuing a ``sudo docker-compose up -d`` command.  You can also make git commits and push, but you will need to use an HTTPS checkout and supply your github credentials with each ``git push``
+To perform development from inside the VM, perform the ``vagrant ssh`` command, then change directory to "/vagrant".
+  The source code is mounted automatically inside the VM at the "/vagrant" directory.
+  The `docker-compose.build` file is used for deployment of the application, and allows for live updates to the source
+  code.
+The `pyinvoke` and `djadmin` commands do not work inside the Vagrant environment.  To perform migrations and other
+ operations, use the following command::
+
+    docker-compose -f docker-compose.build exec web python3 manage.py [command]
+
+**Note**: Use 'help' as the command to see all available commands.
+
 
 External
 --------
 
-You can also perform development outside the VM by making code updates, then issuing a `vagrant provision` command.  This method allows SSH based checkouts of the git repository.
+You can also perform development outside the VM by making code updates, then issuing a `vagrant provision` command.
+  This method allows SSH based checkouts of the git repository.
 
 
 Production Build and Deployment

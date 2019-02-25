@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Bill List{% endblock %}
+
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+{% endblock css %}
+
+{% block content %}
+<h2>Texas Bills</h2>
+<div class="summary-info mt-3 mb-4">
+  <p class="text-muted">Session: {{ session }}, Total: {{ total_bills }}</p>
+</div>
+<div class="container">
+  <table id="bill-list" class="table">
+    <thead>
+      <th> Bill </th>
+      <th> Title </th>
+      <th class="hidden-sm-down"> Subjects </th>
+    </thead>
+    {% for bill in bills %}
+      <tr>
+        <td class="text-nowrap"> <a href="{% url "bills:bill-detail" bill.id %}">{{ bill.bill_id }} </a> </td>
+        <td> {{ bill.title }} </td>
+        <td class="hidden-sm-down"> {{ bill.subjects.all|join:", " }} </td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<br><br><br>
+{% include "pages/footer.html" %}
+{% endblock content %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#bill-list').dataTable({});
+    });
+  </script>
+{% endblock javascript %}

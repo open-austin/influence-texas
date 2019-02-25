@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Bill Details{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <h2><a class="navbar-brand" href="{{request.META.HTTP_REFERER}}"><</a>Bill Details</h2>
+
+  <dl class="row">
+    <dt class="col-sm-2 text-muted"> Bill </dt>
+    <dd class="offset-1 offset-sm-0 col-sm-10">
+      <a href="{{ bill.bill_text }}" target="_blank" rel="noopener noreferrer"> {{ bill.bill_id }} </a>
+    </dd>
+    <dt class="col-sm-2 text-muted"> Title </dt>
+    <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.title }} </dd>
+    <dt class="col-sm-2 text-muted"> Session </dt>
+    <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.session }} </dd>
+    <dt class="col-sm-2 text-muted"> Chamber </dt>
+    <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.chamber }} </dd>
+    <dt class="col-sm-2 text-muted"> Sponsors </dt>
+    <dd class="offset-1 offset-sm-0 col-sm-10">{% for leg in bill.sponsors.all %}
+      <a href="{% url "legislators:legislator-detail" leg.id %}">{{ leg }}</a>, {% endfor %}
+    </dd>
+    <dt class="col-sm-2 text-muted"> Subjects </dt>
+    <dd class="offset-1 offset-sm-0 col-sm-10"> {{ bill.subjects.all|join:", " }} </dd>
+    <dt class="section-title col-12 bg-intx-secondary"> Action dates </dt>
+    <dd class="col-12">
+      <table class="table table-sm">
+        <thead>
+          <th>Action</th>
+          <th>Date</th>
+        </thead>
+        {% for action in actions %}
+          <tr>
+            <td>{{ action.description }}</td>
+            <td>{{ action.date }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </dd>
+  </dl>
+
+
+<p class="small text-muted text-center">
+  Last updated: {{ bill.openstates_updated_at }}
+</p>
+
+</div>
+<br><br><br>
+{% include "pages/footer.html" %}
+{% endblock content %}

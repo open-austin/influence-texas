@@ -7,15 +7,15 @@ class OpenStatesBillForm(forms.ModelForm):
 
     class Meta:
         model = models.Bill
-        fields = ('title', 'session', 'chamber', 'subjects',
+        fields = ('title', 'session', 'chamber', 'subjects', 'sponsors', 'bill_text',
                   'bill_id', 'openstates_bill_id', 'openstates_updated_at')
 
 
-class ActionDatesForm(forms.ModelForm):
+class ActionDateForm(forms.ModelForm):
 
     class Meta:
-        model = models.ActionDates
-        fields = ('bill', 'first', 'last', 'passed_lower', 'passed_upper', 'signed')
+        model = models.ActionDate
+        fields = ('bill', 'date', 'description', 'classification', 'order')
 
 
 class VoteTallyForm(forms.ModelForm):

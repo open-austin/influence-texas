@@ -1,21 +1,16 @@
-import dateutil.parser
-import logging
 from copy import deepcopy
-
+import dateutil.parser
 from django.db import transaction
 from django.forms import ValidationError
 from django.forms.models import model_to_dict
 from slugify import slugify
-
 from influencetx.core.constants import Vote
 from influencetx.core.utils import party_enum
 from influencetx.bills import forms, models
 from influencetx.legislators.models import Legislator
 from influencetx.legislators.forms import OpenStatesLegislatorForm
-
-
+import logging
 LOG = logging.getLogger(__name__)
-
 DATETIME_TEMPLATE = '%Y-%m-%d %H:%M:%S'
 
 
@@ -27,21 +22,25 @@ def format_datetime(dt):
 def parse_datetime(string):
     """Return datetime object from Open-States-style datetime string."""
     # FIXME: CT, CST don't seem to work here.
-    return dateutil.parser.parse(string + ' UTC')
+    return dateutil.parser.parse(string)
 
 
 def adapt_openstates_legislator(api_data):
     """Return legislator data adapted to match Legislator model.
-
     Translate key names and casting data to match Legislator model.
     """
     adapted_data = deepcopy(api_data)
-
     # Update fields that require pre-processing before deserialization.
-    adapted_data['openstates_updated_at'] = parse_datetime(adapted_data.pop('updated_at'))
-    adapted_data['openstates_leg_id'] = adapted_data.pop('leg_id')
-    adapted_data['district'] = int(adapted_data.pop('district'))
-    adapted_data['party'] = party_enum(adapted_data.get('party')).value
+    adapted_data['openstates_leg_id'] = adapted_data['id']
+    adapted_data['name'] = adapted_data['name']
+    adapted_data['first_name'] = adapted_data['givenName']
+    adapted_data['last_name'] = adapted_data['familyName']
+    adapted_data['openstates_updated_at'] = parse_datetime(adapted_data['updatedAt'])
+    adapted_data['party'] = party_enum(adapted_data['party'][0]['organization']['name']).value
+    adapted_data['district'] = int(adapted_data['chamber'][0]['post']['label'])
+    adapted_data['url'] = adapted_data['links'][0]['url']
+    adapted_data['chamber'] = adapted_data['chamber'][0]['organization']['name']
+    adapted_data['photo_url'] = adapted_data['image']
 
     return adapted_data
 
@@ -73,29 +72,35 @@ def find_matching_vote_tally(data):
 
 def adapt_openstates_bill(api_data):
     """Return bill data adapted to match Bill model.
-
     Translate key names and casting data to match Bill model.
     """
     adapted_data = deepcopy(api_data)
-
     # Update fields that require pre-processing before deserialization.
-    adapted_data['openstates_updated_at'] = parse_datetime(adapted_data.pop('updated_at'))
-    adapted_data['openstates_bill_id'] = adapted_data.pop('id')
-    adapted_data['session'] = int(adapted_data['session'])
+    adapted_data['openstates_bill_id'] = adapted_data['id']
+    adapted_data['bill_id'] = adapted_data['identifier']
+    if len(adapted_data['versions']) > 0:
+        last_version = adapted_data['versions'].pop()
+        last_link = last_version['links'].pop()
+        adapted_data['bill_text'] = last_link['url']
+    else:
+        adapted_data['bill_text'] = ""
+    adapted_data['session'] = int(adapted_data['legislativeSession']['identifier'])
+    adapted_data['chamber'] = adapted_data['fromOrganization']['name']
+    adapted_data['subjects'] = adapted_data['subject']
+    adapted_data['sponsors'] = [sponsor['name'] for sponsor in adapted_data['sponsorships']]
+    adapted_data['openstates_updated_at'] = parse_datetime(adapted_data['updatedAt'])
+    adapted_data['votes'] = adapted_data['votes']['edges']
 
-    if 'votes' not in adapted_data:
-        adapted_data['votes'] = []
-
-#    adapted_data['votes'] = adapted_data['votes'][-2:]
     for vote_data in adapted_data['votes']:
-        adapt_openstates_vote_tally(vote_data)
+        if vote_data['node']:
+            adapt_openstates_vote_tally(vote_data['node'])
 
     return adapted_data
 
 
 def adapt_openstates_vote_tally(vote_data):
+    # TODO: Fix this once we get vote data
     """Adapt vote-tally data from Open States API to match VoteTally model.
-
     Unlike top-level adaptation functions, this modifies data in-place.
     """
     vote_data['openstates_vote_id'] = vote_data.pop('vote_id')
@@ -111,9 +116,15 @@ def deserialize_openstates_bill(api_data, instance=None):
         instance = find_matching_bill(adapted_data['openstates_bill_id'])
     subject_models = deserialize_subject_tags(adapted_data.get('subjects', []))
     adapted_data['subjects'] = [s.id for s in subject_models]
-    form = forms.OpenStatesBillForm(adapted_data, instance=instance)
+    sponsor_models = deserialize_sponsor_names(adapted_data.get('sponsors', []))
+    adapted_data['sponsors'] = [l.id for l in sponsor_models]
 
+    form = forms.OpenStatesBillForm(adapted_data, instance=instance)
     bill = clean_form(form, commit=True)
+
+    actiondate_models = deserialize_action_dates(adapted_data.get('actions', []), bill)
+    adapted_data['actions'] = [s.id for s in actiondate_models]
+    # TODO: Fix this once we get vote data
     for vote_data in adapted_data['votes']:
         vote_data['bill'] = bill.id
         deserialize_vote_tally(vote_data)
@@ -128,7 +139,50 @@ def deserialize_subject_tags(subject_list):
     ]
 
 
+def deserialize_sponsor_names(sponsor_names):
+    """Find the legislator objects that match the names in sponsors"""
+    model_list = []
+    pattern = ','
+    for aname in sponsor_names:
+        # LOG.warn(f'Finding {aname}')
+        if pattern in aname:
+            [last_name, first_name] = aname.split(", ")
+            legislator = Legislator.objects.filter(
+                last_name=last_name,
+                first_name=first_name
+            ).first()
+        else:
+            legislator = Legislator.objects.filter(
+                name__contains=aname
+            ).first()
+        # LOG.warn(f'Found sponsor {legislator}')
+        if legislator:
+            model_list.append(legislator)
+
+    return model_list
+
+
+def deserialize_action_dates(action_list, instance):
+    actiondate_models = []
+    for action in action_list:
+        if action:
+            # LOG.warn(action)
+            action_model, created = models.ActionDate.objects.get_or_create(
+                bill=instance,
+                date=action['date'],
+                description=action['description'],
+                classification=", ".join(action['classification']),
+                # vote = action['vote'],
+                order=action['order'],
+            )
+            # LOG.warn(action_model.id, created)
+            actiondate_models.append(action_model)
+
+    return actiondate_models
+
+
 def deserialize_vote_tally(adapted_data, instance=None):
+    # TODO: Fix this once we get vote data
     if instance is None:
         instance = find_matching_vote_tally(adapted_data)
 
@@ -143,6 +197,7 @@ def deserialize_vote_tally(adapted_data, instance=None):
 
 
 def deserialize_votes(vote_list, tally, vote_enum):
+    # TODO: Fix this once we get vote data
     openstates_leg_ids = [vote['leg_id'] for vote in vote_list]
     individual_votes = []
     for leg_id in openstates_leg_ids:

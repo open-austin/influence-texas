@@ -10,64 +10,97 @@
 {% endblock css %}
 
 {% block content %}
-
 <div class="summary-info text-center mt-3 mb-4">
-  <img src="{{ legislator.photo_url }}"/>
-  <h2>{{ legislator }}</h2>
+  <div class="flexcontainer-leg-share">
+      <div class="itemright-leg-share">
+          <a href="https://www.facebook.com/share.php?u={{ request.build_absolute_uri }}" target="_blank">
+            <span class='symbol'>circlefacebook</span>
+          </a><p>
+          <a href="https://twitter.com/intent/tweet?text={{ request.build_absolute_uri }}" target="_blank">
+            <span class='symbol'>circletwitterbird</span>
+          </a><p>
+          <a href="https://www.linkedin.com/shareArticle?url={{ request.build_absolute_uri }}" target="_blank">
+            <span class='symbol'>circlelinkedin</span>
+          </a>
+      </div>
+  </div>
+
+  <img src="{{ legislator.photo_url }}"></img>
+  <h2><a class="navbar-brand" href="{{request.META.HTTP_REFERER}}"><</a>{{ legislator }}</h2>
   <p class="text-muted">{{ legislator.party_label }}</p>
-  <p class="text-muted">{{ legislator.chamber_label }}</p>
+  <p class="text-muted">{{ legislator.chamber }}</p>
   <p class="text-muted"> District {{ legislator.district  }}</p>
   <p><a target="_blank" href="{{ legislator.url }}">Full Biography</a></p>
 </div>
 
 <nav class="nav nav-tabs nav-fill mb-3">
-  <a class="nav-item nav-link active" data-toggle="tab" href="#nav-votes">Votes</a>
-  <a class="nav-item nav-link" data-toggle="tab" href="#nav-donors">Top Donors</a>
+  <a class="nav-item nav-link active" data-toggle="tab" href="#nav-donors">Top Donors</a>
+  <a class="nav-item nav-link" data-toggle="tab" href="#nav-bills">Sponsored Bills</a>
 </nav>
 <div class="tab-content">
-  <div id="nav-votes" class="tab-pane active">
-  <!-- <h5 class="section-title bg-intx-secondary">Votes</h5> -->
+  <div id="nav-donors" class="tab-pane active">
+    <!-- Top Donors -->
+    <table id="donors-list" class="table table-striped table-sm">
+      <thead>
+        <th>Amount</th>
+        <th>Donor</th>
+      </thead>
+      {% for contribution in top_contributions %}
+        <tr>
+          <td class="text-nowrap" align="left" width="12em">
+            ${{ contribution.amount|floatformat:0|intcomma }}
+          </td>
+          <td align="left">
+            <a href="{% url "donors:donor-detail" contribution.donor.id %}">{{ contribution.donor.full_name }}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div> <!-- end #nav-donors -->
+  <!-- Sponsored Bills -->
+  <div id="nav-bills" class="tab-pane">
+    <table id="bill-list" class="table table-striped table-sm">
+      <thead>
+        <th>Bill</th>
+        <th>Title</th>
+        <th class="hidden-sm-down">Subjects</th>
+      </thead>
+      {% for bill in bills %}
+        <tr>
+          <td class="text-nowrap">
+            <a href="{% url 'bills:bill-detail' bill.id %}">{{ bill.bill_id }}</a>
+          </td>
+          <td>{{ bill.title }}</td>
+          <td class="hidden-sm-down"> {{ bill.subjects.all|join:", " }} </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div><!-- end #bill-list -->
 
-  <table id="vote-list" class="table table-striped table-sm">
-    <thead>
-      <th class="hidden-sm-down">Date</th>
-      <th>Bill</th>
-      <th>Vote</th>
-      <th class="hidden-sm-down">Subjects</th>
-    </thead>
-    {% for vote in votes %}
-      <tr>
-        <td class="hidden-sm-down text-nowrap">{{ vote.date|date:'Y-m-d' }}</td>
-        <td class="text-nowrap">
-          <a href="{% url 'openstates:bill-detail' vote.bill.session vote.bill.bill_id %}">{{ vote.bill.bill_id }}</a>
-        </td>
-        <td>{{ vote.value }}</td>
-        <td class="hidden-sm-down">{{ vote.subjects|join:', ' }}</td>
-      </tr>
-    {% endfor %}
-  </table>
-</div><!-- end #vote-list -->
+{% comment %}
+  <div id="nav-votes" class="tab-pane">
+  <!-- Votes -->
+    <table id="vote-list" class="table table-striped table-sm">
+      <thead>
+        <th class="hidden-sm-down">Date</th>
+        <th>Bill</th>
+        <th>Vote</th>
+        <th class="hidden-sm-down">Title</th>
+      </thead>
+      {% for vote in votes %}
+        <tr>
+          <td class="hidden-sm-down text-nowrap">{{ vote.date|date:'Y-m-d' }}</td>
+          <td class="text-nowrap">
+            <a href="{% url 'bills:bill-detail' vote.bill.bill_id %}">{{ vote.bill.bill_id }}</a>
+          </td>
+          <td>{{ vote.value }}</td>
+          <td class="hidden-sm-down">{{ bill.title }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div><!-- end #vote-list -->
+{% endcomment %}
 
-<div id="nav-donors" class="tab-pane">
-  <!-- <h5 class="section-title bg-intx-secondary">Top Donors</h5> -->
-
-  <table id="donors-list" class="table table-striped table-sm">
-    <thead>
-      <th>Donor</th>
-      <th>Amount</th>
-    </thead>
-    {% for contribution in top_contributions %}
-      <tr>
-        <td align="left">
-          <a href="{% url "donors:donor-detail" contribution.donor.id %}">{{ contribution.full_name }}</a>
-        </td>
-        <td class="text-nowrap" align="left">
-          ${{ contribution.amount|floatformat:0|intcomma }}
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-</div> <!-- end #nav-donors -->
 </div><!-- end .tab-content -->
 <br><br><br>
 {% include "pages/footer.html" %}
@@ -77,13 +110,13 @@
   {{ block.super }}
   <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
   <script>
-    var dataTableOptions = {"order": [[ 1, "desc" ]]};
+    var dataTableOptions = {"order": [[ 0, "desc" ]]};
     if (getBootstrapBreakpoint() === 'xs') {
       dataTableOptions = {
         "iDisplayLength": 5,
         "bLengthChange": false,
         "pagingType": "simple",
-        "order": [[ 1, "desc" ]]
+        "order": [[ 0, "desc" ]]
       };
     }
     $(document).ready(function () {
@@ -91,6 +124,9 @@
     });
     $(document).ready(function () {
       $('#donors-list').dataTable(dataTableOptions);
+    });
+    $(document).ready(function () {
+      $('#bill-list').dataTable(dataTableOptions);
     });
   </script>
 {% endblock javascript %}

@@ -11,8 +11,7 @@ def test_fetch_legislator_list():
 
     url, headers = url_and_headers_from_mock_get_request(mock_get)
     assert_valid_openstates_url_and_headers(url, headers)
-    assert url.path == '/api/v1/legislators/'
-    assert url.query == 'state=tx'
+    assert url.path == '/graphql'
 
 
 def test_fetch_bill_list():
@@ -21,7 +20,7 @@ def test_fetch_bill_list():
 
     url, headers = url_and_headers_from_mock_get_request(mock_get)
     assert_valid_openstates_url_and_headers(url, headers)
-    assert url.path == '/api/v1/bills/'
+    assert url.path == '/graphql'
     query = parse_qs(url.query)
     assert query['state'] == ['tx']
     assert query['search_window'] == ['session']
@@ -30,8 +29,8 @@ def test_fetch_bill_list():
 
 
 def test_fetch_bill_detail():
-    session = 85
-    pk = 'HB%20512'
+    session = 86
+    pk = 'HB%1365'
     with mock_get_request() as mock_get:
         fetch.bill_detail(session=session, pk=pk)
 

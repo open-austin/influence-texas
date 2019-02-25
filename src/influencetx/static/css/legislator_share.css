@@ -1,0 +1,9 @@
+.flexcontainer-leg-share {
+    position: relative;
+  }
+
+.itemright-leg-share {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }

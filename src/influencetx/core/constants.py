@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class Chamber(Enum):
-    LOWER = 'lower'
-    UPPER = 'upper'
+    LOWER = 'House'
+    UPPER = 'Senate'
 
 
 CHAMBER_CHOICES = [

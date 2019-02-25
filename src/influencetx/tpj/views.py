@@ -1,7 +1,8 @@
 from django.views.generic import DetailView, ListView
-
-from influencetx.core import constants
 from . import models
+import logging
+log = logging.getLogger(__name__)
+
 
 class DonorListView(ListView):
 
@@ -29,11 +30,12 @@ class DonorDetailView(DetailView):
     model = models.Donor
     context_object_name = 'donor'
 
-
     def get_context_data(self, *args, **kwargs):
         # Call the base implementation first to get a context
         context = super(DonorDetailView, self).get_context_data(*args, **kwargs)
 
-        contributions = models.tpj_models.Contributionsummary.objects.prefetch_related('filer').filter(donor=self.object.id).order_by('amount').reverse()[:25]
+        contributions = models.Contributionsummary.objects.prefetch_related(
+            'filer').filter(donor=self.object.id).order_by('amount').reverse()[:25]
         context['top_contributions'] = contributions
+        # log.warn(contributions[0])
         return context

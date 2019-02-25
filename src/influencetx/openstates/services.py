@@ -3,13 +3,12 @@ Application services for Open States interface.
 """
 from collections import namedtuple
 from enum import Enum
-
 from django.core.exceptions import ValidationError
-
 from . import utils
 from influencetx.legislators import models
 import logging
 log = logging.getLogger(__name__)
+
 
 class Action(Enum):
     ADDED = 'Added'
@@ -29,7 +28,7 @@ class ActionInfo(namedtuple('ActionInfo', ['action', 'instance', 'error'])):
         return cls(action=Action.FAILED, instance=None, error=error)
 
 
-def sync_legislator_data(api_data, commit=True):
+def sync_legislator_data(api_data, options, commit=True):
     """Add, update, or ignore legislator data from Open States API.
 
     Args:
@@ -38,9 +37,9 @@ def sync_legislator_data(api_data, commit=True):
     Returns:
         info (ActionInfo): Action performed and legislator instance.
     """
-    match = models.Legislator.objects.filter(openstates_leg_id=api_data['leg_id'])
+    match = models.Legislator.objects.filter(openstates_leg_id=api_data['id'])
     if match.exists():
-        return sync_existing_legislator_data(match.first(), api_data, commit=commit)
+        return sync_existing_legislator_data(match.first(), api_data, options, commit=commit)
     else:
         return sync_new_legislator_data(api_data, commit=commit)
 
@@ -52,15 +51,15 @@ def sync_new_legislator_data(api_data, commit=True):
     except KeyError as error:
         return ActionInfo.fail(f'Input legislator data missing key: {error}')
     except ValidationError as error:
-        info = f'{api_data["first_name"]} {api_data["last_name"]} ({api_data["leg_id"]})'
+        info = f"{api_data['name']} ({api_data['id']})"
         error_message = str(error)
         msg = f'Failed to add legislator, {info}, with errors {error_message}'
         return ActionInfo.fail(msg)
 
 
-def sync_existing_legislator_data(instance, api_data, commit=True):
-    new_data_date = utils.parse_datetime(api_data['updated_at']).date()
-    if instance.openstates_updated_at.date() < new_data_date:
+def sync_existing_legislator_data(instance, api_data, options, commit=True):
+    new_data_date = utils.parse_datetime(api_data['updatedAt']).date()
+    if options['force_update'] or instance.openstates_updated_at.date() < new_data_date:
         instance = utils.update_legislator_instance(instance, api_data, commit=commit)
         return ActionInfo.create(Action.UPDATED, instance)
     else:
@@ -69,10 +68,9 @@ def sync_existing_legislator_data(instance, api_data, commit=True):
 
 def sync_bill_data(api_data, force_update=False):
     instance = utils.find_matching_bill(api_data['id'])
-
     try:
         if instance:
-            new_data_date = utils.parse_datetime(api_data['updated_at']).date()
+            new_data_date = utils.parse_datetime(api_data['updatedAt']).date()
             if instance.openstates_updated_at.date() < new_data_date or force_update:
                 instance = utils.deserialize_openstates_bill(api_data, instance=instance)
                 return ActionInfo.create(Action.UPDATED, instance)
@@ -82,7 +80,7 @@ def sync_bill_data(api_data, force_update=False):
             instance = utils.deserialize_openstates_bill(api_data)
             return ActionInfo.create(Action.ADDED, instance)
     except ValidationError as error:
-        info = f'{api_data["id"]} ({api_data["bill_id"]} from session {api_data["session"]})'
+        info = f'{api_data["id"]} ({api_data["identifier"]} from session {api_data["legislativeSession"]["identifier"]})'
         error_message = str(error)
         msg = f'Failed to add bill, {info}, with errors {error_message}'
         return ActionInfo.fail(msg)

@@ -1,9 +1,11 @@
 from django.views.generic import DetailView, ListView
 from influencetx.core import constants
 from . import models
-
+from influencetx.tpj import models as tpj_models
+from influencetx.bills import models as bill_models
 import logging
 log = logging.getLogger(__name__)
+
 
 class LegislatorListView(ListView):
 
@@ -16,7 +18,7 @@ class LegislatorListView(ListView):
         return (
             models.Legislator.objects
             .filter(**self.filters)
-            .order_by('first_name', 'last_name')
+            .order_by('name')
         )
 
     def get_context_data(self, *args, **kwargs):
@@ -43,29 +45,39 @@ class LegislatorDetailView(DetailView):
     context_object_name = 'legislator'
     queryset = (
         models.Legislator.objects.all()
-        .prefetch_related('votes__vote_tally__bill__subjects')
+        .prefetch_related('votes__vote_tally__bills__bills_sponsored')
     )
 
     def get_context_data(self, *args, **kwargs):
         context = super(LegislatorDetailView, self).get_context_data(*args, **kwargs)
 
-        votes = []
-        for each in self.object.votes.all():
-            tally = each.vote_tally
-            bill = tally.bill
-            subjects = [subject.label for subject in bill.subjects.all()]
-            votes.append({'value': each.value, 'date': tally.date,
-                          'bill': tally.bill, 'subjects': subjects})
-        context['votes'] = votes
+        # TODO: Fix this once we get vote data
+        # """Last vote on bill by legislator."""
+        # votes = []
+        # for each in self.object.votes.all():
+        #     tally = each.vote_tally
+        #     bill = tally.bill
+        #     subjects = [subject.label for subject in bill.subjects.all()]
+        #     votes.append({'value': each.value, 'date': tally.date,
+        #                   'bill': tally.bill, 'subjects': subjects})
+        # context['votes'] = votes
 
-        #"""Campaign contributions to legislator."""
+        # """Bills sponsored by legislator."""
+        context['bills'] = bill_models.Bill.objects.filter(sponsors=self.object.id)
+
+        # """Campaign contributions to legislator."""
         contributions = []
         try:
-            id_map = models.LegislatorIdMap.objects.get(openstates_leg_id=self.object.openstates_leg_id)
-            filer = models.tpj_models.Filer.objects.get(id=id_map.tec_filer_id)
-            contributions = models.tpj_models.Contributiontotalbyfiler.objects.prefetch_related('donor').filter(filer=filer.id).order_by('-amount')[:25]
+            id_map = models.LegislatorIdMap.objects.get(
+                openstates_leg_id=self.object.openstates_leg_id)
+            # log.warn(models.tpj_models)
+            filer = tpj_models.Filer.objects.filter(id=id_map.tpj_filer_id).first()
+            # log.warn(filer)
+            contributions = tpj_models.Contributionsummary.objects.select_related(
+                'donor').filter(filer=filer.id).order_by('-amount')[:25]
         except models.LegislatorIdMap.DoesNotExist:
-            log.warn(f"Filer id not found for openstates_leg_id {self.object.openstates_leg_id!r} in {models.LegislatorIdMap.objects.first}.")
+            log.warn(f"Filer id not found for openstates_leg_id {self.object.openstates_leg_id}" +
+                     "in {models.LegislatorIdMap.objects.first}.")
 
         context['top_contributions'] = contributions
         return context
