@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Find My Reps{% endblock %}
+
+{% block css %}
+  {{ block.super }}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+{% endblock css %}
+
+{% block content %}
+<h2>Find My Reps</h2>
+<div class="input-group input-group-lg">
+    <input type="text" class="form-control" placeholder="Enter your address to find who represents you" id="address" name="address">
+    <span class="input-group-append">
+      <button class="btn btn-info" type="submit" id="address-search"><span>Search</span></button>
+    </span>
+</div>
+<p class='text-center small'>
+    Powered by <a target='_blank' href='https://developers.google.com/civic-information/'>Google Civic Information API</a>
+</p>
+<br><br><br><br><br><br><br><br><br>
+{% include "pages/footer.html" %}
+{% endblock content %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyDWV3t6w5_eYmyrtkpXcpbwWoGkAUFnYYw"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+          integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+  </script>
+  <script src="{% static 'js/rep_lookup.js' %}"></script>
+{% endblock javascript %}

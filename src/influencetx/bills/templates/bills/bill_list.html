@@ -13,17 +13,17 @@
   <p class="text-muted">Session: {{ session }}, Total: {{ total_bills }}</p>
 </div>
 <div class="container">
-  <table id="bill-list" class="table">
+  <table id="bill-list" class="table table-striped">
     <thead>
       <th> Bill </th>
       <th> Title </th>
-      <th class="hidden-sm-down"> Subjects </th>
+      <th class="d-none d-sm-block"> Subjects </th>
     </thead>
     {% for bill in bills %}
       <tr>
         <td class="text-nowrap"> <a href="{% url "bills:bill-detail" bill.id %}">{{ bill.bill_id }} </a> </td>
         <td> {{ bill.title }} </td>
-        <td class="hidden-sm-down"> {{ bill.subjects.all|join:", " }} </td>
+        <td class="d-none d-sm-block"> {{ bill.subjects.all|join:", " }} </td>
       </tr>
     {% endfor %}
   </table>
@@ -38,7 +38,9 @@
   <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
   <script>
     $(document).ready(function () {
-      $('#bill-list').dataTable({});
+      $('#bill-list').dataTable({
+        "autoWidth": True
+      });
     });
   </script>
 {% endblock javascript %}
