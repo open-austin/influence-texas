@@ -33,10 +33,7 @@ class FindrepsListView(ListView):
 
     model = models.Legislator
     context_object_name = 'legislators'
-    extra_context = {
-                    'title': 'My Legislators',
-                    'GOOGLE_API_KEY' : settings.GOOGLE_API_KEY
-                    }
+    extra_context = { 'title': 'My Legislators' }
 
     def get_context_data(self, *args, **kwargs):
         context = super(FindrepsListView, self).get_context_data(*args, **kwargs)
