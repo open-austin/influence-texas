@@ -59,7 +59,7 @@
   </div> <!-- end #nav-donors -->
   <!-- Sponsored Bills -->
   <div id="nav-bills" class="tab-pane">
-    <table id="bill-list" class="table">
+    <table id="bill-list" class="table table-striped table-sm">
       <thead>
         <th>Bill</th>
         <th>Title</th>
@@ -113,7 +113,7 @@
           "autoWidth": false,
           "order": [[ 0, "desc" ]]
         };
-    if (getBootstrapBreakpoint() === 'xs') {
+    if (getBootstrapBreakpoint() === 'sm') {
       dataTableOptions = {
         "autoWidth": true,
         "iDisplayLength": 5,
