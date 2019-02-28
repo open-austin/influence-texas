@@ -12,6 +12,14 @@
 <div class="summary-info mt-3 mb-4">
   <p class="text-muted">Session: {{ session }}, Total: {{ total_bills }}</p>
 </div>
+<div class="container input-group">
+  <form action="" method="get" class="input-group input-group-sm">
+    <input type="text" class="form-control" placeholder="Find Bill ID" id="search" name="search" value="{{ request.GET.search }}">
+    <span class="input-group-append">
+      <button class="btn btn-info" type="submit" id="search"><span>Find</span></button>
+    </span>
+  </form>
+</div>
 <div class="container">
   <table id="bill-list" class="table table-striped">
     <thead>
@@ -31,6 +39,9 @@
   <ul class="pagination">
     {% if page_obj.has_previous %}
         <li class="col">
+            <span><a href="?page={{ page_obj.first_page_number }}">First</a></span>
+        </li>
+        <li class="col">
             <span><a href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
         </li>
     {% else %}
@@ -42,6 +53,9 @@
     {% if page_obj.has_next %}
         <li class="col">
             <span><a href="?page={{ page_obj.next_page_number }}">Next</a></span>
+        </li>
+        <li class="col">
+            <span><a href="?page={{ page_obj.paginator.num_pages }}">Last</a></span>
         </li>
     {% else %}
         <li class="col"><span>End</span></li>
