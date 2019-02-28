@@ -1,6 +1,6 @@
 var MAPS_API = "https://maps.google.com/maps/api/js?libraries=places";
 var INFO_API = 'https://www.googleapis.com/civicinfo/v2/representatives';
-var API_KEY = 'AIzaSyDWV3t6w5_eYmyrtkpXcpbwWoGkAUFnYYw';
+
 var address, divisions, data;
 
 function addressSearch(address) {
@@ -40,7 +40,6 @@ function addressSearch(address) {
             if (house_district === undefined || house_district === null) {
                  house_district = 0
             }
-            // console.log(location.origin);
             // console.log(senate_district, house_district);
             findreps_url = location.origin + '/legislators/findreps/' + senate_district + ',' + house_district
             // Do url call to django url with district numbers.
@@ -56,25 +55,30 @@ $(document).ready(function($) {
     autocomplete.addListener('place_changed', function() {
         var place = autocomplete.getPlace();
         address = place.formatted_address;
-        console.log(address);
+        // console.log('You selected: ' + address);
     })
 
-    // console.log(address);
-
     $('#address-search').click(function() {
+        if (address==undefined) {
+            address = document.getElementById('address').value
+        }
         if (address != '')
-            console.log(address);
+            console.log('Address is: ' + address);
             addressSearch(address);
     });
 });
 
 function getDistricts(divisions) {
     var district_tags = {}
+    // console.log(divisions);
     for (var division in divisions) {
+        // console.log(division);
         var district_tag = division.split("/");
-        district_tag = district_tag[district_tag.length - 1];
-        district_tag = district_tag.split(":");
-        district_tags[district_tag[0]] = district_tag[1];
+        if (district_tag[district_tag.length - 2] == 'state:tx') {
+            district_tag = district_tag[district_tag.length - 1];
+            district_tag = district_tag.split(":");
+            district_tags[district_tag[0]] = district_tag[1];
+        }
     }
     return district_tags;
 }

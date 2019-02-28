@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static i18n %}
-{% block title %}Legislator List{% endblock %}
 
 {% block css %}
   {{ block.super }}
@@ -16,6 +15,13 @@
     <ul class="list-group list list-unstyled">
       {% for person in legislators %}
         <li>
+          {% if not person %}
+          <div class="list-group-item list-group-item-action d-flex">
+            <div class="col">
+              <h5 class="legislator-name">Not Found</h5>
+            </div>
+          </div>
+          {% else %}
           <a href="{% url "legislators:legislator-detail" person.id %}">
             <div class="list-group-item list-group-item-action d-flex">
               <div>
@@ -34,6 +40,7 @@
               </div>
             </div>
           </a>
+          {% endif %}
         </li>
       {% endfor %}
     </ul>
