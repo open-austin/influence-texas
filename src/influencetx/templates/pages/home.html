@@ -4,29 +4,33 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<table class="table">
-  <tr>
-    <td>
-      <p><a class="navbar-brand" href="{% url 'legislators:legislator-list' %}">Legislators</a></p>
-    </td><td align="right">
-      <p><a class="navbar-brand" href="{% url 'donors:donor-list' %}">Money</a><p>
-    </td>
-  </tr>
-</table>
-<hr>
 <div align="center">
-  <img src="{% static 'images/logo.png' %}"  alt="Influence Texas Logo" width="300px">
+  <table class="table table-sm">
+    <tr>
+      <td>
+        <p><a class="navbar-brand" href="{% url 'legislators:legislator-list' %}">Legislators</a></p>
+      </td>
+      <td align="right">
+        <p><a class="navbar-brand" href="{% url 'donors:donor-list' %}">Money</a><p>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" colspan="2">
+        <div class="container">
+          <img src="{% static 'images/logo.png' %}" class="img-fluid" alt="Influence Texas Logo">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><a class="navbar-brand" href="{% url 'bills:bill-list' %}">Bills</a></p>
+      </td>
+      <td align="right">
+        <p><a class="navbar-brand" href="{% url 'findreps' %}">Find Reps</a><p>
+      </td>
+    </tr>
+  </table>
 </div>
-<br>
-<table class="table">
-  <tr>
-    <td>
-      <p><a class="navbar-brand" href="{% url 'bills:bill-list' %}">Bills</a></p>
-    </td><td align="right">
-      <p><a class="navbar-brand" href="{% url 'findreps' %}">Find Reps</a><p>
-    </td>
-  </tr>
-</table>
 <div align="center">
     <a href="https://www.facebook.com/share.php?u={{ request.build_absolute_uri }}" target="_blank">
       <span class='symbol'>circlefacebook</span>
