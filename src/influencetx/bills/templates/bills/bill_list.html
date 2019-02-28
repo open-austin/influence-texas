@@ -27,6 +27,27 @@
       </tr>
     {% endfor %}
   </table>
+  {% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+        <li class="col">
+            <span><a href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
+        </li>
+    {% else %}
+        <li class="col"><span>Start</span></li>
+    {% endif %}
+        <li class="col">
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        </li>
+    {% if page_obj.has_next %}
+        <li class="col">
+            <span><a href="?page={{ page_obj.next_page_number }}">Next</a></span>
+        </li>
+    {% else %}
+        <li class="col"><span>End</span></li>
+    {% endif %}
+  </ul>
+  {% endif %}
 </div>
 
 <br><br><br>
@@ -35,11 +56,13 @@
 
 {% block javascript %}
   {{ block.super }}
-  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.js"
+          integrity="sha256-2VBPy2n7sERBn+tpZos/5j8jVBCE5uzGkceIwP9aAP0="
+          crossorigin="anonymous"></script>
   <script>
     $(document).ready(function () {
-      $('#bill-list').dataTable({
-        "autoWidth": true
+      var billList = new List('bill-list', {
+        valueNames: ['bill_id', 'title', 'subjects'],
       });
     });
   </script>

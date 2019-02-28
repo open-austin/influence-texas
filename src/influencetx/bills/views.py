@@ -9,11 +9,13 @@ class BillListView(ListView):
 
     model = models.Bill
     context_object_name = 'bills'
+    paginate_by = 10
 
     def get_queryset(self, *args, **kwargs):
         return (
             models.Bill.objects.all()
             .prefetch_related('subjects__bills')
+            .order_by('bill_id')
         )
 
     def get_context_data(self, *args, **kwargs):
