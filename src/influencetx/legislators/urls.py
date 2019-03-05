@@ -10,6 +10,11 @@ urlpatterns = [
         name='legislator-list'
     ),
     url(
+        regex=r'^findreps/(?P<pk_s>[0-9]+),(?P<pk_h>[0-9]+)$',
+        view=views.FindrepsListView.as_view(),
+        name='findreps-list'
+    ),
+    url(
         regex=r'^senators$',
         view=views.SenatorListView.as_view(),
         name='senator-list'

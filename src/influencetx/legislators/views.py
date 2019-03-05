@@ -1,4 +1,6 @@
 from django.views.generic import DetailView, ListView
+from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 from influencetx.core import constants
 from . import models
 from influencetx.tpj import models as tpj_models
@@ -23,6 +25,27 @@ class LegislatorListView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(LegislatorListView, self).get_context_data(*args, **kwargs)
+        context.update(**self.extra_context)
+        return context
+
+
+class FindrepsListView(ListView):
+
+    model = models.Legislator
+    context_object_name = 'legislators'
+    extra_context = { 'title': 'My Legislators' }
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(FindrepsListView, self).get_context_data(*args, **kwargs)
+        try:
+            senate_rep = models.Legislator.objects.get(district=self.kwargs.get('pk_s', ''),chamber=constants.Chamber.UPPER.value)
+        except ObjectDoesNotExist:
+            senate_rep = None
+        try:
+            house_rep = models.Legislator.objects.get(district=self.kwargs.get('pk_h', ''),chamber=constants.Chamber.LOWER.value)
+        except ObjectDoesNotExist:
+            house_rep = None
+        context['legislators'] = [senate_rep, house_rep]
         context.update(**self.extra_context)
         return context
 

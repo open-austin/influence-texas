@@ -190,6 +190,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'influencetx.context_processors.global_settings',
                 # Your stuff: custom template context processors go here
             ],
         },
@@ -335,3 +336,5 @@ LOGGING = {
 
 # Your common stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
+GOOGLE_API_KEY = env('GOOGLE_API_KEY', default='')
+GOOGLE_ANALYTICS = env('GOOGLE_ANALYTICS', default='')

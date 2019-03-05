@@ -50,10 +50,14 @@ with the following values::
     export OPENSTATES_API_KEY=YOUR-API-KEY
     export TPJ_DB_USER=YOUR-USERNAME
     export TPJ_DB_PASSWORD=YOUR-PASSWORD
+    export GOOGLE_API_KEY=YOUR-API-KEY
+    export GOOGLE_ANALYTICS=YOUR-ANALYTICS-ID
 
 The TPJ variables require credentials from Texans for Public Justice. Currently, there's no
 established process for acquiring those credentials. See the following section to acquire an
 OpenStates key.
+The Google API keys are for the "Find Rep" portion of the application, which has a cost
+associated with it.
 
 When you start up a new shell, you should run the following to setup environment variables::
 

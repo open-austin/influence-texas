@@ -8,6 +8,7 @@ from django.views import defaults as default_views
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
+    url(r'^findreps/$', TemplateView.as_view(template_name='pages/findreps.html'), name='findreps'),
 
     # Django Admin, use {% url 'admin:index' %}
     #url(settings.ADMIN_URL, admin.site.urls),
@@ -19,7 +20,6 @@ urlpatterns = [
     # Custom urls
     url(r'^bills/', include('influencetx.bills.urls', namespace='bills')),
     url(r'^legislators/', include('influencetx.legislators.urls', namespace='legislators')),
-    url(r'^openstates/', include('influencetx.openstates.urls', namespace='openstates')),
     url(r'^donors/', include('influencetx.tpj.urls', namespace='donors')),
 
 ] + static(settings.STATIC_URL)

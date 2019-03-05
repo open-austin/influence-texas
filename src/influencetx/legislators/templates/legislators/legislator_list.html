@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 {% load static i18n %}
-{% block title %}Legislator List{% endblock %}
 
 {% block css %}
   {{ block.super }}
-  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
 {% endblock css %}
 
 {% block content %}
@@ -16,24 +15,32 @@
     <ul class="list-group list list-unstyled">
       {% for person in legislators %}
         <li>
+          {% if not person %}
+          <div class="list-group-item list-group-item-action d-flex">
+            <div class="col">
+              <h5 class="legislator-name">Not Found</h5>
+            </div>
+          </div>
+          {% else %}
           <a href="{% url "legislators:legislator-detail" person.id %}">
-            <div class="list-group-item list-group-item-action">
+            <div class="list-group-item list-group-item-action d-flex">
               <div>
                 {% if person.photo_url %}
                   <img src="{{ person.photo_url }}" alt="photo of {{ person }}"
                                                     class="rounded-circle"/>
                 {% else %}
-                  <img src="http://via.placeholder.com/125x175/F52887/FFFFFF?text={{ person.initial }}"
+                  <img src="https://via.placeholder.com/125x175/F52887/FFFFFF?text={{ person.initial }}"
                        class="rounded-circle">
                 {% endif %}
               </div>
               <div class="col">
                 <h5 class="legislator-name">{{ person }}</h5>
-                <p class="text-muted">{{ person.party_label }}</p>
+                <p class="text-muted">{{ person.chamber }}</p>
                 <p class="text-muted district">District {{ person.district }}</p>
               </div>
             </div>
           </a>
+          {% endif %}
         </li>
       {% endfor %}
     </ul>

@@ -12,33 +12,71 @@
 <div class="summary-info mt-3 mb-4">
   <p class="text-muted">Session: {{ session }}, Total: {{ total_bills }}</p>
 </div>
+<div class="container input-group">
+  <form action="" method="get" class="input-group input-group-sm">
+    <input type="text" class="form-control" placeholder="Find Bill ID" id="search" name="search" value="{{ request.GET.search }}">
+    <span class="input-group-append">
+      <button class="btn btn-info" type="submit" id="search"><span>Find</span></button>
+    </span>
+  </form>
+</div>
 <div class="container">
-  <table id="bill-list" class="table">
+  <table id="bill-list" class="table table-striped">
     <thead>
       <th> Bill </th>
       <th> Title </th>
-      <th class="hidden-sm-down"> Subjects </th>
+      <th class="d-none d-sm-block"> Subjects </th>
     </thead>
     {% for bill in bills %}
       <tr>
         <td class="text-nowrap"> <a href="{% url "bills:bill-detail" bill.id %}">{{ bill.bill_id }} </a> </td>
         <td> {{ bill.title }} </td>
-        <td class="hidden-sm-down"> {{ bill.subjects.all|join:", " }} </td>
+        <td class="d-none d-sm-block"> {{ bill.subjects.all|join:", " }} </td>
       </tr>
     {% endfor %}
   </table>
+  {% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+        <li class="col">
+            <span><a href="?page={{ page_obj.first_page_number }}">First</a></span>
+        </li>
+        <li class="col">
+            <span><a href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
+        </li>
+    {% else %}
+        <li class="col"><span>Start</span></li>
+    {% endif %}
+        <li class="col">
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        </li>
+    {% if page_obj.has_next %}
+        <li class="col">
+            <span><a href="?page={{ page_obj.next_page_number }}">Next</a></span>
+        </li>
+        <li class="col">
+            <span><a href="?page={{ page_obj.paginator.num_pages }}">Last</a></span>
+        </li>
+    {% else %}
+        <li class="col"><span>End</span></li>
+    {% endif %}
+  </ul>
+  {% endif %}
 </div>
 
 <br><br><br>
-{% include "pages/footer.html" %}
 {% endblock content %}
 
 {% block javascript %}
   {{ block.super }}
-  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.js"
+          integrity="sha256-2VBPy2n7sERBn+tpZos/5j8jVBCE5uzGkceIwP9aAP0="
+          crossorigin="anonymous"></script>
   <script>
     $(document).ready(function () {
-      $('#bill-list').dataTable({});
+      var billList = new List('bill-list', {
+        valueNames: ['bill_id', 'title', 'subjects'],
+      });
     });
   </script>
 {% endblock javascript %}

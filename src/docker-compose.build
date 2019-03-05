@@ -17,6 +17,8 @@ services:
     environment:
       - DATABASE_URL=psql://postgres:mysecretpassword@localhost:5432/influencetx
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}
       - TPJ_DB_USER=${TPJ_DB_USER}
       - TPJ_DB_PASSWORD=${TPJ_DB_PASSWORD}
       - TPJ_DB_HOST=${TPJ_DB_HOST}

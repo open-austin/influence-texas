@@ -11,6 +11,8 @@ services:
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}
       - TPJ_DB_USER=${TPJ_DB_USER}
       - TPJ_DB_PASSWORD=${TPJ_DB_PASSWORD}
       - TPJ_DB_HOST=${TPJ_DB_HOST}
@@ -29,4 +31,3 @@ services:
     network_mode: "host"
     ports:
       - "6379:6379"
-
