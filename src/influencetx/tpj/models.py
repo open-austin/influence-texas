@@ -55,7 +55,7 @@ class Donor(models.Model):
     dem_score = models.SmallIntegerField(db_column='DemScore')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'contributors'
 
     def __str__(self):
@@ -85,7 +85,7 @@ class Filer(models.Model):
     party = models.CharField(db_column='Party', max_length=5, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'filers'
 
     def __str__(self):
@@ -112,7 +112,7 @@ class Contribution(models.Model):
     election_year = models.IntegerField(db_column='eYear', blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'contribs_2018'
 
     def __str__(self):
@@ -127,7 +127,7 @@ class Contributionsummary(models.Model):
                                  decimal_places=2, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'total_donorbyfiler_2018'
 
     def __str__(self):
@@ -141,7 +141,7 @@ class Contributiontotalbydonor(models.Model):
                                       decimal_places=2, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'total_donor_2018'
 
     def __str__(self):
