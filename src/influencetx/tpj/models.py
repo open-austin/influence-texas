@@ -20,6 +20,7 @@ manually to clean this up:
 The models in this file have been aggressively trimmed of fields. If you need other data, they may
 be available on the source tables for these models---you should check the source tables.
 """
+from django.conf import settings
 from django.db import models
 from influencetx.legislators import models as leg_models
 import logging
@@ -55,7 +56,7 @@ class Donor(models.Model):
     dem_score = models.SmallIntegerField(db_column='DemScore')
 
     class Meta:
-        managed = True
+        managed = settings.TPJ_MANAGED
         db_table = 'contributors'
 
     def __str__(self):
@@ -85,7 +86,7 @@ class Filer(models.Model):
     party = models.CharField(db_column='Party', max_length=5, blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = settings.TPJ_MANAGED
         db_table = 'filers'
 
     def __str__(self):
@@ -112,7 +113,7 @@ class Contribution(models.Model):
     election_year = models.IntegerField(db_column='eYear', blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = settings.TPJ_MANAGED
         db_table = 'contribs_2018'
 
     def __str__(self):
@@ -120,14 +121,15 @@ class Contribution(models.Model):
 
 
 class Contributionsummary(models.Model):
-    donor = models.ForeignKey(Donor, db_column='ctrib_id', on_delete=models.CASCADE)
+    donor = models.ForeignKey(Donor, db_column='ctrib_id', on_delete=models.CASCADE,
+                              blank=True, null=True)
     filer = models.OneToOneField(Filer, db_column='ifiler_ID', primary_key=True)
-    election_year = models.IntegerField(db_column='eyear')
+    election_year = models.IntegerField(db_column='eyear', blank=True, null=True)
     amount = models.DecimalField(db_column='cycle_total', max_digits=19,
                                  decimal_places=2, blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = settings.TPJ_MANAGED
         db_table = 'total_donorbyfiler_2018'
 
     def __str__(self):
@@ -141,7 +143,7 @@ class Contributiontotalbydonor(models.Model):
                                       decimal_places=2, blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = settings.TPJ_MANAGED
         db_table = 'total_donor_2018'
 
     def __str__(self):

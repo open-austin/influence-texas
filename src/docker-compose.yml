@@ -10,6 +10,7 @@ services:
     image: inftxos:0.2.86
     environment:
       - DATABASE_URL=${DATABASE_URL}
+      - TPJ_DB_URL=${TPJ_DB_URL}
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}

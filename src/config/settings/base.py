@@ -117,6 +117,7 @@ DATABASES = {
     'default': env.db('DATABASE_URL', default='postgres:///influencetx')
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
+DATABASE_ROUTERS = ['influencetx.core.routers.DatabaseRouter']
 
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------

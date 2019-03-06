@@ -1,8 +1,6 @@
 from django.conf import settings
 
-
 TPJ_APP = 'tpj'
-
 
 class DatabaseRouter(object):
     """Database router that routes to TPJ db for `tpj` app and associated models."""
@@ -21,7 +19,10 @@ class DatabaseRouter(object):
         return app1 == app2 or not (app1 == TPJ_APP or app2 == TPJ_APP)
 
     def allow_migrate(self, db, app_label, model_name=None, **hints):
-        return not (app_label == TPJ_APP or db == 'tpj')
+        if (app_label == TPJ_APP or db == 'tpj'):
+            return settings.TPJ_MANAGED
+        else:
+            return True
 
 
 def get_database_config_for_model_or_default(model):
