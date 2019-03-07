@@ -35,7 +35,7 @@ DATABASES['tpj'] = {
         'extra_params': 'tds_version=9.1',
     }
 }
-
+DATABASE_ROUTERS = ['influencetx.tpj.routers.DatabaseRouter']
 TPJ_MANAGED = False
 
 # SECRET CONFIGURATION

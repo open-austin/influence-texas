@@ -33,27 +33,20 @@ class Donor(models.Model):
     last_name = models.CharField(db_column='Surname', max_length=100, blank=True, null=True)
     first_name = models.CharField(db_column='FirstName', max_length=45, blank=True, null=True)
     suffix = models.CharField(db_column='Suffix', max_length=10, blank=True, null=True)
-    title = models.CharField(max_length=160, blank=True, null=True)
-
+    title = models.CharField(db_column='title', max_length=160, blank=True, null=True)
     city = models.CharField(db_column='City', max_length=30, blank=True, null=True)
     state = models.CharField(db_column='StateAbbr', max_length=2, blank=True, null=True)
     zipcode = models.CharField(db_column='ZipCode', max_length=10, blank=True, null=True)
-    zip = models.CharField(db_column='Zip', max_length=5, blank=True, null=True)
-    city = models.CharField(db_column='CityPreferred', max_length=64, blank=True, null=True)
-
     employer_id = models.IntegerField(db_column='Employer_ID', db_index=True,
                                       blank=True, null=True)
     employer = models.CharField(db_column='EMPLOYER', max_length=60, blank=True, null=True)
     occupation = models.CharField(db_column='Occupation', max_length=160, blank=True, null=True)
-    interest_code = models.CharField(db_column='InterestCode', max_length=5)
+    interest_code = models.CharField(db_column='InterestCode', max_length=5, blank=True, null=True)
     other_interests = models.CharField(db_column='OtherInterests', max_length=255,
                                        blank=True, null=True)
     total_contributions = models.DecimalField(db_column='CTRIB_AMT', max_digits=11,
                                               decimal_places=2, blank=True, null=True)
-
     party = models.CharField(db_column='Party', max_length=7, blank=True, null=True)
-    politics = models.CharField(db_column='Politics', max_length=8000, blank=True, null=True)
-    dem_score = models.SmallIntegerField(db_column='DemScore')
 
     class Meta:
         managed = settings.TPJ_MANAGED
@@ -70,7 +63,6 @@ class Filer(models.Model):
         db_column='iCand_Parent', blank=True, null=True,
         help_text='Parent id for deduped candidates. Matches candidate_id for non-dupes.',
     )
-
     title = models.CharField(max_length=15, blank=True, null=True)
     first_name = models.CharField(db_column='firstname', max_length=45, blank=True, null=True)
     last_name = models.CharField(db_column='surname', max_length=100, blank=True, null=True)
@@ -82,7 +74,6 @@ class Filer(models.Model):
     zipcode = models.CharField(db_column='Zipcode', max_length=10, blank=True, null=True)
     office = models.CharField(db_column='Office', max_length=100, blank=True, null=True)
     district = models.CharField(db_column='District', max_length=100, blank=True, null=True)
-
     party = models.CharField(db_column='Party', max_length=5, blank=True, null=True)
 
     class Meta:
@@ -121,12 +112,11 @@ class Contribution(models.Model):
 
 
 class Contributionsummary(models.Model):
-    donor = models.ForeignKey(Donor, db_column='ctrib_id', on_delete=models.CASCADE,
-                              blank=True, null=True)
-    filer = models.OneToOneField(Filer, db_column='ifiler_ID', primary_key=True)
-    election_year = models.IntegerField(db_column='eyear', blank=True, null=True)
+    filer = models.ForeignKey(Filer, db_column='ifiler_ID', on_delete=models.CASCADE, blank=True, null=False)
+    donor = models.ForeignKey(Donor, db_column='ctrib_ID', blank=True, null=False)
+    election_year = models.IntegerField(db_column='eyear', blank=True, null=False)
     amount = models.DecimalField(db_column='cycle_total', max_digits=19,
-                                 decimal_places=2, blank=True, null=True)
+                                 decimal_places=2, blank=True, null=False)
 
     class Meta:
         managed = settings.TPJ_MANAGED
