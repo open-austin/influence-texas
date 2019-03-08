@@ -108,14 +108,16 @@ class Contribution(models.Model):
         db_table = 'contribs_2018'
 
     def __str__(self):
-        return f'{self.id} {self.amount}'
+        return f'{self.id} {self.donor} {self.filer} {self.amount}'
 
 
 class Contributionsummary(models.Model):
-    filer = models.ForeignKey(Filer, db_column='ifiler_ID', on_delete=models.CASCADE, blank=True, null=False)
-    donor = models.ForeignKey(Donor, db_column='ctrib_ID', blank=True, null=False)
-    election_year = models.IntegerField(db_column='eyear', blank=True, null=False)
-    amount = models.DecimalField(db_column='cycle_total', max_digits=19,
+    donor = models.ForeignKey(Donor, db_column='ctrib_ID', blank=True, null=False,
+                                related_name='summary')
+    filer = models.ForeignKey(Filer, db_column='ifiler_ID', on_delete=models.CASCADE,
+                                related_name='summary', blank=True, null=False)
+    eyear = models.IntegerField(db_column='eyear', blank=True, null=False)
+    cycle_total = models.DecimalField(db_column='cycle_total', max_digits=19,
                                  decimal_places=2, blank=True, null=False)
 
     class Meta:
@@ -123,12 +125,13 @@ class Contributionsummary(models.Model):
         db_table = 'total_donorbyfiler_2018'
 
     def __str__(self):
-        return f'{self.donor} {self.filer} {self.amount}'
+        return f'{self.donor} {self.filer} {self.eyear} {self.cycle_total}'
 
 
 class Contributiontotalbydonor(models.Model):
-    donor = models.OneToOneField(Donor, db_column='ctrib_ID', primary_key=True)
-    election_year = models.IntegerField(db_column='eyear', blank=True, null=True)
+    donor = models.OneToOneField(Donor, db_column='ctrib_ID', blank=True, null=False,
+                                 primary_key=True)
+    eyear = models.IntegerField(db_column='eyear', blank=True, null=True)
     cycle_total = models.DecimalField(db_column='cycle_total', max_digits=19,
                                       decimal_places=2, blank=True, null=True)
 
@@ -137,4 +140,4 @@ class Contributiontotalbydonor(models.Model):
         db_table = 'total_donor_2018'
 
     def __str__(self):
-        return f'{self.donor} {self.cycle_total}'
+        return f'{self.donor} {self.eyear} {self.cycle_total}'

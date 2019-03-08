@@ -27,11 +27,9 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 # Mail settings
 # ------------------------------------------------------------------------------
 
-EMAIL_PORT = 1025
-
-EMAIL_HOST = 'localhost'
-EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
-                    default='django.core.mail.backends.console.EmailBackend')
+# EMAIL_PORT = 1025
+# EMAIL_HOST = 'localhost'
+# EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
 
 
 # CACHING
@@ -45,4 +43,4 @@ CACHES = {
 
 # Your local stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['localhost', '127.0.0.1', 'influencetx.com', 'api.influencetx.com'])
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '.influencetx.com', '.influencetexasx.com'])

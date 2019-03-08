@@ -42,7 +42,7 @@
     </thead>
     {% for contribution in top_contributions %}
       <tr>
-        <td class="text-nowrap" width="10em">${{ contribution.amount|floatformat:0|intcomma }}</td>
+        <td class="text-nowrap" width="10em">${{ contribution.cycle_total|floatformat:0|intcomma }}</td>
         <td>{% if contribution.filer.leg_id %}<a href="{% url "legislators:legislator-detail" contribution.filer.leg_id %}">{% endif %}{{ contribution.filer.candidate_name }}</td>
         <td class="hidden-sm-down">{{ contribution.filer.office }}</td>
       </tr>
