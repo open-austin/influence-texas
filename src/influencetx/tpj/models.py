@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 
 
 class Donor(models.Model):
-    id = models.IntegerField(db_column='Ctrib_ID', primary_key=True)
+    id = models.IntegerField(db_column='Ctrib_ID', primary_key=True, db_index=True)
     full_name = models.CharField(db_column='FullName', max_length=150, blank=True, null=True)
     last_name = models.CharField(db_column='Surname', max_length=100, blank=True, null=True)
     first_name = models.CharField(db_column='FirstName', max_length=45, blank=True, null=True)
@@ -57,7 +57,7 @@ class Donor(models.Model):
 
 
 class Filer(models.Model):
-    id = models.IntegerField(db_column='iFILER_ID', primary_key=True)
+    id = models.IntegerField(db_column='iFILER_ID', primary_key=True, db_index=True)
     candidate_id = models.IntegerField(db_column='iCand_ID', blank=True, null=True, db_index=True)
     parent_candidate_id = models.IntegerField(
         db_column='iCand_Parent', blank=True, null=True,
@@ -76,26 +76,28 @@ class Filer(models.Model):
     district = models.CharField(db_column='District', max_length=100, blank=True, null=True)
     party = models.CharField(db_column='Party', max_length=5, blank=True, null=True)
 
+
     class Meta:
         managed = settings.TPJ_MANAGED
         db_table = 'filers'
 
+    @property
+    def leg_id(self):
+        """Get PK for matching Legislator."""
+        try:
+            id_map = leg_models.LegislatorIdMap.objects.get(tpj_filer_id=self.id)
+            leg_obj = leg_models.Legislator.objects.get(openstates_leg_id=id_map.openstates_leg_id)
+            return leg_obj.id
+        except:
+            return None
+
     def __str__(self):
         return f'{self.first_name} {self.last_name}'.strip()
 
-    def leg_id(self):
-        """Get PK for matching Legislator."""
-        id_map = leg_models.LegislatorIdMap.objects.get(tpj_filer_id=self.id)
-        # log.warn(id_map)
-        if id_map.openstates_leg_id:
-            leg_obj = leg_models.Legislator.objects.get(openstates_leg_id=id_map.openstates_leg_id)
-            return leg_obj.id
-        else:
-            return None
 
 
 class Contribution(models.Model):
-    id = models.IntegerField(db_column='IDNO', primary_key=True)
+    id = models.IntegerField(db_column='IDNO', primary_key=True, db_index=True)
     donor = models.ForeignKey(Donor, db_column='ctrib_ID', blank=True, null=True)
     filer = models.ForeignKey(Filer, db_column='iFiler_ID', blank=True, null=True)
     amount = models.DecimalField(db_column='CTRIB_AMT', max_digits=19,
@@ -113,11 +115,11 @@ class Contribution(models.Model):
 
 class Contributionsummary(models.Model):
     donor = models.ForeignKey(Donor, db_column='ctrib_ID', blank=True, null=False,
-                                related_name='summary')
+                                related_name='donorsummarys')
     filer = models.ForeignKey(Filer, db_column='ifiler_ID', on_delete=models.CASCADE,
-                                related_name='summary', blank=True, null=False)
+                                related_name='filersummarys', blank=True, null=False)
     eyear = models.IntegerField(db_column='eyear', blank=True, null=False)
-    cycle_total = models.DecimalField(db_column='cycle_total', max_digits=19,
+    cycle_total = models.DecimalField(db_column='cycle_total', max_digits=19, db_index=True,
                                  decimal_places=2, blank=True, null=False)
 
     class Meta:
@@ -129,10 +131,10 @@ class Contributionsummary(models.Model):
 
 
 class Contributiontotalbydonor(models.Model):
-    donor = models.OneToOneField(Donor, db_column='ctrib_ID', blank=True, null=False,
-                                 primary_key=True)
+    donor = models.OneToOneField('Donor', db_column='ctrib_ID', primary_key=True,
+                                    related_name='donortotals')
     eyear = models.IntegerField(db_column='eyear', blank=True, null=True)
-    cycle_total = models.DecimalField(db_column='cycle_total', max_digits=19,
+    cycle_total = models.DecimalField(db_column='cycle_total', max_digits=19, db_index=True,
                                       decimal_places=2, blank=True, null=True)
 
     class Meta:
