@@ -97,7 +97,7 @@ class LegislatorDetailView(DetailView):
             filer = tpj_models.Filer.objects.filter(id=id_map.tpj_filer_id).first()
             # log.warn(filer)
             contributions = tpj_models.Contributionsummary.objects.select_related(
-                'donor').filter(filer=filer.id).order_by('-amount')[:25]
+                'donor').filter(filer=filer.id).order_by('-cycle_total')[:25]
         except models.LegislatorIdMap.DoesNotExist:
             log.warn(f"Filer id not found for openstates_leg_id {self.object.openstates_leg_id}" +
                      "in {models.LegislatorIdMap.objects.first}.")

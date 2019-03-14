@@ -2,7 +2,7 @@
 # like Pillow and psycopg2
 # See http://bitly.com/wheel-building-fails-CPython-35
 # Verified bug on Python 3.5.1
-wheel==0.31.1
+wheel==0.33.1
 
 django==1.11.15
 
@@ -22,14 +22,12 @@ django-model-utils==3.1.2
 Pillow==5.2.0
 
 # Password storage
-#argon2-cffi==18.1.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-#django-allauth==0.36.0
 
 # Python-PostgreSQL Database Adapter
-psycopg2-binary==2.7.5
+psycopg2-binary==2.7.7
 
 # SQL Server Database support
 pyodbc==4.0.23

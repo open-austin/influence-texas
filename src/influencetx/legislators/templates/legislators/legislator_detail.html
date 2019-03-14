@@ -48,7 +48,7 @@
       {% for contribution in top_contributions %}
         <tr>
           <td class="text-nowrap" align="left" width="12em">
-            ${{ contribution.amount|floatformat:0|intcomma }}
+            ${{ contribution.cycle_total|floatformat:0|intcomma }}
           </td>
           <td align="left">
             <a href="{% url "donors:donor-detail" contribution.donor.id %}">{{ contribution.donor.full_name }}</a>

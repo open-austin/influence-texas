@@ -7,7 +7,6 @@ log = logging.getLogger(__name__)
 class Legislator(models.Model):
     # Legislator ID from Open States API.
     openstates_leg_id = models.CharField(max_length=48, db_index=True)
-
     name = models.CharField(max_length=45)
     first_name = models.CharField(max_length=20, blank=True)
     last_name = models.CharField(max_length=20, blank=True)
@@ -40,8 +39,8 @@ class Legislator(models.Model):
 
 class LegislatorIdMap(models.Model):
     # Provide mapping between TPJ FILER_ID and Legislator ID from Open States API.
-    openstates_leg_id = models.CharField(db_index=True, max_length=48)
-    tpj_filer_id = models.IntegerField()
+    openstates_leg_id = models.CharField(max_length=48, db_index=True)
+    tpj_filer_id = models.IntegerField(db_index=True)
 
     def __str__(self):
-        return f'{self.id} {self.openstates_leg_id!r} {self.tpj_filer_id}'
+        return f'{self.openstates_leg_id!r} {self.tpj_filer_id}'

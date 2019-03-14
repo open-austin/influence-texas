@@ -27,7 +27,7 @@
 
     <h2><a class="navbar-brand" href="{{request.META.HTTP_REFERER}}"><</a>{{ donor.full_name }}</h2>
     <p class="text-muted">{{ donor.employer }}</p>
-    <p class="text-muted">${{ donor.contributiontotalbydonor.cycle_total|floatformat:0|intcomma }}</p>
+    <p class="text-muted">${{ donor.donortotals.cycle_total|floatformat:0|intcomma }}</p>
     <p class="text-muted">{{ donor.party }}</p>
     <p class="text-muted">{{ donor.city }},{{ donor.state }}</p>
   </div>
@@ -42,7 +42,7 @@
     </thead>
     {% for contribution in top_contributions %}
       <tr>
-        <td class="text-nowrap" width="10em">${{ contribution.amount|floatformat:0|intcomma }}</td>
+        <td class="text-nowrap" width="10em">${{ contribution.cycle_total|floatformat:0|intcomma }}</td>
         <td>{% if contribution.filer.leg_id %}<a href="{% url "legislators:legislator-detail" contribution.filer.leg_id %}">{% endif %}{{ contribution.filer.candidate_name }}</td>
         <td class="hidden-sm-down">{{ contribution.filer.office }}</td>
       </tr>

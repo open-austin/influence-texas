@@ -11,12 +11,32 @@ Local settings
 
 from .base import *  # noqa
 # Explicit imports to suppress flake8 errors.
-from .base import INSTALLED_APPS, MIDDLEWARE, TEMPLATES, env
+from .base import DATABASES, INSTALLED_APPS, MIDDLEWARE, TEMPLATES, env
 
 # DEBUG
 # ------------------------------------------------------------------------------
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
 TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
+
+# DATABASE CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
+# DATABASES['tpj'] = {
+#     'NAME': env('TPJ_DB_NAME'),
+#     'ENGINE': env('TPJ_DB_ENGINE'),
+#     'HOST': env('TPJ_DB_HOST'),
+#     'PORT': env('TPJ_DB_PORT'),
+#     'USER': env('TPJ_DB_USER'),
+#     'PASSWORD': env('TPJ_DB_PASSWORD'),
+#     'OPTIONS': {
+#         'driver': 'FreeTDS',
+#         'unicode_results': True,
+#         'host_is_server': True,
+#         'extra_params': 'tds_version=9.1',
+#     }
+# }
+# DATABASE_ROUTERS = ['influencetx.tpj.routers.DatabaseRouter']
+TPJ_MANAGED = True
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------

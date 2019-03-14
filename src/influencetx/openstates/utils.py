@@ -91,9 +91,10 @@ def adapt_openstates_bill(api_data):
     adapted_data['openstates_updated_at'] = parse_datetime(adapted_data['updatedAt'])
     adapted_data['votes'] = adapted_data['votes']['edges']
 
-    for vote_data in adapted_data['votes']:
-        if vote_data['node']:
-            adapt_openstates_vote_tally(vote_data['node'])
+    # TODO: Fix this once we get vote data
+    # for vote_data in adapted_data['votes']:
+    #     if vote_data['node']:
+    #         adapt_openstates_vote_tally(vote_data['node'])
 
     return adapted_data
 
@@ -125,9 +126,9 @@ def deserialize_openstates_bill(api_data, instance=None):
     actiondate_models = deserialize_action_dates(adapted_data.get('actions', []), bill)
     adapted_data['actions'] = [s.id for s in actiondate_models]
     # TODO: Fix this once we get vote data
-    for vote_data in adapted_data['votes']:
-        vote_data['bill'] = bill.id
-        deserialize_vote_tally(vote_data)
+    # for vote_data in adapted_data['votes']:
+    #     vote_data['bill'] = bill.id
+    #     deserialize_vote_tally(vote_data)
     return bill
 
 

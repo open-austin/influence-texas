@@ -7,20 +7,13 @@ services:
       context: .
       args:
         APP_ENV: production
-    image: inftxos:0.1.85
+    image: inftxos:0.2.86
     environment:
       - DATABASE_URL=${DATABASE_URL}
+      - TPJ_DB_URL=${TPJ_DB_URL}
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}
-      - TPJ_DB_USER=${TPJ_DB_USER}
-      - TPJ_DB_PASSWORD=${TPJ_DB_PASSWORD}
-      - TPJ_DB_HOST=${TPJ_DB_HOST}
-      - TPJ_DB_PORT=${TPJ_DB_PORT}
-      - TPJ_DB_NAME=${TPJ_DB_NAME}
-      - TPJ_DB_ENGINE=${TPJ_DB_ENGINE}
-      - ODBCSYSINI=/usr/src/app/docker_config_files
-      - ODBCINI=/usr/src/app/docker_config_files/odbc.ini
     network_mode: "host"
     ports:
       - "5120:5120"
