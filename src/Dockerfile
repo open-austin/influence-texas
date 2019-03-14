@@ -21,10 +21,9 @@ apt-get clean
 
 RUN pip install -r requirements/${APP_ENV}.txt
 
-COPY ./entrypoint.sh /
+COPY ./entrypoint.sh /usr/src/app/
 
 EXPOSE 5120
 
 #CMD python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:5120
 ENTRYPOINT /usr/src/app/entrypoint.sh
-
