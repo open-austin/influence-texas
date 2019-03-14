@@ -13,3 +13,4 @@ exec gunicorn config.wsgi \
     --log-level=info \
     --log-file=./logs/gunicorn.log \
     --access-logfile=./logs/gunicorn-access.log \
+    $@
