@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # Prepare log files and start outputting logs to stdout
 touch logs/gunicorn.log
