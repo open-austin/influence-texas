@@ -115,9 +115,10 @@ def deserialize_openstates_bill(api_data, instance=None):
     adapted_data = adapt_openstates_bill(api_data)
     if instance is None:
         instance = find_matching_bill(adapted_data['openstates_bill_id'])
+    # LOG.warn(f"Processing {adapted_data['bill_id']}")
     subject_models = deserialize_subject_tags(adapted_data.get('subjects', []))
     adapted_data['subjects'] = [s.id for s in subject_models]
-    sponsor_models = deserialize_sponsor_names(adapted_data.get('sponsors', []))
+    sponsor_models = deserialize_sponsor_names(adapted_data['chamber'], adapted_data.get('sponsors', []))
     adapted_data['sponsors'] = [l.id for l in sponsor_models]
 
     form = forms.OpenStatesBillForm(adapted_data, instance=instance)
@@ -139,26 +140,63 @@ def deserialize_subject_tags(subject_list):
         for slug, label in zip(slug_list, subject_list)
     ]
 
+def find_legislator_by_last_name(chamber, name):
+    try:
+        legislator = Legislator.objects.get(
+            chamber=chamber,
+            last_name=name
+        )
+    except Legislator.DoesNotExist:
+        try:
+            legislator = Legislator.objects.get(
+                chamber=chamber,
+                name__contains=name
+            )
+        except:
+            legislator = None
 
-def deserialize_sponsor_names(sponsor_names):
+    return legislator
+
+
+def find_legislator_by_full_name(chamber, name):
+    try:
+        legislator = Legislator.objects.get(
+            chamber=chamber,
+            name=name
+        )
+    except:
+        legislator = None
+
+    return legislator
+
+
+def deserialize_sponsor_names(chamber, sponsor_names):
     """Find the legislator objects that match the names in sponsors"""
     model_list = []
     pattern = ','
     for aname in sponsor_names:
         # LOG.warn(f'Finding {aname}')
         if pattern in aname:
-            [last_name, first_name] = aname.split(", ")
-            legislator = Legislator.objects.filter(
-                last_name=last_name,
-                first_name=first_name
-            ).first()
+            """Name contains multiple elements"""
+            name_array = aname.split(", ")
+            first_part = name_array.pop()
+            if first_part == 'Sr.' or first_part == 'Jr.':
+                """Do search by last name"""
+                last_name = name_array.pop()
+                legislator = find_legislator_by_last_name(chamber, last_name)
+            else:
+                remaining_part = " ".join(name_array)
+                combined_name = first_part + " " + remaining_part
+                # LOG.warn(f'Finding combined_name {combined_name}')
+                legislator = find_legislator_by_full_name(chamber, combined_name)
         else:
-            legislator = Legislator.objects.filter(
-                name__contains=aname
-            ).first()
-        # LOG.warn(f'Found sponsor {legislator}')
+            legislator = find_legislator_by_last_name(chamber, aname)
+
         if legislator:
             model_list.append(legislator)
+            # LOG.warn(f'Found sponsor {legislator}')
+        else:
+            print(f'Failed to find Legislator for sponsor name {aname}')
 
     return model_list
 
