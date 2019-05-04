@@ -1,4 +1,4 @@
-FROM python:3.6.1
+FROM python:3.7.1
 
 LABEL maintaner="<Michael Rollins michael@influencetx.com>"
 
