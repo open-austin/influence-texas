@@ -141,6 +141,7 @@ def deserialize_subject_tags(subject_list):
     ]
 
 def find_legislator_by_last_name(chamber, name):
+    # LOG.warn(f"Finding Legislator: {name}, in {chamber}")
     try:
         legislator = Legislator.objects.get(
             chamber=chamber,
@@ -154,7 +155,10 @@ def find_legislator_by_last_name(chamber, name):
             )
         except:
             legislator = None
-
+    except Legislator.MultipleObjectsReturned:
+        legislator = None
+        LOG.warn(f"too many: {name}, in {chamber}")
+        
     return legislator
 
 
