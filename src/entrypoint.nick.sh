@@ -10,4 +10,6 @@ tail -n 0 -f ../logs/gunicorn*.log &
 # Run migrations
 python3 manage.py migrate
 
+echo "Done"
+
 exec "$@"

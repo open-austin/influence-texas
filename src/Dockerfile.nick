@@ -23,7 +23,7 @@ COPY . .
 
 # Create log files if necessary
 # Note: /logs directory must be created outside of /usr/src/logs
-# or else it will be overwritten during volume mounting 
+# or else it will be overwritten during volume mounting
 RUN mkdir /usr/src/logs || true
 RUN touch /usr/src/logs/gunicorn.log
 RUN touch /usr/src/logs/gunicorn-access.log
@@ -31,12 +31,12 @@ RUN touch /usr/src/logs/gunicorn-access.log
 EXPOSE 5120
 
 ENTRYPOINT ["./entrypoint.nick.sh"]
-CMD gunicorn config.wsgi \
-    --name influencetx \
-    --bind 0.0.0.0:5120 \
-    --workers 3 \
-    --log-level=info \
-    --log-file=/usr/src/logs/gunicorn.log \
-    --access-logfile=/usr/src/logs/gunicorn-access.log
-     # \
-    # python3 manage.py runserver 0.0.0.0:5120
+CMD python3 manage.py runserver 0.0.0.0:5120
+
+# CMD gunicorn config.wsgi \
+#     --name influencetx \
+#     --bind 0.0.0.0:5120 \
+#     --workers 3 \
+#     --log-level=info \
+#     --log-file=/usr/src/logs/gunicorn.log \
+#     --access-logfile=/usr/src/logs/gunicorn-access.log

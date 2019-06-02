@@ -29,7 +29,8 @@ pytest-sugar==0.8.0
 # WSGI Handler
 # ------------------------------------------------
 gevent==1.4.0
-gunicorn==19.9.0
+# gunicorn==19.9.0
+# TODO: manage.py determines whether its on production by the existence of gunicorn module
 
 # custom packages
 python-dateutil
