@@ -2,6 +2,7 @@ import re
 from bs4 import BeautifulSoup, SoupStrainer
 import requests
 
+# Retrieved from db
 bill_id = "HB 864"
 session = "86"
 
@@ -15,45 +16,91 @@ senate_url = f"{url_prefix}S.htm"
 
 res = requests.get(house_url)
 
+# ##### Basic Test
+# # parsing all <p/> blocks up front may not be efficient
+# filter = SoupStrainer('p') # only <p/> tags contain text that we care about
+# text_blocks = BeautifulSoup(res.content, "html.parser", parse_only=filter)
+# selecting = None;
+# for block in text_blocks:
+#     text = block.get_text(strip=True)
+#     print(f"[{text}]")
 
-##### Basic Test
-# parsing all <p/> blocks up front may not be efficient
-filter = SoupStrainer('p') # only <p/> tags contain text that we care about
-text_blocks = BeautifulSoup(res.content, "html.parser", parse_only=filter)
-selecting = None;
-for block in text_blocks:
-    text = block.get_text(strip=True)
-    print(f"[{text}]")
+##### For real
+content = BeautifulSoup(res.content, "html.parser").find("p")
 
+# Make regex to check if text is header of a new section
+# ex: make_section_regex(0) > "^for|^against|^on|^Registering, but not testifying|^for|^against|^on"
+# Return "None" if we are at the last section and there are no more new sections to be discovered
+def make_section_regex(current_section):
+    return ("|").join([w["regex"] for w in witness_sections[(current_section+1):]]) or None
 
-# ##### For real
-# content = BeautifulSoup(res.content, "html.parser")
-#
-# def is_section(text, section):
-#     return re.match(section, text, re.IGNORECASE)
-#
-# def identify_witness(text, section, not_testifying):
-#     print(f"::{section}, testifying={!not_testifying}: {text}")
-#
-# wits_for = []
-# wits_against = []
-# wits_ons = []
-# wits_for_no_testify = []
-# wits_against_no_testify = []
-# wits_on_no_testify = []
-#
-#
-# text = content.find_next('p')
-# section = None
-# not_testifying = False
-# while text:
-#     if (is_section(text, "for")):
-#         identify_witness(text, "for")
-#     if (is_section(text, 'Registering, but not testifying')):
-#         not_testifying = True
-#     else:
-#         text = content.find_next('p')
-#
-# print(f"get it? {text}")
-#
-# witness_types = ('for', 'on', 'against', 'Registering, but not testifying');
+# Check if we are at the start of a new section
+def is_new_section(section_regex, text):
+    return re.match(section_regex, text, re.IGNORECASE) if section_regex else None
+
+# Update our current_section
+def get_new_section(text, current_section):
+    for i,w in enumerate(witness_sections[(current_section+1):], start=(current_section+1)):
+        if (re.match(w["regex"], text, re.IGNORECASE)):
+            return i, make_section_regex(i)
+
+def get_next_line(content):
+    content = content.find_next('p')
+    try:
+        text = content.get_text(strip=True)
+    except:
+        text = None
+    return content, text
+
+witness_sections = [
+    {
+        "name": "for",
+        "regex": "^for(\s+)*:",
+        "witnesses": []
+    },
+    {
+        "name": "against",
+        "regex": "^against(\s+)*:",
+        "witnesses": []
+    },
+    {
+        "name": "on",
+        "regex": "^on(\s+)*:",
+        "witnesses": []
+    },
+    {
+        "name": "Registering, but not testifying",
+        "regex": "^Registering,\s+but\s+not\s+testifying(/s+)*:"
+    },
+    {
+        "name": "for_no_testify",
+        "regex": "^for(\s+)*:",
+        "witnesses": []
+    },
+    {
+        "name": "against_no_testify",
+        "regex": "^against(\s+)*:",
+        "witnesses": []
+    },
+    {
+        "name": "on_no_testify",
+        "regex": "^on(\s+)*:",
+        "witnesses": []
+    }
+]
+
+current_section = -1
+section_regex = make_section_regex(current_section)
+content, text = get_next_line(content)
+
+while text:
+    if (is_new_section(section_regex, text)):
+        # If we're at a new section headering, update current_section and section_regex
+        current_section, section_regex = get_new_section(text, current_section)
+        print(f"##### We @ a new section [{witness_sections[current_section]['name']}]")
+    elif (current_section > -1):
+        # add a witness
+        # print(f"    {text}")
+        print(f"witness: {text}")
+    content, text = get_next_line(content)
+    # TODO handle final <p>\w+1</p>
