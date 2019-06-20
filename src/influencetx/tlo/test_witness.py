@@ -36,7 +36,14 @@ def make_section_regex(current_section):
 
 # Check if we are at the start of a new section
 def is_new_section(section_regex, text):
-    return re.match(section_regex, text, re.IGNORECASE) if section_regex else None
+    try:
+        return re.match(section_regex, text, re.IGNORECASE)
+    except:
+        return None
+
+# Check if we are at the end of a witness list page
+def is_page_end(text):
+    return re.match(r"^\d", text)
 
 # Update our current_section
 def get_new_section(text, current_section):
@@ -51,6 +58,18 @@ def get_next_line(content):
     except:
         text = None
     return content, text
+
+def get_witness_data(text, current_section):
+    m=re.match(r"(.+),\s+(.+)\s+\((.+)\)", text)
+    # print(f"firstname: {m.group(2)}")
+    # print(f"lastname: {m.group(1)}")
+    # print(f"representing: {m.group(3)}")
+    witness = {
+        "firstname": m.group(2),
+        "lastname": m.group(1),
+        "representing": [x.strip() for x in m.group(3).split(";")]
+    }
+    witness_sections[current_section]["witnesses"].append(witness)
 
 witness_sections = [
     {
@@ -97,10 +116,11 @@ while text:
     if (is_new_section(section_regex, text)):
         # If we're at a new section headering, update current_section and section_regex
         current_section, section_regex = get_new_section(text, current_section)
-        print(f"##### We @ a new section [{witness_sections[current_section]['name']}]")
+        # print(f"##### [{witness_sections[current_section]['name']}]")
+    elif (is_page_end(text)):
+        break
     elif (current_section > -1):
-        # add a witness
-        # print(f"    {text}")
-        print(f"witness: {text}")
+        get_witness_data(text, current_section)
     content, text = get_next_line(content)
-    # TODO handle final <p>\w+1</p>
+
+import pprint; pprint.pprint(witness_sections)
