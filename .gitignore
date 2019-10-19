@@ -146,3 +146,6 @@ staticfiles/
 
 # Developer Scratchpad
 local/
+
+# Local Postgres Data
+src/data/

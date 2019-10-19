@@ -16,29 +16,27 @@ records.
 Setup
 =====
 
-
 To get started on this project for the first time, you can follow these simple steps.
 
 - `Install Docker CE`_
+
+.. _Install Docker CE: https://docs.docker.com/engine/installation/
+
 - Clone code::
 
       cd your/code/directory
       git clone https://github.com/open-austin/influence-texas.git
-      cd influence-texas
+      cd influence-texas/src
 
-- Define environment variables (see below) and export those variables::
+- Define environment variables (see below) and export those variables
 
-      source env.sh
+You have 2 options for running InfluenceTX locally. You can either run:
 
-- Start up docker container::
+- a **vagrant** VM environment. See the **:ref:`Local Vagrant Setup`** section below.
 
-      docker-compose up -d
+or
 
-The first time it's run, `docker-compose` will pull down generic python and postgres images. After
-that, it will install dependendencies specific to the app and start up a server for the
-`influencetx` app at http://localhost:5120/.
-
-.. _Install Docker CE: https://docs.docker.com/engine/installation/
+- **docker** containers directly on your host computer. See the **:ref:`Local Docker Setup`** section below.
 
 Define environment variables
 ----------------------------
@@ -87,6 +85,9 @@ API key to the secrets file.
 Syncing data from Open States API
 ---------------------------------
 
+If running with **docker**, you can use the `scripts/load-data-local.sh` script. Otherwise, follow
+these instructions if running on **ansible**.
+
 Custom django-admin commands are used to sync data from Open States API. To pull data for
 legislators and bills from Open States, run the following *in order*::
 
@@ -116,6 +117,37 @@ then import it using the following command::
 
 **Note**: The crosswalk for the 86 session can be found inside `influencetx/legislators/data`
 
+Local Docker Setup
+==================
+
+Build your local docker containers by running::
+
+  sh scripts/run-local.sh
+
+This will use instructions from Dockerfile.local, entrypoint.local.sh, and docker-compose.local to build and launch
+2 containers:
+  - `inftxos_web_1` runs your Django server that serves influencetx on your local machine.
+  - `inftxos_db_1` runs a postgres database instance.
+
+You can then automate the data seeding steps described in "Syncing data from Open States API" by running::
+
+  sh scripts/load-data-local.sh
+
+And optionally pass a MAX_BILLS param::
+
+  MAX_BILLS=100 sh scripts/load-data-local.sh
+
+Note! If you choose to run docker in this manner without vagrant, use these scripts to run the commands described in the
+"Basic Commands" and "Maintenance commands" sections below::
+
+  sh scripts/manage.sh # (replaces vagrant's djadmin.sh)
+  sh scripts/invoke.sh # (replaces vagrant's pyinvoke.sh)
+
+They are wrappers to allow you to easily run `manage.py` and `invoke` scripts within the docker container.
+
+If you want to go into the docker environment shell yourself, you can run::
+
+  docker exec -it infltxos /bin/bash
 
 Basic Commands
 ==============
@@ -211,8 +243,8 @@ Moved to settings_.
 .. _settings: http://cookiecutter-django.readthedocs.io/en/latest/settings.html
 
 
-Vagrant
-=======
+Local Vagrant Setup
+===================
 
 A Vagrant based deployment method is also available, which mirrors the configurations of the live
  integration/production server.

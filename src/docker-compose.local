@@ -8,11 +8,13 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - ./data:/var/lib/postgres
   web:
     image: inftxos:local
     environment:
-      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}

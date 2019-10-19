@@ -30,7 +30,7 @@ RUN touch /usr/src/logs/gunicorn-access.log
 
 EXPOSE 5120
 
-ENTRYPOINT ["./entrypoint.nick.sh"]
+ENTRYPOINT ["./entrypoint.local.sh"]
 CMD python3 manage.py runserver 0.0.0.0:5120
 
 # CMD gunicorn config.wsgi \
