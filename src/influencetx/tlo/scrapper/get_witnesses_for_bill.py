@@ -26,8 +26,13 @@ def get_witnesses_for_bill(bill_id, session):
     #     text = block.get_text(strip=True)
     #     print(f"[{text}]")
 
-    ##### For real
-    content = BeautifulSoup(res.content, "html.parser").find("p")
+    return parse_witness_list_html(res.content)
+
+'''
+Split into its own function to support unit testing.
+'''
+def parse_witness_list_html(witness_list_html):
+    content = BeautifulSoup(witness_list_html, "html.parser").find("p")
 
     # Make regex to check if text is header of a new section
     # ex: make_section_regex(0) > "^for|^against|^on|^Registering, but not testifying|^for|^against|^on"
