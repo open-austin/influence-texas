@@ -122,7 +122,7 @@ Local Docker Setup
 
 Build your local docker containers by running::
 
-  sh scripts/run-local.sh
+  bash ./scripts/run-local.sh
 
 This will use instructions from Dockerfile.local, entrypoint.local.sh, and docker-compose.local to build and launch
 2 containers:
@@ -131,7 +131,7 @@ This will use instructions from Dockerfile.local, entrypoint.local.sh, and docke
 
 You can then automate the data seeding steps described in "Syncing data from Open States API" by running::
 
-  sh scripts/load-data-local.sh
+  bash ./scripts/load-data-local.sh
 
 And optionally pass a MAX_BILLS param::
 
