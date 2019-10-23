@@ -45,3 +45,5 @@ redis>=2.10.6
 
 requests==2.20.0
 requests-cache==0.4.13
+
+django-allauth
