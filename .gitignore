@@ -143,3 +143,10 @@ node_modules/
 influencetx/media/
 
 staticfiles/
+
+# Developer Scratchpad
+local/
+Pipfile
+
+# Local Postgres Data
+src/data/
