@@ -1,0 +1,42 @@
+FROM python:3.7.1
+
+LABEL maintaner="<Michael Rollins michael@influencetx.com>"
+
+RUN apt-get update && apt-get install -y \
+postgresql-client \
+unixodbc \
+unixodbc-dev \
+freetds-bin \
+freetds-dev \
+tdsodbc && \
+apt-get clean
+
+WORKDIR /usr/src/app
+
+# Install requirements for given APP_ENV build argument
+ARG APP_ENV
+COPY ./requirements/ ./requirements/
+RUN pip install -r requirements/${APP_ENV}.txt
+
+# Copy project files
+COPY . .
+
+# Create log files if necessary
+# Note: /logs directory must be created outside of /usr/src/logs
+# or else it will be overwritten during volume mounting
+RUN mkdir /usr/src/logs || true
+RUN touch /usr/src/logs/gunicorn.log
+RUN touch /usr/src/logs/gunicorn-access.log
+
+EXPOSE 5120
+
+ENTRYPOINT ["./entrypoint.local.sh"]
+CMD python3 manage.py runserver 0.0.0.0:5120
+
+# CMD gunicorn config.wsgi \
+#     --name influencetx \
+#     --bind 0.0.0.0:5120 \
+#     --workers 3 \
+#     --log-level=info \
+#     --log-file=/usr/src/logs/gunicorn.log \
+#     --access-logfile=/usr/src/logs/gunicorn-access.log
