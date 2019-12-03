@@ -4,8 +4,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
+from rest_framework import routers
+from influencetx.api import views
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'donors', views.DonorViewSet)
+router.register(r'bills', views.BillViewSet)
+router.register(r'legislators', views.LegislatorViewSet)
 
 urlpatterns = [
+    # Static Pages
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
     url(r'^findreps/$', TemplateView.as_view(template_name='pages/findreps.html'), name='findreps'),
@@ -21,6 +30,10 @@ urlpatterns = [
     url(r'^bills/', include('influencetx.bills.urls', namespace='bills')),
     url(r'^legislators/', include('influencetx.legislators.urls', namespace='legislators')),
     url(r'^donors/', include('influencetx.tpj.urls', namespace='donors')),
+
+    # API
+    url(r'^api/', include(router.urls)),
+    url(r'api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
 ] + static(settings.STATIC_URL)
 

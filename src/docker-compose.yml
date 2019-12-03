@@ -1,26 +1,48 @@
 version: '2'
 
 services:
-
-  web:
-    build:
-      context: .
-      args:
-        APP_ENV: production
-    image: inftxos:0.2.86
+  db:
+    image: postgres
     environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - TPJ_DB_URL=${TPJ_DB_URL}
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=influencetx
+    volumes:
+      - data:/var/lib/postgres
+  web:
+    image: python:3.7.1
+    working_dir: /usr/src/app
+    command: >
+        bash -exc "
+            # Install postgres and sql-server dependencies so that `./djadmin.sh dbshell` command works.
+            apt-get update && apt-get install -y postgresql-client unixodbc unixodbc-dev freetds-bin freetds-dev tdsodbc;
+
+            pip install -r requirements/local.txt;
+            python3 manage.py migrate;
+            python3 manage.py runserver 0.0.0.0:5120;
+        "
+    environment:
+      - DATABASE_URL=psql://postgres:mysecretpassword@postgres:5432/influencetx
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}
-    network_mode: "host"
+      - TPJ_DB_HOST=${TPJ_DB_HOST}
+      - TPJ_DB_PORT=${TPJ_DB_PORT}
+      - TPJ_DB_ENGINE=${TPJ_DB_ENGINE}
+      - TPJ_DB_NAME=${TPJ_DB_NAME}
+      - TPJ_DB_USER=${TPJ_DB_USER}
+      - TPJ_DB_PASSWORD=${TPJ_DB_PASSWORD}
+      - ODBCSYSINI=/usr/src/app/docker_config_files
+      - ODBCINI=/usr/src/app/docker_config_files/odbc.ini
+    volumes:
+      - .:/usr/src/app
     ports:
       - "5120:5120"
-
-  redis:
-    image: redis:alpine
-    container_name: redis
-    network_mode: "host"
-    ports:
-      - "6379:6379"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+    links:
+      - db:postgres
+volumes:
+  data:
+    driver: local
