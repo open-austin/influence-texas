@@ -26,6 +26,8 @@ Pillow==5.2.0
 # For user registration, either via email or social
 # Well-built with regular release cycles!
 
+argon2-cffi
+
 # Python-PostgreSQL Database Adapter
 psycopg2-binary==2.7.7
 
