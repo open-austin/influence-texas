@@ -26,6 +26,8 @@ Pillow==6.2.0
 # For user registration, either via email or social
 # Well-built with regular release cycles!
 
+argon2-cffi
+
 # Python-PostgreSQL Database Adapter
 psycopg2-binary==2.7.7
 
@@ -48,3 +50,5 @@ requests-cache==0.4.13
 
 # Web scraper requirements
 bs4==0.0.1
+
+django-allauth
