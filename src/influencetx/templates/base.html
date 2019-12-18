@@ -2,6 +2,8 @@
 {% load humanize %}
 {% load i18n %}
 {% load static %}
+{% load account %}
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -78,6 +80,19 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'findreps' %}">Find Reps</a>
             </li>
+            {% if user.is_anonymous %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+              </li>
+            {% else %}
+              {% user_display user as user_display %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:detail' username=user_display %}">My INTX</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:detail' username=user_display %}">Account</a>
+              </li>
+            {% endif %}
           </ul>
         </div>
       </nav>
@@ -90,6 +105,7 @@
 
       {% block content %}
         <p>Welcome to the INFLUENCE TEXAS OS project.</p>
+        {{accounts}}
       {% endblock content %}
     </div> <!-- /container -->
 
