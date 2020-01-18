@@ -34,3 +34,18 @@ services:
       - "5120:5120"
     depends_on:
       - "db"
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.local
+    volumes:
+      - './frontend:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '3000:3000'
+    depends_on:
+      - "web"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true

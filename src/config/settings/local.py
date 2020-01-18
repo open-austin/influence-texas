@@ -12,6 +12,7 @@ Local settings
 from .base import *  # noqa
 # Explicit imports to suppress flake8 errors.
 from .base import DATABASES, INSTALLED_APPS, MIDDLEWARE, TEMPLATES, env
+import os
 # DEBUG
 # ------------------------------------------------------------------------------
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
@@ -61,8 +62,11 @@ STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+REACT_APP_DIR = os.path.join(BASE_DIR, '../frontend')
+
 STATICFILES_DIRS = [
-    str(APPS_DIR.path('static')),
+    os.path.join(REACT_APP_DIR, 'build', 'static'),
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
