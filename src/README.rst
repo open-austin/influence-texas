@@ -52,7 +52,11 @@ with the following values::
     export GOOGLE_ANALYTICS=YOUR-ANALYTICS-ID
 
 The TPJ variables require credentials from Texans for Public Justice. Currently, there's no
-established process for acquiring those credentials. See the following section to acquire an
+established process for acquiring those credentials. But as a workaround you can load some fake data with::
+sh scripts/manage.sh loaddata ./influencetx/tpj/donors_fixture.json
+
+
+See the following section to acquire an
 OpenStates key.
 The Google API keys are for the "Find Rep" portion of the application, which has a cost
 associated with it.

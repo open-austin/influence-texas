@@ -12,7 +12,6 @@ Local settings
 from .base import *  # noqa
 # Explicit imports to suppress flake8 errors.
 from .base import DATABASES, INSTALLED_APPS, MIDDLEWARE, TEMPLATES, env
-
 # DEBUG
 # ------------------------------------------------------------------------------
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
@@ -62,7 +61,6 @@ STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
 
-# See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [
     str(APPS_DIR.path('static')),
 ]
@@ -85,7 +83,7 @@ CACHES = {
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
 MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware', ]
-INSTALLED_APPS += ['debug_toolbar', ]
+INSTALLED_APPS += ['debug_toolbar', 'corsheaders', ]
 
 INTERNAL_IPS = ['localhost', '127.0.0.1', '10.0.2.2', ]
 

@@ -4,8 +4,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
+from graphene_django.views import GraphQLView
+from influencetx.schema import schema
+from django.views.decorators.csrf import csrf_exempt
+from . import views
 
 urlpatterns = [
+    url(r'^graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    url(r'^', views.FrontendAppView.as_view()),
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
     url(r'^findreps/$', TemplateView.as_view(template_name='pages/findreps.html'), name='findreps'),

@@ -1,0 +1,144 @@
+[
+  {
+    "model": "tpj.donor",
+    "pk": 345,
+    "fields": {
+      "id": 345,
+      "full_name": "Denis Donorman",
+      "last_name": "Donorman",
+      "first_name": "Denis",
+      "suffix": "Suffix",
+      "title": "Mr",
+      "city": "Dallas",
+      "state": "TX",
+      "zipcode": "78771",
+      "employer_id": 5,
+      "employer": "EMPLOYER",
+      "occupation": "Occupation",
+      "interest_code": "IN",
+      "other_interests": "OtherInterests",
+      "total_contributions": 10000.56,
+      "party": "R"
+    }
+  },
+  {
+    "model": "tpj.donor",
+    "pk": 123,
+    "fields": {
+      "id": 123,
+      "full_name": "Wilks, Farris C & Jo Ann",
+      "last_name": "Donorman",
+      "first_name": "Denis",
+      "city": "Dallas",
+      "state": "TX",
+      "zipcode": "78771",
+      "employer_id": 5,
+      "employer": "Wilks Brothers, LLC",
+      "occupation": "Occupation",
+      "interest_code": "IN",
+      "other_interests": "OtherInterests",
+      "total_contributions": 3192176
+    }
+  },
+  {
+    "model": "tpj.filer",
+    "pk": 444,
+    "fields": {
+      "id": 444,
+      "candidate_id": 55,
+      "title": "",
+      "first_name": "Angela",
+      "last_name": "Paxton",
+      "suffix": "",
+      "candidate_name": "Angela Paxton",
+      "city": "Austin",
+      "state": "TX",
+      "zipcode": "78293",
+      "office": "State Representative",
+      "district": "District 8",
+      "party": "R"
+    }
+  },
+  {
+    "model": "tpj.filer",
+    "pk": 555,
+    "fields": {
+      "id": 555,
+      "candidate_id": 66,
+      "title": "",
+      "first_name": "Beverly",
+      "last_name": "Powell",
+      "suffix": "",
+      "candidate_name": "Beverly Powell",
+      "city": "Dallas",
+      "state": "TX",
+      "zipcode": "78293",
+      "office": "State Representative",
+      "district": "District 10",
+      "party": "D"
+    }
+  },
+
+  {
+    "model": "tpj.Contributionsummary",
+    "pk": 889,
+    "fields": {
+      "id": 889,
+      "donor": 123,
+      "filer": 444,
+      "cycle_total": 22323.33,
+      "eyear": 2012
+    }
+  },
+  {
+    "model": "tpj.Contributionsummary",
+    "pk": 232,
+    "fields": {
+      "id": 232,
+      "donor": 123,
+      "filer": 444,
+      "cycle_total": 98329,
+      "eyear": 2012
+    }
+  },
+  {
+    "model": "tpj.Contributionsummary",
+    "pk": 111,
+    "fields": {
+      "id": 111,
+      "donor": 345,
+      "filer": 444,
+      "cycle_total": 8008,
+      "eyear": 2014
+    }
+  },
+  {
+    "model": "tpj.Contributionsummary",
+    "pk": 928,
+    "fields": {
+      "id": 928,
+      "donor": 345,
+      "filer": 555,
+      "cycle_total": 45384,
+      "eyear": 2009
+    }
+  },
+  {
+    "model": "legislators.LegislatorIdMap",
+    "pk": 111,
+    "fields": {
+      "id": 111,
+      "openstates_leg_id": "ocd-person/895887ba-73cd-4321-827d-bb06d4eedfdf",
+      "tpj_filer_id": 444
+    }
+  },
+  {
+    "model": "legislators.LegislatorIdMap",
+    "pk": 405,
+    "fields": {
+      "id": 405,
+      "openstates_leg_id": "ocd-person/77f43cc4-3d70-4446-8fe5-caaa1c5c67fc",
+      "tpj_filer_id": 555
+    }
+  }
+]
