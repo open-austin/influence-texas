@@ -49,7 +49,7 @@ export default function TexasDistrictMap({ district, chamber = "HOUSE" }) {
       ? Texas_State_House_Districts
       : Texas_State_Senate_Districts;
   return (
-    <>
+    <div>
       <ReactTooltip>{tooltipContent}</ReactTooltip>
       <ComposableMap
         data-tip=""
@@ -108,6 +108,6 @@ export default function TexasDistrictMap({ district, chamber = "HOUSE" }) {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
-    </>
+    </div>
   );
 }

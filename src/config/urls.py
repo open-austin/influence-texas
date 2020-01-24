@@ -11,7 +11,7 @@ from . import views
 
 urlpatterns = [
     url(r'^graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
-    url(r'^', views.FrontendAppView.as_view()),
+    url(r'^v2/', views.FrontendAppView.as_view()),
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
     url(r'^findreps/$', TemplateView.as_view(template_name='pages/findreps.html'), name='findreps'),

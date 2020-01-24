@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -9,6 +9,7 @@ import ChevronLeft from "@material-ui/icons/ChevronLeft";
 import ChevronRight from "@material-ui/icons/ChevronRight";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import { useQuery } from "@apollo/react-hooks";
 
 const StyleWrapper = styled.div`
   margin-left: -1em;
@@ -26,95 +27,79 @@ function getProp(obj, propName) {
 }
 const zeroPageInfo = { first: null, last: null, before: null, after: null };
 
-export default function PaginatedList({
-  data = { edges: [], totalCount: 0 },
+export default function PaginatedList(props) {
+  if (props.gqlQuery) {
+    return <FetchingList {...props} />;
+  } else {
+    const { edges, totalCount } = props.data || { edges: [], totalCount: 0 };
+    return <SimpleList {...props} totalCount={totalCount} rows={edges} />;
+  }
+}
+
+function FetchingList({
   columns,
-  handleChangePage,
   url,
   pk = "node.pk",
   emptyState = "None found",
   title = "",
   sortOrderText = "",
   hidePagination = false,
-  rowsPerPage = 10
+  rowsPerPage = 10,
+  gqlQuery,
+  gqlVariables = {},
+  onDataFetched,
+  ...props
 }) {
-  const { edges, totalCount, pageInfo } = data;
+  const [pageVars, setPageVars] = useState({ first: rowsPerPage });
+  useEffect(() => {
+    setPageVars({ first: rowsPerPage });
+    // need to reset to beginning when filters change
+  }, [JSON.stringify(gqlVariables)]);
+  const { data } = useQuery(gqlQuery, {
+    variables: { ...gqlVariables, ...pageVars }
+  });
+  useEffect(() => {
+    if (onDataFetched) {
+      onDataFetched(data);
+    }
+  }, [data]);
+
+  const { edges, totalCount, pageInfo } = data
+    ? Object.values(data)[0] // don't care about the data.legislators.edges, will only call one top level each
+    : { edges: [], totalCount: 0 };
   const rows = edges;
   const { hasNextPage, endCursor } = pageInfo || {};
-  const history = useHistory();
-  const [lastPageInfo, setLastPageInfo] = useState([
+  const [lastPageVars, setLastPageVars] = useState([
     { ...zeroPageInfo, first: rowsPerPage }
   ]);
   if (emptyState && edges.length === 0) {
     return <div>{emptyState}</div>;
   }
   return (
-    <StyleWrapper>
-      <TableContainer>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            margin: "0 1em"
-          }}
-        >
-          <Typography variant="h6">
-            {title}
-            <span
-              variant="subtitle2"
-              style={{ fontSize: ".75em", opacity: 0.5, margin: "1em" }}
-            >
-              {totalCount && `${totalCount} Results`}
-            </span>
-          </Typography>
-
-          <Typography variant="h6">{sortOrderText}</Typography>
-        </div>
-        <Table aria-label="simple table">
-          <TableBody>
-            {rows.map((row, i) => (
-              <TableRow
-                key={getProp(row, pk) || i}
-                hover={!!url}
-                onClick={
-                  url &&
-                  pk &&
-                  getProp(row, pk) &&
-                  (e => history.push(`/${url}/${getProp(row, pk)}`))
-                }
-              >
-                {columns.map((c, i) => {
-                  if (c.render) {
-                    return <TableCell key={i}>{c.render(row)}</TableCell>;
-                  } else {
-                    return (
-                      <TableCell key={i}>{getProp(row, c.field)}</TableCell>
-                    );
-                  }
-                })}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <StyleWrapper {...props}>
+      <SimpleList
+        {...{ title, sortOrderText, totalCount, columns, rows, pk, url }}
+      />
       {totalCount > rowsPerPage && !hidePagination && (
         <div
+          className="pagination"
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignContent: "baseline"
           }}
         >
-          <div style={{ padding: "1em 0" }}>{totalCount} Results </div>
+          <div class="scrollGradient" />
+          <div style={{ padding: "1em" }}>{totalCount} Results </div>
           <div>
             <IconButton
               aria-label="Previous page"
               children={<ChevronLeft />}
-              disabled={!lastPageInfo[1]}
+              disabled={!lastPageVars[1]}
               onClick={() => {
-                handleChangePage(lastPageInfo[lastPageInfo.length - 2]);
-                const newLastPageInfo = lastPageInfo.slice(0, -1);
-                setLastPageInfo(newLastPageInfo);
+                setPageVars(lastPageVars[lastPageVars.length - 2]);
+                const newLastPageInfo = lastPageVars.slice(0, -1);
+                setLastPageVars(newLastPageInfo);
               }}
               title="Previous page"
             />
@@ -128,8 +113,8 @@ export default function PaginatedList({
                   after: endCursor,
                   first: rowsPerPage
                 };
-                handleChangePage(pageInfo);
-                setLastPageInfo([...lastPageInfo, pageInfo]);
+                setPageVars(pageInfo);
+                setLastPageVars([...lastPageVars, pageInfo]);
               }}
               title="Next page"
             />
@@ -137,5 +122,67 @@ export default function PaginatedList({
         </div>
       )}
     </StyleWrapper>
+  );
+}
+
+function SimpleList({
+  totalCount,
+  rows,
+  columns,
+  url,
+  pk = "node.pk",
+  emptyState = "None found",
+  title = "",
+  sortOrderText = "",
+  hidePagination = false,
+  rowsPerPage = 10
+}) {
+  const history = useHistory();
+  return (
+    <TableContainer className="list">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "0 1em"
+        }}
+      >
+        <Typography variant="h6">
+          {title}
+          <span
+            variant="subtitle2"
+            style={{ fontSize: ".75em", opacity: 0.5, margin: "1em" }}
+          >
+            {totalCount && `${totalCount} Results`}
+          </span>
+        </Typography>
+
+        <Typography variant="h6">{sortOrderText}</Typography>
+      </div>
+      <Table aria-label="simple table">
+        <TableBody>
+          {rows.map((row, i) => (
+            <TableRow
+              key={getProp(row, pk) || i}
+              hover={!!url}
+              onClick={
+                url &&
+                pk &&
+                getProp(row, pk) &&
+                (e => history.push(`/${url}/${getProp(row, pk)}`))
+              }
+            >
+              {columns.map((c, i) => {
+                if (c.render) {
+                  return <TableCell key={i}>{c.render(row)}</TableCell>;
+                } else {
+                  return <TableCell key={i}>{getProp(row, c.field)}</TableCell>;
+                }
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

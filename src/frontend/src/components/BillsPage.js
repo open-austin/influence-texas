@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import DonutChart from "./DonutChart";
 import BillList from "./BillList";
 import FilterSection from "./FilterSection";
-import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { getQueryString, capitalize } from "../utils";
 import { useHistory } from "react-router-dom";
@@ -17,10 +16,6 @@ const ALL_BILLS = gql`
     $after: String
     $before: String
   ) {
-    billClassificationStats {
-      classification
-      count
-    }
     bills(
       chamber_Icontains: $chamber
       classification: $classification
@@ -46,6 +41,10 @@ const ALL_BILLS = gql`
         }
       }
     }
+    billClassificationStats {
+      name
+      count
+    }
   }
 `;
 
@@ -62,22 +61,18 @@ function BillsPage() {
     }
   }
   const classifications = queryObj.classification || [];
+  const [listData, setListData] = useState();
 
-  const [pageInfo, setPageInfo] = useState({ first: 10 });
-
-  const { data } = useQuery(ALL_BILLS, {
-    variables: { ...pageInfo, chamber, classification: classifications }
-  });
-  const { totalCount } = data ? data.bills : {};
-
-  const billClassificationStats = data ? data.billClassificationStats : [];
+  const billClassificationStats = listData
+    ? listData.billClassificationStats
+    : [];
   const classificationTags = billClassificationStats.map(d => ({
-    name: capitalize(d.classification.split("-").join(" ")),
-    value: d.classification,
+    name: capitalize(d.name.split("-").join(" ")),
+    value: d.name,
     arrayName: "classification"
   }));
   const summaryData = billClassificationStats.map(d => ({
-    name: capitalize(d.classification.split("-").join(" ")),
+    name: capitalize(d.name.split("-").join(" ")),
     value: d.count
   }));
 
@@ -95,12 +90,19 @@ function BillsPage() {
           ...classificationTags
         ]}
       />
-      <DonutChart data={summaryData} totalCount={totalCount} />
-      <BillList
-        data={data && data.bills}
-        handleChangePage={setPageInfo}
-        title="All Bills"
-      />
+      <div className="two-column">
+        <DonutChart
+          data={summaryData}
+          totalCount={listData ? listData.bills.totalCount : 0}
+          totalText="Bills"
+        />
+        <BillList
+          gqlQuery={ALL_BILLS}
+          gqlVariables={{ chamber, classification: classifications }}
+          title="All Bills"
+          onDataFetched={setListData}
+        />
+      </div>
     </div>
   );
 }

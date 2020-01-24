@@ -42,7 +42,7 @@ function DonorDetailPage() {
   });
   const fullDonorData = data ? data.donor : {};
   return (
-    <div>
+    <div className="detail-page">
       <CustomLink to="/donors"> ← All Donors</CustomLink>
       <h1>{fullDonorData.fullName}</h1>
       <div>
@@ -66,7 +66,7 @@ function DonorDetailPage() {
             )
           }
         ]}
-        rowsPerPage={50}
+        rowsPerPage={100}
       />
     </div>
   );

@@ -3,6 +3,7 @@ import { Tabs, Tab } from "@material-ui/core";
 import { Route, useHistory, Switch } from "react-router-dom";
 import LegislatorsPage from "./components/LegislatorsPage";
 import Logo from "./components/Logo";
+import FindReps from "./components/FindReps";
 import BillsPage from "./components/BillsPage";
 import DonorsPage from "./components/DonorsPage";
 import PolicyAreasPage from "./components/PolicyAreasPage";
@@ -15,10 +16,14 @@ import MonetizationOnRounded from "@material-ui/icons/MonetizationOnRounded";
 // import PublicRounded from "@material-ui/icons/PublicRounded";
 import SearchAll, { SearchResults } from "./components/SearchAll";
 import { TabWrapper } from "./components/SimpleTabs";
+import CustomLink from "./components/CustomLink";
 
 function Nav() {
   const history = useHistory();
-  if (history.location.pathname.includes("searchAll")) {
+  if (
+    history.location.pathname.includes("searchAll") ||
+    history.location.pathname.includes("findReps")
+  ) {
     return null;
   }
   return (
@@ -67,6 +72,9 @@ export default function Routes() {
   return (
     <div>
       <Logo />
+      <div style={{ float: "right", margin: "1.25rem 0 0 1rem" }}>
+        <CustomLink to="/findReps">Find Your Reps</CustomLink>
+      </div>
       <SearchAll />
       <Nav />
 
@@ -74,8 +82,8 @@ export default function Routes() {
         <Route path="/searchAll/:searchQuery">
           <SearchResults />
         </Route>
-        <Route path="/legislators/legislator/:id">
-          <LegislatorDetailPage />
+        <Route path="/findReps">
+          <FindReps />
         </Route>
         <Route path="/bills/bill/:id">
           <BillDetailPage />
@@ -91,6 +99,9 @@ export default function Routes() {
         </Route>
         <Route path="/policy-areas">
           <PolicyAreasPage />
+        </Route>
+        <Route path="/legislators/legislator/:id">
+          <LegislatorDetailPage />
         </Route>
         <Route path="/legislators">
           <LegislatorsPage />

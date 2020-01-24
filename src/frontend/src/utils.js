@@ -21,7 +21,8 @@ export function formatMoney(money) {
 const QUERY_OPTS = {
   // important that parse and stringify always share same options
   parseBooleans: true,
-  arrayFormat: "bracket"
+  arrayFormat: "bracket",
+  parseNumbers: true
 };
 export function getQueryString(history) {
   return queryString.parse(history.location.search, QUERY_OPTS);

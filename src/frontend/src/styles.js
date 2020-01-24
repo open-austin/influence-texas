@@ -20,3 +20,21 @@ export const ImageSquare = ({ photoUrl }) => (
     }}
   />
 );
+
+export const BillSquare = ({ billId = "" }) => {
+  const [chamber, number] = billId.split(" ");
+
+  return (
+    <RoundSquare>
+      <div
+        style={{
+          lineHeight: 1,
+          paddingTop: ".5em"
+        }}
+      >
+        {chamber}
+      </div>
+      <div style={{ fontSize: ".6em", lineHeight: 1 }}>{number}</div>
+    </RoundSquare>
+  );
+};

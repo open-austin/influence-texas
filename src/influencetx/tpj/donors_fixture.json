@@ -1,6 +1,24 @@
 [
   {
     "model": "tpj.donor",
+    "pk": 194,
+    "fields": {
+      "id": 194,
+      "full_name": "Ron Roberts",
+      "last_name": "Roberts",
+      "first_name": "Ron",
+      "city": "LA",
+      "state": "CA",
+      "employer": "EMPLOYER",
+      "occupation": "Occupation",
+      "interest_code": "IN",
+      "other_interests": "OtherInterests",
+      "total_contributions": 10000.56,
+      "party": "D"
+    }
+  },
+  {
+    "model": "tpj.donor",
     "pk": 345,
     "fields": {
       "id": 345,
@@ -42,6 +60,23 @@
   },
   {
     "model": "tpj.filer",
+    "pk": 902,
+    "fields": {
+      "id": 902,
+      "title": "",
+      "first_name": "Ken",
+      "last_name": "Kenman",
+      "suffix": "",
+      "candidate_name": "Ken Kenman",
+      "city": "Austin",
+      "state": "TX",
+      "zipcode": "78293",
+      "office": "Attorney General",
+      "party": "R"
+    }
+  },
+  {
+    "model": "tpj.filer",
     "pk": 444,
     "fields": {
       "id": 444,
@@ -79,6 +114,17 @@
     }
   },
 
+  {
+    "model": "tpj.Contributionsummary",
+    "pk": 382,
+    "fields": {
+      "id": 382,
+      "donor": 123,
+      "filer": 902,
+      "cycle_total": 8000,
+      "eyear": 2019
+    }
+  },
   {
     "model": "tpj.Contributionsummary",
     "pk": 889,

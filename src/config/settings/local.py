@@ -66,6 +66,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 REACT_APP_DIR = os.path.join(BASE_DIR, '../frontend')
 
 STATICFILES_DIRS = [
+    str(APPS_DIR.path('static')),
     os.path.join(REACT_APP_DIR, 'build', 'static'),
 ]
 

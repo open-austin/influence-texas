@@ -7,9 +7,18 @@ from django.db import connection, transaction
 from influencetx.legislators.models import Legislator, LegislatorIdMap
 from influencetx.tpj.models import Donor, Contribution, Contributionsummary, Filer
 from influencetx.bills.models import Bill, ActionDate, VoteTally, SingleVote, SubjectTag
+from promise import Promise
+from promise.dataloader import DataLoader
 
 import logging
 log = logging.getLogger(__name__)
+
+
+class BillLoader(DataLoader):
+    def batch_load_fn(self, keys):
+        bills = {bill.id: bill for bill in Bill.objects.filter(id__in=keys)}
+        return Promise.resolve([bills.get(bill_id) for bill_id in keys])
+bill_loader = BillLoader()
 
 ## default surprisingly does not have total count
 class ExtendedConnection(graphene.Connection):
@@ -32,6 +41,8 @@ class BillType(DjangoObjectType):
     pk = graphene.Int()
     def resolve_pk(self, info, **kwargs):
         return self.id
+    def resolve_bills_sponsored(self, info):
+        return bill_loader.load(self.bills_sponsored)
 
 
 class DonorType(DjangoObjectType):
@@ -40,6 +51,7 @@ class DonorType(DjangoObjectType):
         filter_fields = {
             'id': ['exact', 'icontains', 'istartswith'],
             'full_name': ['exact', 'icontains'],
+            'state': ['exact', 'icontains'],
         }
         interfaces = (relay.Node, )
         connection_class = ExtendedConnection
@@ -89,10 +101,8 @@ class FilerType(DjangoObjectType):
         try:
             id_map = LegislatorIdMap.objects.get(tpj_filer_id=self.id)
             return Legislator.objects.get(openstates_leg_id=id_map.openstates_leg_id)
-        except LegislatorIdMap.DoesNotExist:
-            log.warn(f"No linked legislator for {self.name}")
-
-        return []
+        except:
+            return None
 
 class ContributionsummaryType(DjangoObjectType):
     class Meta:
@@ -104,9 +114,9 @@ class ContributionsummaryType(DjangoObjectType):
     def resolve_filer(self, info, **kwargs):
         return self.filer
 
-class ClassificationCountType(graphene.ObjectType):
+class FilterCountType(graphene.ObjectType):
     count = graphene.Field(graphene.Int)
-    classification = graphene.Field(graphene.String)
+    name = graphene.Field(graphene.String)
     average_order = graphene.Field(graphene.Float)
 
 class ContributionssummaryTypeConnection(ExtendedConnection):
@@ -119,6 +129,7 @@ class LegislatorType(DjangoObjectType):
         filter_fields = {
             'name': ['exact', 'icontains', 'istartswith'],
             'chamber': ['exact', 'icontains'],
+            'district': ['exact'],
             'party': ['exact', 'icontains'],
         }
         order_fields = ('name', 'name')
@@ -138,10 +149,8 @@ class LegislatorType(DjangoObjectType):
             filer = Filer.objects.filter(id=id_map.tpj_filer_id).first()
             return Contributionsummary.objects.select_related(
                 'donor').filter(filer=filer.id).order_by('-cycle_total')[:25]
-        except LegislatorIdMap.DoesNotExist:
-            log.warn(f"Filer id not found for openstates_leg_id {self.openstates_leg_id}" +
-                    "in {LegislatorIdMap.objects.first}.")
-        return []
+        except:
+            return []
 
 def execute_raw_query(sql_string):
     cursor = connection.cursor()
@@ -174,18 +183,18 @@ class Query(graphene.ObjectType):
         if kwargs.get("classification"):
             return Bill.objects.distinct().filter(action_dates__classification__in=kwargs.get("classification"))
 
+
         return Bill.objects.order_by("bill_id").all()
 
-    bill_classification_stats = graphene.List(ClassificationCountType)
+    bill_classification_stats = graphene.List(FilterCountType)
     def resolve_bill_classification_stats(self, info):
         return execute_raw_query("""
-        SELECT classification, COUNT(classification), ROUND(AVG("order"),1) as average_order
+        SELECT classification as name, COUNT(classification), ROUND(AVG("order"),1)  as average_order
         FROM bills_actiondate  a 
         WHERE a."order" = (SELECT MAX("order") FROM bills_actiondate c WHERE c.bill_id = a.bill_id AND c.classification != '' )
-        GROUP BY(classification)
+        GROUP BY(name)
         ORDER BY average_order
         """)
-
 
     legislator = graphene.Field(LegislatorType, pk=graphene.Int())
     def resolve_legislator(self, info, **kwargs):
@@ -200,6 +209,7 @@ class Query(graphene.ObjectType):
     def resolve_donor(self, info, **kwargs):
         pk = kwargs.get('pk')
         return Donor.objects.get(pk=pk)
+        
 
     donors = DjangoFilterConnectionField(DonorType)
 

@@ -7,6 +7,9 @@ import { format } from "date-fns";
 import SimpleTabs from "./SimpleTabs";
 import LegislatorsList from "./LegislatorList";
 import CustomLink from "./CustomLink";
+import { BillSquare } from "../styles";
+import { Typography, Button } from "@material-ui/core";
+import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 
 const GET_BILL = gql`
   query Bill($id: Int!) {
@@ -14,6 +17,8 @@ const GET_BILL = gql`
       chamber
       billId
       title
+      billText
+      session
       subjects {
         edges {
           node {
@@ -52,12 +57,32 @@ function BillDetailPage() {
     variables: { id }
   });
   const fullBillData = data ? data.bill : {};
+
   return (
-    <div>
+    <div className="detail-page">
       <CustomLink to="/bills"> ← All Bills</CustomLink>
 
-      <h1>{fullBillData.billId}</h1>
-      <div>{fullBillData.chamber}</div>
+      <div style={{ display: "flex", margin: "1em 0" }}>
+        <BillSquare billId={fullBillData.billId} />
+        <div style={{ margin: "0 1em", flexGrow: 1 }}>
+          <Typography variant="h5">{fullBillData.billId}</Typography>
+          <div style={{ textTransform: "capitalize" }}>
+            {fullBillData.chamber && fullBillData.chamber.toLowerCase()}
+          </div>
+          <div>Session {fullBillData.session}</div>
+        </div>
+        <Button
+          variant="outlined"
+          color="primary"
+          size="small"
+          href={fullBillData.billText}
+          target="_blank"
+          style={{ height: "fit-content" }}
+        >
+          <OpenInNewIcon fontSize="small" />{" "}
+          <Typography variant="h6">Full Bill Text</Typography>
+        </Button>
+      </div>
       <div style={{ margin: "1em 0" }}>{fullBillData.title}</div>
       <div style={{ textTransform: "capitalize" }}>
         {" "}
@@ -108,7 +133,7 @@ function BillDetailPage() {
                     )
                   }
                 ]}
-                rowsPerPage={50}
+                rowsPerPage={100}
               />
             )
           },
@@ -118,7 +143,7 @@ function BillDetailPage() {
               <LegislatorsList
                 data={fullBillData.sponsors}
                 title="Sponsors"
-                rowsPerPage={50}
+                rowsPerPage={100}
               />
             )
           }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TexasDistrictMap from "./TexasDistrictMap";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
@@ -49,7 +49,6 @@ const ALL_LEG = gql`
 
 function LegislatorsPage() {
   const history = useHistory();
-  const [pageInfo, setPageInfo] = useState({ first: 10 });
   const queryObj = getQueryString(history);
   let chamber;
   if (queryObj["HOUSE"] !== queryObj["SENATE"]) {
@@ -71,9 +70,6 @@ function LegislatorsPage() {
     }
   }
 
-  const { data } = useQuery(ALL_LEG, {
-    variables: { chamber, party, first: 10, ...pageInfo }
-  });
   return (
     <div>
       <FilterSection
@@ -85,12 +81,14 @@ function LegislatorsPage() {
           { name: "Republican", value: "R" }
         ]}
       />
-      <TexasDistrictMap chamber={chamber} />
-      <LegislatorList
-        title={"All Legislators"}
-        data={data && data.legislators}
-        handleChangePage={setPageInfo}
-      />
+      <div className="two-column">
+        <TexasDistrictMap chamber={chamber} style={{ flexGrow: 1 }} />
+        <LegislatorList
+          title={"All Legislators"}
+          gqlQuery={ALL_LEG}
+          gqlVariables={{ chamber, party }}
+        />
+      </div>
     </div>
   );
 }

@@ -28,6 +28,9 @@ RUN mkdir /usr/src/logs || true
 RUN touch /usr/src/logs/gunicorn.log
 RUN touch /usr/src/logs/gunicorn-access.log
 
+# Add this folder so it doesn't break if the react build hasn't happened
+RUN mkdir /usr/src/app/frontend/build/static -p
+
 EXPOSE 5120
 
 ENTRYPOINT ["./entrypoint.local.sh"]

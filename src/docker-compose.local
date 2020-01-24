@@ -44,8 +44,8 @@ services:
       - '/usr/src/app/node_modules'
     ports:
       - '3000:3000'
-    depends_on:
-      - "web"
     environment:
       - NODE_ENV=development
+      - REACT_APP_GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - CHOKIDAR_USEPOLLING=true
+

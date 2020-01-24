@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { ImageSquare } from "../styles";
-import { Typography } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
+import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import SimpleTabs from "./SimpleTabs";
 import PaginatedList from "./PaginatedList";
 import BillList from "./BillList";
@@ -19,6 +20,7 @@ const GET_LEG = gql`
       party
       chamber
       photoUrl
+      url
       district
       contributions {
         edges {
@@ -38,13 +40,6 @@ const GET_LEG = gql`
             pk
             billId
             title
-            subjects {
-              edges {
-                node {
-                  label
-                }
-              }
-            }
           }
         }
       }
@@ -59,11 +54,11 @@ function LegislatorDetailPage() {
   });
   const fullLegData = data ? data.legislator : {};
   return (
-    <div>
+    <div className="detail-page">
       <CustomLink to="/legislators"> ← All Legislators</CustomLink>
       <div style={{ display: "flex", margin: "1em 0" }}>
         <ImageSquare photoUrl={fullLegData.photoUrl} />
-        <div style={{ margin: "0 1em" }}>
+        <div style={{ margin: "0 1em", flexGrow: 1 }}>
           <Typography variant="h5">{fullLegData.name}</Typography>
           <div style={{ textTransform: "capitalize" }}>
             {fullLegData.chamber && fullLegData.chamber.toLowerCase()} (
@@ -71,21 +66,21 @@ function LegislatorDetailPage() {
           </div>
           <div>District {fullLegData.district}</div>
         </div>
+        <Button
+          variant="outlined"
+          color="primary"
+          size="small"
+          href={fullLegData.url}
+          target="_blank"
+          style={{ height: "fit-content" }}
+        >
+          <OpenInNewIcon fontSize="small" />{" "}
+          <Typography variant="h6">Full Biography</Typography>
+        </Button>
       </div>
 
       <SimpleTabs
         tabs={[
-          {
-            label: "District Map",
-            content: (
-              <div>
-                <TexasDistrictMap
-                  chamber={fullLegData.chamber}
-                  district={fullLegData.district}
-                />
-              </div>
-            )
-          },
           {
             label: `Bills Sponsored`,
             content: (
@@ -93,7 +88,7 @@ function LegislatorDetailPage() {
                 <BillList
                   title="Bills Sponsored"
                   data={fullLegData.billsSponsored}
-                  rowsPerPage={50}
+                  rowsPerPage={100}
                 />
               </div>
             )
@@ -119,7 +114,18 @@ function LegislatorDetailPage() {
                       }
                     }
                   ]}
-                  rowsPerPage={50}
+                  rowsPerPage={100}
+                />
+              </div>
+            )
+          },
+          {
+            label: "District Map",
+            content: (
+              <div>
+                <TexasDistrictMap
+                  chamber={fullLegData.chamber}
+                  district={fullLegData.district}
                 />
               </div>
             )

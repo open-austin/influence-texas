@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 /**
  * @param {Props} props
  */
-function DonutChart({ data, totalCount = 0 }) {
+function DonutChart({ data, totalCount = 0, totalText = "Total" }) {
   const CHART_WIDTH = 440;
   const colorScale = scaleQuantize()
     .domain([1, data.length])
@@ -49,8 +49,8 @@ function DonutChart({ data, totalCount = 0 }) {
           ))}
         </Pie>
         <text x={CHART_WIDTH / 2} y={CHART_WIDTH / 2 + 20} textAnchor="middle">
-          <tspan className="large">{numberWithCommas(totalCount)}</tspan> Total
-          Bills
+          <tspan className="large">{numberWithCommas(totalCount)} </tspan>{" "}
+          {totalText}
         </text>
         <Tooltip />
       </PieChart>

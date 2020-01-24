@@ -1,20 +1,54 @@
 import React, { useState, useEffect } from "react";
-import { Input } from "@material-ui/core";
+import { Input, InputAdornment } from "@material-ui/core";
+import Search from "@material-ui/icons/Search";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import BillList from "./BillList";
 import DonorList from "./DonorList";
 import LegislatorList from "./LegislatorList";
 import SimpleTabs from "./SimpleTabs";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Search from "@material-ui/icons/Search";
 import { useHistory, useParams } from "react-router-dom";
+import CustomLink from "./CustomLink";
+import useDebounce from "./useDebounce";
 
 const ALL_SEARCH = gql`
   query Legislator($name: String) {
-    legislators(name_Icontains: $name, first: 5) {
+    legislators(name_Icontains: $name) {
       totalCount
+    }
+    bills(title_Icontains: $name) {
+      totalCount
+    }
+    donors(fullName_Icontains: $name) {
+      totalCount
+    }
+  }
+`;
+
+const LEG_SEARCH = gql`
+  query LegislatorSearch(
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+    $name: String
+  ) {
+    legislators(
+      first: $first
+      last: $last
+      after: $after
+      before: $before
+      name_Icontains: $name
+    ) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
       edges {
+        cursor
         node {
           pk
           name
@@ -25,9 +59,33 @@ const ALL_SEARCH = gql`
         }
       }
     }
-    bills(title_Icontains: $name, first: 5) {
+  }
+`;
+
+const BILL_SEARCH = gql`
+  query BillsSearch(
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+    $name: String
+  ) {
+    bills(
+      title_Icontains: $name
+      first: $first
+      last: $last
+      after: $after
+      before: $before
+    ) {
       totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
       edges {
+        cursor
         node {
           pk
           chamber
@@ -36,15 +94,39 @@ const ALL_SEARCH = gql`
         }
       }
     }
-    donors(fullName_Icontains: $name, first: 5) {
+  }
+`;
+
+const DONOR_SEARCH = gql`
+  query DonorsSearch(
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+    $name: String
+  ) {
+    donors(
+      first: $first
+      last: $last
+      after: $after
+      before: $before
+      fullName_Icontains: $name
+    ) {
       totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
       edges {
+        cursor
         node {
           pk
+          fullName
           city
           state
           employer
-          fullName
           totalContributions
         }
       }
@@ -52,43 +134,11 @@ const ALL_SEARCH = gql`
   }
 `;
 
-// Our hook
-export function useDebounce(value, delay) {
-  // State and setters for debounced value
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(
-    () => {
-      // Set debouncedValue to value (passed in) after the specified delay
-      const handler = setTimeout(() => {
-        setDebouncedValue(value);
-      }, delay);
-
-      // Return a cleanup function that will be called every time ...
-      // ... useEffect is re-called. useEffect will only be re-called ...
-      // ... if value changes (see the inputs array below).
-      // This is how we prevent debouncedValue from changing if value is ...
-      // ... changed within the delay period. Timeout gets cleared and restarted.
-      // To put it in context, if the user is typing within our app's ...
-      // ... search box, we don't want the debouncedValue to update until ...
-      // ... they've stopped typing for more than 500ms.
-      return () => {
-        clearTimeout(handler);
-      };
-    },
-    // Only re-call effect if value changes
-    // You could also add the "delay" var to inputs array if you ...
-    // ... need to be able to change that dynamically.
-    [value]
-  );
-
-  return debouncedValue;
-}
-
 export function SearchResults() {
   const { searchQuery } = useParams();
+  const gqlVariables = { name: searchQuery };
   const { data } = useQuery(ALL_SEARCH, {
-    variables: { name: searchQuery }
+    variables: gqlVariables
   });
 
   let startTabIdx = 0;
@@ -101,7 +151,8 @@ export function SearchResults() {
     }
   }
   return (
-    <div>
+    <div className="detail-page">
+      {searchQuery && data && <CustomLink to="/"> ← Clear Search</CustomLink>}
       {searchQuery && data && (
         <SimpleTabs
           startTabIdx={startTabIdx}
@@ -110,7 +161,10 @@ export function SearchResults() {
               label: `Legislators (${data.legislators.totalCount})`,
               content: (
                 <div>
-                  <LegislatorList data={data.legislators} hidePagination />
+                  <LegislatorList
+                    gqlVariables={gqlVariables}
+                    gqlQuery={LEG_SEARCH}
+                  />
                 </div>
               )
             },
@@ -118,7 +172,10 @@ export function SearchResults() {
               label: `Donors (${data.donors.totalCount})`,
               content: (
                 <div>
-                  <DonorList data={data.donors} hidePagination />
+                  <DonorList
+                    gqlVariables={gqlVariables}
+                    gqlQuery={DONOR_SEARCH}
+                  />
                 </div>
               )
             },
@@ -126,7 +183,10 @@ export function SearchResults() {
               label: `Bills (${data.bills.totalCount})`,
               content: (
                 <div>
-                  <BillList data={data.bills} hidePagination />
+                  <BillList
+                    gqlVariables={gqlVariables}
+                    gqlQuery={BILL_SEARCH}
+                  />
                 </div>
               )
             }
@@ -138,9 +198,13 @@ export function SearchResults() {
 }
 
 function SearchAll() {
-  const [searchVal, setSearchVal] = useState("");
-  const debouncedSearchTerm = useDebounce(searchVal, 500);
   const history = useHistory();
+  const searchQuery = history.location.pathname.split("/searchAll/")[1];
+  const [searchVal, setSearchVal] = useState(searchQuery);
+  useEffect(() => {
+    setSearchVal(searchQuery);
+  }, [searchQuery]);
+  const debouncedSearchTerm = useDebounce(searchVal, 500);
   useEffect(() => {
     if (debouncedSearchTerm) {
       history.push(`/searchAll/${debouncedSearchTerm}`);
@@ -153,7 +217,7 @@ function SearchAll() {
   }, [debouncedSearchTerm]);
 
   return (
-    <div style={{ margin: "1em 0" }}>
+    <div className="site-wide-search" style={{ margin: "1em 0" }}>
       <Input
         value={searchVal || ""}
         onChange={e => setSearchVal(e.target.value)}

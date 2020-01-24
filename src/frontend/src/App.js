@@ -17,7 +17,7 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Router>
+      <Router basename="v2">
         <MuiThemeProvider theme={legTheme}>
           <ScrollToTop>
             <Routes />
