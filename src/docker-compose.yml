@@ -1,13 +1,23 @@
-version: '2'
+version: "2"
 
 services:
-
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    volumes:
+      - "react-build:/usr/src/app/build"
   web:
     build:
       context: .
       args:
         APP_ENV: production
     image: inftxos:0.2.86
+    volumes:
+      - "react-build:/usr/src/app/frontend/build"
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - TPJ_DB_URL=${TPJ_DB_URL}
@@ -17,10 +27,11 @@ services:
     network_mode: "host"
     ports:
       - "5120:5120"
-
   redis:
     image: redis:alpine
     container_name: redis
     network_mode: "host"
     ports:
       - "6379:6379"
+volumes:
+  react-build:
