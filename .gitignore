@@ -39,6 +39,7 @@ logs
 pip-log.txt
 pip-delete-this-directory.txt
 npm-debug.log*
+*.log
 
 # App specific
 env.sh
@@ -150,4 +151,3 @@ Pipfile
 
 # Local Postgres Data
 src/data/
-
