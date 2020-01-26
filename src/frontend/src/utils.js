@@ -1,6 +1,12 @@
 import queryString from "query-string";
 
+export function dashesToSpaces(str) {
+  if (!str) return "";
+  return capitalize(str.split("-").join(" "));
+}
+
 export function capitalize(str) {
+  if (!str) return "";
   str = str.toLowerCase().split(" ");
 
   for (let i = 0, x = str.length; i < x; i++) {

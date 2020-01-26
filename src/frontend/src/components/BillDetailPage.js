@@ -27,6 +27,7 @@ const GET_BILL = gql`
         }
       }
       sponsors {
+        totalCount
         edges {
           node {
             pk
@@ -39,6 +40,7 @@ const GET_BILL = gql`
         }
       }
       actionDates {
+        totalCount
         edges {
           node {
             classification
@@ -59,7 +61,7 @@ function BillDetailPage() {
   const fullBillData = data ? data.bill : {};
 
   return (
-    <div className="detail-page">
+    <div>
       <CustomLink to="/bills"> ← All Bills</CustomLink>
 
       <div style={{ display: "flex", margin: "1em 0" }}>
@@ -102,11 +104,13 @@ function BillDetailPage() {
       <SimpleTabs
         tabs={[
           {
-            label: "Actions",
+            label: `Actions (${fullBillData.actionDates &&
+              fullBillData.actionDates.totalCount})`,
             content: (
               <PaginatedList
                 data={fullBillData.actionDates}
                 title="Actions"
+                className="no-scroll"
                 columns={[
                   {
                     field: "node.description",
@@ -138,13 +142,16 @@ function BillDetailPage() {
             )
           },
           {
-            label: "Sponsors",
+            label: `Sponsors (${fullBillData.sponsors &&
+              fullBillData.sponsors.totalCount})`,
             content: (
-              <LegislatorsList
-                data={fullBillData.sponsors}
-                title="Sponsors"
-                rowsPerPage={100}
-              />
+              <div className="detail-page">
+                <LegislatorsList
+                  data={fullBillData.sponsors}
+                  title="Sponsors"
+                  rowsPerPage={100}
+                />
+              </div>
             )
           }
         ]}

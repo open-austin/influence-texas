@@ -13,7 +13,14 @@ function BillList({ data, ...props }) {
         {
           render: rowData => <BillSquare billId={rowData.node.billId} />
         },
-        { field: "node.title" },
+        {
+          render: rowData => (
+            <div>
+              <span style={{ opacity: 0.5 }}>Relating to</span>
+              {rowData.node.title.replace("Relating to", "")}
+            </div>
+          )
+        },
         { field: "node.chamber" }
       ]}
     />

@@ -82,7 +82,8 @@ function LegislatorDetailPage() {
       <SimpleTabs
         tabs={[
           {
-            label: `Bills Sponsored`,
+            label: `Bills Sponsored (${fullLegData.billsSponsored &&
+              fullLegData.billsSponsored.totalCount})`,
             content: (
               <div>
                 <BillList
@@ -94,7 +95,8 @@ function LegislatorDetailPage() {
             )
           },
           {
-            label: "Top Donors",
+            label: `Top Donors (${data &&
+              fullLegData.contributions.edges.length})`,
             content: (
               <div>
                 <PaginatedList

@@ -23,7 +23,6 @@ code {
 .detail-page .scrollGradient {
   display: none;
 }
-
 @media only screen and (min-width: 900px) {
   .site-wide-search {
     float: right;
@@ -45,10 +44,10 @@ code {
   }
   .list {
     overflow: auto;
-    height: calc(100vh - 22rem);
+    height: calc(100vh - 20rem);
   }
+  .no-scroll .list,
   .detail-page .list {
-    width: 100%;
     overflow: initial;
     height: initial;
   }
@@ -58,7 +57,7 @@ code {
   }
   .detail-page tr {
     display: flex;
-    border: solid white 5px;
+    border-right: solid white 5px;
   }
   .detail-page td {
     flex-grow: 1;
@@ -70,10 +69,16 @@ code {
     bottom: 3rem;
     height: 5rem;
     position: absolute;
+    pointer-events: none;
     background: linear-gradient(
       to top,
       rgba(255, 255, 255, 1) 0%,
       rgba(255, 255, 255, 0) 100%
     );
   }
+}
+
+.MuiTableRow-hover,
+path.rsm-geography {
+  cursor: pointer;
 }

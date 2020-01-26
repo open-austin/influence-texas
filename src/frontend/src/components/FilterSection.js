@@ -14,29 +14,18 @@ import {
 import { getQueryString, setQueryString } from "../utils";
 import { useHistory } from "react-router-dom";
 
-function FilterChip({ name, value, arrayName }) {
-  const val = value || name;
+function FilterChip({ name, value, group }) {
   const history = useHistory();
   const queryObj = getQueryString(history);
-  let selected = queryObj[val];
-  let onToggle = () => {
-    queryObj[val] = !selected;
+  const selected = queryObj[group] === value;
+  const onToggle = () => {
+    if (selected) {
+      delete queryObj[group];
+    } else {
+      queryObj[group] = value;
+    }
     setQueryString(queryObj, history);
   };
-  if (arrayName) {
-    queryObj[arrayName] = queryObj[arrayName] || [];
-    selected = queryObj[arrayName].includes(val);
-    onToggle = () => {
-      if (selected) {
-        queryObj[arrayName] = (queryObj[arrayName] || []).filter(
-          d => d !== val
-        );
-      } else {
-        queryObj[arrayName].push(val);
-      }
-      setQueryString(queryObj, history);
-    };
-  }
 
   return (
     <>
@@ -119,9 +108,15 @@ function FilterSection({ tags = [], title, ...props }) {
         </div>
       </div>
       <Collapse in={isFilterOpen}>
-        {tags.map(t => (
-          <FilterChip key={t.value} {...t} />
-        ))}
+        {Object.keys(tags).map(group => {
+          return (
+            <div style={{ display: "inline-block", paddingRight: "1rem" }}>
+              {tags[group].map(t => (
+                <FilterChip key={t.value} {...t} group={group} />
+              ))}
+            </div>
+          );
+        })}
       </Collapse>
       <hr />
     </div>

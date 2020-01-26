@@ -50,36 +50,24 @@ const ALL_LEG = gql`
 function LegislatorsPage() {
   const history = useHistory();
   const queryObj = getQueryString(history);
-  let chamber;
-  if (queryObj["HOUSE"] !== queryObj["SENATE"]) {
-    if (queryObj["HOUSE"]) {
-      chamber = "HOUSE";
-    }
-    if (queryObj["SENATE"]) {
-      chamber = "SENATE";
-    }
-  }
 
-  let party;
-  if (queryObj["D"] !== queryObj["R"]) {
-    if (queryObj["D"]) {
-      party = "D";
-    }
-    if (queryObj["R"]) {
-      party = "R";
-    }
-  }
+  const chamber = queryObj.chamber;
+  const party = queryObj.party;
 
   return (
     <div>
       <FilterSection
         title={<Typography variant="h6">Texas Legislators</Typography>}
-        tags={[
-          { name: "House", value: "HOUSE" },
-          { name: "Senate", value: "SENATE" },
-          { name: "Democrat", value: "D" },
-          { name: "Republican", value: "R" }
-        ]}
+        tags={{
+          chamber: [
+            { name: "House", value: "HOUSE" },
+            { name: "Senate", value: "SENATE" }
+          ],
+          party: [
+            { name: "Democrat", value: "D" },
+            { name: "Republican", value: "R" }
+          ]
+        }}
       />
       <div className="two-column">
         <TexasDistrictMap chamber={chamber} style={{ flexGrow: 1 }} />

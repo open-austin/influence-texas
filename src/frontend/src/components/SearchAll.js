@@ -169,23 +169,23 @@ export function SearchResults() {
               )
             },
             {
-              label: `Donors (${data.donors.totalCount})`,
-              content: (
-                <div>
-                  <DonorList
-                    gqlVariables={gqlVariables}
-                    gqlQuery={DONOR_SEARCH}
-                  />
-                </div>
-              )
-            },
-            {
               label: `Bills (${data.bills.totalCount})`,
               content: (
                 <div>
                   <BillList
                     gqlVariables={gqlVariables}
                     gqlQuery={BILL_SEARCH}
+                  />
+                </div>
+              )
+            },
+            {
+              label: `Donors (${data.donors.totalCount})`,
+              content: (
+                <div>
+                  <DonorList
+                    gqlVariables={gqlVariables}
+                    gqlQuery={DONOR_SEARCH}
                   />
                 </div>
               )

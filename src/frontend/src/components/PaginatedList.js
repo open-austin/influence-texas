@@ -12,8 +12,8 @@ import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 
 const StyleWrapper = styled.div`
-  margin-left: -1em;
-  width: calc(100% + 2em);
+  /* margin-left: -1em;
+  width: calc(100% + 2em); */
 `;
 
 function getProp(obj, propName) {
@@ -135,54 +135,59 @@ function SimpleList({
   title = "",
   sortOrderText = "",
   hidePagination = false,
-  rowsPerPage = 10
+  rowsPerPage = 10,
+  ...props
 }) {
   const history = useHistory();
   return (
-    <TableContainer className="list">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          margin: "0 1em"
-        }}
-      >
-        <Typography variant="h6">
-          {title}
-          <span
-            variant="subtitle2"
-            style={{ fontSize: ".75em", opacity: 0.5, margin: "1em" }}
-          >
-            {totalCount && `${totalCount} Results`}
-          </span>
-        </Typography>
-
-        <Typography variant="h6">{sortOrderText}</Typography>
-      </div>
-      <Table aria-label="simple table">
-        <TableBody>
-          {rows.map((row, i) => (
-            <TableRow
-              key={getProp(row, pk) || i}
-              hover={!!url}
-              onClick={
-                url &&
-                pk &&
-                getProp(row, pk) &&
-                (e => history.push(`/${url}/${getProp(row, pk)}`))
-              }
+    <StyleWrapper {...props}>
+      <TableContainer className="list">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "0 1em"
+          }}
+        >
+          <Typography variant="h6">
+            {title}
+            <span
+              variant="subtitle2"
+              style={{ fontSize: ".75em", opacity: 0.5, margin: "1em" }}
             >
-              {columns.map((c, i) => {
-                if (c.render) {
-                  return <TableCell key={i}>{c.render(row)}</TableCell>;
-                } else {
-                  return <TableCell key={i}>{getProp(row, c.field)}</TableCell>;
+              {totalCount && `${totalCount} Results`}
+            </span>
+          </Typography>
+
+          <Typography variant="h6">{sortOrderText}</Typography>
+        </div>
+        <Table aria-label="simple table">
+          <TableBody>
+            {rows.map((row, i) => (
+              <TableRow
+                key={getProp(row, pk) || i}
+                hover={!!url}
+                onClick={
+                  url &&
+                  pk &&
+                  getProp(row, pk) &&
+                  (e => history.push(`/${url}/${getProp(row, pk)}`))
                 }
-              })}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+              >
+                {columns.map((c, i) => {
+                  if (c.render) {
+                    return <TableCell key={i}>{c.render(row)}</TableCell>;
+                  } else {
+                    return (
+                      <TableCell key={i}>{getProp(row, c.field)}</TableCell>
+                    );
+                  }
+                })}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </StyleWrapper>
   );
 }

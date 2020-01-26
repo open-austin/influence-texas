@@ -27,27 +27,48 @@ const Wrapper = styled.div`
 /**
  * @param {Props} props
  */
-function DonutChart({ data, totalCount = 0, totalText = "Total" }) {
+function DonutChart({
+  data,
+  totalCount = 0,
+  totalText = "Total",
+  selectedSlice = ""
+}) {
   const CHART_WIDTH = 440;
   const colorScale = scaleQuantize()
     .domain([1, data.length])
     .range([legTheme.palette.primary.main, legTheme.palette.primary.dart]);
+  const props = {
+    data,
+    cx: CHART_WIDTH / 2,
+    cy: CHART_WIDTH / 2,
+    paddingAngle: 2,
+    dataKey: "value"
+  };
   return (
     <Wrapper>
       <PieChart width={CHART_WIDTH} height={CHART_WIDTH}>
         <Pie
-          data={data}
-          cx={CHART_WIDTH / 2}
-          cy={CHART_WIDTH / 2}
+          {...props}
+          innerRadius={200}
+          outerRadius={210}
+          fill={legTheme.palette.primary.main}
+        >
+          {data.map((entry, index) => {
+            return (
+              <Cell
+                key={`cell-${index}`}
+                fill={entry.name === selectedSlice ? "#ccc" : "white"}
+              />
+            );
+          })}
+        </Pie>
+        <Pie
+          {...props}
           innerRadius={180}
           outerRadius={200}
-          paddingAngle={2}
-          dataKey="value"
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={colorScale(index)} />
-          ))}
-        </Pie>
+          fill={legTheme.palette.primary.main}
+        ></Pie>
+
         <text x={CHART_WIDTH / 2} y={CHART_WIDTH / 2 + 20} textAnchor="middle">
           <tspan className="large">{numberWithCommas(totalCount)} </tspan>{" "}
           {totalText}

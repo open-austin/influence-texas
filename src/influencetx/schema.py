@@ -3,7 +3,7 @@ from graphene import relay, Node
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from django.db import connection, transaction
-
+from django.db.models import Count
 from influencetx.legislators.models import Legislator, LegislatorIdMap
 from influencetx.tpj.models import Donor, Contribution, Contributionsummary, Filer
 from influencetx.bills.models import Bill, ActionDate, VoteTally, SingleVote, SubjectTag
@@ -38,6 +38,8 @@ class BillType(DjangoObjectType):
         }
         interfaces = (relay.Node, )
         connection_class = ExtendedConnection
+        def get_stats(self):
+            return []
     pk = graphene.Int()
     def resolve_pk(self, info, **kwargs):
         return self.id
@@ -171,6 +173,28 @@ def execute_raw_query(sql_string):
         list.append(dict) 
     return list
 
+def CustomBillFilters(classification, party, multiple_sponsors, chamber=""):
+    bills = Bill.objects
+    if chamber:
+        bills = bills.filter(chamber__icontains=chamber)
+    if classification:
+        if(classification == "filing"):
+            bills = bills.exclude(action_dates__classification="committee-passage")
+        if(classification == "committee-passage"):
+            bills = bills.filter(action_dates__classification="committee-passage").exclude(action_dates__classification="became-law")
+        if(classification == "became-law"):
+            bills = bills.filter(action_dates__classification="became-law").exclude(action_dates__classification="committee-passage")
+        bills.filter(action_dates__classification__in=classification)
+    if party:
+        if(party == "D"):
+            bills = bills.filter(sponsors__party="D").exclude(sponsors__party="R")
+        if(party == "R"):
+            bills = bills.filter(sponsors__party="R").exclude(sponsors__party="D")
+        if(party == "Bipartisan"):
+            bills = bills.filter(sponsors__party="R").filter(sponsors__party="D")
+    if multiple_sponsors:
+        bills = bills.annotate(num_sponsors=Count('sponsors')).filter(num_sponsors__gte=2)
+    return bills
 
 class Query(graphene.ObjectType):
     bill = graphene.Field(BillType, pk=graphene.Int())
@@ -178,23 +202,39 @@ class Query(graphene.ObjectType):
         pk = kwargs.get('pk')
         return Bill.objects.get(pk=pk)
 
-    bills = DjangoFilterConnectionField(BillType, classification=graphene.List(graphene.String))
+    bills = DjangoFilterConnectionField(
+        BillType, 
+        classification=graphene.Argument(graphene.String),
+        party=graphene.Argument(graphene.String),
+        multiple_sponsors=graphene.Argument(graphene.Boolean)
+    )
     def resolve_bills(self, info, **kwargs):
-        if kwargs.get("classification"):
-            return Bill.objects.distinct().filter(action_dates__classification__in=kwargs.get("classification"))
+        bills = CustomBillFilters(
+            classification=kwargs.get("classification"), 
+            party=kwargs.get("party"), 
+            multiple_sponsors=kwargs.get("multiple_sponsors")
+        )
 
+        return bills.distinct()
 
-        return Bill.objects.order_by("bill_id").all()
-
-    bill_classification_stats = graphene.List(FilterCountType)
-    def resolve_bill_classification_stats(self, info):
-        return execute_raw_query("""
-        SELECT classification as name, COUNT(classification), ROUND(AVG("order"),1)  as average_order
-        FROM bills_actiondate  a 
-        WHERE a."order" = (SELECT MAX("order") FROM bills_actiondate c WHERE c.bill_id = a.bill_id AND c.classification != '' )
-        GROUP BY(name)
-        ORDER BY average_order
-        """)
+    bill_classification_stats = graphene.List(
+        FilterCountType,
+        chamber=graphene.Argument(graphene.String),
+        party=graphene.Argument(graphene.String),
+        multiple_sponsors=graphene.Argument(graphene.Boolean)
+    )
+    def resolve_bill_classification_stats(self, info, **kwargs):
+        bills = CustomBillFilters(
+            chamber=kwargs.get("chamber"),
+            classification=kwargs.get("classification"),
+            party=kwargs.get("party"), 
+            multiple_sponsors=kwargs.get("multiple_sponsors")
+        )
+        return [
+            {"name": "filing", "count": len(bills.exclude(action_dates__classification="committee-passage"))},
+            {"name": "committee-passage", "count": len(bills.filter(action_dates__classification="committee-passage").exclude(action_dates__classification="became-law"))},
+            {"name": "became-law", "count": len(bills.filter(action_dates__classification="became-law").exclude(action_dates__classification="committee-passage"))},
+        ]
 
     legislator = graphene.Field(LegislatorType, pk=graphene.Int())
     def resolve_legislator(self, info, **kwargs):
@@ -209,8 +249,25 @@ class Query(graphene.ObjectType):
     def resolve_donor(self, info, **kwargs):
         pk = kwargs.get('pk')
         return Donor.objects.get(pk=pk)
-        
 
-    donors = DjangoFilterConnectionField(DonorType)
+    donors = DjangoFilterConnectionField(DonorType, in_state=graphene.Argument(graphene.Boolean))
+    def resolve_donors(self, info, **kwargs):
+        donors = Donor.objects.all()
+        if(kwargs.get('in_state') == True):
+            donors = donors.filter(state="TX")
+        if(kwargs.get('in_state') == False):
+            donors = donors.exclude(state="TX")
+        return donors
+
+    donor_state_stats = graphene.List(
+        FilterCountType
+    )
+    def resolve_donor_state_stats(self, info, **kwargs):
+        donors = Donor.objects
+        return [
+            {"name": "in-state", "count": len(donors.filter(state="TX"))},
+            {"name": "out-of-state", "count": len(donors.exclude(state="TX"))},
+        ]
+
 
 schema = graphene.Schema(query=Query)
