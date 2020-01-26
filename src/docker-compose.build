@@ -1,8 +1,10 @@
-version: '2'
+# Vagrant docker-compose for development using external Postgresql
+version: "2"
 
 services:
 
   web:
+    container_name: web
     build:
       context: .
       args:
@@ -34,3 +36,19 @@ services:
     network_mode: "host"
     ports:
       - "5120:5120"
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    image: inftxosfrontend:dev
+    command: "npm start"
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./frontend:/usr/src/app
+    network_mode: "host"
+    ports:
+      - "3000:3000"

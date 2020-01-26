@@ -102,6 +102,11 @@ INSTALLED_APPS += ['gunicorn', ]
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = 'https://media.influencetx.com/static/'
 
+CORS_ORIGIN_WHITELIST = [
+    '*.influencetx.com',
+    'localhost',
+    '*.influencetexas.com'
+]
 
 # EMAIL
 # ------------------------------------------------------------------------------

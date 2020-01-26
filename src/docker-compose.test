@@ -1,0 +1,41 @@
+# docker-compose for testing using external Postgresql and static react frontend
+version: "2"
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    command: "npm run build"
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    volumes:
+      - "react-build:/usr/src/app/build/static"
+  web:
+    container_name: web
+    build:
+      context: .
+      args:
+        APP_ENV: local
+    image: inftxos:test
+    volumes:
+      - ".:/usr/src/app"
+      - "react-build:/usr/src/app/influencetx/static/frontend"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - TPJ_DB_URL=${TPJ_DB_URL}
+      - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}
+    network_mode: "host"
+    ports:
+      - "5120:5120"
+  redis:
+    container_name: redis
+    image: redis:alpine
+    network_mode: "host"
+    ports:
+      - "6379:6379"
+  volumes:
+    react-build:
