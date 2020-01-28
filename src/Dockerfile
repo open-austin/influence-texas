@@ -1,6 +1,6 @@
 FROM python:3.7.1
 
-LABEL maintaner="<Michael Rollins michael@influencetx.com>"
+LABEL maintainer="<Michael Rollins michael@influencetx.com>"
 
 ARG APP_ENV=production
 

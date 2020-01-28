@@ -45,6 +45,7 @@ npm-debug.log*
 env.sh
 openstates_cache.sqlite
 .influencetx-secrets.env
+influencetx/static/frontend/
 
 # Unit test / coverage reports
 htmlcov/

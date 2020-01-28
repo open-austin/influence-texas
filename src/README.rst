@@ -251,12 +251,13 @@ Local Vagrant Setup
 ===================
 
 A Vagrant based deployment method is also available, which mirrors the configurations of the live
- integration/production server.
-It provides a virtual machine for running the postgresql database on the VM, and is configured as a docker host.
-The benefits to using an isolated VM for development is that your work is encapsulated within the VM,
- thereby allowing you to work on more than one project.
-Another benefit is that by developing in an environment that is the same as the integration/production servers,
- then a CI/CD pipeline can be setup.
+ integration/production server.  It provides a virtual machine for running the postgresql database on the VM,
+  and is configured as a docker host.
+It uses the docker-compose.vagrant file for deploying a Development environment,
+ but other docker-compose configurations can be used for testing.
+
+
+
 
 Pre-requisites
 --------------
@@ -316,11 +317,11 @@ The `pyinvoke` and `djadmin` commands do not work inside the Vagrant environment
 
     cd /vagrant
     source env.sh
-    docker-compose -f docker-compose.build [command]
+    docker-compose -f docker-compose.vagrant [command]
 
 For example::
 
-    docker-compose -f docker-compose.build exec web python3 manage.py sync_legislators_from_openstate
+    docker-compose -f docker-compose.vagrant exec web python3 manage.py sync_legislators_from_openstate
 
 **Note**: Use 'help' as the command to see all available commands.
 

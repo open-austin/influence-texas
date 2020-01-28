@@ -1,16 +1,7 @@
-# Default docker-compose configuration for local development
+# Vagrant docker-compose for local development with external Postgresql
 version: '2'
 
 services:
-  db:
-    container_name: db
-    image: postgres
-    environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    volumes:
-      - data:/var/lib/postgres
-
   web:
     container_name: web
     build:
@@ -25,21 +16,18 @@ services:
         "
     entrypoint: ""
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=psql://postgres:mysecretpassword@localhost:5432/influencetx
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}
       - DJANGO_DEBUG=True
     volumes:
       - .:/usr/src/app
+    network_mode: "host"
     ports:
       - "5120:5120"
     stdin_open: true
     tty: true
-    depends_on:
-      - db
-    links:
-      - db:postgres
 
   frontend:
     container_name: frontend
@@ -54,7 +42,3 @@ services:
       - ./frontend:/usr/src/app
     ports:
       - "3000:3000"
-
-volumes:
-  data:
-    driver: local
