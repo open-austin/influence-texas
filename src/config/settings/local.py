@@ -67,7 +67,7 @@ REACT_APP_DIR = os.path.join(BASE_DIR, '../frontend')
 
 STATICFILES_DIRS = [
     str(APPS_DIR.path('static')),
-    os.path.join(APPS_DIR, 'static', 'frontend'),
+    os.path.join(REACT_APP_DIR, 'build', 'static')
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders

@@ -1,5 +1,5 @@
 # Default docker-compose configuration for local development
-version: '2'
+version: "2"
 
 services:
   db:
@@ -16,14 +16,14 @@ services:
     image: python:3.7.1
     working_dir: /usr/src/app
     command: >
-        bash -exc "
-            # Install postgres and sql-server dependencies so that `./djadmin.sh dbshell` command works.
-            apt-get update && apt-get install -y postgresql-client unixodbc unixodbc-dev freetds-bin freetds-dev tdsodbc;
+      bash -exc "
+          # Install postgres and sql-server dependencies so that `./djadmin.sh dbshell` command works.
+          apt-get update && apt-get install -y postgresql-client unixodbc unixodbc-dev freetds-bin freetds-dev tdsodbc;
 
-            pip install -r requirements/local.txt;
-            python3 manage.py migrate;
-            python3 manage.py runserver 0.0.0.0:5120;
-        "
+          pip install -r requirements/local.txt;
+          python3 manage.py migrate;
+          python3 manage.py runserver 0.0.0.0:5120;
+      "
     environment:
       - DATABASE_URL=psql://postgres:mysecretpassword@postgres:5432/influencetx
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
@@ -39,6 +39,7 @@ services:
       - ODBCINI=/usr/src/app/docker_config_files/odbc.ini
     volumes:
       - .:/usr/src/app
+      - "react-build:/usr/src/app/frontend/build"
     ports:
       - "5120:5120"
     stdin_open: true
@@ -53,15 +54,17 @@ services:
     build:
       context: ./frontend
     image: inftxosfrontend:dev
+    command: "npm run build"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - REACT_APP_GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - CHOKIDAR_USEPOLLING=true
     volumes:
-      - ./frontend:/usr/src/app
+      - "react-build:/usr/src/app/build"
     ports:
       - "3000:3000"
 
 volumes:
+  react-build:
   data:
     driver: local

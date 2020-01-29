@@ -5,4 +5,4 @@ COPY package.json /usr/src/app/package.json
 COPY package-lock.json /usr/src/app/package-lock.json
 RUN npm install --silent
 COPY . .
-RUN npm run build
+CMD npm start
