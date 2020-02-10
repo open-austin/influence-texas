@@ -39,7 +39,7 @@ services:
       - ODBCINI=/usr/src/app/docker_config_files/odbc.ini
     volumes:
       - .:/usr/src/app
-      - "react-build:/usr/src/app/frontend/build"
+      - "react-build:/usr/src/app/influencetx/static/react-app/"
     ports:
       - "5120:5120"
     stdin_open: true
@@ -54,13 +54,13 @@ services:
     build:
       context: ./frontend
     image: inftxosfrontend:dev
-    command: "npm run build"
+    command: npm start
     environment:
       - NODE_ENV=production
       - REACT_APP_GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - CHOKIDAR_USEPOLLING=true
     volumes:
-      - "react-build:/usr/src/app/build"
+      - "react-build:/usr/src/app/influencetx/static/react-app/"
     ports:
       - "3000:3000"
 

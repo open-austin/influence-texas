@@ -1,4 +1,4 @@
-FROM node:9.6.1
+FROM node:12.14.1
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app/package.json

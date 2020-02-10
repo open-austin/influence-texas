@@ -30,6 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "mkdir -p ../influencetx/static/react-app && mv ./build/* ../influencetx/static/react-app",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
