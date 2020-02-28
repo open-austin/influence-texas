@@ -1,7 +1,7 @@
 import os
 import sys
 import subprocess
-
+####Requires Tabula 1.03 jar, not the linux or windows 'version' - https://github.com/tabulapdf/tabula-java/releases/tag/v1.0.3
 tabula_path = os.getcwd() + "/" + sys.argv[1]
 tablua_path = tabula_path.replace(" ", "\\ ")
 walk_dir = sys.argv[2]
