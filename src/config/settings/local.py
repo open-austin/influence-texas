@@ -65,7 +65,6 @@ STATIC_URL = '/static/'
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 STATICFILES_DIRS = [
-    os.path.join(APPS_DIR, 'static', 'react-app', 'static'),
     str(APPS_DIR.path('static')),
 ]
 

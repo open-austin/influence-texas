@@ -27,7 +27,8 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-src/influencetx/static/react-app
+src/influencetx/static/react-app/*
+!src/influencetx/static/react-app/.gitkeep
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
