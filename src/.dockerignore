@@ -1,0 +1,8 @@
+# Don't include these files in a Dockerfile built image
+env.*
+*.log
+*.lock
+nginx.conf-integration
+__pycache__
+*.pyc
+influencetx/static/react-app

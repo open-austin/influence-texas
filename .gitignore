@@ -138,6 +138,7 @@ sftp-config.json
 
 # npm
 node_modules/
+influencetx/static/react-app/
 
 # Compass
 .sass-cache

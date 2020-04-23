@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "/static/react-app",
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
     "@material-ui/core": "^4.8.2",
@@ -31,7 +31,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "touch ./build/.gitkeep && mkdir -p ../influencetx/static/react-app && mv ./build/* ../influencetx/static/react-app",
+    "postbuild": "mkdir -p ../influencetx/static/react-app && rm -fr ../influencetx/static/react-app/* && cp -R ./build/* ../influencetx/static/react-app/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
