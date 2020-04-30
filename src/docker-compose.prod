@@ -1,0 +1,25 @@
+version: "2"
+
+services:
+  web:
+    container_name: web
+    build:
+      context: .
+      args:
+        APP_ENV: production
+    image: inftxos:0.2.86
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - TPJ_DB_URL=${TPJ_DB_URL}
+      - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}
+    network_mode: "host"
+    ports:
+      - "5120:5120"
+  redis:
+    container_name: redis
+    image: redis:alpine
+    network_mode: "host"
+    ports:
+      - "6379:6379"

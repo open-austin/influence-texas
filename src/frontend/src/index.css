@@ -1,0 +1,84 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+#root {
+  margin: auto;
+  color: #404044;
+  padding: 0.5rem;
+  max-width: 1200px;
+}
+
+.scrollGradient,
+.detail-page .scrollGradient {
+  display: none;
+}
+@media only screen and (min-width: 900px) {
+  .site-wide-search {
+    float: right;
+  }
+  .two-column > div {
+    width: 50%;
+    display: inline-block;
+    vertical-align: text-top;
+  }
+  .pagination {
+    position: absolute;
+    width: 50%;
+    max-width: 600px;
+  }
+  .detail-page .pagination {
+    position: initial;
+    width: initial;
+    max-width: initial;
+  }
+  .list {
+    overflow: auto;
+    height: calc(100vh - 20rem);
+  }
+  .no-scroll .list,
+  .detail-page .list {
+    overflow: initial;
+    height: initial;
+  }
+  .detail-page tbody {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .detail-page tr {
+    display: flex;
+    border-right: solid white 5px;
+  }
+  .detail-page td {
+    flex-grow: 1;
+  }
+
+  .scrollGradient {
+    display: block;
+    width: 100%;
+    bottom: 3rem;
+    height: 5rem;
+    position: absolute;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+}
+
+.MuiTableRow-hover,
+path.rsm-geography {
+  cursor: pointer;
+}

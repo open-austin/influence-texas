@@ -22,6 +22,10 @@ To get started on this project for the first time, you can follow these simple s
 
 .. _Install Docker CE: https://docs.docker.com/engine/installation/
 
+- `Install docker-compose`_
+
+.. _Install docker-compose: https://docs.docker.com/compose/install/
+
 - Clone code::
 
       cd your/code/directory
@@ -46,14 +50,15 @@ your environment reproducible, you'll add these environment variables to a scrip
 with the following values::
 
     export OPENSTATES_API_KEY=YOUR-API-KEY
-    export TPJ_DB_USER=YOUR-USERNAME
-    export TPJ_DB_PASSWORD=YOUR-PASSWORD
     export GOOGLE_API_KEY=YOUR-API-KEY
     export GOOGLE_ANALYTICS=YOUR-ANALYTICS-ID
 
 The TPJ variables require credentials from Texans for Public Justice. Currently, there's no
-established process for acquiring those credentials. See the following section to acquire an
-OpenStates key.
+established process for acquiring those credentials. But as a workaround you can load some fake data with::
+sh scripts/manage.sh loaddata ./influencetx/tpj/donors_fixture.json
+
+
+See the following section to acquire an OpenStates key.
 The Google API keys are for the "Find Rep" portion of the application, which has a cost
 associated with it.
 
@@ -122,12 +127,11 @@ Local Docker Setup
 
 Build your local docker containers by running::
 
-  bash ./scripts/run-local.sh
+  docker-compose up
 
-This will use instructions from Dockerfile.local, entrypoint.local.sh, and docker-compose.local to build and launch
-2 containers:
-  - `inftxos_web_1` runs your Django server that serves influencetx on your local machine.
-  - `inftxos_db_1` runs a postgres database instance.
+or use the scripts::
+
+  bash ./scripts/run-local.sh
 
 You can then automate the data seeding steps described in "Syncing data from Open States API" by running::
 
@@ -147,7 +151,7 @@ They are wrappers to allow you to easily run `manage.py` and `invoke` scripts wi
 
 If you want to go into the docker environment shell yourself, you can run::
 
-  docker exec -it infltxos /bin/bash
+  docker-compose exec -it web /bin/bash
 
 Basic Commands
 ==============
@@ -184,7 +188,7 @@ Maintenance commands
 
 The commands commonly used for maintenance of this project are described below.
 
-- ``docker-compose -f docker-compose.dev up -d``: Start up docker container in detached mode (background task). You can
+- ``docker-compose up -d``: Start up docker container in detached mode (background task). You can
   keep a docker container running continuously, so you may only need to run this after restarting
   your machine.
 - ``./djadmin.sh makemigrations``: Make schema migrations to reflect your changes to Django models.
@@ -203,13 +207,13 @@ The commands commonly used for maintenance of this project are described below.
 Debugging commands
 ------------------
 
-- ``docker-compose logs -f --tail=5``: Watch output of containers. (Alias: ``-f`` = ``--follow``.)
+- ``docker-compose logs -f --tail=5 $CONTAINER_NAME``: Watch output of containers. (Alias: ``-f`` = ``--follow``.)
 
   - This command has a `tendency to cause timeout errors`_. If you experience timeouts, try
     running: ``COMPOSE_HTTP_TIMEOUT=60000 docker-compose logs -f``.
 
-- ``docker-compose -f docker-compose.dev logs``: Display bash output for all containers.
-- ``docker-compose -f docker-compose.dev exec web bash``: Run bash shell within web container.
+- ``docker-compose logs``: Display bash output for all containers.
+- ``docker-compose exec -it web /bin/bash``: Run bash shell within web container.
 - ``./djadmin.sh shell``: Start IPython shell.
 - ``./djadmin.sh dbshell``: Start Postgres shell.
 
@@ -222,7 +226,7 @@ Debugging Python code
 You can't use the output window from a ``docker-compose logs --f`` call to debug, since it actually
 interacts with multiple containers. Instead, run the following in a terminal::
 
-    docker attach `docker-compose -f docker-compose.dev ps -q web`
+    docker attach `docker-compose ps -q web`
 
 The ``docker-compose``-part of the command simply returns the id of the web container for the app.
 You can replace the above with::
@@ -248,12 +252,11 @@ Local Vagrant Setup
 
 A Vagrant based deployment method is also available, which mirrors the configurations of the live
  integration/production server.
-It provides a virtual machine for running the postgresql database, and is configured as a docker host.
+It provides a virtual machine for running the postgresql database on the VM, and is configured as a docker host.
 The benefits to using an isolated VM for development is that your work is encapsulated within the VM,
  thereby allowing you to work on more than one project.
 Another benefit is that by developing in an environment that is the same as the integration/production servers,
  then a CI/CD pipeline can be setup.
-The primary reason for the vagrant environment was to provide a development environment for ansible development.
 
 Pre-requisites
 --------------
@@ -271,7 +274,7 @@ You must first install the following software to utilize the Vagrant development
 Usage
 -----
 
-To start the virtual machine:
+To start the virtual machine (first time run will also provision):
 
       vagrant up
 
@@ -283,7 +286,7 @@ To open a terminal on the virtual machine:
 
       vagrant ssh
 
-To rebuild and deploy the application:
+To reprovision the VM and start the application:
 
       vagrant provision
 
@@ -309,9 +312,15 @@ To perform development from inside the VM, perform the ``vagrant ssh`` command, 
   The `docker-compose.build` file is used for deployment of the application, and allows for live updates to the source
   code.
 The `pyinvoke` and `djadmin` commands do not work inside the Vagrant environment.  To perform migrations and other
- operations, use the following command::
+ operations, use the following commands::
 
-    docker-compose -f docker-compose.build exec web python3 manage.py [command]
+    cd /vagrant
+    source env.sh
+    docker-compose -f docker-compose.build [command]
+
+For example::
+
+    docker-compose -f docker-compose.build exec web python3 manage.py sync_legislators_from_openstate
 
 **Note**: Use 'help' as the command to see all available commands.
 

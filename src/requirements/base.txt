@@ -4,7 +4,11 @@
 # Verified bug on Python 3.5.1
 wheel==0.33.1
 
-django==1.11.23
+django==1.11.20
+graphene
+graphene_django
+django-cors-headers
+django-filter>=2
 
 # Configuration
 django-environ==0.4.5

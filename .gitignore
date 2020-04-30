@@ -27,6 +27,8 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+src/influencetx/static/react-app/*
+!src/influencetx/static/react-app/.gitkeep
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -39,6 +41,7 @@ logs
 pip-log.txt
 pip-delete-this-directory.txt
 npm-debug.log*
+*.log
 
 # App specific
 env.sh
@@ -135,6 +138,7 @@ sftp-config.json
 
 # npm
 node_modules/
+influencetx/static/react-app/
 
 # Compass
 .sass-cache
@@ -150,4 +154,3 @@ Pipfile
 
 # Local Postgres Data
 src/data/
-
