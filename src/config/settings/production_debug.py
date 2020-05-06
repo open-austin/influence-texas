@@ -31,6 +31,15 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 # EMAIL_HOST = 'localhost'
 # EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
 
+# Static Assets
+# ------------------------
+STATIC_URL = 'https://static.influencetx.com/static/'
+
+CORS_ORIGIN_WHITELIST = [
+    '*.influencetx.com',
+    'localhost',
+    '*.influencetexas.com'
+]
 
 # CACHING
 # ------------------------------------------------------------------------------
