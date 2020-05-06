@@ -10,14 +10,14 @@ services:
     volumes:
       - /etc/nginx:/etc/nginx
       - /etc/ssl:/etc/ssl
-      - ../InfluenceLanding:/var/www
+      - ../../InfluenceLanding:/var/www
     links:
       - oauth2_oatx
 
   oauth2_oatx:
-    image: machinedata/oauth2_proxy 
+    image: machinedata/oauth2_proxy
     container_name: oauth2_oatx
-    env_file: ../oatx-env.sh
+    env_file: ../../oatx-env.sh
     environment:
       - OAUTH2_PROXY_UPSTREAM=http://web:5120/
       - OAUTH2_PROXY_PROVIDER=github
@@ -27,7 +27,7 @@ services:
   web:
     image: inftxdb:dev
     container_name: web
-    env_file: ../env.sh
+    env_file: ../../env.sh
     environment:
       - DATABASE_URL=psql://influencetx:mysecretpassword@influencetx.com:5432/influencetx
       - DJANGO_SETTINGS_MODULE=config.settings.production_debug
@@ -43,4 +43,3 @@ services:
     container_name: redis
     ports:
       - "16379:16379"
-
