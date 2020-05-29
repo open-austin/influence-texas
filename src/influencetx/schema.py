@@ -61,7 +61,7 @@ class DonorType(DjangoObjectType):
     def resolve_pk(self, info, **kwargs):
         return self.id
     def donorsummarys(self, info, **kwargs):
-        return self.donorsummarys.prefetch_related('filer').order_by('-cycle_total')
+        return self.donorsummarys.prefetch_related('filer').order_by('-cycle_total')[:25]
 
 class SubjectTagType(DjangoObjectType):
     class Meta:
