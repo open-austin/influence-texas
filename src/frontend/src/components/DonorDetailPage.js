@@ -48,12 +48,6 @@ function DonorDetailPage() {
     variables: { id },
   });
   const fullDonorData = data ? data.donor : {};
-  let donorsummarys = fullDonorData.donorsummarys;
-  if (!loading) {
-    donorsummarys.edges.sort(
-      (d1, d2) => d2.node.cycleTotal - d1.node.cycleTotal
-    );
-  }
   return (
     <div className="detail-page">
       <CustomLink to="/donors"> ← All Donors</CustomLink>
@@ -79,7 +73,7 @@ function DonorDetailPage() {
       <PaginatedList
         url="legislators/legislator"
         pk="node.filer.legislator.pk"
-        data={donorsummarys}
+        data={fullDonorData.donorsummarys}
         columns={[
           {
             render: (rowData) => (
