@@ -54,11 +54,10 @@ function DonorsPage() {
   const queryObj = getQueryString(history);
 
   const summaryData = listData
-    ? listData.donorStateStats.map(d => ({
+    && listData.donorStateStats.map(d => ({
         name: dashesToSpaces(d.name),
         value: d.count
       }))
-    : [];
 
   let selectedSlice;
   if (typeof queryObj.inState === "boolean") {
@@ -89,6 +88,7 @@ function DonorsPage() {
           totalCount={listData ? listData.donors.totalCount : 0}
           totalText={"Donors"}
           selectedSlice={selectedSlice}
+          loading={!listData}
         />
         <DonorList
           gqlQuery={ALL_DONORS}

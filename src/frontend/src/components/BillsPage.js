@@ -69,7 +69,7 @@ function BillsPage() {
     value: d.name,
     group: "classification"
   }));
-  const summaryData = billClassificationStats.map(d => ({
+  const summaryData = listData && billClassificationStats.map(d => ({
     name: dashesToSpaces(d.name),
     value: d.count
   }));
@@ -102,6 +102,7 @@ function BillsPage() {
           totalCount={listData ? listData.bills.totalCount : 0}
           totalText="Bills"
           selectedSlice={dashesToSpaces(queryObj.classification)}
+          loading={!listData}
         />
         <BillList
           gqlQuery={ALL_BILLS}

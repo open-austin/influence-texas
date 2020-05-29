@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import PaginatedList from "./PaginatedList";
+import PaginatedList, { LoadingListItem, ShortLoadingListBody } from "./PaginatedList";
 import { format } from "date-fns";
 import SimpleTabs from "./SimpleTabs";
 import LegislatorsList from "./LegislatorList";
@@ -55,8 +55,8 @@ const GET_BILL = gql`
 
 function BillDetailPage() {
   const { id } = useParams();
-  const { data } = useQuery(GET_BILL, {
-    variables: { id }
+  const { data, loading } = useQuery(GET_BILL, {
+    variables: { id },
   });
   const fullBillData = data ? data.bill : {};
 
@@ -64,32 +64,36 @@ function BillDetailPage() {
     <div>
       <CustomLink to="/bills"> ← All Bills</CustomLink>
 
-      <div style={{ display: "flex", margin: "1em 0" }}>
-        <BillSquare billId={fullBillData.billId} />
-        <div style={{ margin: "0 1em", flexGrow: 1 }}>
-          <Typography variant="h5">{fullBillData.billId}</Typography>
-          <div style={{ textTransform: "capitalize" }}>
-            {fullBillData.chamber && fullBillData.chamber.toLowerCase()}
+      {loading ? (
+        LoadingListItem
+      ) : (
+        <div style={{ display: "flex", margin: "1em 0" }}>
+          <BillSquare billId={fullBillData.billId} />
+          <div style={{ margin: "0 1em", flexGrow: 1 }}>
+            <Typography variant="h5">{fullBillData.billId}</Typography>
+            <div style={{ textTransform: "capitalize" }}>
+              {fullBillData.chamber && fullBillData.chamber.toLowerCase()}
+            </div>
+            <div>Session {fullBillData.session}</div>
           </div>
-          <div>Session {fullBillData.session}</div>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            href={fullBillData.billText}
+            target="_blank"
+            style={{ height: "fit-content" }}
+          >
+            <OpenInNewIcon fontSize="small" />{" "}
+            <Typography variant="h6">Full Bill Text</Typography>
+          </Button>
         </div>
-        <Button
-          variant="outlined"
-          color="primary"
-          size="small"
-          href={fullBillData.billText}
-          target="_blank"
-          style={{ height: "fit-content" }}
-        >
-          <OpenInNewIcon fontSize="small" />{" "}
-          <Typography variant="h6">Full Bill Text</Typography>
-        </Button>
-      </div>
+      )}
       <div style={{ margin: "1em 0" }}>{fullBillData.title}</div>
       <div style={{ textTransform: "capitalize" }}>
         {" "}
         {fullBillData.subjects &&
-          fullBillData.subjects.edges.map(d => {
+          fullBillData.subjects.edges.map((d) => {
             const [subject, parens] = d.node.label
               .replace(/--/g, "—")
               .toLowerCase()
@@ -104,56 +108,62 @@ function BillDetailPage() {
       <SimpleTabs
         tabs={[
           {
-            label: `Actions (${fullBillData.actionDates &&
-              fullBillData.actionDates.totalCount})`,
+            label: `Actions (${
+              loading ? "loading" : fullBillData.actionDates.totalCount
+            })`,
             content: (
               <PaginatedList
                 data={fullBillData.actionDates}
                 title="Actions"
                 className="no-scroll"
+                loading={loading}
                 columns={[
                   {
                     field: "node.description",
-                    render: rowData => (
+                    render: (rowData) => (
                       <div style={{ textTransform: "capitalize" }}>
                         <div
                           style={{
                             textTransform: "uppercase",
-                            opacity: 0.5
+                            opacity: 0.5,
                           }}
                         >
                           {rowData.node.classification.replace(/-/g, " ")}
                         </div>
                         <div>{rowData.node.description}</div>
                       </div>
-                    )
+                    ),
                   },
                   {
                     field: "node.date",
-                    render: rowData => (
+                    render: (rowData) => (
                       <div style={{ textAlign: "right" }}>
                         {format(new Date(rowData.node.date), "PP")}
                       </div>
-                    )
-                  }
+                    ),
+                  },
                 ]}
+                loading={loading}
                 rowsPerPage={100}
+                loadingListBody={ShortLoadingListBody}
               />
-            )
+            ),
           },
           {
-            label: `Sponsors (${fullBillData.sponsors &&
-              fullBillData.sponsors.totalCount})`,
+            label: `Sponsors (${
+              loading ? "loading" : fullBillData.sponsors.totalCount
+            })`,
             content: (
               <div className="detail-page">
                 <LegislatorsList
                   data={fullBillData.sponsors}
                   title="Sponsors"
                   rowsPerPage={100}
+                  loading={loading}
                 />
               </div>
-            )
-          }
+            ),
+          },
         ]}
       />
     </div>

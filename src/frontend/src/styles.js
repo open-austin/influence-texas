@@ -1,6 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
+export const BlankLoadingLine = styled.div`
+  background: #ddd;
+  width: ${(p) => p.width || "100%"};
+  height: 1em;
+  margin-bottom: 1em;
+`;
+
 export const RoundSquare = styled.div`
   background: #ddd;
   border-radius: 5px;

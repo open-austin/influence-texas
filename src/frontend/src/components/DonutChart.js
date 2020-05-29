@@ -28,10 +28,11 @@ const Wrapper = styled.div`
  * @param {Props} props
  */
 function DonutChart({
-  data,
+  data = [{name: 'loading', value: 100}],
   totalCount = 0,
   totalText = "Total",
-  selectedSlice = ""
+  selectedSlice = "",
+  loading,
 }) {
   const CHART_WIDTH = 440;
   const colorScale = scaleQuantize()
@@ -42,7 +43,7 @@ function DonutChart({
     cx: CHART_WIDTH / 2,
     cy: CHART_WIDTH / 2,
     paddingAngle: 2,
-    dataKey: "value"
+    dataKey: "value",
   };
   return (
     <Wrapper>
@@ -66,12 +67,12 @@ function DonutChart({
           {...props}
           innerRadius={180}
           outerRadius={200}
-          fill={legTheme.palette.primary.main}
+          fill={loading ? "#ccc" : legTheme.palette.primary.main}
         ></Pie>
 
         <text x={CHART_WIDTH / 2} y={CHART_WIDTH / 2 + 20} textAnchor="middle">
-          <tspan className="large">{numberWithCommas(totalCount)} </tspan>{" "}
-          {totalText}
+          {loading ? 'loading' : <><tspan className="large">{numberWithCommas(totalCount)} </tspan>{" "}
+          {totalText}</>}
         </text>
         <Tooltip />
       </PieChart>

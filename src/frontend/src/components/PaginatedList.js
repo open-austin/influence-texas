@@ -10,6 +10,7 @@ import ChevronRight from "@material-ui/icons/ChevronRight";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
+import { RoundSquare, BlankLoadingLine } from "../styles";
 
 const StyleWrapper = styled.div`
   /* margin-left: -1em;
@@ -32,7 +33,13 @@ export default function PaginatedList(props) {
     return <FetchingList {...props} />;
   } else {
     const { edges, totalCount } = props.data || { edges: [], totalCount: 0 };
-    return <SimpleList {...props} totalCount={totalCount} rows={edges} />;
+    return (
+      <SimpleList
+        {...props}
+        totalCount={props.totalCount || totalCount}
+        rows={edges}
+      />
+    );
   }
 }
 
@@ -55,8 +62,8 @@ function FetchingList({
     setPageVars({ first: rowsPerPage });
     // need to reset to beginning when filters change
   }, [JSON.stringify(gqlVariables)]);
-  const { data } = useQuery(gqlQuery, {
-    variables: { ...gqlVariables, ...pageVars }
+  const { data, loading } = useQuery(gqlQuery, {
+    variables: { ...gqlVariables, ...pageVars },
   });
   useEffect(() => {
     if (onDataFetched) {
@@ -70,15 +77,21 @@ function FetchingList({
   const rows = edges;
   const { hasNextPage, endCursor } = pageInfo || {};
   const [lastPageVars, setLastPageVars] = useState([
-    { ...zeroPageInfo, first: rowsPerPage }
+    { ...zeroPageInfo, first: rowsPerPage },
   ]);
-  if (emptyState && edges.length === 0) {
-    return <div>{emptyState}</div>;
-  }
   return (
     <StyleWrapper {...props}>
       <SimpleList
-        {...{ title, sortOrderText, totalCount, columns, rows, pk, url }}
+        {...{
+          title,
+          sortOrderText,
+          totalCount,
+          columns,
+          rows,
+          pk,
+          url,
+          loading,
+        }}
       />
       {totalCount > rowsPerPage && !hidePagination && (
         <div
@@ -86,7 +99,7 @@ function FetchingList({
           style={{
             display: "flex",
             justifyContent: "space-between",
-            alignContent: "baseline"
+            alignContent: "baseline",
           }}
         >
           <div class="scrollGradient" />
@@ -111,7 +124,7 @@ function FetchingList({
                 const pageInfo = {
                   ...zeroPageInfo,
                   after: endCursor,
-                  first: rowsPerPage
+                  first: rowsPerPage,
                 };
                 setPageVars(pageInfo);
                 setLastPageVars([...lastPageVars, pageInfo]);
@@ -125,6 +138,39 @@ function FetchingList({
   );
 }
 
+const ShortLoadingListItem = (
+  <TableRow>
+    <TableCell >
+      <BlankLoadingLine />
+    </TableCell>
+  </TableRow>
+);
+
+export const ShortLoadingListBody = (
+  <TableBody>
+    {Array.apply(null, Array(9)).map((row, i) => ShortLoadingListItem)}
+  </TableBody>
+);
+
+export const LoadingListItem = (
+  <TableRow>
+    <TableCell width={50}>
+      <RoundSquare />
+    </TableCell>
+    <TableCell style={{ width: "100%" }}>
+      <BlankLoadingLine width="50%" />
+      <BlankLoadingLine width="80%" />
+      <BlankLoadingLine />
+    </TableCell>
+  </TableRow>
+);
+
+const LoadingListBody = (
+  <TableBody>
+    {Array.apply(null, Array(5)).map((row, i) => LoadingListItem)}
+  </TableBody>
+);
+
 function SimpleList({
   totalCount,
   rows,
@@ -136,6 +182,8 @@ function SimpleList({
   sortOrderText = "",
   hidePagination = false,
   rowsPerPage = 10,
+  loading,
+  loadingListBody = LoadingListBody,
   ...props
 }) {
   const history = useHistory();
@@ -146,7 +194,7 @@ function SimpleList({
           style={{
             display: "flex",
             justifyContent: "space-between",
-            margin: "0 1em"
+            margin: "0 1em",
           }}
         >
           <Typography variant="h6">
@@ -155,37 +203,42 @@ function SimpleList({
               variant="subtitle2"
               style={{ fontSize: ".75em", opacity: 0.5, margin: "1em" }}
             >
-              {totalCount && `${totalCount} Results`}
+              {loading ? "loading" : `${totalCount} Results`}
             </span>
           </Typography>
 
           <Typography variant="h6">{sortOrderText}</Typography>
         </div>
         <Table aria-label="simple table">
-          <TableBody>
-            {rows.map((row, i) => (
-              <TableRow
-                key={getProp(row, pk) || i}
-                hover={!!url}
-                onClick={
-                  url &&
-                  pk &&
-                  getProp(row, pk) &&
-                  (e => history.push(`/${url}/${getProp(row, pk)}`))
-                }
-              >
-                {columns.map((c, i) => {
-                  if (c.render) {
-                    return <TableCell key={i}>{c.render(row)}</TableCell>;
-                  } else {
-                    return (
-                      <TableCell key={i}>{getProp(row, c.field)}</TableCell>
-                    );
+          {loading ? (
+            loadingListBody
+          ) : (
+            <TableBody>
+              {rows.map((row, i) => (
+                <TableRow
+                  key={getProp(row, pk) || i}
+                  hover={!!url}
+                  onClick={
+                    url &&
+                    pk &&
+                    getProp(row, pk) &&
+                    ((e) => history.push(`/${url}/${getProp(row, pk)}`))
                   }
-                })}
-              </TableRow>
-            ))}
-          </TableBody>
+                >
+                  {columns.map((c, i) => {
+                    if (c.render) {
+                      return <TableCell key={i}>{c.render(row)}</TableCell>;
+                    } else {
+                      return (
+                        <TableCell key={i}>{getProp(row, c.field)}</TableCell>
+                      );
+                    }
+                  })}
+                  {rows.length === 0 && emptyState}
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
     </StyleWrapper>

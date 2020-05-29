@@ -2,9 +2,10 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import PaginatedList from "./PaginatedList";
+import PaginatedList, { ShortLoadingListBody } from "./PaginatedList";
 import { formatMoney } from "../utils";
 import CustomLink from "./CustomLink";
+import { BlankLoadingLine } from "../styles";
 
 const GET_DONOR = gql`
   query Donor($id: Int!) {
@@ -14,6 +15,7 @@ const GET_DONOR = gql`
       city
       state
       donorsummarys {
+        totalCount
         edges {
           node {
             cycleTotal
@@ -37,16 +39,16 @@ const GET_DONOR = gql`
 
 function DonorDetailPage() {
   const { id } = useParams();
-  const { data } = useQuery(GET_DONOR, {
-    variables: { id }
+  const { data, loading } = useQuery(GET_DONOR, {
+    variables: { id },
   });
   const fullDonorData = data ? data.donor : {};
   return (
     <div className="detail-page">
       <CustomLink to="/donors"> ← All Donors</CustomLink>
-      <h1>{fullDonorData.fullName}</h1>
+      <h1>{loading ? <BlankLoadingLine width="40%"/> : fullDonorData.fullName}</h1>
       <div>
-        Total Contributions: {formatMoney(fullDonorData.totalContributions)}
+        {loading ? <BlankLoadingLine width="20%"/> : `Total Contributions: ${formatMoney(fullDonorData.totalContributions)}`}
       </div>
       <div>
         {fullDonorData.city}, {fullDonorData.state}
@@ -59,14 +61,16 @@ function DonorDetailPage() {
           { field: "node.filer.candidateName" },
           { field: "node.filer.office", title: "Office" },
           {
-            render: rowData => (
+            render: (rowData) => (
               <div style={{ textAlign: "right" }}>
                 {formatMoney(rowData.node.cycleTotal)}
               </div>
-            )
-          }
+            ),
+          },
         ]}
-        rowsPerPage={100}
+        loading={loading}
+        loadingListBody={ShortLoadingListBody}
+        rowsPerPage={500}
       />
     </div>
   );
