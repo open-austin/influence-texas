@@ -182,6 +182,7 @@ function SimpleList({
   sortOrderText = "",
   hidePagination = false,
   rowsPerPage = 10,
+  showHover,
   loading,
   loadingListBody = LoadingListBody,
   ...props
@@ -217,7 +218,7 @@ function SimpleList({
               {rows.map((row, i) => (
                 <TableRow
                   key={getProp(row, pk) || i}
-                  hover={!!url}
+                  hover={showHover ? showHover(row) : !!url}
                   onClick={
                     url &&
                     pk &&

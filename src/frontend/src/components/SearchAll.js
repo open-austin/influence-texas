@@ -137,16 +137,19 @@ const DONOR_SEARCH = gql`
 export function SearchResults() {
   const { searchQuery } = useParams();
   const gqlVariables = { name: searchQuery };
-  const { data } = useQuery(ALL_SEARCH, {
-    variables: gqlVariables
+  const { data, loading } = useQuery(ALL_SEARCH, {
+    variables: gqlVariables,
   });
 
   let startTabIdx = 0;
-  if (data && data.bills.totalCount) {
+  if (!loading) {
     if (!data.legislators.totalCount) {
       startTabIdx = 1;
-      if (!data.donors.totalCount) {
+      if (!data.bills.totalCount) {
         startTabIdx = 2;
+        if (!data.donors.totalCount) {
+          startTabIdx = 0;
+        }
       }
     }
   }
@@ -166,7 +169,7 @@ export function SearchResults() {
                     gqlQuery={LEG_SEARCH}
                   />
                 </div>
-              )
+              ),
             },
             {
               label: `Bills (${data.bills.totalCount})`,
@@ -177,7 +180,7 @@ export function SearchResults() {
                     gqlQuery={BILL_SEARCH}
                   />
                 </div>
-              )
+              ),
             },
             {
               label: `Donors (${data.donors.totalCount})`,
@@ -188,8 +191,8 @@ export function SearchResults() {
                     gqlQuery={DONOR_SEARCH}
                   />
                 </div>
-              )
-            }
+              ),
+            },
           ]}
         />
       )}
@@ -220,7 +223,7 @@ function SearchAll() {
     <div className="site-wide-search" style={{ margin: "1em 0" }}>
       <Input
         value={searchVal || ""}
-        onChange={e => setSearchVal(e.target.value)}
+        onChange={(e) => setSearchVal(e.target.value)}
         placeholder="Search"
         startAdornment={
           <InputAdornment position="start">

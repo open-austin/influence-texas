@@ -150,7 +150,7 @@ class LegislatorType(DjangoObjectType):
                 openstates_leg_id=self.openstates_leg_id)
             filer = Filer.objects.filter(id=id_map.tpj_filer_id).first()
             return Contributionsummary.objects.select_related(
-                'donor').filter(filer=filer.id).order_by('-cycle_total')[:25]
+                'donor').filter(filer=filer.id).order_by('-cycle_total')
         except:
             return []
 
@@ -252,7 +252,7 @@ class Query(graphene.ObjectType):
 
     donors = DjangoFilterConnectionField(DonorType, in_state=graphene.Argument(graphene.Boolean))
     def resolve_donors(self, info, **kwargs):
-        donors = Donor.objects.all()
+        donors = Donor.objects.all().order_by('total_contributions').reverse()
         if(kwargs.get('in_state') == True):
             donors = donors.filter(state="TX")
         if(kwargs.get('in_state') == False):

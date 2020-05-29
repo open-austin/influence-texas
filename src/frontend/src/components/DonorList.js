@@ -4,6 +4,14 @@ import { RoundSquare } from "../styles";
 import { Typography } from "@material-ui/core";
 import { formatMoney } from "../utils";
 
+function getInitials(name) {
+  try {
+    return name[0] + name.split(" ")[1][0];
+  } catch (e) {
+    return name && name[0];
+  }
+}
+
 function DonorList({ data, ...props }) {
   return (
     <div>
@@ -15,31 +23,28 @@ function DonorList({ data, ...props }) {
         columns={[
           {
             field: "node.short_name",
-            render: rowData => (
+            render: (rowData) => (
               <div style={{ display: "flex" }}>
-                <RoundSquare>
-                  {rowData.node.fullName[0] +
-                    rowData.node.fullName.split(" ")[1][0]}
-                </RoundSquare>
+                <RoundSquare>{getInitials(rowData.node.fullName)}</RoundSquare>
                 <div style={{ margin: "0 1em" }}>
                   <Typography>{rowData.node.fullName}</Typography>
-                  <Typography variant="subtitle2">
+                  {rowData.node.employer !== rowData.node.fullName && <Typography variant="subtitle2">
                     {rowData.node.employer}
-                  </Typography>
+                  </Typography>}
                   <Typography variant="subtitle2">
                     {rowData.node.city}, {rowData.node.state}
                   </Typography>
                 </div>
               </div>
-            )
+            ),
           },
           {
-            render: rowData => (
+            render: (rowData) => (
               <div style={{ textAlign: "right" }}>
                 {formatMoney(rowData.node.totalContributions)}
               </div>
-            )
-          }
+            ),
+          },
         ]}
       />
     </div>

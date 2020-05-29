@@ -59,6 +59,9 @@ function BillDetailPage() {
     variables: { id },
   });
   const fullBillData = data ? data.bill : {};
+  if(!loading) {
+    fullBillData.actionDates.edges.reverse()
+  }
 
   return (
     <div>
