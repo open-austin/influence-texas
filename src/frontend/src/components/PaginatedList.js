@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { RoundSquare, BlankLoadingLine } from "../styles";
+import { getQueryString, setQueryString } from "../utils";
 
 const StyleWrapper = styled.div`
   /* margin-left: -1em;
@@ -57,11 +58,22 @@ function FetchingList({
   onDataFetched,
   ...props
 }) {
-  const [pageVars, setPageVars] = useState({ first: rowsPerPage });
+  const history = useHistory();
+  let queryObj = getQueryString(history)
+  const [pageVars, setPageVars] = useState(queryObj || { first: rowsPerPage });
+  useEffect(() => {
+    let queryObj = getQueryString(history)
+    queryObj = { ...queryObj, ...pageVars}
+    setQueryString(queryObj, history)
+  }, [pageVars]);
+
+  
   useEffect(() => {
     setPageVars({ first: rowsPerPage });
     // need to reset to beginning when filters change
   }, [JSON.stringify(gqlVariables)]);
+
+
   const { data, loading } = useQuery(gqlQuery, {
     variables: { ...gqlVariables, ...pageVars },
   });

@@ -231,9 +231,9 @@ class Query(graphene.ObjectType):
             multiple_sponsors=kwargs.get("multiple_sponsors")
         )
         return [
-            {"name": "filing", "count": len(bills.exclude(action_dates__classification="committee-passage"))},
-            {"name": "committee-passage", "count": len(bills.filter(action_dates__classification="committee-passage").exclude(action_dates__classification="became-law"))},
-            {"name": "became-law", "count": len(bills.filter(action_dates__classification="became-law").exclude(action_dates__classification="committee-passage"))},
+            {"name": "filing", "count": bills.exclude(action_dates__classification="committee-passage").count()},
+            {"name": "committee-passage", "count": bills.filter(action_dates__classification="committee-passage").exclude(action_dates__classification="became-law").count()},
+            {"name": "became-law", "count": bills.filter(action_dates__classification="became-law").exclude(action_dates__classification="committee-passage").count()},
         ]
 
     legislator = graphene.Field(LegislatorType, pk=graphene.Int())
@@ -252,7 +252,7 @@ class Query(graphene.ObjectType):
 
     donors = DjangoFilterConnectionField(DonorType, in_state=graphene.Argument(graphene.Boolean))
     def resolve_donors(self, info, **kwargs):
-        donors = Donor.objects.all().order_by('total_contributions').reverse()
+        donors = Donor.objects.all().order_by('-total_contributions')
         if(kwargs.get('in_state') == True):
             donors = donors.filter(state="TX")
         if(kwargs.get('in_state') == False):
@@ -265,8 +265,8 @@ class Query(graphene.ObjectType):
     def resolve_donor_state_stats(self, info, **kwargs):
         donors = Donor.objects
         return [
-            {"name": "in-state", "count": len(donors.filter(state="TX"))},
-            {"name": "out-of-state", "count": len(donors.exclude(state="TX"))},
+            {"name": "in-state", "count": donors.filter(state="TX").count()},
+            {"name": "out-of-state", "count": donors.exclude(state="TX").count()},
         ]
 
 
