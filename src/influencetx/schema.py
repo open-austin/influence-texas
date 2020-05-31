@@ -4,6 +4,7 @@ from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from django.db import connection, transaction
 from django.db.models import Count
+from graphene_django.debug import DjangoDebug
 from influencetx.legislators.models import Legislator, LegislatorIdMap
 from influencetx.tpj.models import Donor, Contribution, Contributionsummary, Filer
 from influencetx.bills.models import Bill, ActionDate, VoteTally, SingleVote, SubjectTag
@@ -29,6 +30,20 @@ class ExtendedConnection(graphene.Connection):
     def resolve_total_count(self, info, **kwargs):
         return self.length
 
+class DonorExtendedConnection(graphene.Connection):
+    class Meta:
+        abstract = True
+
+    total_count = graphene.Int()
+    def resolve_total_count(self, info, **kwargs):
+        if "inState" in info.variable_values:
+            if (info.variable_values["inState"] == True):
+                return execute_raw_query("""SELECT COUNT(*) FROM "contributors" WHERE "StateAbbr" = 'TX';""")[0]["count"]
+            if (info.variable_values["inState"] == False):
+                return execute_raw_query("""SELECT COUNT(*) FROM "contributors" WHERE "StateAbbr" != 'TX';""")[0]["count"]
+
+        return execute_raw_query('SELECT COUNT(*) AS "__count" FROM "contributors"')[0]["__count"]
+
 class BillType(DjangoObjectType):
     class Meta:
         model = Bill
@@ -46,6 +61,12 @@ class BillType(DjangoObjectType):
     def resolve_bills_sponsored(self, info):
         return bill_loader.load(self.bills_sponsored)
 
+class DonationType(graphene.ObjectType):
+    cycle_total = graphene.Field(graphene.Int)
+    leg_id = graphene.Field(graphene.Int)
+    party = graphene.Field(graphene.String)
+    candidate_name = graphene.Field(graphene.String)
+    office = graphene.Field(graphene.String)
 
 class DonorType(DjangoObjectType):
     class Meta:
@@ -56,10 +77,33 @@ class DonorType(DjangoObjectType):
             'state': ['exact', 'icontains'],
         }
         interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
+        connection_class = DonorExtendedConnection
     pk = graphene.Int()
     def resolve_pk(self, info, **kwargs):
         return self.id
+
+    donations_count = graphene.Int()
+    def resolve_donations_count(self, info, **kwargs):
+        return execute_raw_query("""
+            SELECT COUNT("iFILER_ID")
+            FROM total_donorbyfiler_2018 
+            INNER JOIN filers ON "filers"."iFILER_ID" = "total_donorbyfiler_2018"."ifiler_ID" 
+            WHERE "total_donorbyfiler_2018"."ctrib_ID"=""" 
+            + str(self.id) + ';'
+        )[0]["count"]
+
+    donations = graphene.List(DonationType)
+    def resolve_donations(self, info, **kwargs):
+        return execute_raw_query("""
+            SELECT cycle_total, party, "legislators_legislator"."id" as leg_id, "CandidateName" as candidate_name, "Office" as office 
+            FROM total_donorbyfiler_2018 
+            INNER JOIN filers ON "filers"."iFILER_ID" = "total_donorbyfiler_2018"."ifiler_ID" 
+            LEFT JOIN legislators_legislatoridmap ON "legislators_legislatoridmap"."tpj_filer_id" = "total_donorbyfiler_2018"."ifiler_ID" 
+            LEFT JOIN legislators_legislator ON "legislators_legislator"."openstates_leg_id" = "legislators_legislatoridmap"."openstates_leg_id" 
+            WHERE "total_donorbyfiler_2018"."ctrib_ID"=""" 
+            + str(self.id) + ' ORDER BY cycle_total DESC limit 500;'
+        )
+        
     def donorsummarys(self, info, **kwargs):
         return self.donorsummarys.prefetch_related('filer').order_by('-cycle_total')[:25]
 
@@ -167,7 +211,8 @@ def execute_raw_query(sql_string):
         field = 0
         while True:
             try:
-                dict[cursor.description[field][0]] = str(results[i][field])
+                if(results[i][field]):
+                    dict[cursor.description[field][0]] = str(results[i][field])
                 field = field +1
             except IndexError as e:
                 break
@@ -199,6 +244,7 @@ def CustomBillFilters(classification, party, multiple_sponsors, chamber=""):
     return bills
 
 class Query(graphene.ObjectType):
+    debug = graphene.Field(DjangoDebug, name='_debug')
     bill = graphene.Field(BillType, pk=graphene.Int())
     def resolve_bill(self, info, **kwargs):
         pk = kwargs.get('pk')

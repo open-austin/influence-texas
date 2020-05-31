@@ -137,9 +137,12 @@ const DONOR_SEARCH = gql`
 export function SearchResults() {
   const { searchQuery } = useParams();
   const gqlVariables = { name: searchQuery };
-  const { data, loading } = useQuery(ALL_SEARCH, {
+  const { data, loading, error } = useQuery(ALL_SEARCH, {
     variables: gqlVariables,
   });
+  if (error) {
+    return "server error";
+  }
 
   let startTabIdx = 0;
   if (!loading) {

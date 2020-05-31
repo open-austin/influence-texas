@@ -19,24 +19,18 @@ const GET_DONOR = gql`
       state
       employer
       occupation
-      donorsummarys {
-        totalCount
-        edges {
-          node {
-            cycleTotal
-            filer {
-              id
-              office
-              candidateName
-              legislator {
-                name
-                pk
-                district
-                party
-              }
-            }
-          }
-        }
+      donations {
+        cycleTotal
+        candidateName
+        office
+        party
+        legId
+      }
+    }
+    _debug {
+      sql {
+        duration
+        sql
       }
     }
   }
@@ -44,9 +38,12 @@ const GET_DONOR = gql`
 
 function DonorDetailPage() {
   const { id } = useParams();
-  const { data, loading } = useQuery(GET_DONOR, {
+  const { data, loading, error } = useQuery(GET_DONOR, {
     variables: { id },
   });
+  if (error) {
+    return "server error";
+  }
   const fullDonorData = data ? data.donor : {};
   return (
     <div className="detail-page">
@@ -72,8 +69,8 @@ function DonorDetailPage() {
       </section>
       <PaginatedList
         url="legislators/legislator"
-        pk="node.filer.legislator.pk"
-        data={fullDonorData.donorsummarys}
+        pk="legId"
+        data={loading ? null : { edges: fullDonorData.donations, totalCount: fullDonorData.donations.length}}
         columns={[
           {
             render: (rowData) => (
@@ -83,17 +80,17 @@ function DonorDetailPage() {
                     marginTop: 10,
                     width: 20,
                     height: 20,
-                    background: rowData.node.filer.legislator
+                    background: rowData.legId
                       ? legTheme.palette.primary.main
                       : "#bbb",
                   }}
                 />
                 <div style={{ margin: "0 1em" }}>
-                  <Typography>{rowData.node.filer?.candidateName}</Typography>
+                  <Typography>{rowData.candidateName}</Typography>
                   <Typography variant="subtitle2">
-                    {rowData.node.filer?.office}{" "}
-                    {rowData.node.filer.legislator
-                      ? `(${rowData.node.filer.legislator.party})`
+                    {rowData.office}{" "}
+                    {rowData.party
+                      ? `(${rowData.party})`
                       : ""}
                   </Typography>
                 </div>
@@ -103,12 +100,12 @@ function DonorDetailPage() {
           {
             render: (rowData) => (
               <div style={{ textAlign: "right" }}>
-                {formatMoney(rowData.node.cycleTotal)}
+                {formatMoney(rowData.cycleTotal)}
               </div>
             ),
           },
         ]}
-        showHover={(rowData) => !!rowData.node.filer.legislator}
+        showHover={(rowData) => !!rowData.legId}
         loading={loading}
         loadingListBody={ShortLoadingListBody}
         rowsPerPage={500}

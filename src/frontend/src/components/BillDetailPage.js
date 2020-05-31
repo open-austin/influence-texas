@@ -2,7 +2,10 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import PaginatedList, { LoadingListItem, ShortLoadingListBody } from "./PaginatedList";
+import PaginatedList, {
+  LoadingListItem,
+  ShortLoadingListBody,
+} from "./PaginatedList";
 import { format } from "date-fns";
 import SimpleTabs from "./SimpleTabs";
 import LegislatorsList from "./LegislatorList";
@@ -55,12 +58,15 @@ const GET_BILL = gql`
 
 function BillDetailPage() {
   const { id } = useParams();
-  const { data, loading } = useQuery(GET_BILL, {
+  const { data, loading, error } = useQuery(GET_BILL, {
     variables: { id },
   });
+  if (error) {
+    return "server error";
+  }
   const fullBillData = data ? data.bill : {};
-  if(!loading) {
-    fullBillData.actionDates.edges.reverse()
+  if (!loading) {
+    fullBillData.actionDates.edges.reverse();
   }
 
   return (

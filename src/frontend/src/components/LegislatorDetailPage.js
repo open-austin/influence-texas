@@ -49,9 +49,12 @@ const GET_LEG = gql`
 
 function LegislatorDetailPage() {
   const { id } = useParams();
-  const { data, loading } = useQuery(GET_LEG, {
+  const { data, loading, error } = useQuery(GET_LEG, {
     variables: { id },
   });
+  if (error) {
+    return "server error";
+  }
   const fullLegData = data ? data.legislator : {};
   return (
     <div className="detail-page">

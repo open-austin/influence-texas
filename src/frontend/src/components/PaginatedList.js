@@ -74,7 +74,7 @@ function FetchingList({
   }, [JSON.stringify(gqlVariables)]);
 
 
-  const { data, loading } = useQuery(gqlQuery, {
+  const { data, loading, error } = useQuery(gqlQuery, {
     variables: { ...gqlVariables, ...pageVars },
   });
   useEffect(() => {
@@ -82,7 +82,6 @@ function FetchingList({
       onDataFetched(data);
     }
   }, [data]);
-
   const { edges, totalCount, pageInfo } = data
     ? Object.values(data)[0] // don't care about the data.legislators.edges, will only call one top level each
     : { edges: [], totalCount: 0 };
@@ -91,6 +90,9 @@ function FetchingList({
   const [lastPageVars, setLastPageVars] = useState([
     { ...zeroPageInfo, first: rowsPerPage },
   ]);
+  if (error) {
+    return "server error";
+  }
   return (
     <StyleWrapper {...props}>
       <SimpleList

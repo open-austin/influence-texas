@@ -67,7 +67,10 @@ LOCAL_APPS = [
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 GRAPHENE = {
-    'SCHEMA': 'influencetx.schema.schema'
+    'SCHEMA': 'influencetx.schema.schema',
+    'MIDDLEWARE': [
+        'graphene_django.debug.DjangoDebugMiddleware',
+    ]
 }
 
 # MIDDLEWARE CONFIGURATION

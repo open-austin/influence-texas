@@ -41,9 +41,11 @@ const ALL_DONORS = gql`
         }
       }
     }
-    donorStateStats {
-      name
-      count
+    _debug {
+      sql {
+        duration
+        sql
+      }
     }
   }
 `;
@@ -53,11 +55,8 @@ function DonorsPage() {
   const history = useHistory();
   const queryObj = getQueryString(history);
 
-  const summaryData = listData
-    && listData.donorStateStats.map(d => ({
-        name: dashesToSpaces(d.name),
-        value: d.count
-      }))
+  const summaryData = [{ name: 'donors', value: listData ? listData.donors.totalCount : 1 }]
+  
 
   let selectedSlice;
   if (typeof queryObj.inState === "boolean") {
