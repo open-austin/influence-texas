@@ -291,7 +291,7 @@ class Query(graphene.ObjectType):
 
     donors = DjangoFilterConnectionField(DonorType, in_state=graphene.Argument(graphene.Boolean))
     def resolve_donors(self, info, **kwargs):
-        donors = Donor.objects.order_by('-total_contributions')
+        donors = Donor.objects.order_by('-total_contributions').exclude(donorsummarys=None)
         if(kwargs.get('in_state') == True):
             donors = donors.filter(state__icontains="TX")
         if(kwargs.get('in_state') == False):
@@ -322,7 +322,7 @@ class Query(graphene.ObjectType):
         return {
             "legislators": legislators,
             "bills": Bill.objects.filter(title__icontains=search_query) | Bill.objects.filter(bill_id__iexact=search_query),
-            "donors": Donor.objects.filter(donorQuery).order_by('-total_contributions'),
+            "donors": Donor.objects.filter(donorQuery).exclude(donorsummarys=None).order_by('-total_contributions'),
         }
 
 
