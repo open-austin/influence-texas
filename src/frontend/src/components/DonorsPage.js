@@ -37,6 +37,7 @@ const ALL_DONORS = gql`
           city
           state
           employer
+          occupation
           totalContributions
         }
       }

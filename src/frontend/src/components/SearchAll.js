@@ -10,7 +10,7 @@ import SimpleTabs from 'components/SimpleTabs'
 import { useHistory, useParams } from 'react-router-dom'
 import CustomLink from 'components/CustomLink'
 import useDebounce from 'components/useDebounce'
-import { getDebugQuery } from 'utils'
+import { getDebugQuery, getQueryString } from 'utils'
 
 const ALL_SEARCH = gql`
   query SearchAll($searchQuery: String) {
@@ -140,6 +140,8 @@ const DONOR_SEARCH = gql`
             city
             state
             employer
+            employerId
+            occupation
             totalContributions
           }
         }
@@ -151,6 +153,8 @@ const DONOR_SEARCH = gql`
 
 export function SearchResults() {
   const { searchQuery } = useParams()
+  const history = useHistory()
+  const { tab } = getQueryString(history)
   const gqlVariables = { searchQuery: searchQuery || '---' }
   const { data, loading, error } = useQuery(ALL_SEARCH, {
     variables: gqlVariables,
@@ -161,15 +165,17 @@ export function SearchResults() {
   if (loading) {
     return 'loading'
   }
-  // debugger;
 
-  let startTabIdx = 0
-  if (!data.search.legislators.totalCount) {
-    startTabIdx = 1
-    if (!data.search.bills.totalCount) {
-      startTabIdx = 2
-      if (!data.search.donors.totalCount) {
-        startTabIdx = 0
+  let startTabIdx
+  if (tab === undefined) {
+    // active tab choice should be honored on back
+    if (!data.search.legislators.totalCount) {
+      startTabIdx = 1
+      if (!data.search.bills.totalCount) {
+        startTabIdx = 2
+        if (!data.search.donors.totalCount) {
+          startTabIdx = 0
+        }
       }
     }
   }
@@ -178,6 +184,7 @@ export function SearchResults() {
       {searchQuery && data && <CustomLink to="/"> ← Clear Search</CustomLink>}
       {searchQuery && data && (
         <SimpleTabs
+          saveToUrl
           startTabIdx={startTabIdx}
           tabs={[
             {
@@ -234,7 +241,10 @@ function SearchAll() {
   const debouncedSearchTerm = useDebounce(searchVal, 500)
   useEffect(() => {
     if (debouncedSearchTerm) {
-      history.push(`/searchAll/${debouncedSearchTerm}`)
+      const newUrl = `/searchAll/${debouncedSearchTerm}`
+      if (newUrl !== history.location.pathname) {
+        history.push(`/searchAll/${debouncedSearchTerm}`)
+      }
     } else {
       if (history.location.pathname.includes('searchAll')) {
         history.push('/')

@@ -25,7 +25,7 @@ function DonorList({ data, ...props }) {
             render: (rowData) => (
               <div style={{ display: 'flex' }}>
                 <RoundSquare>{getInitials(rowData.node.fullName)}</RoundSquare>
-                <div style={{ marginLeft: '1rem' }}>
+                <div style={{ marginLeft: '1rem', flexGrow: 1 }}>
                   {rowData.node.fullName}
                   <div style={{ opacity: 0.5 }}>
                     {rowData.node.occupation}
@@ -33,15 +33,11 @@ function DonorList({ data, ...props }) {
                     {rowData.node.employer}
                   </div>
                 </div>
-              </div>
-            ),
-          },
-          {
-            render: (rowData) => (
-              <div style={{ textAlign: 'right' }}>
-                {formatMoney(rowData.node.totalContributions)}
-                <div style={{ opacity: 0.5 }}>
-                  {rowData.node.city}, {rowData.node.state}
+                <div style={{ textAlign: 'right' }}>
+                  {formatMoney(rowData.node.totalContributions)}
+                  <div style={{ opacity: 0.5 }}>
+                    {rowData.node.city}, {rowData.node.state}
+                  </div>
                 </div>
               </div>
             ),

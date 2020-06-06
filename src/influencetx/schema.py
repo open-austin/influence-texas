@@ -61,6 +61,7 @@ class DonorType(DjangoObjectType):
             'id': ['exact', 'icontains', 'istartswith'],
             'full_name': ['exact', 'icontains'],
             'state': ['exact', 'icontains'],
+            'employer_id':  ['exact'],
         }
         interfaces = (relay.Node, )
         connection_class = ExtendedConnection

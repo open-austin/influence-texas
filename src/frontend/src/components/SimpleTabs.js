@@ -46,8 +46,8 @@ export default function SimpleTabs({ tabs = [], startTabIdx = 0, saveToUrl }) {
     setValue(newValue)
     if (saveToUrl) {
       const queryObj = getQueryString(history)
-      queryObj.tab = newValue
-      setQueryString(queryObj, history)
+      // need to clear out old pagination for search page
+      setQueryString({ tab: newValue }, history)
     }
   }
 
@@ -70,7 +70,6 @@ export default function SimpleTabs({ tabs = [], startTabIdx = 0, saveToUrl }) {
           textColor="primary"
           value={value}
           onChange={handleChange}
-          aria-label="simple tabs example"
         >
           {tabs.map((t, i) => (
             <Tab key={t.label} label={t.label} {...a11yProps(i)} />
