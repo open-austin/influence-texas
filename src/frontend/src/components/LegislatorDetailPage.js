@@ -10,7 +10,7 @@ import PaginatedList, { LoadingListItem } from "./PaginatedList";
 import BillList from "./BillList";
 import TexasDistrictMap from "./TexasDistrictMap";
 import CustomLink from "./CustomLink";
-import { formatMoney } from "../utils";
+import { formatMoney, getDebugQuery } from "../utils";
 
 const GET_LEG = gql`
   query Legislator($id: Int!) {
@@ -29,6 +29,10 @@ const GET_LEG = gql`
             donor {
               pk
               fullName
+              city
+              state
+              employer
+              occupation
             }
           }
         }
@@ -44,6 +48,7 @@ const GET_LEG = gql`
         }
       }
     }
+    ${getDebugQuery()}
   }
 `;
 
@@ -87,23 +92,8 @@ function LegislatorDetailPage() {
       )}
 
       <SimpleTabs
+        saveToUrl
         tabs={[
-          {
-            label: `Bills Sponsored (${
-              loading ? "loading" :
-              fullLegData.billsSponsored.totalCount
-            })`,
-            content: (
-              <div>
-                <BillList
-                  title="Bills Sponsored"
-                  data={fullLegData.billsSponsored}
-                  rowsPerPage={100}
-                  loading={loading}
-                />
-              </div>
-            ),
-          },
           {
             label: `Top Donors (${
               loading ? "loading" : fullLegData.contributions.edges.length
@@ -115,14 +105,35 @@ function LegislatorDetailPage() {
                   pk="node.donor.pk"
                   title="Top Donors"
                   data={fullLegData.contributions}
-                  totalCount={!loading && fullLegData.contributions.edges.length}
+                  totalCount={
+                    !loading && fullLegData.contributions.edges.length
+                  }
                   columns={[
-                    { field: "node.donor.fullName" },
+                    {
+                      render: (rowData) => {
+                        return (
+                          <div>
+                            {rowData.node.donor.fullName}
+                            <div style={{ opacity: 0.5 }}>
+                              {rowData.node.donor.occupation}
+                              {rowData.node.donor.occupation &&
+                                rowData.node.donor.employer &&
+                                " ・ "}
+                              {rowData.node.donor.employer}
+                            </div>
+                          </div>
+                        );
+                      },
+                    },
                     {
                       render: (rowData) => {
                         return (
                           <div style={{ textAlign: "right" }}>
                             {formatMoney(rowData.node.cycleTotal)}
+                            <div style={{ opacity: 0.5 }}>
+                              {rowData.node.donor.city},{" "}
+                              {rowData.node.donor.state}
+                            </div>
                           </div>
                         );
                       },
@@ -130,6 +141,21 @@ function LegislatorDetailPage() {
                   ]}
                   loading={loading}
                   rowsPerPage={100}
+                />
+              </div>
+            ),
+          },
+          {
+            label: `Bills Sponsored (${
+              loading ? "loading" : fullLegData.billsSponsored.totalCount
+            })`,
+            content: (
+              <div>
+                <BillList
+                  title="Bills Sponsored"
+                  data={fullLegData.billsSponsored}
+                  rowsPerPage={100}
+                  loading={loading}
                 />
               </div>
             ),

@@ -5,7 +5,7 @@ import queryString from "query-string";
 import { Typography } from "@material-ui/core";
 import Script from "react-load-script";
 import { useHistory } from "react-router-dom";
-import { setQueryString, getQueryString } from "../utils";
+import { setQueryString, getQueryString, getDebugQuery } from "../utils";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import LegislatorsList from "./LegislatorList";
@@ -27,6 +27,7 @@ const GET_LEG_BY_DISTRICT = gql`
         }
       }
     }
+    ${getDebugQuery()}
   }
 `;
 
@@ -34,10 +35,10 @@ function FindRepResults() {
   const history = useHistory();
   const query = getQueryString(history);
   const houseData = useQuery(GET_LEG_BY_DISTRICT, {
-    variables: { district: query.house || 0, chamber: "house" }
+    variables: { district: query.house || 0, chamber: "house" },
   });
   const senateData = useQuery(GET_LEG_BY_DISTRICT, {
-    variables: { district: query.senate || 0, chamber: "senate" }
+    variables: { district: query.senate || 0, chamber: "senate" },
   });
   if (!houseData.data || !senateData.data) return null;
   const totalCount =
@@ -45,7 +46,7 @@ function FindRepResults() {
     senateData.data.legislators.edges.length;
   const edges = [
     ...houseData.data.legislators.edges,
-    ...senateData.data.legislators.edges
+    ...senateData.data.legislators.edges,
   ];
   if (!totalCount && Object.keys(query).length)
     return (
@@ -59,7 +60,7 @@ function FindRepResults() {
     <LegislatorsList
       data={{
         edges,
-        totalCount
+        totalCount,
       }}
     />
   );
@@ -88,19 +89,19 @@ export default function FindReps() {
                 key: GOOGLE_API,
                 address: formatted_address,
                 includeOffices: false,
-                roles: ["legislatorUpperBody", "legislatorLowerBody"]
+                roles: ["legislatorUpperBody", "legislatorLowerBody"],
               };
               fetch(
                 `https://www.googleapis.com/civicinfo/v2/representatives?${queryString.stringify(
                   params
                 )}`
               )
-                .then(res => res.json())
-                .then(res => {
+                .then((res) => res.json())
+                .then((res) => {
                   if (!res.divisions) return;
                   let house = "";
                   let senate = "";
-                  Object.values(res.divisions).forEach(str => {
+                  Object.values(res.divisions).forEach((str) => {
                     if (str.name.includes("House")) {
                       house = str.name
                         .replace("Texas State House district", "")

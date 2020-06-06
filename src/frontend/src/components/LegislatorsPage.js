@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import TexasDistrictMap from "./TexasDistrictMap";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import { getQueryString } from "../utils";
+import { getQueryString, getDebugQuery } from "../utils";
 import FilterSection from "./FilterSection";
 import LegislatorList from "./LegislatorList";
 import { useHistory } from "react-router-dom";
@@ -44,6 +44,7 @@ const ALL_LEG = gql`
         }
       }
     }
+    ${getDebugQuery()}
   }
 `;
 
@@ -61,12 +62,12 @@ function LegislatorsPage() {
         tags={{
           chamber: [
             { name: "House", value: "HOUSE" },
-            { name: "Senate", value: "SENATE" }
+            { name: "Senate", value: "SENATE" },
           ],
           party: [
             { name: "Democrat", value: "D" },
-            { name: "Republican", value: "R" }
-          ]
+            { name: "Republican", value: "R" },
+          ],
         }}
       />
       <div className="two-column">

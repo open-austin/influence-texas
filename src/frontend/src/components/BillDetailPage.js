@@ -13,6 +13,7 @@ import CustomLink from "./CustomLink";
 import { BillSquare } from "../styles";
 import { Typography, Button } from "@material-ui/core";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import { getDebugQuery } from "../utils";
 
 const GET_BILL = gql`
   query Bill($id: Int!) {
@@ -53,6 +54,7 @@ const GET_BILL = gql`
         }
       }
     }
+    ${getDebugQuery()}
   }
 `;
 
@@ -115,6 +117,7 @@ function BillDetailPage() {
           })}
       </div>
       <SimpleTabs
+        saveToUrl
         tabs={[
           {
             label: `Actions (${

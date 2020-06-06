@@ -26,14 +26,13 @@ function DonorList({ data, ...props }) {
             render: (rowData) => (
               <div style={{ display: "flex" }}>
                 <RoundSquare>{getInitials(rowData.node.fullName)}</RoundSquare>
-                <div style={{ margin: "0 1em" }}>
-                  <Typography>{rowData.node.fullName}</Typography>
-                  {rowData.node.employer !== rowData.node.fullName && <Typography variant="subtitle2">
+                <div style={{ marginLeft: "1rem"}}>
+                  {rowData.node.fullName}
+                  <div style={{ opacity: 0.5 }}>
+                    {rowData.node.occupation}
+                    {rowData.node.occupation && rowData.node.employer && " ・ "}
                     {rowData.node.employer}
-                  </Typography>}
-                  <Typography variant="subtitle2">
-                    {rowData.node.city}, {rowData.node.state}
-                  </Typography>
+                  </div>
                 </div>
               </div>
             ),
@@ -42,6 +41,9 @@ function DonorList({ data, ...props }) {
             render: (rowData) => (
               <div style={{ textAlign: "right" }}>
                 {formatMoney(rowData.node.totalContributions)}
+                <div style={{ opacity: 0.5 }}>
+                  {rowData.node.city}, {rowData.node.state}
+                </div>
               </div>
             ),
           },

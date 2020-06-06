@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import PaginatedList, { ShortLoadingListBody } from "./PaginatedList";
-import { formatMoney } from "../utils";
+import { formatMoney, getDebugQuery } from "../utils";
 import CustomLink from "./CustomLink";
 import { BlankLoadingLine } from "../styles";
 import { RoundSquare } from "../styles";
@@ -27,12 +27,7 @@ const GET_DONOR = gql`
         legId
       }
     }
-    _debug {
-      sql {
-        duration
-        sql
-      }
-    }
+    ${getDebugQuery()}
   }
 `;
 
@@ -61,7 +56,8 @@ function DonorDetailPage() {
             )}`
           )}
         </div>
-        {fullDonorData.occupation} {fullDonorData.occupation && fullDonorData.employer && 'at'}{' '}
+        {fullDonorData.occupation}{" "}
+        {fullDonorData.occupation && fullDonorData.employer && "at"}{" "}
         {fullDonorData.employer}
         <div>
           {fullDonorData.city}, {fullDonorData.state}
@@ -70,7 +66,14 @@ function DonorDetailPage() {
       <PaginatedList
         url="legislators/legislator"
         pk="legId"
-        data={loading ? null : { edges: fullDonorData.donations, totalCount: fullDonorData.donations.length}}
+        data={
+          loading
+            ? null
+            : {
+                edges: fullDonorData.donations,
+                totalCount: fullDonorData.donations.length,
+              }
+        }
         columns={[
           {
             render: (rowData) => (
@@ -88,10 +91,7 @@ function DonorDetailPage() {
                 <div style={{ margin: "0 1em" }}>
                   <Typography>{rowData.candidateName}</Typography>
                   <Typography variant="subtitle2">
-                    {rowData.office}{" "}
-                    {rowData.party
-                      ? `(${rowData.party})`
-                      : ""}
+                    {rowData.office} {rowData.party ? `(${rowData.party})` : ""}
                   </Typography>
                 </div>
               </div>

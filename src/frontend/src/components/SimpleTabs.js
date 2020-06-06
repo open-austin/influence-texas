@@ -4,6 +4,8 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+import { getQueryString, setQueryString } from "../utils";
 
 export const TabWrapper = styled.div`
   button {
@@ -32,18 +34,32 @@ function TabPanel(props) {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
-export default function SimpleTabs({ tabs = [], startTabIdx = 0 }) {
+export default function SimpleTabs({ tabs = [], startTabIdx = 0, saveToUrl }) {
   const [value, setValue] = React.useState(startTabIdx);
+  const history = useHistory();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    if (saveToUrl) {
+      const queryObj = getQueryString(history);
+      queryObj.tab = newValue;
+      setQueryString(queryObj, history);
+    }
   };
 
-  useEffect(() => setValue(startTabIdx), [startTabIdx]);
+  const tabQueryString = getQueryString(history).tab;
+
+  useEffect(() => {
+    if (saveToUrl && tabQueryString) {
+      setValue(tabQueryString);
+    } else {
+      setValue(startTabIdx);
+    }
+  }, [startTabIdx, tabQueryString]);
 
   return (
     <TabWrapper>

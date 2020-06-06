@@ -27,7 +27,13 @@ function getProp(obj, propName) {
   }
   return obj[propName];
 }
-const zeroPageInfo = { first: null, last: null, before: null, after: null };
+const zeroPageInfo = {
+  page: null,
+  first: null,
+  last: null,
+  before: null,
+  after: null,
+};
 
 export default function PaginatedList(props) {
   if (props.gqlQuery) {
@@ -59,40 +65,40 @@ function FetchingList({
   ...props
 }) {
   const history = useHistory();
-  let queryObj = getQueryString(history)
-  const [pageVars, setPageVars] = useState(queryObj || { first: rowsPerPage });
-  useEffect(() => {
-    let queryObj = getQueryString(history)
-    queryObj = { ...queryObj, ...pageVars}
-    setQueryString(queryObj, history)
-  }, [pageVars]);
+  const queryObj = getQueryString(history);
 
-  
-  useEffect(() => {
-    setPageVars({ first: rowsPerPage });
-    // need to reset to beginning when filters change
-  }, [JSON.stringify(gqlVariables)]);
-
-
+  function onSetPageVars(pageVars) {
+    let queryObj = getQueryString(history);
+    queryObj = { ...queryObj, ...pageVars };
+    setQueryString(queryObj, history);
+  }
+  // url is source of truth
+  // should allow set page from outside or in
   const { data, loading, error } = useQuery(gqlQuery, {
-    variables: { ...gqlVariables, ...pageVars },
+    variables: {
+      first: rowsPerPage,
+      ...queryObj,
+      ...gqlVariables,
+    },
   });
+
   useEffect(() => {
+    if (!data) return;
     if (onDataFetched) {
       onDataFetched(data);
     }
   }, [data]);
+
   const { edges, totalCount, pageInfo } = data
     ? Object.values(data)[0] // don't care about the data.legislators.edges, will only call one top level each
     : { edges: [], totalCount: 0 };
+  const { startCursor, endCursor } = pageInfo || {};
   const rows = edges;
-  const { hasNextPage, endCursor } = pageInfo || {};
-  const [lastPageVars, setLastPageVars] = useState([
-    { ...zeroPageInfo, first: rowsPerPage },
-  ]);
   if (error) {
     return "server error";
   }
+  const page = queryObj.page || 1;
+  const totalPages = Math.ceil(totalCount / rowsPerPage);
   return (
     <StyleWrapper {...props}>
       <SimpleList
@@ -119,29 +125,34 @@ function FetchingList({
           <div class="scrollGradient" />
           <div style={{ padding: "1em" }}>{totalCount} Results </div>
           <div>
+            Page {page} of {totalPages}
             <IconButton
               aria-label="Previous page"
               children={<ChevronLeft />}
-              disabled={!lastPageVars[1]}
+              disabled={page === 1}
               onClick={() => {
-                setPageVars(lastPageVars[lastPageVars.length - 2]);
-                const newLastPageInfo = lastPageVars.slice(0, -1);
-                setLastPageVars(newLastPageInfo);
+                const pageInfo = {
+                  ...zeroPageInfo,
+                  before: startCursor,
+                  last: rowsPerPage,
+                  page: page - 1,
+                };
+                onSetPageVars(pageInfo);
               }}
               title="Previous page"
             />
             <IconButton
               aria-label="Next page"
               children={<ChevronRight />}
-              disabled={!hasNextPage}
+              disabled={page >= totalPages}
               onClick={() => {
                 const pageInfo = {
                   ...zeroPageInfo,
                   after: endCursor,
                   first: rowsPerPage,
+                  page: page + 1,
                 };
-                setPageVars(pageInfo);
-                setLastPageVars([...lastPageVars, pageInfo]);
+                onSetPageVars(pageInfo);
               }}
               title="Next page"
             />
@@ -154,7 +165,7 @@ function FetchingList({
 
 const ShortLoadingListItem = (
   <TableRow>
-    <TableCell >
+    <TableCell>
       <BlankLoadingLine />
     </TableCell>
   </TableRow>
@@ -181,7 +192,7 @@ export const LoadingListItem = (
 
 const LoadingListBody = (
   <TableBody>
-    {Array.apply(null, Array(5)).map((row, i) => LoadingListItem)}
+    {Array.apply(null, Array(10)).map((row, i) => LoadingListItem)}
   </TableBody>
 );
 

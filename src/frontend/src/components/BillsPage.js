@@ -3,7 +3,7 @@ import DonutChart from "./DonutChart";
 import BillList from "./BillList";
 import FilterSection from "./FilterSection";
 import { gql } from "apollo-boost";
-import { getQueryString, dashesToSpaces } from "../utils";
+import { getQueryString, dashesToSpaces, getDebugQuery } from "../utils";
 import { useHistory } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 
@@ -53,26 +53,31 @@ const ALL_BILLS = gql`
       name
       count
     }
+    ${getDebugQuery()}
   }
 `;
 
 function BillsPage() {
   const history = useHistory();
-  const queryObj = getQueryString(history);
+  const { page, first, last, before, after, ...queryObj } = getQueryString(
+    history
+  );
   const [listData, setListData] = useState();
 
   const billClassificationStats = listData
     ? listData.billClassificationStats
     : [];
-  const classificationTags = billClassificationStats.map(d => ({
+  const classificationTags = billClassificationStats.map((d) => ({
     name: dashesToSpaces(d.name),
     value: d.name,
-    group: "classification"
+    group: "classification",
   }));
-  const summaryData = listData && billClassificationStats.map(d => ({
-    name: dashesToSpaces(d.name),
-    value: d.count
-  }));
+  const summaryData =
+    listData &&
+    billClassificationStats.map((d) => ({
+      name: dashesToSpaces(d.name),
+      value: d.count,
+    }));
 
   return (
     <div>
@@ -85,15 +90,15 @@ function BillsPage() {
         tags={{
           chamber: [
             { name: "House", value: "HOUSE" },
-            { name: "Senate", value: "SENATE" }
+            { name: "Senate", value: "SENATE" },
           ],
           party: [
             { name: "Republican", value: "R" },
             { name: "Bipartisan", value: "Bipartisan" },
-            { name: "Democratic", value: "D" }
+            { name: "Democratic", value: "D" },
           ],
-          multipleSponsors: [{ name: "Multiple Sponsors", value: true }],
-          classification: classificationTags
+          multipleSponsors: [{ name: "Many Sponsors", value: true }],
+          classification: classificationTags,
         }}
       />
       <div className="two-column">

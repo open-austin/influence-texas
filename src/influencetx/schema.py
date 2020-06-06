@@ -28,21 +28,7 @@ class ExtendedConnection(graphene.Connection):
 
     total_count = graphene.Int()
     def resolve_total_count(self, info, **kwargs):
-        return self.length
-
-class DonorExtendedConnection(graphene.Connection):
-    class Meta:
-        abstract = True
-
-    total_count = graphene.Int()
-    def resolve_total_count(self, info, **kwargs):
-        if "inState" in info.variable_values:
-            if (info.variable_values["inState"] == True):
-                return execute_raw_query("""SELECT COUNT(*) FROM "contributors" WHERE "StateAbbr" = 'TX';""")[0]["count"]
-            if (info.variable_values["inState"] == False):
-                return execute_raw_query("""SELECT COUNT(*) FROM "contributors" WHERE "StateAbbr" != 'TX';""")[0]["count"]
-
-        return execute_raw_query('SELECT COUNT(*) AS "__count" FROM "contributors"')[0]["__count"]
+        return self.__dict__["length"]
 
 class BillType(DjangoObjectType):
     class Meta:
@@ -77,7 +63,7 @@ class DonorType(DjangoObjectType):
             'state': ['exact', 'icontains'],
         }
         interfaces = (relay.Node, )
-        connection_class = DonorExtendedConnection
+        connection_class = ExtendedConnection
     pk = graphene.Int()
     def resolve_pk(self, info, **kwargs):
         return self.id
@@ -240,7 +226,7 @@ def CustomBillFilters(classification, party, multiple_sponsors, chamber=""):
         if(party == "Bipartisan"):
             bills = bills.filter(sponsors__party="R").filter(sponsors__party="D")
     if multiple_sponsors:
-        bills = bills.annotate(num_sponsors=Count('sponsors')).filter(num_sponsors__gte=2)
+        bills = bills.annotate(num_sponsors=Count('sponsors')).filter(num_sponsors__gte=10)
     return bills
 
 class Query(graphene.ObjectType):
@@ -302,10 +288,11 @@ class Query(graphene.ObjectType):
     def resolve_donors(self, info, **kwargs):
         donors = Donor.objects.all().order_by('-total_contributions')
         if(kwargs.get('in_state') == True):
-            donors = donors.filter(state="TX")
+            donors = donors.filter(state__icontains="TX")
         if(kwargs.get('in_state') == False):
-            donors = donors.exclude(state="TX")
+            donors = donors.exclude(state__icontains="TX")
         return donors
+        
 
     donor_state_stats = graphene.List(
         FilterCountType
@@ -313,8 +300,8 @@ class Query(graphene.ObjectType):
     def resolve_donor_state_stats(self, info, **kwargs):
         donors = Donor.objects
         return [
-            {"name": "in-state", "count": donors.filter(state="TX").count()},
-            {"name": "out-of-state", "count": donors.exclude(state="TX").count()},
+            {"name": "in-state", "count": donors.filter(state__icontains="TX").count()},
+            {"name": "out-of-state", "count": donors.exclude(state__icontains="TX").count()},
         ]
 
 

@@ -9,7 +9,7 @@ import {
   IconButton,
   Collapse,
   Chip,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import { getQueryString, setQueryString } from "../utils";
 import { useHistory } from "react-router-dom";
@@ -24,6 +24,10 @@ function FilterChip({ name, value, group }) {
     } else {
       queryObj[group] = value;
     }
+    // reset page to first
+    queryObj.page = 1;
+    delete queryObj.after;
+    delete queryObj.before;
     setQueryString(queryObj, history);
   };
 
@@ -79,7 +83,10 @@ function SocialButtons() {
 
 function FilterSection({ tags = [], title, ...props }) {
   const history = useHistory();
-  const isUsingFilters = !!history.location.search;
+  const { page, first, after, last, before, ...otherParams } = getQueryString(
+    history
+  );
+  const isUsingFilters = !!Object.keys(otherParams).length;
   const [isFilterOpen, onChangeFilterOpen] = useState(isUsingFilters);
   const [isShareOpen, onChangeShareOpen] = useState(false);
 
@@ -91,7 +98,7 @@ function FilterSection({ tags = [], title, ...props }) {
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
         }}
       >
         {title}
@@ -108,10 +115,10 @@ function FilterSection({ tags = [], title, ...props }) {
         </div>
       </div>
       <Collapse in={isFilterOpen}>
-        {Object.keys(tags).map(group => {
+        {Object.keys(tags).map((group) => {
           return (
             <div style={{ display: "inline-block", paddingRight: "1rem" }}>
-              {tags[group].map(t => (
+              {tags[group].map((t) => (
                 <FilterChip key={t.value} {...t} group={group} />
               ))}
             </div>

@@ -4,7 +4,7 @@ import { gql } from "apollo-boost";
 import { Typography } from "@material-ui/core";
 import DonutChart from "./DonutChart";
 import FilterSection from "./FilterSection";
-import { getQueryString, dashesToSpaces } from "../utils";
+import { getQueryString, dashesToSpaces, getDebugQuery } from "../utils";
 import { useHistory } from "react-router-dom";
 
 const ALL_DONORS = gql`
@@ -41,22 +41,20 @@ const ALL_DONORS = gql`
         }
       }
     }
-    _debug {
-      sql {
-        duration
-        sql
-      }
-    }
+    ${getDebugQuery()}
   }
 `;
 
 function DonorsPage() {
   const [listData, setListData] = useState();
   const history = useHistory();
-  const queryObj = getQueryString(history);
+  const { page, first, last, before, after, ...queryObj } = getQueryString(
+    history
+  );
 
-  const summaryData = [{ name: 'donors', value: listData ? listData.donors.totalCount : 1 }]
-  
+  const summaryData = [
+    { name: "donors", value: listData ? listData.donors.totalCount : 1 },
+  ];
 
   let selectedSlice;
   if (typeof queryObj.inState === "boolean") {
@@ -77,8 +75,8 @@ function DonorsPage() {
         tags={{
           inState: [
             { name: "In state", value: true },
-            { name: "Out of state", value: false }
-          ]
+            { name: "Out of state", value: false },
+          ],
         }}
       />
       <div className="two-column">

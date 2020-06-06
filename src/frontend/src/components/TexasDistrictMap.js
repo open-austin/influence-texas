@@ -3,7 +3,7 @@ import {
   ComposableMap,
   Geographies,
   Geography,
-  ZoomableGroup
+  ZoomableGroup,
 } from "react-simple-maps";
 import Texas_State_Senate_Districts from "../data/Texas_State_Senate_Districts_Simplified";
 import Texas_State_House_Districts from "../data/Texas_State_House_Districts_Simplified";
@@ -11,7 +11,7 @@ import ReactTooltip from "react-tooltip";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import { useHistory } from "react-router-dom";
-import { capitalize } from "../utils";
+import { capitalize, getDebugQuery } from "../utils";
 import { legTheme } from "../theme";
 
 const ALL_LEG = gql`
@@ -26,6 +26,7 @@ const ALL_LEG = gql`
         }
       }
     }
+    ${getDebugQuery()}
   }
 `;
 
@@ -59,7 +60,7 @@ export default function TexasDistrictMap({ district, chamber = "HOUSE" }) {
       >
         <ZoomableGroup zoom={1.5} center={[-100, 31]}>
           <Geographies geography={geography}>
-            {arg => {
+            {(arg) => {
               return arg.geographies.map((geo, i) => {
                 const leg = legData[chamber][i] || {};
 
@@ -90,16 +91,16 @@ export default function TexasDistrictMap({ district, chamber = "HOUSE" }) {
                         stroke:
                           district && leg.district === district
                             ? legTheme.palette.primary.main
-                            : "#EAEAEC"
+                            : "#EAEAEC",
                       },
                       hover: {
                         fill: legTheme.palette.primary.main,
-                        outline: "none"
+                        outline: "none",
                       },
                       pressed: {
                         fill: legTheme.palette.primary.main,
-                        outline: "none"
-                      }
+                        outline: "none",
+                      },
                     }}
                   />
                 );

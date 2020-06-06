@@ -28,11 +28,27 @@ const QUERY_OPTS = {
   // important that parse and stringify always share same options
   parseBooleans: true,
   arrayFormat: "bracket",
-  parseNumbers: true
+  parseNumbers: true,
 };
 export function getQueryString(history) {
   return queryString.parse(history.location.search, QUERY_OPTS);
 }
-export function setQueryString(queryObj, history) {
+export function setQueryString(queryObj, history, add = false) {
+  if (add) {
+    const oldQueryObj = getQueryString(history);
+    queryObj = { ...oldQueryObj, ...queryObj };
+  }
   history.push("?" + queryString.stringify(queryObj, QUERY_OPTS));
+}
+
+export function getDebugQuery() {
+  if (process.env.NODE_ENV === "production") return "";
+  return `
+    _debug {
+      sql {
+        duration
+        sql
+      }
+    }
+  `;
 }

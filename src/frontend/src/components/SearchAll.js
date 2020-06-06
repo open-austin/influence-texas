@@ -10,6 +10,7 @@ import SimpleTabs from "./SimpleTabs";
 import { useHistory, useParams } from "react-router-dom";
 import CustomLink from "./CustomLink";
 import useDebounce from "./useDebounce";
+import { getDebugQuery } from "../utils";
 
 const ALL_SEARCH = gql`
   query Legislator($name: String) {
@@ -59,6 +60,7 @@ const LEG_SEARCH = gql`
         }
       }
     }
+    ${getDebugQuery()}
   }
 `;
 
@@ -94,6 +96,7 @@ const BILL_SEARCH = gql`
         }
       }
     }
+    ${getDebugQuery()}
   }
 `;
 
@@ -131,6 +134,7 @@ const DONOR_SEARCH = gql`
         }
       }
     }
+    ${getDebugQuery()}
   }
 `;
 
@@ -143,16 +147,17 @@ export function SearchResults() {
   if (error) {
     return "server error";
   }
+  if (loading) {
+    return "loading";
+  }
 
   let startTabIdx = 0;
-  if (!loading) {
-    if (!data.legislators.totalCount) {
-      startTabIdx = 1;
-      if (!data.bills.totalCount) {
-        startTabIdx = 2;
-        if (!data.donors.totalCount) {
-          startTabIdx = 0;
-        }
+  if (!data.legislators.totalCount) {
+    startTabIdx = 1;
+    if (!data.bills.totalCount) {
+      startTabIdx = 2;
+      if (!data.donors.totalCount) {
+        startTabIdx = 0;
       }
     }
   }
