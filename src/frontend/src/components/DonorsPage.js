@@ -46,6 +46,7 @@ const ALL_DONORS = gql`
 `;
 
 function DonorsPage() {
+  document.title = `Donors - Influence Texas`;
   const [listData, setListData] = useState();
   const history = useHistory();
   const { page, first, last, before, after, ...queryObj } = getQueryString(

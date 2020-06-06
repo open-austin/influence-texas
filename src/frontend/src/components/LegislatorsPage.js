@@ -49,6 +49,7 @@ const ALL_LEG = gql`
 `;
 
 function LegislatorsPage() {
+  document.title = `Legislators - Influence Texas`;
   const history = useHistory();
   const queryObj = getQueryString(history);
 

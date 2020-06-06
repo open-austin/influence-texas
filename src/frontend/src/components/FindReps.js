@@ -32,6 +32,7 @@ const GET_LEG_BY_DISTRICT = gql`
 `;
 
 function FindRepResults() {
+  document.title = `Find Reps - Influence Texas`;
   const history = useHistory();
   const query = getQueryString(history);
   const houseData = useQuery(GET_LEG_BY_DISTRICT, {

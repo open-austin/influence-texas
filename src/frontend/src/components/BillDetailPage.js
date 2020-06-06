@@ -63,6 +63,7 @@ function BillDetailPage() {
   const { data, loading, error } = useQuery(GET_BILL, {
     variables: { id },
   });
+  document.title = `${data ? data.bill.billId : ""} - Influence Texas`;
   if (error) {
     return "server error";
   }

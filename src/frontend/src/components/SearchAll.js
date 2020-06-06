@@ -224,6 +224,7 @@ export function SearchResults() {
 }
 
 function SearchAll() {
+  document.title = "Search - Influence Texas";
   const history = useHistory();
   const searchQuery = history.location.pathname.split("/searchAll/")[1];
   const [searchVal, setSearchVal] = useState(searchQuery);

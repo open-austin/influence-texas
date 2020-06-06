@@ -57,6 +57,7 @@ function LegislatorDetailPage() {
   const { data, loading, error } = useQuery(GET_LEG, {
     variables: { id },
   });
+  document.title = `${data ? data.legislator.name : ""} - Influence Texas`;
   if (error) {
     return "server error";
   }

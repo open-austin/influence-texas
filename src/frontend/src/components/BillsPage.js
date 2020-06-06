@@ -58,6 +58,7 @@ const ALL_BILLS = gql`
 `;
 
 function BillsPage() {
+  document.title = `Bills - Influence Texas`;
   const history = useHistory();
   const { page, first, last, before, after, ...queryObj } = getQueryString(
     history

@@ -36,6 +36,7 @@ function DonorDetailPage() {
   const { data, loading, error } = useQuery(GET_DONOR, {
     variables: { id },
   });
+  document.title = `${data ? data.donor.fullName : ""} - Influence Texas`;
   if (error) {
     return "server error";
   }
