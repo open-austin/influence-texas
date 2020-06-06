@@ -1,8 +1,7 @@
 import React from 'react'
-import PaginatedList from './PaginatedList'
-import { RoundSquare } from '../styles'
-import { Typography } from '@material-ui/core'
-import { formatMoney } from '../utils'
+import PaginatedList from 'components/PaginatedList'
+import { RoundSquare } from 'styles'
+import { formatMoney } from 'utils'
 
 function getInitials(name) {
   try {

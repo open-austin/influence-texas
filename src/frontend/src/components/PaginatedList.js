@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -10,8 +10,8 @@ import ChevronRight from '@material-ui/icons/ChevronRight'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
-import { RoundSquare, BlankLoadingLine } from '../styles'
-import { getQueryString, setQueryString } from '../utils'
+import { RoundSquare, BlankLoadingLine } from 'styles'
+import { getQueryString, setQueryString } from 'utils'
 
 const StyleWrapper = styled.div`
   /* margin-left: -1em;
@@ -89,6 +89,7 @@ function FetchingList({
     if (onDataFetched) {
       onDataFetched(data)
     }
+    /* eslint-disable react-hooks/exhaustive-deps*/
   }, [data])
 
   const baseList = nestedUnder

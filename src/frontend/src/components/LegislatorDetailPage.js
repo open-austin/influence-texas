@@ -2,15 +2,16 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
-import { ImageSquare } from '../styles'
 import { Typography, Button } from '@material-ui/core'
+
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
-import SimpleTabs from './SimpleTabs'
-import PaginatedList, { LoadingListItem } from './PaginatedList'
-import BillList from './BillList'
-import TexasDistrictMap from './TexasDistrictMap'
-import CustomLink from './CustomLink'
-import { formatMoney, getDebugQuery } from '../utils'
+import SimpleTabs from 'components/SimpleTabs'
+import PaginatedList, { LoadingListItem } from 'components/PaginatedList'
+import BillList from 'components/BillList'
+import TexasDistrictMap from 'components/TexasDistrictMap'
+import CustomLink from 'components/CustomLink'
+import { formatMoney, getDebugQuery } from 'utils'
+import { ImageSquare } from 'styles'
 
 const GET_LEG = gql`
   query Legislator($id: Int!) {

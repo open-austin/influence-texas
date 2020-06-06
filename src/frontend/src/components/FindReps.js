@@ -5,10 +5,10 @@ import queryString from 'query-string'
 import { Typography } from '@material-ui/core'
 import Script from 'react-load-script'
 import { useHistory } from 'react-router-dom'
-import { setQueryString, getQueryString, getDebugQuery } from '../utils'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
-import LegislatorsList from './LegislatorList'
+import { setQueryString, getQueryString, getDebugQuery } from 'utils'
+import LegislatorsList from 'components/LegislatorList'
 
 const GOOGLE_API = process.env.REACT_APP_GOOGLE_API_KEY
 

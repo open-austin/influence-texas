@@ -5,14 +5,15 @@ import {
   Geography,
   ZoomableGroup,
 } from 'react-simple-maps'
-import Texas_State_Senate_Districts from '../data/Texas_State_Senate_Districts_Simplified'
-import Texas_State_House_Districts from '../data/Texas_State_House_Districts_Simplified'
 import ReactTooltip from 'react-tooltip'
 import { gql } from 'apollo-boost'
 import { useQuery } from '@apollo/react-hooks'
 import { useHistory } from 'react-router-dom'
-import { capitalize, getDebugQuery } from '../utils'
-import { legTheme } from '../theme'
+
+import Texas_State_Senate_Districts from 'data/Texas_State_Senate_Districts_Simplified'
+import Texas_State_House_Districts from 'data/Texas_State_House_Districts_Simplified'
+import { capitalize, getDebugQuery } from 'utils'
+import { legTheme } from 'theme'
 
 const ALL_LEG = gql`
   {

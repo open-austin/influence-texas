@@ -2,18 +2,18 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
+import { format } from 'date-fns'
+import { Typography, Button } from '@material-ui/core'
+import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 import PaginatedList, {
   LoadingListItem,
   ShortLoadingListBody,
-} from './PaginatedList'
-import { format } from 'date-fns'
-import SimpleTabs from './SimpleTabs'
-import LegislatorsList from './LegislatorList'
-import CustomLink from './CustomLink'
-import { BillSquare } from '../styles'
-import { Typography, Button } from '@material-ui/core'
-import OpenInNewIcon from '@material-ui/icons/OpenInNew'
-import { getDebugQuery } from '../utils'
+} from 'components/PaginatedList'
+import SimpleTabs from 'components/SimpleTabs'
+import LegislatorsList from 'components/LegislatorList'
+import CustomLink from 'components/CustomLink'
+import { BillSquare } from 'styles'
+import { getDebugQuery } from 'utils'
 
 const GET_BILL = gql`
   query Bill($id: Int!) {
@@ -156,7 +156,6 @@ function BillDetailPage() {
                     ),
                   },
                 ]}
-                loading={loading}
                 rowsPerPage={100}
                 loadingListBody={ShortLoadingListBody}
               />

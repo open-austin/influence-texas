@@ -3,14 +3,14 @@ import { Input, InputAdornment } from '@material-ui/core'
 import Search from '@material-ui/icons/Search'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
-import BillList from './BillList'
-import DonorList from './DonorList'
-import LegislatorList from './LegislatorList'
-import SimpleTabs from './SimpleTabs'
+import BillList from 'components/BillList'
+import DonorList from 'components/DonorList'
+import LegislatorList from 'components/LegislatorList'
+import SimpleTabs from 'components/SimpleTabs'
 import { useHistory, useParams } from 'react-router-dom'
-import CustomLink from './CustomLink'
-import useDebounce from './useDebounce'
-import { getDebugQuery } from '../utils'
+import CustomLink from 'components/CustomLink'
+import useDebounce from 'components/useDebounce'
+import { getDebugQuery } from 'utils'
 
 const ALL_SEARCH = gql`
   query SearchAll($searchQuery: String) {
@@ -241,6 +241,7 @@ function SearchAll() {
       }
     }
     setSearchVal(debouncedSearchTerm)
+    /* eslint-disable react-hooks/exhaustive-deps*/
   }, [debouncedSearchTerm])
 
   return (

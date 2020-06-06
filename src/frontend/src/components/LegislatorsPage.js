@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import TexasDistrictMap from './TexasDistrictMap'
-import { useQuery } from '@apollo/react-hooks'
-import { gql } from 'apollo-boost'
-import { getQueryString, getDebugQuery } from '../utils'
-import FilterSection from './FilterSection'
-import LegislatorList from './LegislatorList'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Typography } from '@material-ui/core'
+import { gql } from 'apollo-boost'
+import { getQueryString, getDebugQuery } from 'utils'
+import TexasDistrictMap from 'components/TexasDistrictMap'
+import FilterSection from 'components/FilterSection'
+import LegislatorList from 'components/LegislatorList'
 
 const ALL_LEG = gql`
   query Legislator(

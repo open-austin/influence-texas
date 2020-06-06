@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import DonutChart from './DonutChart'
-import BillList from './BillList'
-import FilterSection from './FilterSection'
-import { gql } from 'apollo-boost'
-import { getQueryString, dashesToSpaces, getDebugQuery } from '../utils'
 import { useHistory } from 'react-router-dom'
 import { Typography } from '@material-ui/core'
+import DonutChart from 'components/DonutChart'
+import BillList from 'components/BillList'
+import FilterSection from 'components/FilterSection'
+import { gql } from 'apollo-boost'
+import { getQueryString, dashesToSpaces, getDebugQuery } from 'utils'
 
 const ALL_BILLS = gql`
   query AllBills(

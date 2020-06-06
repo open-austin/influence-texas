@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import DonorList from './DonorList'
+import { useHistory } from 'react-router-dom'
 import { gql } from 'apollo-boost'
 import { Typography } from '@material-ui/core'
-import DonutChart from './DonutChart'
-import FilterSection from './FilterSection'
-import { getQueryString, dashesToSpaces, getDebugQuery } from '../utils'
-import { useHistory } from 'react-router-dom'
+import DonorList from 'components/DonorList'
+import DonutChart from 'components/DonutChart'
+import FilterSection from 'components/FilterSection'
+import { getQueryString, getDebugQuery } from 'utils'
 
 const ALL_DONORS = gql`
   query AllDonors(

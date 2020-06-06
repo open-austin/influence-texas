@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { getQueryString, setQueryString } from '../utils'
+import { getQueryString, setQueryString } from 'utils'
 
 export const TabWrapper = styled.div`
   button {
@@ -59,7 +59,7 @@ export default function SimpleTabs({ tabs = [], startTabIdx = 0, saveToUrl }) {
     } else {
       setValue(startTabIdx)
     }
-  }, [startTabIdx, tabQueryString])
+  }, [startTabIdx, tabQueryString, saveToUrl])
 
   return (
     <TabWrapper>

@@ -11,7 +11,7 @@ import {
   Chip,
   Typography,
 } from '@material-ui/core'
-import { getQueryString, setQueryString } from '../utils'
+import { getQueryString, setQueryString } from 'utils'
 import { useHistory } from 'react-router-dom'
 
 function FilterChip({ name, value, group }) {

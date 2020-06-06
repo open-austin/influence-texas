@@ -1,8 +1,9 @@
 import React from 'react'
-import PaginatedList from './PaginatedList'
-import { ImageSquare } from '../styles'
+
+import PaginatedList from 'components/PaginatedList'
+import { ImageSquare } from 'styles'
+import { capitalize } from 'utils'
 import Typography from '@material-ui/core/Typography'
-import { capitalize } from '../utils'
 
 const PARTIES = {
   R: 'Republican',

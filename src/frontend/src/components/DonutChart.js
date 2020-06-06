@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { PieChart, Pie, Tooltip, Cell } from 'recharts'
-import { scaleQuantize } from 'd3-scale'
-import { numberWithCommas } from '../utils'
-import { legTheme } from '../theme'
+import { numberWithCommas } from 'utils'
+import { legTheme } from 'theme'
 
 const Wrapper = styled.div`
   .large {
@@ -35,9 +34,6 @@ function DonutChart({
   loading,
 }) {
   const CHART_WIDTH = 440
-  const colorScale = scaleQuantize()
-    .domain([1, data.length])
-    .range([legTheme.palette.primary.main, legTheme.palette.primary.dart])
   const props = {
     data,
     cx: CHART_WIDTH / 2,

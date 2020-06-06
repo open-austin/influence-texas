@@ -1,7 +1,7 @@
 import React from 'react'
 import { format } from 'date-fns'
-import PaginatedList from './PaginatedList'
-import { BillSquare } from '../styles'
+import PaginatedList from 'components/PaginatedList'
+import { BillSquare } from 'styles'
 
 function BillList({ data, ...props }) {
   return (
