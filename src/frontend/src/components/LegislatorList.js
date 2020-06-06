@@ -7,19 +7,24 @@ import { capitalize } from "../utils";
 const PARTIES = {
   R: "Republican",
   D: "Democrat",
-  I: "Independent"
+  I: "Independent",
 };
 
-export default function LegislatorsList({ data, ...props }) {
+export default function LegislatorsList({
+  data,
+  nestedUnder = "legislators",
+  ...props
+}) {
   return (
     <PaginatedList
       {...props}
       url="legislators/legislator"
       data={data}
       emptyState={<div>No legislators found</div>}
+      nestedUnder={nestedUnder}
       columns={[
         {
-          render: rowData => (
+          render: (rowData) => (
             <div style={{ display: "flex" }}>
               <ImageSquare photoUrl={rowData.node.photoUrl} />
               <div style={{ margin: "0 1em" }}>
@@ -32,16 +37,16 @@ export default function LegislatorsList({ data, ...props }) {
                 </Typography>
               </div>
             </div>
-          )
+          ),
         },
         {
           field: "node.party",
-          render: rowData => (
+          render: (rowData) => (
             <div style={{ textAlign: "right" }}>
               District {rowData.node.district}
             </div>
-          )
-        }
+          ),
+        },
       ]}
     />
   );

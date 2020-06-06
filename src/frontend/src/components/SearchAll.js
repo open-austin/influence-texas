@@ -13,15 +13,23 @@ import useDebounce from "./useDebounce";
 import { getDebugQuery } from "../utils";
 
 const ALL_SEARCH = gql`
-  query Legislator($name: String) {
-    legislators(name_Icontains: $name) {
-      totalCount
+  query SearchAll($searchQuery: String) {
+    search(searchQuery: $searchQuery) {
+      legislators {
+        totalCount
+      }
+      bills {
+        totalCount
+      }
+      donors {
+        totalCount
+      }
     }
-    bills(title_Icontains: $name) {
-      totalCount
-    }
-    donors(fullName_Icontains: $name) {
-      totalCount
+    _debug {
+      sql {
+        duration
+        sql
+      }
     }
   }
 `;
@@ -32,31 +40,32 @@ const LEG_SEARCH = gql`
     $last: Int
     $after: String
     $before: String
-    $name: String
+    $searchQuery: String
   ) {
-    legislators(
-      first: $first
-      last: $last
-      after: $after
-      before: $before
-      name_Icontains: $name
-    ) {
-      totalCount
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-      edges {
-        cursor
-        node {
-          pk
-          name
-          party
-          chamber
-          district
-          photoUrl
+    search(searchQuery: $searchQuery) {
+      legislators(
+        first: $first
+        last: $last
+        after: $after
+        before: $before
+      ) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            pk
+            name
+            party
+            chamber
+            district
+            photoUrl
+          }
         }
       }
     }
@@ -70,29 +79,30 @@ const BILL_SEARCH = gql`
     $last: Int
     $after: String
     $before: String
-    $name: String
+    $searchQuery: String
   ) {
-    bills(
-      title_Icontains: $name
-      first: $first
-      last: $last
-      after: $after
-      before: $before
-    ) {
-      totalCount
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-      edges {
-        cursor
-        node {
-          pk
-          chamber
-          billId
-          title
+    search(searchQuery: $searchQuery) {
+      bills(
+        first: $first
+        last: $last
+        after: $after
+        before: $before
+      ) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            pk
+            chamber
+            billId
+            title
+          }
         }
       }
     }
@@ -106,31 +116,32 @@ const DONOR_SEARCH = gql`
     $last: Int
     $after: String
     $before: String
-    $name: String
+    $searchQuery: String
   ) {
-    donors(
-      first: $first
-      last: $last
-      after: $after
-      before: $before
-      fullName_Icontains: $name
-    ) {
-      totalCount
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-      edges {
-        cursor
-        node {
-          pk
-          fullName
-          city
-          state
-          employer
-          totalContributions
+    search(searchQuery: $searchQuery) {
+      donors(
+        first: $first
+        last: $last
+        after: $after
+        before: $before
+      ) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            pk
+            fullName
+            city
+            state
+            employer
+            totalContributions
+          }
         }
       }
     }
@@ -140,7 +151,7 @@ const DONOR_SEARCH = gql`
 
 export function SearchResults() {
   const { searchQuery } = useParams();
-  const gqlVariables = { name: searchQuery };
+  const gqlVariables = { searchQuery: searchQuery || "---" };
   const { data, loading, error } = useQuery(ALL_SEARCH, {
     variables: gqlVariables,
   });
@@ -150,13 +161,14 @@ export function SearchResults() {
   if (loading) {
     return "loading";
   }
+  // debugger;
 
   let startTabIdx = 0;
-  if (!data.legislators.totalCount) {
+  if (!data.search.legislators.totalCount) {
     startTabIdx = 1;
-    if (!data.bills.totalCount) {
+    if (!data.search.bills.totalCount) {
       startTabIdx = 2;
-      if (!data.donors.totalCount) {
+      if (!data.search.donors.totalCount) {
         startTabIdx = 0;
       }
     }
@@ -169,34 +181,37 @@ export function SearchResults() {
           startTabIdx={startTabIdx}
           tabs={[
             {
-              label: `Legislators (${data.legislators.totalCount})`,
+              label: `Legislators (${data.search.legislators.totalCount})`,
               content: (
                 <div>
                   <LegislatorList
                     gqlVariables={gqlVariables}
                     gqlQuery={LEG_SEARCH}
+                    nestedUnder="search.legislators"
                   />
                 </div>
               ),
             },
             {
-              label: `Bills (${data.bills.totalCount})`,
+              label: `Bills (${data.search.bills.totalCount})`,
               content: (
                 <div>
                   <BillList
                     gqlVariables={gqlVariables}
                     gqlQuery={BILL_SEARCH}
+                    nestedUnder="search.bills"
                   />
                 </div>
               ),
             },
             {
-              label: `Donors (${data.donors.totalCount})`,
+              label: `Donors (${data.search.donors.totalCount})`,
               content: (
                 <div>
                   <DonorList
                     gqlVariables={gqlVariables}
                     gqlQuery={DONOR_SEARCH}
+                    nestedUnder="search.donors"
                   />
                 </div>
               ),

@@ -19,7 +19,7 @@ const StyleWrapper = styled.div`
 `;
 
 function getProp(obj, propName) {
-  if (!propName) {
+  if (!propName || !obj) {
     return;
   }
   if (propName.includes(".")) {
@@ -62,6 +62,8 @@ function FetchingList({
   gqlQuery,
   gqlVariables = {},
   onDataFetched,
+  /** where main list is. ex: 'search.legislators', needs to be a place with edges and pagination */
+  nestedUnder,
   ...props
 }) {
   const history = useHistory();
@@ -89,9 +91,15 @@ function FetchingList({
     }
   }, [data]);
 
-  const { edges, totalCount, pageInfo } = data
-    ? Object.values(data)[0] // don't care about the data.legislators.edges, will only call one top level each
-    : { edges: [], totalCount: 0 };
+  const baseList = nestedUnder
+    ? getProp(data, nestedUnder)
+    : Object.values(data || {})[0];
+  // don't care about the data.legislators.edges, will only call one top level each
+
+  const { edges, totalCount, pageInfo } = baseList || {
+    edges: [],
+    totalCount: 0,
+  };
   const { startCursor, endCursor } = pageInfo || {};
   const rows = edges;
   if (error) {

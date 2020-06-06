@@ -3,7 +3,7 @@ from graphene import relay, Node
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from django.db import connection, transaction
-from django.db.models import Count
+from django.db.models import Count, Q
 from graphene_django.debug import DjangoDebug
 from influencetx.legislators.models import Legislator, LegislatorIdMap
 from influencetx.tpj.models import Donor, Contribution, Contributionsummary, Filer
@@ -229,6 +229,11 @@ def CustomBillFilters(classification, party, multiple_sponsors, chamber=""):
         bills = bills.annotate(num_sponsors=Count('sponsors')).filter(num_sponsors__gte=10)
     return bills
 
+class SearchResultType(graphene.ObjectType):
+    bills = DjangoFilterConnectionField(BillType)
+    donors = DjangoFilterConnectionField(DonorType)
+    legislators = DjangoFilterConnectionField(LegislatorType)
+
 class Query(graphene.ObjectType):
     debug = graphene.Field(DjangoDebug, name='_debug')
     bill = graphene.Field(BillType, pk=graphene.Int())
@@ -277,7 +282,7 @@ class Query(graphene.ObjectType):
 
     legislators = DjangoFilterConnectionField(LegislatorType)
     def resolve_legislators(self, info, **kwargs):
-        return Legislator.objects.all().order_by('district')
+        return Legislator.objects.order_by('district')
 
     donor = graphene.Field(DonorType, pk=graphene.Int())
     def resolve_donor(self, info, **kwargs):
@@ -286,7 +291,7 @@ class Query(graphene.ObjectType):
 
     donors = DjangoFilterConnectionField(DonorType, in_state=graphene.Argument(graphene.Boolean))
     def resolve_donors(self, info, **kwargs):
-        donors = Donor.objects.all().order_by('-total_contributions')
+        donors = Donor.objects.order_by('-total_contributions')
         if(kwargs.get('in_state') == True):
             donors = donors.filter(state__icontains="TX")
         if(kwargs.get('in_state') == False):
@@ -303,6 +308,22 @@ class Query(graphene.ObjectType):
             {"name": "in-state", "count": donors.filter(state__icontains="TX").count()},
             {"name": "out-of-state", "count": donors.exclude(state__icontains="TX").count()},
         ]
+
+    search = graphene.Field(SearchResultType, search_query=graphene.String())
+    def resolve_search(self, info, **kwargs):
+        search_query = kwargs["search_query"]
+        legislators = Legislator.objects.filter(name__icontains=search_query)
+        if (search_query[0:8].lower() == 'district'):
+            legislators = Legislator.objects.filter(district=int(search_query[9:]))
+        donorQuery = Q(full_name__icontains=search_query)
+        donorQuery.add(Q(city__iexact=search_query), Q.OR)
+        donorQuery.add(Q(employer__icontains=search_query), Q.OR)
+        donorQuery.add(Q(occupation=search_query), Q.OR)
+        return {
+            "legislators": legislators,
+            "bills": Bill.objects.filter(title__icontains=search_query) | Bill.objects.filter(bill_id__iexact=search_query),
+            "donors": Donor.objects.filter(donorQuery).order_by('-total_contributions'),
+        }
 
 
 schema = graphene.Schema(query=Query)
