@@ -1,7 +1,7 @@
-import React from "react";
-import { Typography } from "@material-ui/core";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Typography } from '@material-ui/core'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const LogoWrapper = styled.header`
   text-transform: uppercase;
@@ -14,7 +14,7 @@ const LogoWrapper = styled.header`
     display: inline-block;
     font-weight: bold;
   }
-`;
+`
 
 export default function Logo() {
   return (
@@ -23,5 +23,5 @@ export default function Logo() {
         <Typography color="primary">Influence</Typography> Texas
       </LogoWrapper>
     </Link>
-  );
+  )
 }

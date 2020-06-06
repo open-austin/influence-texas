@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import DonutChart from "./DonutChart";
-import BillList from "./BillList";
-import FilterSection from "./FilterSection";
-import { gql } from "apollo-boost";
-import { getQueryString, dashesToSpaces, getDebugQuery } from "../utils";
-import { useHistory } from "react-router-dom";
-import { Typography } from "@material-ui/core";
+import React, { useState } from 'react'
+import DonutChart from './DonutChart'
+import BillList from './BillList'
+import FilterSection from './FilterSection'
+import { gql } from 'apollo-boost'
+import { getQueryString, dashesToSpaces, getDebugQuery } from '../utils'
+import { useHistory } from 'react-router-dom'
+import { Typography } from '@material-ui/core'
 
 const ALL_BILLS = gql`
   query AllBills(
@@ -55,50 +55,50 @@ const ALL_BILLS = gql`
     }
     ${getDebugQuery()}
   }
-`;
+`
 
 function BillsPage() {
-  document.title = `Bills - Influence Texas`;
-  const history = useHistory();
+  document.title = `Bills - Influence Texas`
+  const history = useHistory()
   const { page, first, last, before, after, ...queryObj } = getQueryString(
-    history
-  );
-  const [listData, setListData] = useState();
+    history,
+  )
+  const [listData, setListData] = useState()
 
   const billClassificationStats = listData
     ? listData.billClassificationStats
-    : [];
+    : []
   const classificationTags = billClassificationStats.map((d) => ({
     name: dashesToSpaces(d.name),
     value: d.name,
-    group: "classification",
-  }));
+    group: 'classification',
+  }))
   const summaryData =
     listData &&
     billClassificationStats.map((d) => ({
       name: dashesToSpaces(d.name),
       value: d.count,
-    }));
+    }))
 
   return (
     <div>
       <FilterSection
         title={
-          <Typography variant="h6" style={{ minWidth: "150px" }}>
+          <Typography variant="h6" style={{ minWidth: '150px' }}>
             Texas Bills
           </Typography>
         }
         tags={{
           chamber: [
-            { name: "House", value: "HOUSE" },
-            { name: "Senate", value: "SENATE" },
+            { name: 'House', value: 'HOUSE' },
+            { name: 'Senate', value: 'SENATE' },
           ],
           party: [
-            { name: "Republican", value: "R" },
-            { name: "Bipartisan", value: "Bipartisan" },
-            { name: "Democratic", value: "D" },
+            { name: 'Republican', value: 'R' },
+            { name: 'Bipartisan', value: 'Bipartisan' },
+            { name: 'Democratic', value: 'D' },
           ],
-          multipleSponsors: [{ name: "Many Sponsors", value: true }],
+          multipleSponsors: [{ name: 'Many Sponsors', value: true }],
           classification: classificationTags,
         }}
       />
@@ -118,7 +118,7 @@ function BillsPage() {
         />
       </div>
     </div>
-  );
+  )
 }
 
-export default BillsPage;
+export default BillsPage

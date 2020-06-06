@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { Input, InputAdornment } from "@material-ui/core";
-import Search from "@material-ui/icons/Search";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
-import BillList from "./BillList";
-import DonorList from "./DonorList";
-import LegislatorList from "./LegislatorList";
-import SimpleTabs from "./SimpleTabs";
-import { useHistory, useParams } from "react-router-dom";
-import CustomLink from "./CustomLink";
-import useDebounce from "./useDebounce";
-import { getDebugQuery } from "../utils";
+import React, { useState, useEffect } from 'react'
+import { Input, InputAdornment } from '@material-ui/core'
+import Search from '@material-ui/icons/Search'
+import { useQuery } from '@apollo/react-hooks'
+import { gql } from 'apollo-boost'
+import BillList from './BillList'
+import DonorList from './DonorList'
+import LegislatorList from './LegislatorList'
+import SimpleTabs from './SimpleTabs'
+import { useHistory, useParams } from 'react-router-dom'
+import CustomLink from './CustomLink'
+import useDebounce from './useDebounce'
+import { getDebugQuery } from '../utils'
 
 const ALL_SEARCH = gql`
   query SearchAll($searchQuery: String) {
@@ -32,7 +32,7 @@ const ALL_SEARCH = gql`
       }
     }
   }
-`;
+`
 
 const LEG_SEARCH = gql`
   query LegislatorSearch(
@@ -71,7 +71,7 @@ const LEG_SEARCH = gql`
     }
     ${getDebugQuery()}
   }
-`;
+`
 
 const BILL_SEARCH = gql`
   query BillsSearch(
@@ -108,7 +108,7 @@ const BILL_SEARCH = gql`
     }
     ${getDebugQuery()}
   }
-`;
+`
 
 const DONOR_SEARCH = gql`
   query DonorsSearch(
@@ -147,29 +147,29 @@ const DONOR_SEARCH = gql`
     }
     ${getDebugQuery()}
   }
-`;
+`
 
 export function SearchResults() {
-  const { searchQuery } = useParams();
-  const gqlVariables = { searchQuery: searchQuery || "---" };
+  const { searchQuery } = useParams()
+  const gqlVariables = { searchQuery: searchQuery || '---' }
   const { data, loading, error } = useQuery(ALL_SEARCH, {
     variables: gqlVariables,
-  });
+  })
   if (error) {
-    return "server error";
+    return 'server error'
   }
   if (loading) {
-    return "loading";
+    return 'loading'
   }
   // debugger;
 
-  let startTabIdx = 0;
+  let startTabIdx = 0
   if (!data.search.legislators.totalCount) {
-    startTabIdx = 1;
+    startTabIdx = 1
     if (!data.search.bills.totalCount) {
-      startTabIdx = 2;
+      startTabIdx = 2
       if (!data.search.donors.totalCount) {
-        startTabIdx = 0;
+        startTabIdx = 0
       }
     }
   }
@@ -220,33 +220,33 @@ export function SearchResults() {
         />
       )}
     </div>
-  );
+  )
 }
 
 function SearchAll() {
-  document.title = "Search - Influence Texas";
-  const history = useHistory();
-  const searchQuery = history.location.pathname.split("/searchAll/")[1];
-  const [searchVal, setSearchVal] = useState(searchQuery);
+  document.title = 'Search - Influence Texas'
+  const history = useHistory()
+  const searchQuery = history.location.pathname.split('/searchAll/')[1]
+  const [searchVal, setSearchVal] = useState(searchQuery)
   useEffect(() => {
-    setSearchVal(searchQuery);
-  }, [searchQuery]);
-  const debouncedSearchTerm = useDebounce(searchVal, 500);
+    setSearchVal(searchQuery)
+  }, [searchQuery])
+  const debouncedSearchTerm = useDebounce(searchVal, 500)
   useEffect(() => {
     if (debouncedSearchTerm) {
-      history.push(`/searchAll/${debouncedSearchTerm}`);
+      history.push(`/searchAll/${debouncedSearchTerm}`)
     } else {
-      if (history.location.pathname.includes("searchAll")) {
-        history.push("/");
+      if (history.location.pathname.includes('searchAll')) {
+        history.push('/')
       }
     }
-    setSearchVal(debouncedSearchTerm);
-  }, [debouncedSearchTerm]);
+    setSearchVal(debouncedSearchTerm)
+  }, [debouncedSearchTerm])
 
   return (
-    <div className="site-wide-search" style={{ margin: "1em 0" }}>
+    <div className="site-wide-search" style={{ margin: '1em 0' }}>
       <Input
-        value={searchVal || ""}
+        value={searchVal || ''}
         onChange={(e) => setSearchVal(e.target.value)}
         placeholder="Search"
         startAdornment={
@@ -258,7 +258,7 @@ function SearchAll() {
       />
       <SearchResults />
     </div>
-  );
+  )
 }
 
-export default SearchAll;
+export default SearchAll

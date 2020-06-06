@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   ComposableMap,
   Geographies,
   Geography,
   ZoomableGroup,
-} from "react-simple-maps";
-import Texas_State_Senate_Districts from "../data/Texas_State_Senate_Districts_Simplified";
-import Texas_State_House_Districts from "../data/Texas_State_House_Districts_Simplified";
-import ReactTooltip from "react-tooltip";
-import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
-import { useHistory } from "react-router-dom";
-import { capitalize, getDebugQuery } from "../utils";
-import { legTheme } from "../theme";
+} from 'react-simple-maps'
+import Texas_State_Senate_Districts from '../data/Texas_State_Senate_Districts_Simplified'
+import Texas_State_House_Districts from '../data/Texas_State_House_Districts_Simplified'
+import ReactTooltip from 'react-tooltip'
+import { gql } from 'apollo-boost'
+import { useQuery } from '@apollo/react-hooks'
+import { useHistory } from 'react-router-dom'
+import { capitalize, getDebugQuery } from '../utils'
+import { legTheme } from '../theme'
 
 const ALL_LEG = gql`
   {
@@ -28,27 +28,27 @@ const ALL_LEG = gql`
     }
     ${getDebugQuery()}
   }
-`;
+`
 
-export default function TexasDistrictMap({ district, chamber = "HOUSE" }) {
-  const [tooltipContent, setTooltipContent] = useState("");
-  const { data } = useQuery(ALL_LEG);
-  const history = useHistory();
+export default function TexasDistrictMap({ district, chamber = 'HOUSE' }) {
+  const [tooltipContent, setTooltipContent] = useState('')
+  const { data } = useQuery(ALL_LEG)
+  const history = useHistory()
   const legData = data
     ? data.legislators.edges.reduce(
         (acc, d) => {
-          acc[d.node.chamber].push(d.node);
-          return acc;
+          acc[d.node.chamber].push(d.node)
+          return acc
         },
-        { HOUSE: [], SENATE: [] }
+        { HOUSE: [], SENATE: [] },
       )
-    : { HOUSE: [], SENATE: [] };
-  legData.HOUSE.sort((l1, l2) => l1.district - l2.district);
-  legData.SENATE.sort((l1, l2) => l1.district - l2.district);
+    : { HOUSE: [], SENATE: [] }
+  legData.HOUSE.sort((l1, l2) => l1.district - l2.district)
+  legData.SENATE.sort((l1, l2) => l1.district - l2.district)
   const geography =
-    chamber === "HOUSE"
+    chamber === 'HOUSE'
       ? Texas_State_House_Districts
-      : Texas_State_Senate_Districts;
+      : Texas_State_Senate_Districts
   return (
     <div>
       <ReactTooltip>{tooltipContent}</ReactTooltip>
@@ -62,7 +62,7 @@ export default function TexasDistrictMap({ district, chamber = "HOUSE" }) {
           <Geographies geography={geography}>
             {(arg) => {
               return arg.geographies.map((geo, i) => {
-                const leg = legData[chamber][i] || {};
+                const leg = legData[chamber][i] || {}
 
                 return (
                   <Geography
@@ -72,43 +72,43 @@ export default function TexasDistrictMap({ district, chamber = "HOUSE" }) {
                       setTooltipContent(
                         `${capitalize(chamber)} District ${leg.district} ${
                           leg.name
-                        }`
-                      );
+                        }`,
+                      )
                     }}
                     onMouseLeave={() => {
-                      setTooltipContent("");
+                      setTooltipContent('')
                     }}
                     onClick={() => {
-                      history.push(`/legislators/legislator/${leg.pk}`);
+                      history.push(`/legislators/legislator/${leg.pk}`)
                     }}
                     style={{
                       default: {
                         fill: district
                           ? leg.district === district
                             ? legTheme.palette.primary.main
-                            : "white"
-                          : "#D6D6DA",
+                            : 'white'
+                          : '#D6D6DA',
                         stroke:
                           district && leg.district === district
                             ? legTheme.palette.primary.main
-                            : "#EAEAEC",
+                            : '#EAEAEC',
                       },
                       hover: {
                         fill: legTheme.palette.primary.main,
-                        outline: "none",
+                        outline: 'none',
                       },
                       pressed: {
                         fill: legTheme.palette.primary.main,
-                        outline: "none",
+                        outline: 'none',
                       },
                     }}
                   />
-                );
-              });
+                )
+              })
             }}
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
     </div>
-  );
+  )
 }

@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import styled from "styled-components";
-import { useHistory } from "react-router-dom";
-import { getQueryString, setQueryString } from "../utils";
+import React, { useEffect } from 'react'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
+import styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
+import { getQueryString, setQueryString } from '../utils'
 
 export const TabWrapper = styled.div`
   button {
     border-bottom: solid !important;
     border-bottom-style: inset !important;
   }
-`;
+`
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props
 
   return (
     <Typography
@@ -28,42 +28,42 @@ function TabPanel(props) {
     >
       {value === index && <Box>{children}</Box>}
     </Typography>
-  );
+  )
 }
 
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
 }
 
 export default function SimpleTabs({ tabs = [], startTabIdx = 0, saveToUrl }) {
-  const [value, setValue] = React.useState(startTabIdx);
-  const history = useHistory();
+  const [value, setValue] = React.useState(startTabIdx)
+  const history = useHistory()
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setValue(newValue)
     if (saveToUrl) {
-      const queryObj = getQueryString(history);
-      queryObj.tab = newValue;
-      setQueryString(queryObj, history);
+      const queryObj = getQueryString(history)
+      queryObj.tab = newValue
+      setQueryString(queryObj, history)
     }
-  };
+  }
 
-  const tabQueryString = getQueryString(history).tab;
+  const tabQueryString = getQueryString(history).tab
 
   useEffect(() => {
     if (saveToUrl && tabQueryString) {
-      setValue(tabQueryString);
+      setValue(tabQueryString)
     } else {
-      setValue(startTabIdx);
+      setValue(startTabIdx)
     }
-  }, [startTabIdx, tabQueryString]);
+  }, [startTabIdx, tabQueryString])
 
   return (
     <TabWrapper>
-      <div position="static" style={{ margin: "1em 0" }}>
+      <div position="static" style={{ margin: '1em 0' }}>
         <Tabs
           variant="fullWidth"
           indicatorColor="primary"
@@ -83,5 +83,5 @@ export default function SimpleTabs({ tabs = [], startTabIdx = 0, saveToUrl }) {
         </TabPanel>
       ))}
     </TabWrapper>
-  );
+  )
 }

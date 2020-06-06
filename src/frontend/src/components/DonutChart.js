@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { PieChart, Pie, Tooltip, Cell } from "recharts";
-import { scaleQuantize } from "d3-scale";
-import { numberWithCommas } from "../utils";
-import { legTheme } from "../theme";
+import React from 'react'
+import styled from 'styled-components'
+import { PieChart, Pie, Tooltip, Cell } from 'recharts'
+import { scaleQuantize } from 'd3-scale'
+import { numberWithCommas } from '../utils'
+import { legTheme } from '../theme'
 
 const Wrapper = styled.div`
   .large {
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   .recharts-wrapper {
     margin: auto;
   }
-`;
+`
 
 /**
  * @typedef {Object} Props
@@ -28,23 +28,23 @@ const Wrapper = styled.div`
  * @param {Props} props
  */
 function DonutChart({
-  data = [{name: 'loading', value: 100}],
+  data = [{ name: 'loading', value: 100 }],
   totalCount = 0,
-  totalText = "Total",
-  selectedSlice = "",
+  totalText = 'Total',
+  selectedSlice = '',
   loading,
 }) {
-  const CHART_WIDTH = 440;
+  const CHART_WIDTH = 440
   const colorScale = scaleQuantize()
     .domain([1, data.length])
-    .range([legTheme.palette.primary.main, legTheme.palette.primary.dart]);
+    .range([legTheme.palette.primary.main, legTheme.palette.primary.dart])
   const props = {
     data,
     cx: CHART_WIDTH / 2,
     cy: CHART_WIDTH / 2,
     paddingAngle: 2,
-    dataKey: "value",
-  };
+    dataKey: 'value',
+  }
   return (
     <Wrapper>
       <PieChart width={CHART_WIDTH} height={CHART_WIDTH}>
@@ -58,26 +58,32 @@ function DonutChart({
             return (
               <Cell
                 key={`cell-${index}`}
-                fill={entry.name === selectedSlice ? "#ccc" : "white"}
+                fill={entry.name === selectedSlice ? '#ccc' : 'white'}
               />
-            );
+            )
           })}
         </Pie>
         <Pie
           {...props}
           innerRadius={180}
           outerRadius={200}
-          fill={loading ? "#ccc" : legTheme.palette.primary.main}
+          fill={loading ? '#ccc' : legTheme.palette.primary.main}
         ></Pie>
 
         <text x={CHART_WIDTH / 2} y={CHART_WIDTH / 2 + 20} textAnchor="middle">
-          {loading ? 'loading' : <><tspan className="large">{numberWithCommas(totalCount)} </tspan>{" "}
-          {totalText}</>}
+          {loading ? (
+            'loading'
+          ) : (
+            <>
+              <tspan className="large">{numberWithCommas(totalCount)} </tspan>{' '}
+              {totalText}
+            </>
+          )}
         </text>
         <Tooltip />
       </PieChart>
     </Wrapper>
-  );
+  )
 }
 
-export default DonutChart;
+export default DonutChart

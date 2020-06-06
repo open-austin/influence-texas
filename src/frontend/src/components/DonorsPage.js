@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import DonorList from "./DonorList";
-import { gql } from "apollo-boost";
-import { Typography } from "@material-ui/core";
-import DonutChart from "./DonutChart";
-import FilterSection from "./FilterSection";
-import { getQueryString, dashesToSpaces, getDebugQuery } from "../utils";
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react'
+import DonorList from './DonorList'
+import { gql } from 'apollo-boost'
+import { Typography } from '@material-ui/core'
+import DonutChart from './DonutChart'
+import FilterSection from './FilterSection'
+import { getQueryString, dashesToSpaces, getDebugQuery } from '../utils'
+import { useHistory } from 'react-router-dom'
 
 const ALL_DONORS = gql`
   query AllDonors(
@@ -43,40 +43,40 @@ const ALL_DONORS = gql`
     }
     ${getDebugQuery()}
   }
-`;
+`
 
 function DonorsPage() {
-  document.title = `Donors - Influence Texas`;
-  const [listData, setListData] = useState();
-  const history = useHistory();
+  document.title = `Donors - Influence Texas`
+  const [listData, setListData] = useState()
+  const history = useHistory()
   const { page, first, last, before, after, ...queryObj } = getQueryString(
-    history
-  );
+    history,
+  )
 
   const summaryData = [
-    { name: "donors", value: listData ? listData.donors.totalCount : 1 },
-  ];
+    { name: 'donors', value: listData ? listData.donors.totalCount : 1 },
+  ]
 
-  let selectedSlice;
-  if (typeof queryObj.inState === "boolean") {
+  let selectedSlice
+  if (typeof queryObj.inState === 'boolean') {
     if (queryObj.inState) {
-      selectedSlice = "In State";
+      selectedSlice = 'In State'
     } else {
-      selectedSlice = "Out Of State";
+      selectedSlice = 'Out Of State'
     }
   }
   return (
     <div>
       <FilterSection
         title={
-          <Typography variant="h6" style={{ minWidth: "150px" }}>
+          <Typography variant="h6" style={{ minWidth: '150px' }}>
             Texas Donors
           </Typography>
         }
         tags={{
           inState: [
-            { name: "In state", value: true },
-            { name: "Out of state", value: false },
+            { name: 'In state', value: true },
+            { name: 'Out of state', value: false },
           ],
         }}
       />
@@ -84,7 +84,7 @@ function DonorsPage() {
         <DonutChart
           data={summaryData}
           totalCount={listData ? listData.donors.totalCount : 0}
-          totalText={"Donors"}
+          totalText={'Donors'}
           selectedSlice={selectedSlice}
           loading={!listData}
         />
@@ -96,7 +96,7 @@ function DonorsPage() {
         />
       </div>
     </div>
-  );
+  )
 }
 
-export default DonorsPage;
+export default DonorsPage

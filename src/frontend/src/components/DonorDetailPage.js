@@ -1,14 +1,14 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
-import PaginatedList, { ShortLoadingListBody } from "./PaginatedList";
-import { formatMoney, getDebugQuery } from "../utils";
-import CustomLink from "./CustomLink";
-import { BlankLoadingLine } from "../styles";
-import { RoundSquare } from "../styles";
-import Typography from "@material-ui/core/Typography";
-import { legTheme } from "../theme";
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import { useQuery } from '@apollo/react-hooks'
+import { gql } from 'apollo-boost'
+import PaginatedList, { ShortLoadingListBody } from './PaginatedList'
+import { formatMoney, getDebugQuery } from '../utils'
+import CustomLink from './CustomLink'
+import { BlankLoadingLine } from '../styles'
+import { RoundSquare } from '../styles'
+import Typography from '@material-ui/core/Typography'
+import { legTheme } from '../theme'
 
 const GET_DONOR = gql`
   query Donor($id: Int!) {
@@ -29,22 +29,22 @@ const GET_DONOR = gql`
     }
     ${getDebugQuery()}
   }
-`;
+`
 
 function DonorDetailPage() {
-  const { id } = useParams();
+  const { id } = useParams()
   const { data, loading, error } = useQuery(GET_DONOR, {
     variables: { id },
-  });
-  document.title = `${data ? data.donor.fullName : ""} - Influence Texas`;
+  })
+  document.title = `${data ? data.donor.fullName : ''} - Influence Texas`
   if (error) {
-    return "server error";
+    return 'server error'
   }
-  const fullDonorData = data ? data.donor : {};
+  const fullDonorData = data ? data.donor : {}
   return (
     <div className="detail-page">
       <CustomLink to="/donors"> ← All Donors</CustomLink>
-      <section style={{ margin: "1rem" }}>
+      <section style={{ margin: '1rem' }}>
         <h1>
           {loading ? <BlankLoadingLine width="40%" /> : fullDonorData.fullName}
         </h1>
@@ -53,12 +53,12 @@ function DonorDetailPage() {
             <BlankLoadingLine width="20%" />
           ) : (
             `Total Contributions: ${formatMoney(
-              fullDonorData.totalContributions
+              fullDonorData.totalContributions,
             )}`
           )}
         </div>
-        {fullDonorData.occupation}{" "}
-        {fullDonorData.occupation && fullDonorData.employer && "at"}{" "}
+        {fullDonorData.occupation}{' '}
+        {fullDonorData.occupation && fullDonorData.employer && 'at'}{' '}
         {fullDonorData.employer}
         <div>
           {fullDonorData.city}, {fullDonorData.state}
@@ -78,7 +78,7 @@ function DonorDetailPage() {
         columns={[
           {
             render: (rowData) => (
-              <div style={{ display: "flex" }}>
+              <div style={{ display: 'flex' }}>
                 <RoundSquare
                   style={{
                     marginTop: 10,
@@ -86,13 +86,13 @@ function DonorDetailPage() {
                     height: 20,
                     background: rowData.legId
                       ? legTheme.palette.primary.main
-                      : "#bbb",
+                      : '#bbb',
                   }}
                 />
-                <div style={{ margin: "0 1em" }}>
+                <div style={{ margin: '0 1em' }}>
                   <Typography>{rowData.candidateName}</Typography>
                   <Typography variant="subtitle2">
-                    {rowData.office} {rowData.party ? `(${rowData.party})` : ""}
+                    {rowData.office} {rowData.party ? `(${rowData.party})` : ''}
                   </Typography>
                 </div>
               </div>
@@ -100,7 +100,7 @@ function DonorDetailPage() {
           },
           {
             render: (rowData) => (
-              <div style={{ textAlign: "right" }}>
+              <div style={{ textAlign: 'right' }}>
                 {formatMoney(rowData.cycleTotal)}
               </div>
             ),
@@ -112,7 +112,7 @@ function DonorDetailPage() {
         rowsPerPage={500}
       />
     </div>
-  );
+  )
 }
 
-export default DonorDetailPage;
+export default DonorDetailPage
