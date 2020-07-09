@@ -1,8 +1,15 @@
-import React from "react";
-import PaginatedList from "./PaginatedList";
-import { RoundSquare } from "../styles";
-import { Typography } from "@material-ui/core";
-import { formatMoney } from "../utils";
+import React from 'react'
+import PaginatedList from 'components/PaginatedList'
+import { RoundSquare } from 'styles'
+import { formatMoney } from 'utils'
+
+function getInitials(name) {
+  try {
+    return name[0] + name.split(' ')[1][0]
+  } catch (e) {
+    return name && name[0]
+  }
+}
 
 function DonorList({ data, ...props }) {
   return (
@@ -14,36 +21,31 @@ function DonorList({ data, ...props }) {
         emptyState={<div>No donors found</div>}
         columns={[
           {
-            field: "node.short_name",
-            render: rowData => (
-              <div style={{ display: "flex" }}>
-                <RoundSquare>
-                  {rowData.node.fullName[0] +
-                    rowData.node.fullName.split(" ")[1][0]}
-                </RoundSquare>
-                <div style={{ margin: "0 1em" }}>
-                  <Typography>{rowData.node.fullName}</Typography>
-                  <Typography variant="subtitle2">
+            field: 'node.short_name',
+            render: (rowData) => (
+              <div style={{ display: 'flex' }}>
+                <RoundSquare>{getInitials(rowData.node.fullName)}</RoundSquare>
+                <div style={{ marginLeft: '1rem', flexGrow: 1 }}>
+                  {rowData.node.fullName}
+                  <div style={{ opacity: 0.5 }}>
+                    {rowData.node.occupation}
+                    {rowData.node.occupation && rowData.node.employer && ' ・ '}
                     {rowData.node.employer}
-                  </Typography>
-                  <Typography variant="subtitle2">
+                  </div>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  {formatMoney(rowData.node.totalContributions)}
+                  <div style={{ opacity: 0.5 }}>
                     {rowData.node.city}, {rowData.node.state}
-                  </Typography>
+                  </div>
                 </div>
               </div>
-            )
+            ),
           },
-          {
-            render: rowData => (
-              <div style={{ textAlign: "right" }}>
-                {formatMoney(rowData.node.totalContributions)}
-              </div>
-            )
-          }
         ]}
       />
     </div>
-  );
+  )
 }
 
-export default DonorList;
+export default DonorList

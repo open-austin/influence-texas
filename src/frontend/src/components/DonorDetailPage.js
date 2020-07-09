@@ -1,10 +1,14 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
-import PaginatedList from "./PaginatedList";
-import { formatMoney } from "../utils";
-import CustomLink from "./CustomLink";
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import { useQuery } from '@apollo/react-hooks'
+import { gql } from 'apollo-boost'
+import Typography from '@material-ui/core/Typography'
+import PaginatedList, { ShortLoadingListBody } from './PaginatedList'
+import { formatMoney, getDebugQuery } from 'utils'
+import CustomLink from 'components/CustomLink'
+import { BlankLoadingLine } from 'styles'
+import { RoundSquare } from 'styles'
+import { legTheme } from 'theme'
 
 const GET_DONOR = gql`
   query Donor($id: Int!) {
@@ -13,63 +17,102 @@ const GET_DONOR = gql`
       totalContributions
       city
       state
-      donorsummarys {
-        edges {
-          node {
-            cycleTotal
-            filer {
-              id
-              office
-              candidateName
-              legislator {
-                name
-                pk
-                district
-                party
-              }
-            }
-          }
-        }
+      employer
+      occupation
+      donations {
+        cycleTotal
+        candidateName
+        office
+        party
+        legId
       }
     }
+    ${getDebugQuery()}
   }
-`;
+`
 
 function DonorDetailPage() {
-  const { id } = useParams();
-  const { data } = useQuery(GET_DONOR, {
-    variables: { id }
-  });
-  const fullDonorData = data ? data.donor : {};
+  const { id } = useParams()
+  const { data, loading, error } = useQuery(GET_DONOR, {
+    variables: { id },
+  })
+  document.title = `${data ? data.donor.fullName : ''} - Influence Texas`
+  if (error) {
+    return 'server error'
+  }
+  const fullDonorData = data ? data.donor : {}
   return (
     <div className="detail-page">
       <CustomLink to="/donors"> ← All Donors</CustomLink>
-      <h1>{fullDonorData.fullName}</h1>
-      <div>
-        Total Contributions: {formatMoney(fullDonorData.totalContributions)}
-      </div>
-      <div>
-        {fullDonorData.city}, {fullDonorData.state}
-      </div>
+      <section style={{ margin: '1rem' }}>
+        <h1>
+          {loading ? <BlankLoadingLine width="40%" /> : fullDonorData.fullName}
+        </h1>
+        <div>
+          {loading ? (
+            <BlankLoadingLine width="20%" />
+          ) : (
+            `Total Contributions: ${formatMoney(
+              fullDonorData.totalContributions,
+            )}`
+          )}
+        </div>
+        {fullDonorData.occupation}{' '}
+        {fullDonorData.occupation && fullDonorData.employer && 'at'}{' '}
+        {fullDonorData.employer}
+        <div>
+          {fullDonorData.city}, {fullDonorData.state}
+        </div>
+      </section>
       <PaginatedList
         url="legislators/legislator"
-        pk="node.filer.legislator.pk"
-        data={fullDonorData.donorsummarys}
+        pk="legId"
+        data={
+          loading
+            ? null
+            : {
+                edges: fullDonorData.donations,
+                totalCount: fullDonorData.donations.length,
+              }
+        }
         columns={[
-          { field: "node.filer.candidateName" },
-          { field: "node.filer.office", title: "Office" },
           {
-            render: rowData => (
-              <div style={{ textAlign: "right" }}>
-                {formatMoney(rowData.node.cycleTotal)}
+            render: (rowData) => (
+              <div style={{ display: 'flex' }}>
+                <RoundSquare
+                  style={{
+                    marginTop: 10,
+                    width: 20,
+                    height: 20,
+                    background: rowData.legId
+                      ? legTheme.palette.primary.main
+                      : '#bbb',
+                  }}
+                />
+                <div style={{ margin: '0 1em' }}>
+                  <Typography>{rowData.candidateName}</Typography>
+                  <Typography variant="subtitle2">
+                    {rowData.office} {rowData.party ? `(${rowData.party})` : ''}
+                  </Typography>
+                </div>
               </div>
-            )
-          }
+            ),
+          },
+          {
+            render: (rowData) => (
+              <div style={{ textAlign: 'right' }}>
+                {formatMoney(rowData.cycleTotal)}
+              </div>
+            ),
+          },
         ]}
-        rowsPerPage={100}
+        showHover={(rowData) => !!rowData.legId}
+        loading={loading}
+        loadingListBody={ShortLoadingListBody}
+        rowsPerPage={500}
       />
     </div>
-  );
+  )
 }
 
-export default DonorDetailPage;
+export default DonorDetailPage

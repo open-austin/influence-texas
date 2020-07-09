@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import DonorList from "./DonorList";
-import { gql } from "apollo-boost";
-import { Typography } from "@material-ui/core";
-import DonutChart from "./DonutChart";
-import FilterSection from "./FilterSection";
-import { getQueryString, dashesToSpaces } from "../utils";
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { gql } from 'apollo-boost'
+import { Typography } from '@material-ui/core'
+import DonorList from 'components/DonorList'
+import DonutChart from 'components/DonutChart'
+import FilterSection from 'components/FilterSection'
+import { getQueryString, getDebugQuery } from 'utils'
 
 const ALL_DONORS = gql`
   query AllDonors(
@@ -37,58 +37,57 @@ const ALL_DONORS = gql`
           city
           state
           employer
+          occupation
           totalContributions
         }
       }
     }
-    donorStateStats {
-      name
-      count
-    }
+    ${getDebugQuery()}
   }
-`;
+`
 
 function DonorsPage() {
-  const [listData, setListData] = useState();
-  const history = useHistory();
-  const queryObj = getQueryString(history);
+  document.title = `Donors - Influence Texas`
+  const [listData, setListData] = useState()
+  const history = useHistory()
+  const { page, first, last, before, after, ...queryObj } = getQueryString(
+    history,
+  )
 
-  const summaryData = listData
-    ? listData.donorStateStats.map(d => ({
-        name: dashesToSpaces(d.name),
-        value: d.count
-      }))
-    : [];
+  const summaryData = [
+    { name: 'donors', value: listData ? listData.donors.totalCount : 1 },
+  ]
 
-  let selectedSlice;
-  if (typeof queryObj.inState === "boolean") {
+  let selectedSlice
+  if (typeof queryObj.inState === 'boolean') {
     if (queryObj.inState) {
-      selectedSlice = "In State";
+      selectedSlice = 'In State'
     } else {
-      selectedSlice = "Out Of State";
+      selectedSlice = 'Out Of State'
     }
   }
   return (
     <div>
       <FilterSection
         title={
-          <Typography variant="h6" style={{ minWidth: "150px" }}>
+          <Typography variant="h6" style={{ minWidth: '150px' }}>
             Texas Donors
           </Typography>
         }
         tags={{
           inState: [
-            { name: "In state", value: true },
-            { name: "Out of state", value: false }
-          ]
+            { name: 'In state', value: true },
+            { name: 'Out of state', value: false },
+          ],
         }}
       />
       <div className="two-column">
         <DonutChart
           data={summaryData}
           totalCount={listData ? listData.donors.totalCount : 0}
-          totalText={"Donors"}
+          totalText={'Donors'}
           selectedSlice={selectedSlice}
+          loading={!listData}
         />
         <DonorList
           gqlQuery={ALL_DONORS}
@@ -98,7 +97,7 @@ function DonorsPage() {
         />
       </div>
     </div>
-  );
+  )
 }
 
-export default DonorsPage;
+export default DonorsPage

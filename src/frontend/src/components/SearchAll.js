@@ -1,29 +1,38 @@
-import React, { useState, useEffect } from "react";
-import { Input, InputAdornment } from "@material-ui/core";
-import Search from "@material-ui/icons/Search";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
-import BillList from "./BillList";
-import DonorList from "./DonorList";
-import LegislatorList from "./LegislatorList";
-import SimpleTabs from "./SimpleTabs";
-import { useHistory, useParams } from "react-router-dom";
-import CustomLink from "./CustomLink";
-import useDebounce from "./useDebounce";
+import React, { useState, useEffect } from 'react'
+import { Input, InputAdornment } from '@material-ui/core'
+import Search from '@material-ui/icons/Search'
+import { useQuery } from '@apollo/react-hooks'
+import { gql } from 'apollo-boost'
+import BillList from 'components/BillList'
+import DonorList from 'components/DonorList'
+import LegislatorList from 'components/LegislatorList'
+import SimpleTabs from 'components/SimpleTabs'
+import { useHistory, useParams } from 'react-router-dom'
+import CustomLink from 'components/CustomLink'
+import useDebounce from 'components/useDebounce'
+import { getDebugQuery, getQueryString } from 'utils'
 
 const ALL_SEARCH = gql`
-  query Legislator($name: String) {
-    legislators(name_Icontains: $name) {
-      totalCount
+  query SearchAll($searchQuery: String) {
+    search(searchQuery: $searchQuery) {
+      legislators {
+        totalCount
+      }
+      bills {
+        totalCount
+      }
+      donors {
+        totalCount
+      }
     }
-    bills(title_Icontains: $name) {
-      totalCount
-    }
-    donors(fullName_Icontains: $name) {
-      totalCount
+    _debug {
+      sql {
+        duration
+        sql
+      }
     }
   }
-`;
+`
 
 const LEG_SEARCH = gql`
   query LegislatorSearch(
@@ -31,36 +40,38 @@ const LEG_SEARCH = gql`
     $last: Int
     $after: String
     $before: String
-    $name: String
+    $searchQuery: String
   ) {
-    legislators(
-      first: $first
-      last: $last
-      after: $after
-      before: $before
-      name_Icontains: $name
-    ) {
-      totalCount
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-      edges {
-        cursor
-        node {
-          pk
-          name
-          party
-          chamber
-          district
-          photoUrl
+    search(searchQuery: $searchQuery) {
+      legislators(
+        first: $first
+        last: $last
+        after: $after
+        before: $before
+      ) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            pk
+            name
+            party
+            chamber
+            district
+            photoUrl
+          }
         }
       }
     }
+    ${getDebugQuery()}
   }
-`;
+`
 
 const BILL_SEARCH = gql`
   query BillsSearch(
@@ -68,34 +79,36 @@ const BILL_SEARCH = gql`
     $last: Int
     $after: String
     $before: String
-    $name: String
+    $searchQuery: String
   ) {
-    bills(
-      title_Icontains: $name
-      first: $first
-      last: $last
-      after: $after
-      before: $before
-    ) {
-      totalCount
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-      edges {
-        cursor
-        node {
-          pk
-          chamber
-          billId
-          title
+    search(searchQuery: $searchQuery) {
+      bills(
+        first: $first
+        last: $last
+        after: $after
+        before: $before
+      ) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            pk
+            chamber
+            billId
+            title
+          }
         }
       }
     }
+    ${getDebugQuery()}
   }
-`;
+`
 
 const DONOR_SEARCH = gql`
   query DonorsSearch(
@@ -103,50 +116,66 @@ const DONOR_SEARCH = gql`
     $last: Int
     $after: String
     $before: String
-    $name: String
+    $searchQuery: String
   ) {
-    donors(
-      first: $first
-      last: $last
-      after: $after
-      before: $before
-      fullName_Icontains: $name
-    ) {
-      totalCount
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-      edges {
-        cursor
-        node {
-          pk
-          fullName
-          city
-          state
-          employer
-          totalContributions
+    search(searchQuery: $searchQuery) {
+      donors(
+        first: $first
+        last: $last
+        after: $after
+        before: $before
+      ) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            pk
+            fullName
+            city
+            state
+            employer
+            employerId
+            occupation
+            totalContributions
+          }
         }
       }
     }
+    ${getDebugQuery()}
   }
-`;
+`
 
 export function SearchResults() {
-  const { searchQuery } = useParams();
-  const gqlVariables = { name: searchQuery };
-  const { data } = useQuery(ALL_SEARCH, {
-    variables: gqlVariables
-  });
+  const { searchQuery } = useParams()
+  const history = useHistory()
+  const { tab } = getQueryString(history)
+  const gqlVariables = { searchQuery: searchQuery || '---' }
+  const { data, loading, error } = useQuery(ALL_SEARCH, {
+    variables: gqlVariables,
+  })
+  if (error) {
+    return 'server error'
+  }
+  if (loading) {
+    return 'loading'
+  }
 
-  let startTabIdx = 0;
-  if (data && data.bills.totalCount) {
-    if (!data.legislators.totalCount) {
-      startTabIdx = 1;
-      if (!data.donors.totalCount) {
-        startTabIdx = 2;
+  let startTabIdx
+  if (tab === undefined) {
+    // active tab choice should be honored on back
+    if (!data.search.legislators.totalCount) {
+      startTabIdx = 1
+      if (!data.search.bills.totalCount) {
+        startTabIdx = 2
+        if (!data.search.donors.totalCount) {
+          startTabIdx = 0
+        }
       }
     }
   }
@@ -155,72 +184,81 @@ export function SearchResults() {
       {searchQuery && data && <CustomLink to="/"> ← Clear Search</CustomLink>}
       {searchQuery && data && (
         <SimpleTabs
+          saveToUrl
           startTabIdx={startTabIdx}
           tabs={[
             {
-              label: `Legislators (${data.legislators.totalCount})`,
+              label: `Legislators (${data.search.legislators.totalCount})`,
               content: (
                 <div>
                   <LegislatorList
                     gqlVariables={gqlVariables}
                     gqlQuery={LEG_SEARCH}
+                    nestedUnder="search.legislators"
                   />
                 </div>
-              )
+              ),
             },
             {
-              label: `Bills (${data.bills.totalCount})`,
+              label: `Bills (${data.search.bills.totalCount})`,
               content: (
                 <div>
                   <BillList
                     gqlVariables={gqlVariables}
                     gqlQuery={BILL_SEARCH}
+                    nestedUnder="search.bills"
                   />
                 </div>
-              )
+              ),
             },
             {
-              label: `Donors (${data.donors.totalCount})`,
+              label: `Donors (${data.search.donors.totalCount})`,
               content: (
                 <div>
                   <DonorList
                     gqlVariables={gqlVariables}
                     gqlQuery={DONOR_SEARCH}
+                    nestedUnder="search.donors"
                   />
                 </div>
-              )
-            }
+              ),
+            },
           ]}
         />
       )}
     </div>
-  );
+  )
 }
 
 function SearchAll() {
-  const history = useHistory();
-  const searchQuery = history.location.pathname.split("/searchAll/")[1];
-  const [searchVal, setSearchVal] = useState(searchQuery);
+  document.title = 'Search - Influence Texas'
+  const history = useHistory()
+  const searchQuery = history.location.pathname.split('/searchAll/')[1]
+  const [searchVal, setSearchVal] = useState(searchQuery)
   useEffect(() => {
-    setSearchVal(searchQuery);
-  }, [searchQuery]);
-  const debouncedSearchTerm = useDebounce(searchVal, 500);
+    setSearchVal(searchQuery)
+  }, [searchQuery])
+  const debouncedSearchTerm = useDebounce(searchVal, 500)
   useEffect(() => {
     if (debouncedSearchTerm) {
-      history.push(`/searchAll/${debouncedSearchTerm}`);
+      const newUrl = `/searchAll/${debouncedSearchTerm}`
+      if (newUrl !== history.location.pathname) {
+        history.push(`/searchAll/${debouncedSearchTerm}`)
+      }
     } else {
-      if (history.location.pathname.includes("searchAll")) {
-        history.push("/");
+      if (history.location.pathname.includes('searchAll')) {
+        history.push('/')
       }
     }
-    setSearchVal(debouncedSearchTerm);
-  }, [debouncedSearchTerm]);
+    setSearchVal(debouncedSearchTerm)
+    /* eslint-disable react-hooks/exhaustive-deps*/
+  }, [debouncedSearchTerm])
 
   return (
-    <div className="site-wide-search" style={{ margin: "1em 0" }}>
+    <div className="site-wide-search" style={{ margin: '1em 0' }}>
       <Input
-        value={searchVal || ""}
-        onChange={e => setSearchVal(e.target.value)}
+        value={searchVal || ''}
+        onChange={(e) => setSearchVal(e.target.value)}
         placeholder="Search"
         startAdornment={
           <InputAdornment position="start">
@@ -231,7 +269,7 @@ function SearchAll() {
       />
       <SearchResults />
     </div>
-  );
+  )
 }
 
-export default SearchAll;
+export default SearchAll
