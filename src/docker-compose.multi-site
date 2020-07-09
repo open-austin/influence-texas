@@ -35,6 +35,7 @@ services:
       - ODBCINI=/usr/src/app/docker_config_files/odbc.ini
     command: >
         bash -exc "
+            python3 manage.py makemigrations;
             python3 manage.py migrate;
             python3 manage.py runserver 0.0.0.0:5120;
         "

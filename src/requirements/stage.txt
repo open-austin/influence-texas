@@ -1,7 +1,6 @@
 # Local development dependencies go here
 -r base.txt
 
-gunicorn==19.9.0
 coverage==4.4.1
 flake8==3.3.0 # pyup: != 2.6.0
 django-coverage-plugin==1.5.0
@@ -22,10 +21,9 @@ ipdb==0.10.3
 pytest-cov==2.5.1
 pytest-django==3.1.2
 pytest-sugar==0.8.0
+
 # Pro-tip: Try not to put anything here. Avoid dependencies in
 #	production that aren't in development.
--r base.txt
-
 
 # WSGI Handler
 # ------------------------------------------------
