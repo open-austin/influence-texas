@@ -10,6 +10,7 @@
 
 # production
 /build
+/influencetx/static/react-app
 
 # misc
 .DS_Store

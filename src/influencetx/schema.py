@@ -3,7 +3,8 @@ from graphene import relay, Node
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from django.db import connection, transaction
-from django.db.models import Count
+from django.db.models import Count, Q
+from graphene_django.debug import DjangoDebug
 from influencetx.legislators.models import Legislator, LegislatorIdMap
 from influencetx.tpj.models import Donor, Contribution, Contributionsummary, Filer
 from influencetx.bills.models import Bill, ActionDate, VoteTally, SingleVote, SubjectTag
@@ -27,7 +28,7 @@ class ExtendedConnection(graphene.Connection):
 
     total_count = graphene.Int()
     def resolve_total_count(self, info, **kwargs):
-        return self.length
+        return self.__dict__["length"]
 
 class BillType(DjangoObjectType):
     class Meta:
@@ -46,6 +47,12 @@ class BillType(DjangoObjectType):
     def resolve_bills_sponsored(self, info):
         return bill_loader.load(self.bills_sponsored)
 
+class DonationType(graphene.ObjectType):
+    cycle_total = graphene.Field(graphene.Int)
+    leg_id = graphene.Field(graphene.Int)
+    party = graphene.Field(graphene.String)
+    candidate_name = graphene.Field(graphene.String)
+    office = graphene.Field(graphene.String)
 
 class DonorType(DjangoObjectType):
     class Meta:
@@ -54,12 +61,38 @@ class DonorType(DjangoObjectType):
             'id': ['exact', 'icontains', 'istartswith'],
             'full_name': ['exact', 'icontains'],
             'state': ['exact', 'icontains'],
+            'employer_id':  ['exact'],
         }
         interfaces = (relay.Node, )
         connection_class = ExtendedConnection
     pk = graphene.Int()
     def resolve_pk(self, info, **kwargs):
         return self.id
+
+    donations_count = graphene.Int()
+    def resolve_donations_count(self, info, **kwargs):
+        return execute_raw_query("""
+            SELECT COUNT("iFILER_ID")
+            FROM total_donorbyfiler_2018 
+            INNER JOIN filers ON "filers"."iFILER_ID" = "total_donorbyfiler_2018"."ifiler_ID" 
+            WHERE "total_donorbyfiler_2018"."ctrib_ID"=""" 
+            + str(self.id) + ';'
+        )[0]["count"]
+
+    donations = graphene.List(DonationType)
+    def resolve_donations(self, info, **kwargs):
+        return execute_raw_query("""
+            SELECT cycle_total, party, "legislators_legislator"."id" as leg_id, "CandidateName" as candidate_name, "Office" as office 
+            FROM total_donorbyfiler_2018 
+            INNER JOIN filers ON "filers"."iFILER_ID" = "total_donorbyfiler_2018"."ifiler_ID" 
+            LEFT JOIN legislators_legislatoridmap ON "legislators_legislatoridmap"."tpj_filer_id" = "total_donorbyfiler_2018"."ifiler_ID" 
+            LEFT JOIN legislators_legislator ON "legislators_legislator"."openstates_leg_id" = "legislators_legislatoridmap"."openstates_leg_id" 
+            WHERE "total_donorbyfiler_2018"."ctrib_ID"=""" 
+            + str(self.id) + ' ORDER BY cycle_total DESC limit 500;'
+        )
+        
+    def donorsummarys(self, info, **kwargs):
+        return self.donorsummarys.prefetch_related('filer').order_by('-cycle_total')[:25]
 
 class SubjectTagType(DjangoObjectType):
     class Meta:
@@ -150,7 +183,7 @@ class LegislatorType(DjangoObjectType):
                 openstates_leg_id=self.openstates_leg_id)
             filer = Filer.objects.filter(id=id_map.tpj_filer_id).first()
             return Contributionsummary.objects.select_related(
-                'donor').filter(filer=filer.id).order_by('-cycle_total')[:25]
+                'donor').filter(filer=filer.id).order_by('-cycle_total')
         except:
             return []
 
@@ -165,7 +198,8 @@ def execute_raw_query(sql_string):
         field = 0
         while True:
             try:
-                dict[cursor.description[field][0]] = str(results[i][field])
+                if(results[i][field]):
+                    dict[cursor.description[field][0]] = str(results[i][field])
                 field = field +1
             except IndexError as e:
                 break
@@ -193,10 +227,16 @@ def CustomBillFilters(classification, party, multiple_sponsors, chamber=""):
         if(party == "Bipartisan"):
             bills = bills.filter(sponsors__party="R").filter(sponsors__party="D")
     if multiple_sponsors:
-        bills = bills.annotate(num_sponsors=Count('sponsors')).filter(num_sponsors__gte=2)
+        bills = bills.annotate(num_sponsors=Count('sponsors')).filter(num_sponsors__gte=10)
     return bills
 
+class SearchResultType(graphene.ObjectType):
+    bills = DjangoFilterConnectionField(BillType)
+    donors = DjangoFilterConnectionField(DonorType)
+    legislators = DjangoFilterConnectionField(LegislatorType)
+
 class Query(graphene.ObjectType):
+    debug = graphene.Field(DjangoDebug, name='_debug')
     bill = graphene.Field(BillType, pk=graphene.Int())
     def resolve_bill(self, info, **kwargs):
         pk = kwargs.get('pk')
@@ -231,9 +271,9 @@ class Query(graphene.ObjectType):
             multiple_sponsors=kwargs.get("multiple_sponsors")
         )
         return [
-            {"name": "filing", "count": len(bills.exclude(action_dates__classification="committee-passage"))},
-            {"name": "committee-passage", "count": len(bills.filter(action_dates__classification="committee-passage").exclude(action_dates__classification="became-law"))},
-            {"name": "became-law", "count": len(bills.filter(action_dates__classification="became-law").exclude(action_dates__classification="committee-passage"))},
+            {"name": "filing", "count": bills.exclude(action_dates__classification="committee-passage").count()},
+            {"name": "committee-passage", "count": bills.filter(action_dates__classification="committee-passage").exclude(action_dates__classification="became-law").count()},
+            {"name": "became-law", "count": bills.filter(action_dates__classification="became-law").exclude(action_dates__classification="committee-passage").count()},
         ]
 
     legislator = graphene.Field(LegislatorType, pk=graphene.Int())
@@ -243,7 +283,7 @@ class Query(graphene.ObjectType):
 
     legislators = DjangoFilterConnectionField(LegislatorType)
     def resolve_legislators(self, info, **kwargs):
-        return Legislator.objects.all().order_by('district')
+        return Legislator.objects.order_by('district')
 
     donor = graphene.Field(DonorType, pk=graphene.Int())
     def resolve_donor(self, info, **kwargs):
@@ -252,12 +292,13 @@ class Query(graphene.ObjectType):
 
     donors = DjangoFilterConnectionField(DonorType, in_state=graphene.Argument(graphene.Boolean))
     def resolve_donors(self, info, **kwargs):
-        donors = Donor.objects.all()
+        donors = Donor.objects.order_by('-total_contributions').exclude(donorsummarys=None)
         if(kwargs.get('in_state') == True):
-            donors = donors.filter(state="TX")
+            donors = donors.filter(state__icontains="TX")
         if(kwargs.get('in_state') == False):
-            donors = donors.exclude(state="TX")
+            donors = donors.exclude(state__icontains="TX")
         return donors
+        
 
     donor_state_stats = graphene.List(
         FilterCountType
@@ -265,9 +306,25 @@ class Query(graphene.ObjectType):
     def resolve_donor_state_stats(self, info, **kwargs):
         donors = Donor.objects
         return [
-            {"name": "in-state", "count": len(donors.filter(state="TX"))},
-            {"name": "out-of-state", "count": len(donors.exclude(state="TX"))},
+            {"name": "in-state", "count": donors.filter(state__icontains="TX").count()},
+            {"name": "out-of-state", "count": donors.exclude(state__icontains="TX").count()},
         ]
+
+    search = graphene.Field(SearchResultType, search_query=graphene.String())
+    def resolve_search(self, info, **kwargs):
+        search_query = kwargs["search_query"]
+        legislators = Legislator.objects.filter(name__icontains=search_query)
+        if (search_query[0:8].lower() == 'district'):
+            legislators = Legislator.objects.filter(district=int(search_query[9:]))
+        donorQuery = Q(full_name__icontains=search_query)
+        donorQuery.add(Q(city__iexact=search_query), Q.OR)
+        donorQuery.add(Q(employer__icontains=search_query), Q.OR)
+        donorQuery.add(Q(occupation=search_query), Q.OR)
+        return {
+            "legislators": legislators,
+            "bills": Bill.objects.filter(title__icontains=search_query) | Bill.objects.filter(bill_id__iexact=search_query),
+            "donors": Donor.objects.filter(donorQuery).exclude(donorsummarys=None).order_by('-total_contributions'),
+        }
 
 
 schema = graphene.Schema(query=Query)
