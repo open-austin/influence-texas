@@ -122,7 +122,7 @@ DATABASES = {
     'default': env.db('DATABASE_URL', default='postgres:///influencetx')
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
-
+TPJ_MANAGED = True
 
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------

@@ -6,7 +6,7 @@ wheel==0.33.1
 
 django==1.11.20
 graphene
-graphene_django
+graphene-django
 django-cors-headers
 django-filter>=2
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% load humanize %}
+{% load i18n %}
+{% load static %}
+<html lang="en">
+  <head> 
+    <script> 
+    $(function(){
+      $("#includedContent").load("{% static 'react-app/index.html' %}"); 
+    });
+    </script> 
+  </head> 
+
+  <body> 
+     <div id="includedContent"></div>
+  </body> 
+</html>
