@@ -54,11 +54,12 @@ services:
     build:
       context: ./frontend
     image: inftxosfrontend:dev
-    command: npm start
+    command: npm run build
     environment:
       - NODE_ENV=production
       - REACT_APP_GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - CHOKIDAR_USEPOLLING=true
+      - PUBLIC_URL="/static/react-app"
     volumes:
       - "react-build:/usr/src/app/influencetx/static/react-app/"
     ports:
