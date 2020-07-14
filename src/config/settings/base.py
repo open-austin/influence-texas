@@ -61,6 +61,7 @@ LOCAL_APPS = [
     'influencetx.legislators.apps.LegislatorsConfig',
     'influencetx.openstates.apps.OpenstatesConfig',
     'influencetx.tpj.apps.TPJConfig',
+    "influencetx.finances.apps.FinancesConfig",
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

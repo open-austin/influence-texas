@@ -1,0 +1,63 @@
+[
+  {
+    "year": "2019",
+    "file_name": "MillerDF",
+    "chamber": "House",
+    "elected_officer": "Texas State Representative District 26"
+  },
+  {
+    "year": "2019",
+    "file_name": "BernalD",
+    "chamber": "House",
+    "legId": 2,
+    "date_received": "04/29/2019",
+    "elected_officer": "House Representative, District 123",
+    "spouse": "Elyse Bernal",
+    "dependents": [],
+    "occupational_income": [
+      {
+        "employer": "SELF",
+        "position": "Attorney",
+        "held_by": "filer",
+        "address": ""
+      },
+      {
+        "employer": "Texas House of Representatives",
+        "position": "State Representative",
+        "held_by": "filer",
+        "address": "11th Street & Congress Ave  Austin, TX 78768"
+      },
+      {
+        "employer": "Susan G. Komen of San Antonio",
+        "position": "Executive Director",
+        "held_by": "spouse",
+        "address": "85 NE Loop 410  San , TX 78216"
+      }
+    ],
+    "stocks": [],
+    "mutual_fund": [],
+    "boards": [
+      {
+        "name": "Justice For Our Neighbors",
+        "position": "Board Member",
+        "held_by": "filer"
+      }
+    ],
+    "lobbyists": [],
+    "gifts": [],
+    "property": [
+      {
+        "owner": "filer",
+        "address": "",
+        "home_address": true,
+        "county": "Bexar",
+        "lots": 1
+      }
+    ],
+    "business_interests": [],
+    "owned_businesses": [],
+    "lobbyists_fees": [],
+    "gov_contracts": [],
+    "bond_counsel": []
+  }
+]
