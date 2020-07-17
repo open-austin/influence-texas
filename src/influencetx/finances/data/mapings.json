@@ -1,0 +1,122 @@
+{
+  "TothS": {
+    "district": 15,
+    "chamber": "HOUSE"
+  },
+  "ParkerN": {
+    "district": 63,
+    "chamber": "HOUSE"
+  },
+  "BonnenG": {
+    "district": 24,
+    "chamber": "HOUSE"
+  },
+  "PerezMA": {
+    "district": 144,
+    "chamber": "HOUSE"
+  },
+  "SchaeferM": {
+    "district": 6,
+    "chamber": "HOUSE"
+  },
+  "NobleC": {
+    "district": 89,
+    "chamber": "HOUSE"
+  },
+  "AllisonS": {
+    "district": 121,
+    "chamber": "HOUSE"
+  },
+  "KingKP": {
+    "district": 88,
+    "chamber": "HOUSE"
+  },
+  "BlancoC": {
+    "district": 76,
+    "chamber": "HOUSE"
+  },
+  "RodriguezER": {
+    "district": 51,
+    "chamber": "HOUSE"
+  },
+  "AshbyT": {
+    "district": 57,
+    "chamber": "HOUSE"
+  },
+  "DominguezA": {
+    "district": 37,
+    "chamber": "HOUSE"
+  },
+  "WuG": {
+    "district": 137,
+    "chamber": "HOUSE"
+  },
+  "MurrA": {
+    "district": 53,
+    "chamber": "HOUSE"
+  },
+  "Martin-FischerT": {
+    "district": 116,
+    "chamber": "HOUSE"
+  },
+  "BiedermannK": {
+    "district": 73,
+    "chamber": "HOUSE"
+  },
+  "LambertS": {
+    "district": 71,
+    "chamber": "HOUSE"
+  },
+  "WalleA": {
+    "district": 140,
+    "chamber": "HOUSE"
+  },
+  "Cyrier J": {
+    "district": 17,
+    "chamber": "HOUSE"
+  },
+  "HarlessES": {
+    "district": 126,
+    "chamber": "HOUSE"
+  },
+  "VanDeaverG": {
+    "district": 1,
+    "chamber": "HOUSE"
+  },
+  "GerenC": {
+    "district": 99,
+    "chamber": "HOUSE"
+  },
+  "ReynoldsR": {
+    "district": 27,
+    "chamber": "HOUSE"
+  },
+  "HawkinsB": {
+    "district": 120,
+    "chamber": "HOUSE"
+  },
+  "LemanB": {
+    "district": 13,
+    "chamber": "HOUSE"
+  },
+  "RodriguezJR": {
+    "district": 51,
+    "chamber": "HOUSE"
+  },
+  "HallR": {
+    "district": 3,
+    "chamber": "SENATE"
+  },
+  "HughesDB": {
+    "district": 1,
+    "chamber": "SENATE"
+  },
+  "FallonP": {
+    "district": 30,
+    "chamber": "SENATE"
+  },
+  "HuffmanCJ": {
+    "district": 17,
+    "chamber": "SENATE"
+  }
+}
