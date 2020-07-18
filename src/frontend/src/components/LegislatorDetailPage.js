@@ -48,6 +48,51 @@ const GET_LEG = gql`
           }
         }
       }
+      financialDisclosures {
+        totalCount
+        edges {
+          node {
+            year
+            electedOfficer
+            jobs {
+              edges {
+                node {
+                  heldBy
+                  position
+                  employer
+                }
+              }
+            }
+            stocks {
+              edges {
+                node {
+                  name
+                  heldBy
+                  numShares
+                }
+              }
+            }
+            boards {
+              edges {
+                node {
+                  heldBy
+                  position
+                  name
+                }
+              }
+            }
+            gifts {
+              edges {
+                node {
+                  recipient
+                  description
+                  donor
+                }
+              }
+            }
+          }
+        }
+      }
     }
     ${getDebugQuery()}
   }
@@ -143,6 +188,76 @@ function LegislatorDetailPage() {
                   ]}
                   loading={loading}
                   rowsPerPage={100}
+                />
+              </div>
+            ),
+          },
+          {
+            label: `Financial Disclosures (${fullLegData.financialDisclosures?.edges.length})`,
+            content: (
+              <div>
+                <PaginatedList
+                  title="Employers"
+                  data={fullLegData.financialDisclosures?.edges[0]?.node.jobs}
+                  totalCount={
+                    !loading &&
+                    fullLegData.financialDisclosures?.edges[0]?.node.jobs.edges
+                      .length
+                  }
+                  columns={[
+                    { render: (rowData) => rowData.node.employer },
+                    { render: (rowData) => rowData.node.position },
+                    { render: (rowData) => rowData.node.heldBy },
+                  ]}
+                />
+                <div style={{ margin: '3rem' }} />
+                <PaginatedList
+                  hideIfNoResults
+                  title="Boards"
+                  data={fullLegData.financialDisclosures?.edges[0]?.node.boards}
+                  totalCount={
+                    !loading &&
+                    fullLegData.financialDisclosures?.edges[0]?.node.boards
+                      .edges.length
+                  }
+                  columns={[
+                    { render: (rowData) => rowData.node.name },
+                    { render: (rowData) => rowData.node.position },
+                    { render: (rowData) => rowData.node.heldBy },
+                  ]}
+                />
+                <div style={{ margin: '3rem' }} />
+                <PaginatedList
+                  hideIfNoResults
+                  title="Stocks"
+                  data={fullLegData.financialDisclosures?.edges[0]?.node.stocks}
+                  totalCount={
+                    !loading &&
+                    fullLegData.financialDisclosures?.edges[0]?.node.stocks
+                      .edges.length
+                  }
+                  columns={[
+                    { render: (rowData) => rowData.node.name },
+                    { render: (rowData) => rowData.node.numShares },
+                    { render: (rowData) => rowData.node.heldBy },
+                  ]}
+                />
+                <div style={{ margin: '3rem' }} />
+
+                <PaginatedList
+                  hideIfNoResults
+                  title="Gifts"
+                  data={fullLegData.financialDisclosures?.edges[0]?.node.gifts}
+                  totalCount={
+                    !loading &&
+                    fullLegData.financialDisclosures?.edges[0]?.node.gifts.edges
+                      .length
+                  }
+                  columns={[
+                    { render: (rowData) => rowData.node.description },
+                    { render: (rowData) => rowData.node.donor },
+                    { render: (rowData) => rowData.node.recipient },
+                  ]}
                 />
               </div>
             ),

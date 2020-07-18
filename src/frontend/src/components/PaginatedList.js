@@ -36,6 +36,9 @@ const zeroPageInfo = {
 }
 
 export default function PaginatedList(props) {
+  if (props.hideIfNoResults && props.data?.edges?.length === 0) {
+    return null
+  }
   if (props.gqlQuery) {
     return <FetchingList {...props} />
   } else {

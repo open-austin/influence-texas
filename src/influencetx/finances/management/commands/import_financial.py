@@ -60,18 +60,32 @@ class Command(BaseCommand):
                     if (item.get("elected_officer")):
                         f.elected_officer = item.get("elected_officer")
                     f.save()
-                    # print(legQuery[0].id)
+
                     for job in item["occupational_income"]:
-                        Jobs(financial_disclosure=f,
-                             employer=job["employer"],
-                             held_by=getHeldBy(job["held_by"]),
-                             position=job.get("position")).save()
+                        new_job = Jobs(financial_disclosure=f,
+                                       employer=job["employer"],
+                                       held_by=getHeldBy(job["held_by"]))
+                        if job.get("position"):
+                            new_job.position = job.get("position")
+                        new_job.save()
+
                     for stock in item["stocks"]:
                         Stocks(financial_disclosure=f,
                                name=stock["name"],
                                held_by=getHeldBy(stock["held_by"]),
                                num_shares=stock["num_shares"]).save()
-                        # print(item)
+                    for board in item["boards"]:
+                        Boards(financial_disclosure=f,
+                               name=board["name"],
+                               held_by=getHeldBy(board["held_by"]),
+                               position=board["position"]).save()
+
+                    for gift in item["gifts"]:
+                        Gifts(financial_disclosure=f,
+                              donor=gift["name"],
+                              recipient=getHeldBy(gift["recipient"]),
+                              description=gift["description"]).save()
+
             else:
                 print(
                     "Could not determine legId for " +
