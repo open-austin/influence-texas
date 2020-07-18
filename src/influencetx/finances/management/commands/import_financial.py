@@ -4,12 +4,20 @@ Django admin command wrapper around `sync_bill_data` in `influencetx.openstates.
 from django.core.management.base import BaseCommand
 
 from influencetx.openstates import fetch, services
-from finances.models import FinancialDisclosure, Stocks
+from finances.models import FinancialDisclosure, Stocks, Boards, Gifts, Jobs
 from influencetx.legislators.models import Legislator
 import json
 import os.path as pth
 import re
 from influencetx.core import constants
+
+
+def getHeldBy(choice):
+    if (choice == "spouse"):
+        return 'Spouse'
+    if (choice == "dependent"):
+        return 'Dependent'
+    return 'Filer'
 
 
 class Command(BaseCommand):
@@ -20,8 +28,8 @@ class Command(BaseCommand):
         FinancialDisclosure.objects.all().delete()
         result = get_sample_json(
             "../../data/sample_financial_disclosures.json")
-        mapings = get_sample_json("../../data/mapings.json")
-        # print("mapings", mapings)
+        mappings = get_sample_json("../../data/mappings.json")
+        # print("mappings", mappings)
         for item in result:
             split_name = re.findall('[A-Z][^A-Z]*', item["file_name"])
             last_name = split_name[0]
@@ -36,8 +44,8 @@ class Command(BaseCommand):
                     first_name=item.get("first_name"),
                     chamber=item["chamber"])
 
-            if (len(legQuery) != 1 and mapings.get(item["file_name"])):
-                district = mapings.get(item["file_name"])["district"]
+            if (len(legQuery) != 1 and mappings.get(item["file_name"])):
+                district = mappings.get(item["file_name"])["district"]
                 legQuery = Legislator.objects.filter(district=district,
                                                      chamber=item["chamber"])
 
@@ -53,16 +61,15 @@ class Command(BaseCommand):
                         f.elected_officer = item.get("elected_officer")
                     f.save()
                     # print(legQuery[0].id)
+                    for job in item["occupational_income"]:
+                        Jobs(financial_disclosure=f,
+                             employer=job["employer"],
+                             held_by=getHeldBy(job["held_by"]),
+                             position=job.get("position")).save()
                     for stock in item["stocks"]:
-                        held_by = 'Filer'
-                        if (stock["held_by"] == "spouse"):
-                            held_by = 'Spouse'
-                        if (stock["held_by"] == "dependent"):
-                            held_by = 'Dependent'
-
                         Stocks(financial_disclosure=f,
                                name=stock["name"],
-                               held_by=held_by,
+                               held_by=getHeldBy(stock["held_by"]),
                                num_shares=stock["num_shares"]).save()
                         # print(item)
             else:

@@ -26,3 +26,36 @@ class Stocks(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Jobs(models.Model):
+    employer = models.CharField(max_length=100)
+    held_by = models.CharField(max_length=50,
+                               choices=constants.HELD_BY_CHOICES)
+    position = models.CharField(max_length=100, blank=True)
+    financial_disclosure = models.ForeignKey(FinancialDisclosure,
+                                             on_delete=models.CASCADE,
+                                             related_name='jobs')
+
+
+class Boards(models.Model):
+    name = models.CharField(max_length=100)
+    held_by = models.CharField(max_length=50,
+                               choices=constants.HELD_BY_CHOICES)
+    position = models.CharField(max_length=100, blank=True)
+    financial_disclosure = models.ForeignKey(FinancialDisclosure,
+                                             on_delete=models.CASCADE,
+                                             related_name='boards')
+
+
+class Gifts(models.Model):
+    donor = models.CharField(max_length=100)
+    recipient = models.CharField(max_length=50,
+                                 choices=constants.HELD_BY_CHOICES)
+    description = models.CharField(max_length=100)
+    financial_disclosure = models.ForeignKey(FinancialDisclosure,
+                                             on_delete=models.CASCADE,
+                                             related_name='gifts')
+
+    def __str__(self):
+        return self.name
