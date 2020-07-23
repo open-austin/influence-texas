@@ -14,6 +14,7 @@ services:
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}
+      - DJANGO_SETTINGS_MODULE=config.settings.production
     network_mode: "host"
     ports:
       - "5120:5120"
