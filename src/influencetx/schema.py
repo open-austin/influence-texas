@@ -25,7 +25,7 @@ class BillLoader(DataLoader):
 bill_loader = BillLoader()
 
 
-## default surprisingly does not have total count
+# default surprisingly does not have total count
 class ExtendedConnection(graphene.Connection):
     class Meta:
         abstract = True
@@ -49,6 +49,13 @@ class BillType(DjangoObjectType):
         def get_stats(self):
             return []
 
+        # def get_chamber(self):
+        #     if (self.chamber == "Senate"):
+        #         return "SENATE"
+        #     if (self.chamber == "House"):
+        #         return "HOUSE"
+        #     return self.chamber
+
     pk = graphene.Int()
 
     def resolve_pk(self, info, **kwargs):
@@ -69,8 +76,6 @@ class DonationType(graphene.ObjectType):
 class StocksType(DjangoObjectType):
     class Meta:
         model = Stocks
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
 
     pk = graphene.Int()
 
@@ -81,9 +86,6 @@ class StocksType(DjangoObjectType):
 class JobsType(DjangoObjectType):
     class Meta:
         model = Jobs
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
-
     pk = graphene.Int()
 
     def resolve_pk(self, info, **kwargs):
@@ -93,9 +95,6 @@ class JobsType(DjangoObjectType):
 class GiftsType(DjangoObjectType):
     class Meta:
         model = Gifts
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
-
     pk = graphene.Int()
 
     def resolve_pk(self, info, **kwargs):
@@ -105,9 +104,6 @@ class GiftsType(DjangoObjectType):
 class BoardsType(DjangoObjectType):
     class Meta:
         model = Boards
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
-
     pk = graphene.Int()
 
     def resolve_pk(self, info, **kwargs):
@@ -270,6 +266,11 @@ class LegislatorType(DjangoObjectType):
 
     def resolve_pk(self, info, **kwargs):
         return self.id
+
+    financial_disclosures = graphene.List(FinancialDisclosureType)
+
+    def resolve_financial_disclosures(self, info, **kwargs):
+        return FinancialDisclosure.objects.prefetch_related('jobs').prefetch_related('gifts').prefetch_related('stocks').prefetch_related('boards').prefetch_related('jobs').filter(legislator=self.pk)
 
     contributions = relay.ConnectionField(ContributionssummaryTypeConnection)
 

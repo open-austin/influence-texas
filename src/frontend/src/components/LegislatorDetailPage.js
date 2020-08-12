@@ -6,7 +6,10 @@ import { Typography, Button } from '@material-ui/core'
 
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 import SimpleTabs from 'components/SimpleTabs'
-import PaginatedList, { LoadingListItem } from 'components/PaginatedList'
+import PaginatedList, {
+  LoadingListItem,
+  SimpleList,
+} from 'components/PaginatedList'
 import BillList from 'components/BillList'
 import TexasDistrictMap from 'components/TexasDistrictMap'
 import CustomLink from 'components/CustomLink'
@@ -49,54 +52,96 @@ const GET_LEG = gql`
         }
       }
       financialDisclosures {
-        totalCount
-        edges {
-          node {
-            year
-            electedOfficer
-            jobs {
-              edges {
-                node {
-                  heldBy
-                  position
-                  employer
-                }
-              }
-            }
-            stocks {
-              edges {
-                node {
-                  name
-                  heldBy
-                  numShares
-                }
-              }
-            }
-            boards {
-              edges {
-                node {
-                  heldBy
-                  position
-                  name
-                }
-              }
-            }
-            gifts {
-              edges {
-                node {
-                  recipient
-                  description
-                  donor
-                }
-              }
-            }
-          }
+        year
+        electedOfficer
+        jobs {
+              heldBy
+              position
+              employer
+        }
+        stocks {
+              name
+              heldBy
+              numShares
+        }
+        boards {
+              heldBy
+              position
+              name
+        }
+        gifts {
+              recipient
+              description
+              donor
         }
       }
     }
     ${getDebugQuery()}
   }
 `
+
+function FinancialDisclosure({ disclosure, loading }) {
+  if (!disclosure) return null
+  debugger
+  return (
+    <div>
+      <div style={{ margin: '1rem', opacity: 0.8 }}>{disclosure.year}</div>
+      {/* <PaginatedList
+        className="no-scroll"
+        collapsable
+        hideIfNoResults
+        title="Employers"
+        data={disclosure.jobs || []}
+        totalCount={!loading && disclosure.jobs.length}
+        columns={[
+          { render: (rowData) => rowData.employer },
+          { render: (rowData) => rowData.position },
+          { render: (rowData) => rowData.heldBy },
+        ]}
+      /> */}
+      {/* <div style={{ margin: '3rem' }} />
+      <PaginatedList
+        collapsable
+        hideIfNoResults
+        title="Boards"
+        data={disclosure?.boards}
+        totalCount={!loading && disclosure?.boards.length}
+        columns={[
+          { render: (rowData) => rowData.name },
+          { render: (rowData) => rowData.position },
+          { render: (rowData) => rowData.heldBy },
+        ]}
+      />
+      <div style={{ margin: '3rem' }} />
+      <PaginatedList
+        collapsable
+        hideIfNoResults
+        title="Stocks"
+        data={disclosure?.stocks}
+        totalCount={!loading && disclosure?.stocks.length}
+        columns={[
+          { render: (rowData) => rowData.name },
+          { render: (rowData) => rowData.numShares },
+          { render: (rowData) => rowData.heldBy },
+        ]}
+      />
+      <div style={{ margin: '3rem' }} />
+
+      <PaginatedList
+        collapsable
+        hideIfNoResults
+        title="Gifts"
+        data={disclosure?.gifts}
+        totalCount={!loading && disclosure?.gifts.length}
+        columns={[
+          { render: (rowData) => rowData.description },
+          { render: (rowData) => rowData.donor },
+          { render: (rowData) => rowData.recipient },
+        ]}
+      /> */}
+    </div>
+  )
+}
 
 function LegislatorDetailPage() {
   const { id } = useParams()
@@ -193,70 +238,66 @@ function LegislatorDetailPage() {
             ),
           },
           {
-            label: `Financial Disclosures (${fullLegData.financialDisclosures?.edges.length})`,
+            label: `Financial Disclosures (${fullLegData.financialDisclosures?.length})`,
             content: (
               <div>
-                <PaginatedList
+                <SimpleList
                   title="Employers"
-                  data={fullLegData.financialDisclosures?.edges[0]?.node.jobs}
+                  rows={fullLegData.financialDisclosures?.[0]?.jobs || []}
                   totalCount={
                     !loading &&
-                    fullLegData.financialDisclosures?.edges[0]?.node.jobs.edges
-                      .length
+                    fullLegData.financialDisclosures?.[0]?.jobs.length
                   }
                   columns={[
-                    { render: (rowData) => rowData.node.employer },
-                    { render: (rowData) => rowData.node.position },
-                    { render: (rowData) => rowData.node.heldBy },
+                    { render: (rowData) => rowData.employer },
+                    { render: (rowData) => rowData.position },
+                    { render: (rowData) => rowData.heldBy },
                   ]}
                 />
                 <div style={{ margin: '3rem' }} />
-                <PaginatedList
+                <SimpleList
                   hideIfNoResults
                   title="Boards"
-                  data={fullLegData.financialDisclosures?.edges[0]?.node.boards}
+                  rows={fullLegData.financialDisclosures?.[0]?.boards || []}
                   totalCount={
                     !loading &&
-                    fullLegData.financialDisclosures?.edges[0]?.node.boards
-                      .edges.length
+                    fullLegData.financialDisclosures?.[0]?.boards.length
                   }
                   columns={[
-                    { render: (rowData) => rowData.node.name },
-                    { render: (rowData) => rowData.node.position },
-                    { render: (rowData) => rowData.node.heldBy },
+                    { render: (rowData) => rowData.name },
+                    { render: (rowData) => rowData.position },
+                    { render: (rowData) => rowData.heldBy },
                   ]}
                 />
                 <div style={{ margin: '3rem' }} />
-                <PaginatedList
+                <SimpleList
                   hideIfNoResults
                   title="Stocks"
-                  data={fullLegData.financialDisclosures?.edges[0]?.node.stocks}
+                  rows={fullLegData.financialDisclosures?.[0]?.stocks}
                   totalCount={
                     !loading &&
-                    fullLegData.financialDisclosures?.edges[0]?.node.stocks
-                      .edges.length
+                    fullLegData.financialDisclosures?.[0]?.stocks.length
                   }
                   columns={[
-                    { render: (rowData) => rowData.node.name },
-                    { render: (rowData) => rowData.node.numShares },
-                    { render: (rowData) => rowData.node.heldBy },
+                    { render: (rowData) => rowData.name },
+                    { render: (rowData) => rowData.numShares },
+                    { render: (rowData) => rowData.heldBy },
                   ]}
                 />
                 <div style={{ margin: '3rem' }} />
 
-                <PaginatedList
+                <SimpleList
                   hideIfNoResults
                   title="Gifts"
-                  data={fullLegData.financialDisclosures?.edges[0]?.node.gifts}
+                  rows={fullLegData.financialDisclosures?.[0]?.gifts}
                   totalCount={
                     !loading &&
-                    fullLegData.financialDisclosures?.edges[0]?.node.gifts.edges
-                      .length
+                    fullLegData.financialDisclosures?.[0]?.gifts.length
                   }
                   columns={[
-                    { render: (rowData) => rowData.node.description },
-                    { render: (rowData) => rowData.node.donor },
-                    { render: (rowData) => rowData.node.recipient },
+                    { render: (rowData) => rowData.description },
+                    { render: (rowData) => rowData.donor },
+                    { render: (rowData) => rowData.recipient },
                   ]}
                 />
               </div>

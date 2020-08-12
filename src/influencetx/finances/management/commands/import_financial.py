@@ -50,6 +50,8 @@ class Command(BaseCommand):
                                                      chamber=item["chamber"])
 
             if (len(legQuery) == 1):
+                if (last_name == "Murr"):
+                    print(item["year"])
                 currentItem = FinancialDisclosure.objects.filter(
                     legislator=legQuery[0].id, year=item["year"])
                 if (len(currentItem) == 0):
@@ -88,11 +90,13 @@ class Command(BaseCommand):
 
             else:
                 print(
-                    "Could not determine legId for " +
-                    str(item.get("first_name")) + ' ' + str(last_name) + ' ' +
-                    str(item.get("chamber")) + " " +
-                    str(item.get("district")) + " " + item.get("file_name"),
-                    len(legQuery))
+                    "."
+                    # "Could not determine legId for " +
+                    # str(item.get("first_name")) + ' ' + str(last_name) + ' ' +
+                    # str(item.get("chamber")) + " " +
+                    # str(item.get("district")) + " " + item.get("file_name"),
+                    # len(legQuery)
+                )
         # print(FinancialDisclosure.objects.all())
 
 

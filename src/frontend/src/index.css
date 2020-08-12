@@ -82,3 +82,11 @@ code {
 path.rsm-geography {
   cursor: pointer;
 }
+
+.MuiSvgIcon-root {
+  vertical-align: text-bottom;
+}
+
+.hover-pointer:hover {
+  cursor: pointer;
+}

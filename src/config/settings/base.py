@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import environ
 
-ROOT_DIR = environ.Path(__file__) - 3  # (influencetx/config/settings/base.py - 3 = influencetx/)
+ROOT_DIR = environ.Path(
+    __file__) - 3  # (influencetx/config/settings/base.py - 3 = influencetx/)
 APPS_DIR = ROOT_DIR.path('influencetx')
 
 # Load operating system environment variables and then prepare to use them
@@ -71,7 +72,8 @@ GRAPHENE = {
     'SCHEMA': 'influencetx.schema.schema',
     'MIDDLEWARE': [
         'graphene_django.debug.DjangoDebugMiddleware',
-    ]
+    ],
+    'RELAY_CONNECTION_MAX_LIMIT': 200,
 }
 
 # MIDDLEWARE CONFIGURATION
@@ -89,9 +91,7 @@ MIDDLEWARE = [
 
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
-MIGRATION_MODULES = {
-    'sites': 'influencetx.contrib.sites.migrations'
-}
+MIGRATION_MODULES = {'sites': 'influencetx.contrib.sites.migrations'}
 
 # DEBUG
 # ------------------------------------------------------------------------------
@@ -101,9 +101,7 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 # FIXTURE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS
-FIXTURE_DIRS = (
-    str(APPS_DIR.path('fixtures')),
-)
+FIXTURE_DIRS = (str(APPS_DIR.path('fixtures')), )
 
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -126,7 +124,6 @@ DATABASES = {
     'default': env.db('DATABASE_URL', default='postgres:///influencetx')
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
-
 
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -242,16 +239,20 @@ PASSWORD_HASHERS = [
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -267,7 +268,8 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', False)
+ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION',
+                                      False)
 ACCOUNT_ADAPTER = 'influencetx.users.adapters.AccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'influencetx.users.adapters.SocialAccountAdapter'
 
@@ -279,7 +281,6 @@ LOGIN_URL = 'account_login'
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
-
 
 # Location of root django.contrib.admin URL, use {% url 'admin:index' %}
 ADMIN_URL = r'^admin/'
@@ -293,27 +294,28 @@ LOGGING = {
             'class': 'django.utils.log.AdminEmailHandler',
         },
         'null': {
-            'level':'DEBUG',
-            'class':'logging.NullHandler',
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
         },
-        'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
         'logfile': {
-            'level':'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': str(ROOT_DIR('django.log')),
-            'maxBytes': 1024*1024*5, # 5MB
+            'maxBytes': 1024 * 1024 * 5,  # 5MB
             'backupCount': 0,
             'formatter': 'verbose',
         },
     },
     'formatters': {
         'verbose': {
-            'format': '[%(asctime)s] %(levelname)s - %(name)s:%(lineno)s: %(msg)s',
-            'datefmt' : "%d/%b/%Y %H:%M:%S",
+            'format':
+            '[%(asctime)s] %(levelname)s - %(name)s:%(lineno)s: %(msg)s',
+            'datefmt': "%d/%b/%Y %H:%M:%S",
         },
     },
     'loggers': {

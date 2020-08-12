@@ -22,7 +22,7 @@ class Bill(models.Model):
     title = models.TextField()
     bill_text = models.TextField(max_length=200, blank=True, null=True)
     session = models.IntegerField()
-    chamber = models.CharField(max_length=6, choices=constants.HELD_BY_CHOICES)
+    chamber = models.CharField(max_length=6, choices=constants.CHAMBER_CHOICES)
     subjects = models.ManyToManyField(SubjectTag,
                                       blank=True,
                                       related_name='bills')
