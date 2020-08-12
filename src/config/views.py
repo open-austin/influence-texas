@@ -1,9 +1,10 @@
-import os
-import logging
-
 from django.views.generic import View
 from django.http import HttpResponse
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+from influencetx.core import constants
+import logging
+log = logging.getLogger(__name__)
 
 class FrontendAppView(View):
     """
@@ -13,7 +14,7 @@ class FrontendAppView(View):
 
     def get(self, request):
         try:
-            with open(os.path.join(settings.APPS_DIR, 'static', 'react-app', 'index.html')) as f:
+            with open(settings.STATIC_URL + 'react-app/index.html') as f:
                 return HttpResponse(f.read())
         except FileNotFoundError:
             logging.exception('Production build of app not found')
@@ -25,4 +26,3 @@ class FrontendAppView(View):
                 """,
                 status=501,
             )
-

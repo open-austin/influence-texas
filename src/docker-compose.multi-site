@@ -25,14 +25,21 @@ services:
       - web
 
   web:
-    image: inftxdb:dev
+    image: inftxos:dev
     container_name: web
     env_file: ../../env.sh
     environment:
       - DATABASE_URL=psql://influencetx:mysecretpassword@influencetx.com:5432/influencetx
-      - DJANGO_SETTINGS_MODULE=config.settings.production_debug
+      - DJANGO_SETTINGS_MODULE=config.settings.stage
       - ODBCSYSINI=/usr/src/app/docker_config_files
       - ODBCINI=/usr/src/app/docker_config_files/odbc.ini
+    command: >
+        bash -exc "
+            python3 manage.py makemigrations;
+            python3 manage.py migrate;
+            python3 manage.py runserver 0.0.0.0:5120;
+        "
+    entrypoint: ''
     volumes:
       - ./:/usr/src/app
     links:

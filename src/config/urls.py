@@ -24,9 +24,9 @@ urlpatterns = [
 #    url(r'^accounts/', include('allauth.urls')),
 
     # Custom urls
-    url(r'^bills/', include('influencetx.bills.urls', namespace='bills')),
-    url(r'^legislators/', include('influencetx.legislators.urls', namespace='legislators')),
-    url(r'^donors/', include('influencetx.tpj.urls', namespace='donors')),
+    url(r'^bills/', include('influencetx.bills.urls', 'bills')),
+    url(r'^legislators/', include('influencetx.legislators.urls', 'legislators')),
+    url(r'^donors/', include('influencetx.tpj.urls', 'donors')),
 
 ] + static(settings.STATIC_URL)
 

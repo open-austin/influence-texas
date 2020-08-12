@@ -1,11 +1,10 @@
-#!/bin/bash -x
+#!/bin/sh
 
 # Prepare log files and start outputting logs to stdout
 touch logs/gunicorn.log
 touch logs/gunicorn-access.log
 tail -n 0 -f logs/gunicorn*.log &
 
-export DJANGO_SETTINGS_MODULE=config.settings.production
 exec gunicorn config.wsgi \
     --name influencetx \
     --bind 0.0.0.0:5120 \
