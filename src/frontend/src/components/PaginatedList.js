@@ -221,10 +221,11 @@ export function SimpleList({
   showHover,
   loading,
   loadingListBody = LoadingListBody,
+  defaultOpen = true,
   ...props
 }) {
   const history = useHistory()
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(defaultOpen)
   if (props.hideIfNoResults && rows.length === 0) {
     return null
   }

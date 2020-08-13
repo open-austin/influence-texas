@@ -80,65 +80,94 @@ const GET_LEG = gql`
   }
 `
 
+function HeldByRow(rowData) {
+  return (
+    <div style={{ float: 'right' }}>
+      {rowData.heldBy === 'FILER' ? '' : rowData.heldBy}
+    </div>
+  )
+}
+
+function heldByOrder(a, b) {
+  return a.heldBy === 'FILER' ? -1 : 1
+}
+
 function FinancialDisclosure({ disclosure, loading }) {
   if (!disclosure) return null
-  debugger
   return (
     <div>
       <div style={{ margin: '1rem', opacity: 0.8 }}>{disclosure.year}</div>
-      {/* <PaginatedList
-        className="no-scroll"
-        collapsable
-        hideIfNoResults
+      <SimpleList
         title="Employers"
-        data={disclosure.jobs || []}
+        rows={disclosure.jobs.sort(heldByOrder) || []}
         totalCount={!loading && disclosure.jobs.length}
         columns={[
-          { render: (rowData) => rowData.employer },
-          { render: (rowData) => rowData.position },
-          { render: (rowData) => rowData.heldBy },
+          {
+            render: (rowData) => (
+              <LabelDetail label={rowData.employer} detail={rowData.position} />
+            ),
+          },
+          { render: HeldByRow },
         ]}
-      /> */}
-      {/* <div style={{ margin: '3rem' }} />
-      <PaginatedList
         collapsable
-        hideIfNoResults
-        title="Boards"
-        data={disclosure?.boards}
-        totalCount={!loading && disclosure?.boards.length}
-        columns={[
-          { render: (rowData) => rowData.name },
-          { render: (rowData) => rowData.position },
-          { render: (rowData) => rowData.heldBy },
-        ]}
       />
       <div style={{ margin: '3rem' }} />
-      <PaginatedList
+      <SimpleList
+        hideIfNoResults
+        title="Boards"
+        rows={disclosure.boards.sort(heldByOrder) || []}
+        totalCount={!loading && disclosure.boards.length}
+        columns={[
+          {
+            render: (rowData) => (
+              <LabelDetail label={rowData.name} detail={rowData.position} />
+            ),
+          },
+          { render: HeldByRow },
+        ]}
         collapsable
+      />
+      <div style={{ margin: '3rem' }} />
+      <SimpleList
         hideIfNoResults
         title="Stocks"
-        data={disclosure?.stocks}
-        totalCount={!loading && disclosure?.stocks.length}
+        rows={disclosure.stocks.sort(heldByOrder)}
+        totalCount={!loading && disclosure.stocks.length}
         columns={[
-          { render: (rowData) => rowData.name },
-          { render: (rowData) => rowData.numShares },
-          { render: (rowData) => rowData.heldBy },
+          {
+            render: (rowData) => (
+              <LabelDetail label={rowData.name} detail={rowData.numShares} />
+            ),
+          },
+          {
+            render: HeldByRow,
+          },
         ]}
+        collapsable
+        defaultOpen={false}
       />
       <div style={{ margin: '3rem' }} />
 
-      <PaginatedList
-        collapsable
+      <SimpleList
         hideIfNoResults
         title="Gifts"
-        data={disclosure?.gifts}
-        totalCount={!loading && disclosure?.gifts.length}
+        rows={disclosure.gifts}
+        totalCount={!loading && disclosure.gifts.length}
         columns={[
           { render: (rowData) => rowData.description },
           { render: (rowData) => rowData.donor },
           { render: (rowData) => rowData.recipient },
         ]}
-      /> */}
+      />
+    </div>
+  )
+}
+
+function LabelDetail({ label, detail }) {
+  return (
+    <div>
+      {label}
+      <div style={{ opacity: 0.5 }}>{detail}</div>
     </div>
   )
 }
@@ -238,68 +267,14 @@ function LegislatorDetailPage() {
             ),
           },
           {
-            label: `Financial Disclosures (${fullLegData.financialDisclosures?.length})`,
+            label: `Financial Disclosures (${
+              loading ? 'loading' : fullLegData.financialDisclosures?.length
+            })`,
             content: (
               <div>
-                <SimpleList
-                  title="Employers"
-                  rows={fullLegData.financialDisclosures?.[0]?.jobs || []}
-                  totalCount={
-                    !loading &&
-                    fullLegData.financialDisclosures?.[0]?.jobs.length
-                  }
-                  columns={[
-                    { render: (rowData) => rowData.employer },
-                    { render: (rowData) => rowData.position },
-                    { render: (rowData) => rowData.heldBy },
-                  ]}
-                />
-                <div style={{ margin: '3rem' }} />
-                <SimpleList
-                  hideIfNoResults
-                  title="Boards"
-                  rows={fullLegData.financialDisclosures?.[0]?.boards || []}
-                  totalCount={
-                    !loading &&
-                    fullLegData.financialDisclosures?.[0]?.boards.length
-                  }
-                  columns={[
-                    { render: (rowData) => rowData.name },
-                    { render: (rowData) => rowData.position },
-                    { render: (rowData) => rowData.heldBy },
-                  ]}
-                />
-                <div style={{ margin: '3rem' }} />
-                <SimpleList
-                  hideIfNoResults
-                  title="Stocks"
-                  rows={fullLegData.financialDisclosures?.[0]?.stocks}
-                  totalCount={
-                    !loading &&
-                    fullLegData.financialDisclosures?.[0]?.stocks.length
-                  }
-                  columns={[
-                    { render: (rowData) => rowData.name },
-                    { render: (rowData) => rowData.numShares },
-                    { render: (rowData) => rowData.heldBy },
-                  ]}
-                />
-                <div style={{ margin: '3rem' }} />
-
-                <SimpleList
-                  hideIfNoResults
-                  title="Gifts"
-                  rows={fullLegData.financialDisclosures?.[0]?.gifts}
-                  totalCount={
-                    !loading &&
-                    fullLegData.financialDisclosures?.[0]?.gifts.length
-                  }
-                  columns={[
-                    { render: (rowData) => rowData.description },
-                    { render: (rowData) => rowData.donor },
-                    { render: (rowData) => rowData.recipient },
-                  ]}
-                />
+                {fullLegData.financialDisclosures?.map((disclosure) => (
+                  <FinancialDisclosure disclosure={disclosure} />
+                ))}
               </div>
             ),
           },
