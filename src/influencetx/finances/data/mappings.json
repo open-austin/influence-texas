@@ -99,10 +99,59 @@
     "district": 13,
     "chamber": "HOUSE"
   },
-  "RodriguezJR": {
-    "district": 51,
+  "MunozS": {
+    "district": 36,
     "chamber": "HOUSE"
   },
+  "NevarezP": {
+    "district": 74,
+    "chamber": "HOUSE"
+  },
+  "GonzalezJ": {
+    "district": 104,
+    "chamber": "HOUSE"
+  },
+  "GonzalezME": {
+    "district": 75,
+    "chamber": "HOUSE"
+  },
+  "NevarezA": {
+    "district": 74,
+    "chamber": "HOUSE"
+  },
+  "BuckleyB": {
+    "district": 54,
+    "chamber": "HOUSE"
+  },
+  "BonnenJG": {
+    "district": 24,
+    "chamber": "HOUSE"
+  },
+  "ButtonA": {
+    "district": 112,
+    "chamber": "HOUSE"
+  },
+  "OliversonT": {
+    "district": 130,
+    "chamber": "HOUSE"
+  },
+  "ZweinerE": {
+    "district": 45,
+    "chamber": "HOUSE"
+  },
+  "LopezR": {
+    "district": 125,
+    "chamber": "HOUSE"
+  },
+  "FierroPA": {
+    "district": 79,
+    "chamber": "HOUSE"
+  },
+  "MoralesC": {
+    "district": 145,
+    "chamber": "HOUSE"
+  },
+
   "HallR": {
     "district": 3,
     "chamber": "SENATE"
@@ -115,8 +164,24 @@
     "district": 30,
     "chamber": "SENATE"
   },
+  "RodriguezJose": {
+    "district": 29,
+    "chamber": "SENATE"
+  },
   "HuffmanCJ": {
     "district": 17,
+    "chamber": "SENATE"
+  },
+  "RodriguezJR": {
+    "district": 29,
+    "chamber": "SENATE"
+  },
+  "AlvaradoC": {
+    "district": 6,
+    "chamber": "SENATE"
+  },
+  "MenendezJ": {
+    "district": 26,
     "chamber": "SENATE"
   }
 }

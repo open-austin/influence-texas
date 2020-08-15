@@ -122,6 +122,11 @@ then import it using the following command::
 
 **Note**: The crosswalk for the 86 session can be found inside `influencetx/legislators/data`
 
+
+Import financial disclosures
+--------------------
+sh scripts/manage.sh import_financial
+
 Local Docker Setup
 ==================
 

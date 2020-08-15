@@ -144,7 +144,7 @@ function FinancialDisclosure({ disclosure, loading }) {
           },
         ]}
         collapsable
-        defaultOpen={false}
+        defaultOpen={disclosure.stocks.length < 10}
       />
       <div style={{ margin: '3rem' }} />
 
@@ -154,9 +154,18 @@ function FinancialDisclosure({ disclosure, loading }) {
         rows={disclosure.gifts}
         totalCount={!loading && disclosure.gifts.length}
         columns={[
-          { render: (rowData) => rowData.description },
-          { render: (rowData) => rowData.donor },
-          { render: (rowData) => rowData.recipient },
+          {
+            render: (rowData) => (
+              <LabelDetail label={rowData.donor} detail={rowData.description} />
+            ),
+          },
+          {
+            render: (rowData) => (
+              <div style={{ float: 'right' }}>
+                {rowData.heldBy === 'FILER' ? '' : rowData.heldBy}
+              </div>
+            ),
+          },
         ]}
       />
     </div>

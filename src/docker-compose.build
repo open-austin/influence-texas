@@ -34,7 +34,6 @@ services:
     container_name: frontend
     build:
       context: ./frontend
-      command: ls
     image: inftxosfrontend:build
     environment:
       - NODE_ENV=production

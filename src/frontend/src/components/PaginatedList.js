@@ -14,6 +14,7 @@ import { RoundSquare, BlankLoadingLine } from 'styles'
 import { getQueryString, setQueryString } from 'utils'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
+import { Link } from 'react-router-dom'
 
 const StyleWrapper = styled.div`
   /* margin-left: -1em;
@@ -264,12 +265,9 @@ export function SimpleList({
                   <TableRow
                     key={getProp(row, pk) || i}
                     hover={showHover ? showHover(row) : !!url}
-                    onClick={
-                      url &&
-                      pk &&
-                      getProp(row, pk) &&
-                      ((e) => history.push(`/${url}/${getProp(row, pk)}`))
-                    }
+                    component={url && pk && Link}
+                    style={{ width: '100%' }}
+                    to={`/${url}/${getProp(row, pk)}`}
                   >
                     {columns.map((c, i) => {
                       if (c.render) {

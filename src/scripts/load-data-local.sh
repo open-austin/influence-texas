@@ -6,3 +6,4 @@
 
 docker exec -it inftxos_web_1 python manage.py sync_legislators_from_openstate
 docker exec -it inftxos_web_1 python manage.py sync_bills_from_openstate --max ${MAX_BILLS:-100}
+docker exec -it inftxos_web_1 python manage.py import_financial

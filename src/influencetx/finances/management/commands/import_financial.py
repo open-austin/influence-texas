@@ -48,10 +48,9 @@ class Command(BaseCommand):
                 district = mappings.get(item["file_name"])["district"]
                 legQuery = Legislator.objects.filter(district=district,
                                                      chamber=item["chamber"])
+                # print(f"Matched {item['file_name']} with {len(legQuery) and legQuery[0].last_name}")
 
             if (len(legQuery) == 1):
-                if (last_name == "Murr"):
-                    print(item["year"])
                 currentItem = FinancialDisclosure.objects.filter(
                     legislator=legQuery[0].id, year=item["year"])
                 if (len(currentItem) == 0):
@@ -87,17 +86,16 @@ class Command(BaseCommand):
                               donor=gift["name"],
                               recipient=getHeldBy(gift["recipient"]),
                               description=gift["description"]).save()
-                print('.')
+                print('.', end =" ")
 
             else:
+                # the ones left these are not current legislators as far as I can tell
                 print(
-                    "Could not determine legId for " +
-                    str(item.get("first_name")) + ' ' + str(last_name) + ' ' +
-                    str(item.get("chamber")) + " " +
-                    str(item.get("district")) + " " + item.get("file_name"),
-                    len(legQuery)
+                    f"\nCould not determine legId for {item.get('first_name')} {last_name}, {item.get('chamber')} {item.get('district')}, {item.get('file_name')}"
                 )
-        # print(FinancialDisclosure.objects.all())
+                if len(legQuery):
+                    print(f"More than 1 possibility for {item.get('file_name')}")
+        print(f"\n{len(FinancialDisclosure.objects.all())} FinancialDisclosures created")
 
 
 LOCAL_DIR = pth.dirname(pth.abspath(__file__))

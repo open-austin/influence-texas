@@ -51,6 +51,9 @@ code {
     overflow: initial;
     height: initial;
   }
+  .detail-page a {
+    display: flex;
+  }
   .detail-page tbody {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -89,4 +92,8 @@ path.rsm-geography {
 
 .hover-pointer:hover {
   cursor: pointer;
+}
+
+a {
+  text-decoration: none;
 }

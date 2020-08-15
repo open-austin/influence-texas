@@ -50,7 +50,7 @@ SECRET_KEY = env('DJANGO_SECRET_KEY', default='O~TBa::OFqYvU**7&unz~UVP7[ACpr7aV
 #EMAIL_PORT = 1025
 #
 #EMAIL_HOST = 'localhost'
-# EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
+#EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
 #                    default='django.core.mail.backends.console.EmailBackend')
 #
 
@@ -75,8 +75,7 @@ STATICFILES_FINDERS = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'http://localhost:3001'
+    'http://localhost:3000'
 ]
 
 # CACHING
@@ -95,10 +94,8 @@ INSTALLED_APPS += ['debug_toolbar', 'corsheaders', ]
 
 INTERNAL_IPS = ['localhost', '127.0.0.1', '10.0.2.2', ]
 
-
 def show_toolbar(request):
     return True
-
 
 DEBUG_TOOLBAR_CONFIG = {
     'DISABLE_PANELS': [
@@ -118,5 +115,4 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 # Your local stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=[
-                         'localhost', '127.0.0.1', '*.influencetx.com'])
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '*.influencetx.com'])

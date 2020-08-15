@@ -50,7 +50,7 @@ services:
     build:
       context: ./frontend
     image: inftxosfrontend:dev
-    command: npm run build
+    command: npm start
     environment:
       - NODE_ENV=production
       - REACT_APP_GOOGLE_API_KEY=${GOOGLE_API_KEY}
