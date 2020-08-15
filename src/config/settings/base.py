@@ -74,6 +74,8 @@ GRAPHENE = {
         'graphene_django.debug.DjangoDebugMiddleware',
     ],
     'RELAY_CONNECTION_MAX_LIMIT': 200,
+    # this was causing an issue with the home page where district and name of all legislators are fetched
+    # it was getting cut off at 100 which caused some hover on the map to be undefined
 }
 
 # MIDDLEWARE CONFIGURATION

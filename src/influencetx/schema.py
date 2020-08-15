@@ -49,13 +49,6 @@ class BillType(DjangoObjectType):
         def get_stats(self):
             return []
 
-        # def get_chamber(self):
-        #     if (self.chamber == "Senate"):
-        #         return "SENATE"
-        #     if (self.chamber == "House"):
-        #         return "HOUSE"
-        #     return self.chamber
-
     pk = graphene.Int()
 
     def resolve_pk(self, info, **kwargs):

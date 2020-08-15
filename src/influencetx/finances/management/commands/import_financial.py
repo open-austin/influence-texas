@@ -22,18 +22,18 @@ def getHeldBy(choice):
 
 class Command(BaseCommand):
 
-    help = "Sync financial disclosures from pdfs"
+    help = "Sync financial disclosures from json"
 
     def handle(self, *args, **options):
         FinancialDisclosure.objects.all().delete()
         result = get_sample_json(
             "../../data/sample_financial_disclosures.json")
         mappings = get_sample_json("../../data/mappings.json")
-        # print("mappings", mappings)
+
         for item in result:
             split_name = re.findall('[A-Z][^A-Z]*', item["file_name"])
             last_name = split_name[0]
-            # print(last_name)
+
             if (item.get("district")):
                 legQuery = Legislator.objects.filter(last_name=last_name,
                                                      district=item["district"],
@@ -87,15 +87,15 @@ class Command(BaseCommand):
                               donor=gift["name"],
                               recipient=getHeldBy(gift["recipient"]),
                               description=gift["description"]).save()
+                print('.')
 
             else:
                 print(
-                    "."
-                    # "Could not determine legId for " +
-                    # str(item.get("first_name")) + ' ' + str(last_name) + ' ' +
-                    # str(item.get("chamber")) + " " +
-                    # str(item.get("district")) + " " + item.get("file_name"),
-                    # len(legQuery)
+                    "Could not determine legId for " +
+                    str(item.get("first_name")) + ' ' + str(last_name) + ' ' +
+                    str(item.get("chamber")) + " " +
+                    str(item.get("district")) + " " + item.get("file_name"),
+                    len(legQuery)
                 )
         # print(FinancialDisclosure.objects.all())
 
