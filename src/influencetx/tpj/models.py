@@ -98,8 +98,8 @@ class Filer(models.Model):
 
 class Contribution(models.Model):
     id = models.IntegerField(db_column='IDNO', primary_key=True, db_index=True)
-    donor = models.ForeignKey(Donor, db_column='ctrib_ID', blank=True, null=True)
-    filer = models.ForeignKey(Filer, db_column='iFiler_ID', blank=True, null=True)
+    donor = models.ForeignKey(Donor, db_column='ctrib_ID', blank=True, null=True, on_delete=models.CASCADE)
+    filer = models.ForeignKey(Filer, db_column='iFiler_ID', blank=True, null=True, on_delete=models.CASCADE)
     amount = models.DecimalField(db_column='CTRIB_AMT', max_digits=19,
                                  decimal_places=2, blank=True, null=True)
     date = models.DateTimeField(db_column='CONT_DATE', blank=True, null=True)
@@ -115,7 +115,7 @@ class Contribution(models.Model):
 
 class Contributionsummary(models.Model):
     donor = models.ForeignKey(Donor, db_column='ctrib_ID', blank=True, null=False,
-                                related_name='donorsummarys')
+                                related_name='donorsummarys', on_delete=models.CASCADE)
     filer = models.ForeignKey(Filer, db_column='ifiler_ID', on_delete=models.CASCADE,
                                 related_name='filersummarys', blank=True, null=False)
     eyear = models.IntegerField(db_column='eyear', blank=True, null=False)
@@ -132,7 +132,7 @@ class Contributionsummary(models.Model):
 
 class Contributiontotalbydonor(models.Model):
     donor = models.OneToOneField('Donor', db_column='ctrib_ID', primary_key=True,
-                                    related_name='donortotals')
+                                    related_name='donortotals', on_delete=models.CASCADE)
     eyear = models.IntegerField(db_column='eyear', blank=True, null=True)
     cycle_total = models.DecimalField(db_column='cycle_total', max_digits=19, db_index=True,
                                       decimal_places=2, blank=True, null=True)

@@ -13,6 +13,9 @@ from .base import *  # noqa
 # Explicit imports to suppress flake8 errors.
 from .base import INSTALLED_APPS, MIDDLEWARE, TEMPLATES, env
 
+
+INSTALLED_APPS += ['gunicorn', ]
+
 # DEBUG
 # ------------------------------------------------------------------------------
 DEBUG = env.bool('DJANGO_DEBUG', default=True)

@@ -44,13 +44,13 @@ DJANGO_APPS = [
     # 'django.contrib.humanize',
 
     # Admin
-    #'django.contrib.admin',
+    # 'django.contrib.admin',
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
-    #'allauth',  # registration
-    #'allauth.account',  # registration
-    #'allauth.socialaccount',  # registration
+    # 'allauth',  # registration
+    # 'allauth.account',  # registration
+    # 'allauth.socialaccount',  # registration
 ]
 
 # Apps specific for this project go here.
@@ -124,6 +124,7 @@ DATABASES = {
     'default': env.db('DATABASE_URL', default='postgres:///influencetx')
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
+TPJ_MANAGED = True
 
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -161,7 +162,7 @@ TEMPLATES = [
         ],
         'OPTIONS': {
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
-            #'debug': DEBUG,
+            # 'debug': DEBUG,
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
             # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
             'loaders': [
@@ -197,15 +198,15 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-#STATICFILES_DIRS = [
+# STATICFILES_DIRS = [
 #    str(APPS_DIR.path('static')),
-#]
+# ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
-#STATICFILES_FINDERS = [
+# STATICFILES_FINDERS = [
 #    'django.contrib.staticfiles.finders.FileSystemFinder',
 #    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#]
+# ]
 
 # MEDIA CONFIGURATION
 # ------------------------------------------------------------------------------

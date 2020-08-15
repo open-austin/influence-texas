@@ -29,14 +29,10 @@ services:
       - OPENSTATES_API_KEY=${OPENSTATES_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}
-      - TPJ_DB_HOST=${TPJ_DB_HOST}
-      - TPJ_DB_PORT=${TPJ_DB_PORT}
-      - TPJ_DB_ENGINE=${TPJ_DB_ENGINE}
-      - TPJ_DB_NAME=${TPJ_DB_NAME}
-      - TPJ_DB_USER=${TPJ_DB_USER}
-      - TPJ_DB_PASSWORD=${TPJ_DB_PASSWORD}
+      - TPJ_DB_URL=${TPJ_DB_URL}
       - ODBCSYSINI=/usr/src/app/docker_config_files
       - ODBCINI=/usr/src/app/docker_config_files/odbc.ini
+      - DJANGO_SETTINGS_MODULE=config.settings.local
     volumes:
       - .:/usr/src/app
       - "react-build:/usr/src/app/influencetx/static/react-app/"
