@@ -8,7 +8,7 @@ from graphene_django.debug import DjangoDebug
 from influencetx.legislators.models import Legislator, LegislatorIdMap
 from influencetx.tpj.models import Donor, Contribution, Contributionsummary, Filer
 from influencetx.bills.models import Bill, ActionDate, VoteTally, SingleVote, SubjectTag
-from finances.models import FinancialDisclosure, Stocks, Gifts, Boards, Jobs
+from finances.models import FinancialDisclosure, Stock, Gift, Board, Job
 from promise import Promise
 from promise.dataloader import DataLoader
 
@@ -66,9 +66,9 @@ class DonationType(graphene.ObjectType):
     office = graphene.Field(graphene.String)
 
 
-class StocksType(DjangoObjectType):
+class StockType(DjangoObjectType):
     class Meta:
-        model = Stocks
+        model = Stock
 
     pk = graphene.Int()
 
@@ -76,27 +76,27 @@ class StocksType(DjangoObjectType):
         return self.id
 
 
-class JobsType(DjangoObjectType):
+class JobType(DjangoObjectType):
     class Meta:
-        model = Jobs
+        model = Job
     pk = graphene.Int()
 
     def resolve_pk(self, info, **kwargs):
         return self.id
 
 
-class GiftsType(DjangoObjectType):
+class GiftType(DjangoObjectType):
     class Meta:
-        model = Gifts
+        model = Gift
     pk = graphene.Int()
 
     def resolve_pk(self, info, **kwargs):
         return self.id
 
 
-class BoardsType(DjangoObjectType):
+class BoardType(DjangoObjectType):
     class Meta:
-        model = Boards
+        model = Board
     pk = graphene.Int()
 
     def resolve_pk(self, info, **kwargs):

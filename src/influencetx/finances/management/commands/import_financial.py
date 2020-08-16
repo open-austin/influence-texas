@@ -4,7 +4,7 @@ Django admin command wrapper around `sync_bill_data` in `influencetx.openstates.
 from django.core.management.base import BaseCommand
 
 from influencetx.openstates import fetch, services
-from finances.models import FinancialDisclosure, Stocks, Boards, Gifts, Jobs
+from finances.models import FinancialDisclosure, Stock, Board, Gift, Job
 from influencetx.legislators.models import Legislator
 import json
 import os.path as pth
@@ -64,7 +64,7 @@ class Command(BaseCommand):
                     f.save()
 
                     for job in item["occupational_income"]:
-                        new_job = Jobs(financial_disclosure=f,
+                        new_job = Job(financial_disclosure=f,
                                        employer=job["employer"],
                                        held_by=getHeldBy(job["held_by"]))
                         if job.get("position"):
@@ -72,18 +72,18 @@ class Command(BaseCommand):
                         new_job.save()
 
                     for stock in item["stocks"]:
-                        Stocks(financial_disclosure=f,
+                        Stock(financial_disclosure=f,
                                name=stock["name"],
                                held_by=getHeldBy(stock["held_by"]),
                                num_shares=stock["num_shares"]).save()
                     for board in item["boards"]:
-                        Boards(financial_disclosure=f,
+                        Board(financial_disclosure=f,
                                name=board["name"],
                                held_by=getHeldBy(board["held_by"]),
                                position=board["position"]).save()
 
                     for gift in item["gifts"]:
-                        Gifts(financial_disclosure=f,
+                        Gift(financial_disclosure=f,
                               donor=gift["name"],
                               recipient=getHeldBy(gift["recipient"]),
                               description=gift["description"]).save()

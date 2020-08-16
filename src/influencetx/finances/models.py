@@ -15,7 +15,7 @@ class FinancialDisclosure(models.Model):
         return self.year + " - " + self.elected_officer
 
 
-class Stocks(models.Model):
+class Stock(models.Model):
     name = models.CharField(max_length=100)
     held_by = models.CharField(max_length=50,
                                choices=constants.HELD_BY_CHOICES)
@@ -28,7 +28,7 @@ class Stocks(models.Model):
         return self.name
 
 
-class Jobs(models.Model):
+class Job(models.Model):
     employer = models.CharField(max_length=100)
     held_by = models.CharField(max_length=50,
                                choices=constants.HELD_BY_CHOICES)
@@ -38,7 +38,7 @@ class Jobs(models.Model):
                                              related_name='jobs')
 
 
-class Boards(models.Model):
+class Board(models.Model):
     name = models.CharField(max_length=100)
     held_by = models.CharField(max_length=50,
                                choices=constants.HELD_BY_CHOICES)
@@ -48,7 +48,7 @@ class Boards(models.Model):
                                              related_name='boards')
 
 
-class Gifts(models.Model):
+class Gift(models.Model):
     donor = models.CharField(max_length=100)
     recipient = models.CharField(max_length=50,
                                  choices=constants.HELD_BY_CHOICES)
