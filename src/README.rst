@@ -125,7 +125,11 @@ then import it using the following command::
 
 Import financial disclosures
 --------------------
-sh scripts/manage.sh import_financial
+to import the financial disclosures into the database run
+
+  sh scripts/manage.sh import_financial
+
+make sure you have the legislators loaded up first, since it has to link to them and won't work if it doesn't find a match
 
 Local Docker Setup
 ==================

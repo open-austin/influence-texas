@@ -48,6 +48,7 @@ class Command(BaseCommand):
                 district = mappings.get(item["file_name"])["district"]
                 legQuery = Legislator.objects.filter(district=district,
                                                      chamber=item["chamber"])
+                # # to double check manual matches didn't get mixed up
                 # print(f"Matched {item['file_name']} with {len(legQuery) and legQuery[0].last_name}")
 
             if (len(legQuery) == 1):
@@ -89,13 +90,13 @@ class Command(BaseCommand):
                 print('.', end =" ")
 
             else:
-                # the ones left these are not current legislators as far as I can tell
-                print(
-                    f"\nCould not determine legId for {item.get('first_name')} {last_name}, {item.get('chamber')} {item.get('district')}, {item.get('file_name')}"
-                )
+                # # the ones left these are not current legislators as far as I can tell
+                # print(
+                #     f"\nCould not determine legId for {item.get('first_name')} {last_name}, {item.get('chamber')} {item.get('district')}, {item.get('file_name')}"
+                # )
                 if len(legQuery):
                     print(f"More than 1 possibility for {item.get('file_name')}")
-        print(f"\n{len(FinancialDisclosure.objects.all())} FinancialDisclosures created")
+        print(f"\n\033[92m{len(FinancialDisclosure.objects.all())} Financial Disclosures created")
 
 
 LOCAL_DIR = pth.dirname(pth.abspath(__file__))
