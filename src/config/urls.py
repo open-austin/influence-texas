@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^findreps/$', TemplateView.as_view(template_name='pages/findreps.html'), name='findreps'),
 
     # Django Admin, use {% url 'admin:index' %}
-    #url(settings.ADMIN_URL, admin.site.urls),
+    url(settings.ADMIN_URL, admin.site.urls),
 
     # User management
 #    url(r'^users/', include('influencetx.users.urls', namespace='users')),
