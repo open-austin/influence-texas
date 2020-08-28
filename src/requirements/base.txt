@@ -5,10 +5,11 @@
 wheel==0.33.1
 
 django==2.2.14
-graphene
-graphene-django
-django-cors-headers
+graphene==2.1.8
+graphene-django==2.13.0
+django-cors-headers==3.5.0
 django-filter>=2
+django-allauth==0.42.0
 
 # Configuration
 django-environ==0.4.5
@@ -25,6 +26,7 @@ django-model-utils==3.1.2
 Pillow==6.2.0
 
 # Password storage
+argon2-cffi==20.1.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!

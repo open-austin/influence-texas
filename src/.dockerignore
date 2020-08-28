@@ -6,3 +6,4 @@ nginx.conf-integration
 __pycache__
 *.pyc
 influencetx/static/react-app
+frontend/
