@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-echo "sh: docker exec -it inftxos_web_1 python manage.py $@"
-docker exec -it inftxos_web_1 python manage.py $@
+echo "sh: docker exec -it web python manage.py $@"
+docker exec -it web python manage.py $@

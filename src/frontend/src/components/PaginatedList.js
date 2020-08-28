@@ -4,7 +4,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableRow from '@material-ui/core/TableRow'
-import { IconButton, Typography } from '@material-ui/core'
+import { IconButton, Typography, Collapse } from '@material-ui/core'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
 import styled from 'styled-components'
@@ -12,6 +12,9 @@ import { useHistory } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import { RoundSquare, BlankLoadingLine } from 'styles'
 import { getQueryString, setQueryString } from 'utils'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import { Link } from 'react-router-dom'
 
 const StyleWrapper = styled.div`
   /* margin-left: -1em;
@@ -205,9 +208,9 @@ const LoadingListBody = (
   </TableBody>
 )
 
-function SimpleList({
+export function SimpleList({
   totalCount,
-  rows,
+  rows = [],
   columns,
   url,
   pk = 'node.pk',
@@ -219,9 +222,14 @@ function SimpleList({
   showHover,
   loading,
   loadingListBody = LoadingListBody,
+  defaultOpen = true,
   ...props
 }) {
   const history = useHistory()
+  const [open, setOpen] = React.useState(defaultOpen)
+  if (props.hideIfNoResults && rows.length === 0) {
+    return null
+  }
   return (
     <StyleWrapper {...props}>
       <TableContainer className="list">
@@ -231,6 +239,8 @@ function SimpleList({
             justifyContent: 'space-between',
             margin: '0 1em',
           }}
+          onClick={props.collapsable ? () => setOpen(!open) : () => null}
+          className={props.collapsable && 'hover-pointer'}
         >
           <Typography variant="h6">
             {title}
@@ -240,41 +250,41 @@ function SimpleList({
             >
               {loading ? 'loading' : `${totalCount} Results`}
             </span>
+            {props.collapsable && (open ? <ExpandLess /> : <ExpandMore />)}
           </Typography>
 
           <Typography variant="h6">{sortOrderText}</Typography>
         </div>
-        <Table aria-label="simple table">
-          {loading ? (
-            loadingListBody
-          ) : (
-            <TableBody>
-              {rows.map((row, i) => (
-                <TableRow
-                  key={getProp(row, pk) || i}
-                  hover={showHover ? showHover(row) : !!url}
-                  onClick={
-                    url &&
-                    pk &&
-                    getProp(row, pk) &&
-                    ((e) => history.push(`/${url}/${getProp(row, pk)}`))
-                  }
-                >
-                  {columns.map((c, i) => {
-                    if (c.render) {
-                      return <TableCell key={i}>{c.render(row)}</TableCell>
-                    } else {
-                      return (
-                        <TableCell key={i}>{getProp(row, c.field)}</TableCell>
-                      )
-                    }
-                  })}
-                  {rows.length === 0 && emptyState}
-                </TableRow>
-              ))}
-            </TableBody>
-          )}
-        </Table>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <Table aria-label="simple table">
+            {loading ? (
+              loadingListBody
+            ) : (
+              <TableBody>
+                {rows.map((row, i) => (
+                  <TableRow
+                    key={getProp(row, pk) || i}
+                    hover={showHover ? showHover(row) : !!url}
+                    component={url && pk && Link}
+                    style={{ width: '100%' }}
+                    to={`/${url}/${getProp(row, pk)}`}
+                  >
+                    {columns.map((c, i) => {
+                      if (c.render) {
+                        return <TableCell key={i}>{c.render(row)}</TableCell>
+                      } else {
+                        return (
+                          <TableCell key={i}>{getProp(row, c.field)}</TableCell>
+                        )
+                      }
+                    })}
+                    {rows.length === 0 && emptyState}
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
+          </Table>
+        </Collapse>
       </TableContainer>
     </StyleWrapper>
   )

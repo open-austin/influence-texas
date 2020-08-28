@@ -11,11 +11,23 @@ CHAMBER_CHOICES = [
     (Chamber.UPPER.value, Chamber.UPPER.value),
 ]
 
-
 CHAMBER_LABELS = {
     Chamber.LOWER: 'Representative',
     Chamber.UPPER: 'Senator',
 }
+
+
+class HeldBy(Enum):
+    FILER = 'Filer'
+    SPOUSE = 'Spouse'
+    DEPENDENT = 'Dependent'
+
+
+HELD_BY_CHOICES = [
+    (HeldBy.FILER.value, HeldBy.FILER.value),
+    (HeldBy.SPOUSE.value, HeldBy.SPOUSE.value),
+    (HeldBy.DEPENDENT.value, HeldBy.DEPENDENT.value),
+]
 
 
 class Party(Enum):

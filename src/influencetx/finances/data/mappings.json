@@ -1,0 +1,183 @@
+{
+  "TothS": {
+    "district": 15,
+    "chamber": "HOUSE"
+  },
+  "ParkerN": {
+    "district": 63,
+    "chamber": "HOUSE"
+  },
+  "BonnenG": {
+    "district": 24,
+    "chamber": "HOUSE"
+  },
+  "PerezMA": {
+    "district": 144,
+    "chamber": "HOUSE"
+  },
+  "SchaeferM": {
+    "district": 6,
+    "chamber": "HOUSE"
+  },
+  "NobleC": {
+    "district": 89,
+    "chamber": "HOUSE"
+  },
+  "AllisonS": {
+    "district": 121,
+    "chamber": "HOUSE"
+  },
+  "KingKP": {
+    "district": 88,
+    "chamber": "HOUSE"
+  },
+  "BlancoC": {
+    "district": 76,
+    "chamber": "HOUSE"
+  },
+  "RodriguezER": {
+    "district": 51,
+    "chamber": "HOUSE"
+  },
+  "AshbyT": {
+    "district": 57,
+    "chamber": "HOUSE"
+  },
+  "DominguezA": {
+    "district": 37,
+    "chamber": "HOUSE"
+  },
+  "WuG": {
+    "district": 137,
+    "chamber": "HOUSE"
+  },
+  "MurrA": {
+    "district": 53,
+    "chamber": "HOUSE"
+  },
+  "Martin-FischerT": {
+    "district": 116,
+    "chamber": "HOUSE"
+  },
+  "BiedermannK": {
+    "district": 73,
+    "chamber": "HOUSE"
+  },
+  "LambertS": {
+    "district": 71,
+    "chamber": "HOUSE"
+  },
+  "WalleA": {
+    "district": 140,
+    "chamber": "HOUSE"
+  },
+  "Cyrier J": {
+    "district": 17,
+    "chamber": "HOUSE"
+  },
+  "HarlessES": {
+    "district": 126,
+    "chamber": "HOUSE"
+  },
+  "VanDeaverG": {
+    "district": 1,
+    "chamber": "HOUSE"
+  },
+  "GerenC": {
+    "district": 99,
+    "chamber": "HOUSE"
+  },
+  "ReynoldsR": {
+    "district": 27,
+    "chamber": "HOUSE"
+  },
+  "HawkinsB": {
+    "district": 120,
+    "chamber": "HOUSE"
+  },
+  "LemanB": {
+    "district": 13,
+    "chamber": "HOUSE"
+  },
+  "MunozS": {
+    "district": 36,
+    "chamber": "HOUSE"
+  },
+  "NevarezP": {
+    "district": 74,
+    "chamber": "HOUSE"
+  },
+  "GonzalezJ": {
+    "district": 104,
+    "chamber": "HOUSE"
+  },
+  "GonzalezME": {
+    "district": 75,
+    "chamber": "HOUSE"
+  },
+  "NevarezA": {
+    "district": 74,
+    "chamber": "HOUSE"
+  },
+  "BuckleyB": {
+    "district": 54,
+    "chamber": "HOUSE"
+  },
+  "BonnenJG": {
+    "district": 24,
+    "chamber": "HOUSE"
+  },
+  "ButtonA": {
+    "district": 112,
+    "chamber": "HOUSE"
+  },
+  "OliversonT": {
+    "district": 130,
+    "chamber": "HOUSE"
+  },
+  "ZweinerE": {
+    "district": 45,
+    "chamber": "HOUSE"
+  },
+  "LopezR": {
+    "district": 125,
+    "chamber": "HOUSE"
+  },
+  "FierroPA": {
+    "district": 79,
+    "chamber": "HOUSE"
+  },
+  "MoralesC": {
+    "district": 145,
+    "chamber": "HOUSE"
+  },
+
+  "HallR": {
+    "district": 2,
+    "chamber": "SENATE"
+  },
+  "HughesDB": {
+    "district": 1,
+    "chamber": "SENATE"
+  },
+  "FallonP": {
+    "district": 30,
+    "chamber": "SENATE"
+  },
+  "RodriguezJose": {
+    "district": 29,
+    "chamber": "SENATE"
+  },
+  "HuffmanCJ": {
+    "district": 17,
+    "chamber": "SENATE"
+  },
+  "RodriguezJR": {
+    "district": 29,
+    "chamber": "SENATE"
+  },
+  "MenendezJ": {
+    "district": 26,
+    "chamber": "SENATE"
+  }
+}

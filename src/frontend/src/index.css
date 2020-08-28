@@ -51,6 +51,9 @@ code {
     overflow: initial;
     height: initial;
   }
+  .detail-page a {
+    display: flex;
+  }
   .detail-page tbody {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -81,4 +84,16 @@ code {
 .MuiTableRow-hover,
 path.rsm-geography {
   cursor: pointer;
+}
+
+.MuiSvgIcon-root {
+  vertical-align: text-bottom;
+}
+
+.hover-pointer:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
 }

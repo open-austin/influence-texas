@@ -61,6 +61,7 @@ LOCAL_APPS = [
     'influencetx.legislators.apps.LegislatorsConfig',
     'influencetx.openstates.apps.OpenstatesConfig',
     'influencetx.tpj.apps.TPJConfig',
+    "influencetx.finances.apps.FinancesConfig",
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -70,7 +71,10 @@ GRAPHENE = {
     'SCHEMA': 'influencetx.schema.schema',
     'MIDDLEWARE': [
         'graphene_django.debug.DjangoDebugMiddleware',
-    ]
+    ],
+    'RELAY_CONNECTION_MAX_LIMIT': 200,
+    # the default of 100 was causing an issue with the home page where district and name of all legislators are fetched
+    # it was getting cut off at 100 which caused some hover on the map to be undefined
 }
 
 # MIDDLEWARE CONFIGURATION
@@ -244,7 +248,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -296,13 +300,13 @@ LOGGING = {
             'class':'logging.NullHandler',
         },
         'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
         'logfile': {
-            'level':'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': str(ROOT_DIR('django.log')),
             'maxBytes': 1024*1024*5, # 5MB
             'backupCount': 0,

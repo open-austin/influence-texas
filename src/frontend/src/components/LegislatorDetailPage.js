@@ -6,7 +6,10 @@ import { Typography, Button } from '@material-ui/core'
 
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 import SimpleTabs from 'components/SimpleTabs'
-import PaginatedList, { LoadingListItem } from 'components/PaginatedList'
+import PaginatedList, {
+  LoadingListItem,
+  SimpleList,
+} from 'components/PaginatedList'
 import BillList from 'components/BillList'
 import TexasDistrictMap from 'components/TexasDistrictMap'
 import CustomLink from 'components/CustomLink'
@@ -48,10 +51,135 @@ const GET_LEG = gql`
           }
         }
       }
+      financialDisclosures {
+        year
+        electedOfficer
+        jobs {
+              heldBy
+              position
+              employer
+        }
+        stocks {
+              name
+              heldBy
+              numShares
+        }
+        boards {
+              heldBy
+              position
+              name
+        }
+        gifts {
+              recipient
+              description
+              donor
+        }
+      }
     }
     ${getDebugQuery()}
   }
 `
+
+function HeldByRow(rowData) {
+  return (
+    <div style={{ float: 'right' }}>
+      {rowData.heldBy === 'FILER' ? '' : rowData.heldBy}
+    </div>
+  )
+}
+
+function heldByOrder(a, b) {
+  return a.heldBy === 'FILER' ? -1 : 1
+}
+
+function FinancialDisclosure({ disclosure, loading }) {
+  if (!disclosure) return null
+  return (
+    <div>
+      <div style={{ margin: '1rem', opacity: 0.8 }}>{disclosure.year}</div>
+      <SimpleList
+        title="Employers"
+        rows={disclosure.jobs.sort(heldByOrder) || []}
+        totalCount={!loading && disclosure.jobs.length}
+        columns={[
+          {
+            render: (rowData) => (
+              <LabelDetail label={rowData.employer} detail={rowData.position} />
+            ),
+          },
+          { render: HeldByRow },
+        ]}
+        collapsable
+      />
+      <div style={{ margin: '3rem' }} />
+      <SimpleList
+        hideIfNoResults
+        title="Boards"
+        rows={disclosure.boards.sort(heldByOrder) || []}
+        totalCount={!loading && disclosure.boards.length}
+        columns={[
+          {
+            render: (rowData) => (
+              <LabelDetail label={rowData.name} detail={rowData.position} />
+            ),
+          },
+          { render: HeldByRow },
+        ]}
+        collapsable
+      />
+      <div style={{ margin: '3rem' }} />
+      <SimpleList
+        hideIfNoResults
+        title="Stocks"
+        rows={disclosure.stocks.sort(heldByOrder)}
+        totalCount={!loading && disclosure.stocks.length}
+        columns={[
+          {
+            render: (rowData) => (
+              <LabelDetail label={rowData.name} detail={rowData.numShares} />
+            ),
+          },
+          {
+            render: HeldByRow,
+          },
+        ]}
+        collapsable
+        defaultOpen={disclosure.stocks.length < 10}
+      />
+      <div style={{ margin: '3rem' }} />
+
+      <SimpleList
+        hideIfNoResults
+        title="Gifts"
+        rows={disclosure.gifts}
+        totalCount={!loading && disclosure.gifts.length}
+        columns={[
+          {
+            render: (rowData) => (
+              <LabelDetail label={rowData.donor} detail={rowData.description} />
+            ),
+          },
+          {
+            render: (rowData) => (
+              <div style={{ float: 'right' }}>
+                {rowData.heldBy === 'FILER' ? '' : rowData.heldBy}
+              </div>
+            ),
+          },
+        ]}
+      />
+    </div>
+  )
+}
+
+function LabelDetail({ label, detail }) {
+  return (
+    <div>
+      {label}
+      <div style={{ opacity: 0.5 }}>{detail}</div>
+    </div>
+  )
+}
 
 function LegislatorDetailPage() {
   const { id } = useParams()
@@ -144,6 +272,18 @@ function LegislatorDetailPage() {
                   loading={loading}
                   rowsPerPage={100}
                 />
+              </div>
+            ),
+          },
+          {
+            label: `Financial Disclosures (${
+              loading ? 'loading' : fullLegData.financialDisclosures?.length
+            })`,
+            content: (
+              <div>
+                {fullLegData.financialDisclosures?.map((disclosure) => (
+                  <FinancialDisclosure disclosure={disclosure} />
+                ))}
               </div>
             ),
           },
