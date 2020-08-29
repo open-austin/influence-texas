@@ -12,7 +12,7 @@ class FinancialDisclosure(models.Model):
                                    related_name='financial_disclosures')
 
     def __str__(self):
-        return f"{self.year} {self.elected_officer} - legID:{self.legislator_id}"
+        return f"{self.elected_officer} - {self.year} - legID:{self.legislator_id}"
 
 
 class Stock(models.Model):
@@ -43,7 +43,11 @@ class Job(models.Model):
     financial_disclosure = models.ForeignKey(FinancialDisclosure,
                                              on_delete=models.CASCADE,
                                              related_name='jobs')
-    job_type = models.ForeignKey(JobType, on_delete=models.SET_NULL, blank=True, null=True)
+    job_type = models.ForeignKey(JobType, on_delete=models.SET_NULL,
+                                 blank=True, null=True, related_name='jobs')
+
+    def legislator(self):
+        return self.financial_disclosure.legislator.name
 
     def __str__(self):
         return f"{self.employer} - {self.position} - finID:{self.financial_disclosure_id}"
