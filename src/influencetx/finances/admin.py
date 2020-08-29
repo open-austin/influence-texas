@@ -1,7 +1,5 @@
 from django.contrib import admin
 from . import models
-from django.urls import reverse
-from django.utils.http import urlencode
 
 
 class JobAdmin(admin.ModelAdmin):
