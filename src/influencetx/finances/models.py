@@ -12,7 +12,7 @@ class FinancialDisclosure(models.Model):
                                    related_name='financial_disclosures')
 
     def __str__(self):
-        return self.year + " - " + self.elected_officer
+        return f"{self.year} {self.elected_officer} - legID:{self.legislator_id}"
 
 
 class Stock(models.Model):
@@ -23,6 +23,13 @@ class Stock(models.Model):
     financial_disclosure = models.ForeignKey(FinancialDisclosure,
                                              on_delete=models.CASCADE,
                                              related_name='stocks')
+
+    def __str__(self):
+        return f"{self.name} - finID:{self.financial_disclosure_id}"
+
+
+class JobType(models.Model):
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -36,6 +43,10 @@ class Job(models.Model):
     financial_disclosure = models.ForeignKey(FinancialDisclosure,
                                              on_delete=models.CASCADE,
                                              related_name='jobs')
+    job_type = models.ForeignKey(JobType, on_delete=models.SET_NULL, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.employer} - {self.position} - finID:{self.financial_disclosure_id}"
 
 
 class Board(models.Model):
@@ -46,6 +57,9 @@ class Board(models.Model):
     financial_disclosure = models.ForeignKey(FinancialDisclosure,
                                              on_delete=models.CASCADE,
                                              related_name='boards')
+
+    def __str__(self):
+        return f"{self.name} - {self.position} - finID:{self.financial_disclosure_id}"
 
 
 class Gift(models.Model):
@@ -58,4 +72,4 @@ class Gift(models.Model):
                                              related_name='gifts')
 
     def __str__(self):
-        return self.name
+        return f"{self.donor} - {self.description} - finID:{self.financial_disclosure_id}"
