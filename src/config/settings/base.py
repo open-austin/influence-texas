@@ -61,7 +61,8 @@ LOCAL_APPS = [
     'influencetx.legislators.apps.LegislatorsConfig',
     'influencetx.openstates.apps.OpenstatesConfig',
     'influencetx.tpj.apps.TPJConfig',
-    "influencetx.finances.apps.FinancesConfig",
+    'influencetx.finances.apps.FinancesConfig',
+    'influencetx.tlo.apps.TloConfig',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -332,3 +333,4 @@ LOGGING = {
 # ------------------------------------------------------------------------------
 GOOGLE_API_KEY = env('GOOGLE_API_KEY', default='')
 GOOGLE_ANALYTICS = env('GOOGLE_ANALYTICS', default='')
+TLO_SESSION = env('SESSION', default='86')

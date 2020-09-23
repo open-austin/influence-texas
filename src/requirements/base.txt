@@ -52,3 +52,5 @@ requests-cache==0.4.13
 
 # Web scraper requirements
 bs4==0.0.1
+lxml==4.5.2
+argparse==1.4.0
