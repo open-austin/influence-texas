@@ -8,10 +8,7 @@ import ScrollToTop from './ScrollToTop'
 import Routes from './Routes'
 
 const client = new ApolloClient({
-  uri:
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:5120/graphql/'
-      : '/graphql/',
+  uri: process.env.REACT_APP_BACKEND_API || 'http://localhost:5120/graphql/',
 })
 
 function App() {
