@@ -68,7 +68,9 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost',
     'https://*.influencetexas.com',
     'http://localhost:3000',
-    'https://tracykm.github.io'
+    'https://tracykm.github.io',
+    'https://influencetx.com',
+    'http://frontend.influencetx.com.s3-website.us-east-2.amazonaws.com'
 ]
 
 #STATICFILES_DIRS = [
@@ -118,4 +120,4 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 # Your local stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '.influencetx.com'])
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '.influencetx.com', 'influencetx.com', '*.influencetx.com.s3-website.us-east-2.amazonaws.com'])
