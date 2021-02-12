@@ -33,7 +33,7 @@ function DonutChart({
   selectedSlice = '',
   loading,
 }) {
-  const CHART_WIDTH = 440
+  const CHART_WIDTH = Math.min(440, window.innerWidth - 10)
   const props = {
     data,
     cx: CHART_WIDTH / 2,
@@ -46,8 +46,8 @@ function DonutChart({
       <PieChart width={CHART_WIDTH} height={CHART_WIDTH}>
         <Pie
           {...props}
-          innerRadius={200}
-          outerRadius={210}
+          innerRadius={CHART_WIDTH / 2 - 30}
+          outerRadius={CHART_WIDTH / 2 - 10}
           fill={legTheme.palette.primary.main}
         >
           {data.map((entry, index) => {
@@ -61,8 +61,8 @@ function DonutChart({
         </Pie>
         <Pie
           {...props}
-          innerRadius={180}
-          outerRadius={200}
+          innerRadius={CHART_WIDTH / 2 - 30}
+          outerRadius={CHART_WIDTH / 2 - 10}
           fill={loading ? '#ccc' : legTheme.palette.primary.main}
         ></Pie>
 
