@@ -4,6 +4,7 @@ import { Route, useHistory, Switch } from 'react-router-dom'
 import LegislatorsPage from 'components/LegislatorsPage'
 import Logo from 'components/Logo'
 import FindReps from 'components/FindReps'
+import About from 'components/About'
 import BillsPage from 'components/BillsPage'
 import DonorsPage from 'components/DonorsPage'
 import PolicyAreasPage from 'components/PolicyAreasPage'
@@ -22,7 +23,8 @@ function Nav() {
   const history = useHistory()
   if (
     history.location.pathname.includes('searchAll') ||
-    history.location.pathname.includes('findReps')
+    history.location.pathname.includes('findReps') ||
+    history.location.pathname.includes('about')
   ) {
     return null
   }
@@ -73,7 +75,13 @@ export default function Routes() {
     <div>
       <Logo />
       <div style={{ float: 'right', margin: '1.25rem 0 0 1rem' }}>
+        <CustomLink to="/about">About</CustomLink>
+      </div>
+      <div style={{ float: 'right', margin: '1.25rem 0 0 1rem' }}>
         <CustomLink to="/findReps">Find Your Reps</CustomLink>
+      </div>
+      <div style={{ float: 'right', margin: '1.25rem 0 0 1rem' }}>
+        <CustomLink to="/">Home</CustomLink>
       </div>
       <SearchAll />
       <Nav />
@@ -84,6 +92,9 @@ export default function Routes() {
         </Route>
         <Route path="/findReps">
           <FindReps />
+        </Route>
+        <Route path="/about">
+          <About />
         </Route>
         <Route path="/bills/bill/:id">
           <BillDetailPage />
