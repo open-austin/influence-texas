@@ -33,7 +33,7 @@ function DonutChart({
   selectedSlice = '',
   loading,
 }) {
-  const CHART_WIDTH = Math.min(440, window.innerWidth - 10)
+  const CHART_WIDTH = Math.min(440, window.innerWidth - 50)
   const props = {
     data,
     cx: CHART_WIDTH / 2,

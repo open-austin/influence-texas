@@ -161,17 +161,11 @@ export function SearchResults() {
   })
   if (error) {
     return (
-      <div style={{ textAlign: 'center', padding: '2em', width: '100%' }}>
-        server error
-      </div>
+      <div style={{ textAlign: 'center', padding: '2em' }}>server error</div>
     )
   }
   if (loading) {
-    return (
-      <div style={{ textAlign: 'center', padding: '2em', width: '100%' }}>
-        loading...
-      </div>
-    )
+    return <div style={{ textAlign: 'center', padding: '2em' }}>loading...</div>
   }
 
   let startTabIdx
