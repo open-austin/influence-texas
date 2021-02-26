@@ -36,6 +36,7 @@ services:
       context: ./frontend
     image: inftxosfrontend:build
     environment:
+      - REACT_APP_BACKEND_API=https://influencetx.com/graphql/
       - NODE_ENV=production
       - REACT_APP_GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - CHOKIDAR_USEPOLLING=true
