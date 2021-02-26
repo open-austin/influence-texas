@@ -83,11 +83,7 @@ function BillsPage() {
   return (
     <div>
       <FilterSection
-        title={
-          <Typography variant="h6" style={{ minWidth: '150px' }}>
-            Texas Bills
-          </Typography>
-        }
+        title={<Typography variant="h6">Texas Bills</Typography>}
         tags={{
           chamber: [
             { name: 'House', value: 'HOUSE' },

@@ -160,10 +160,12 @@ export function SearchResults() {
     variables: gqlVariables,
   })
   if (error) {
-    return 'server error'
+    return (
+      <div style={{ textAlign: 'center', padding: '2em' }}>server error</div>
+    )
   }
   if (loading) {
-    return 'loading'
+    return <div style={{ textAlign: 'center', padding: '2em' }}>loading...</div>
   }
 
   let startTabIdx

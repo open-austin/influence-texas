@@ -101,18 +101,16 @@ function FilterSection({ tags = [], title, ...props }) {
           justifyContent: 'space-between',
         }}
       >
-        {title}
+        <div style={{ flexGrow: 1, marginTop: 6 }}>{title}</div>
 
-        <div style={{ marginLeft: 'auto' }}>
-          <Button onClick={() => onChangeShareOpen(!isShareOpen)}>
-            <ShareRounded fontSize="small" />{' '}
-            <Typography variant="h6">Share</Typography>
-          </Button>
-          <Button onClick={() => onChangeFilterOpen(!isFilterOpen)}>
-            <FilterListRounded fontSize="small" />{' '}
-            <Typography variant="h6">Filter</Typography>
-          </Button>
-        </div>
+        <Button onClick={() => onChangeShareOpen(!isShareOpen)}>
+          <ShareRounded fontSize="small" />{' '}
+          <Typography variant="h6">Share</Typography>
+        </Button>
+        <Button onClick={() => onChangeFilterOpen(!isFilterOpen)}>
+          <FilterListRounded fontSize="small" />{' '}
+          <Typography variant="h6">Filter</Typography>
+        </Button>
       </div>
       <Collapse in={isFilterOpen}>
         {Object.keys(tags).map((group) => {
