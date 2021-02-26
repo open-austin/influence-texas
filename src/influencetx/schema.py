@@ -263,7 +263,7 @@ class LegislatorType(DjangoObjectType):
     financial_disclosures = graphene.List(FinancialDisclosureType)
 
     def resolve_financial_disclosures(self, info, **kwargs):
-        return FinancialDisclosure.objects.prefetch_related('jobs').prefetch_related('gifts').prefetch_related('stocks').prefetch_related('boards').prefetch_related('jobs').filter(legislator=self.pk)
+        return FinancialDisclosure.objects.prefetch_related('jobs', 'gifts', 'stocks', 'boards').filter(legislator=self.pk).order_by('-year')
 
     contributions = relay.ConnectionField(ContributionssummaryTypeConnection)
 
