@@ -11,7 +11,7 @@ postgresql_databases:
 postgresql_users:
   - name: influencetx
     pass: mysecretpassword
-    encrypted: no               # denotes if the password is already encrypted.
+    encrypted: yes              # denotes if the password is already encrypted, postgresql >= 10 does only accepts encrypted passwords
 postgresql_user_privileges:
   - name: influencetx           # user name
     db: influencetx             # database
