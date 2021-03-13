@@ -15,6 +15,13 @@ import TexasDistrictMap from 'components/TexasDistrictMap'
 import CustomLink from 'components/CustomLink'
 import { formatMoney, getDebugQuery } from 'utils'
 import { ImageSquare } from 'styles'
+import FilterSection from './FilterSection'
+import styled from 'styled-components'
+import {
+  CLASSIFICATION_FILTERS,
+  MANY_SPONSORS_FILTER,
+  PARTY_FILTERS,
+} from './BillsPage'
 
 const GET_LEG = gql`
   query Legislator($id: Int!) {
@@ -43,13 +50,6 @@ const GET_LEG = gql`
       }
       billsSponsored {
         totalCount
-        edges {
-          node {
-            pk
-            billId
-            title
-          }
-        }
       }
       financialDisclosures {
         year
@@ -77,6 +77,64 @@ const GET_LEG = gql`
       }
     }
     ${getDebugQuery()}
+  }
+`
+
+const BILLS_SPONSORED = gql`
+  query AllBills(
+    $classification: String
+    $party: String
+    $chamber: String
+    $sponsorId: String
+    $multipleSponsors: Boolean
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+  ) {
+    bills(
+      classification: $classification
+      chamber: $chamber
+      sponsorId: $sponsorId
+      multipleSponsors: $multipleSponsors
+      party: $party
+      first: $first
+      last: $last
+      after: $after
+      before: $before
+    ) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          pk
+          chamber
+          billId
+          title
+        }
+      }
+    }
+    billClassificationStats(
+      chamber: $chamber
+      multipleSponsors: $multipleSponsors
+      party: $party
+    ) {
+      name
+      count
+    }
+    ${getDebugQuery()}
+  }
+`
+
+export const BillsWrapper = styled.div`
+  button {
+    border-bottom: none !important;
   }
 `
 
@@ -292,14 +350,29 @@ function LegislatorDetailPage() {
               loading ? 'loading' : fullLegData.billsSponsored.totalCount
             })`,
             content: (
-              <div>
+              <BillsWrapper>
                 <BillList
-                  title="Bills Sponsored"
-                  data={fullLegData.billsSponsored}
+                  gqlQuery={BILLS_SPONSORED}
+                  gqlVariables={{ sponsorId: id }}
                   rowsPerPage={100}
-                  loading={loading}
+                  title={
+                    <>
+                      <FilterSection
+                        hr={false}
+                        style={{ width: '100%' }}
+                        title={
+                          <Typography variant="h6">Bills Sponsored</Typography>
+                        }
+                        tags={{
+                          party: PARTY_FILTERS,
+                          multipleSponsors: MANY_SPONSORS_FILTER,
+                          classification: CLASSIFICATION_FILTERS,
+                        }}
+                      />
+                    </>
+                  }
                 />
-              </div>
+              </BillsWrapper>
             ),
           },
           {

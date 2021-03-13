@@ -225,7 +225,6 @@ export function SimpleList({
   defaultOpen = true,
   ...props
 }) {
-  const history = useHistory()
   const [open, setOpen] = React.useState(defaultOpen)
   if (props.hideIfNoResults && rows.length === 0) {
     return null
@@ -242,7 +241,7 @@ export function SimpleList({
           onClick={props.collapsable ? () => setOpen(!open) : () => null}
           className={props.collapsable && 'hover-pointer'}
         >
-          <Typography variant="h6">
+          <Typography variant="h6" style={{ width: '100%' }}>
             {title}
             <span
               variant="subtitle2"

@@ -299,7 +299,7 @@ def execute_raw_query(sql_string):
     return list
 
 
-def CustomBillFilters(classification, party, multiple_sponsors, chamber=""):
+def CustomBillFilters(classification, party, multiple_sponsors, sponsor_id="", chamber=""):
     bills = Bill.objects
     if chamber:
         bills = bills.filter(chamber__icontains=chamber)
@@ -326,6 +326,8 @@ def CustomBillFilters(classification, party, multiple_sponsors, chamber=""):
         if (party == "Bipartisan"):
             bills = bills.filter(sponsors__party="R").filter(
                 sponsors__party="D")
+    if sponsor_id:
+        bills = bills.filter(sponsors__id=sponsor_id)
     if multiple_sponsors:
         bills = bills.annotate(num_sponsors=Count('sponsors')).filter(
             num_sponsors__gte=10)
@@ -350,12 +352,14 @@ class Query(graphene.ObjectType):
         BillType,
         classification=graphene.Argument(graphene.String),
         party=graphene.Argument(graphene.String),
+        sponsor_id=graphene.Argument(graphene.String),
         multiple_sponsors=graphene.Argument(graphene.Boolean))
 
     def resolve_bills(self, info, **kwargs):
         bills = CustomBillFilters(
             classification=kwargs.get("classification"),
             party=kwargs.get("party"),
+            sponsor_id=kwargs.get("sponsor_id"),
             multiple_sponsors=kwargs.get("multiple_sponsors"))
 
         return bills.distinct()
