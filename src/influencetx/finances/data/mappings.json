@@ -1,183 +1,319 @@
 {
   "TothS": {
     "district": 15,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "ParkerN": {
     "district": 63,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "BonnenG": {
     "district": 24,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "PerezMA": {
     "district": 144,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "SchaeferM": {
     "district": 6,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "NobleC": {
     "district": 89,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "AllisonS": {
     "district": 121,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "KingKP": {
     "district": 88,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "BlancoC": {
     "district": 76,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "RodriguezER": {
     "district": 51,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "AshbyT": {
     "district": 57,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "DominguezA": {
     "district": 37,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "WuG": {
     "district": 137,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "MurrA": {
     "district": 53,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "Martin-FischerT": {
     "district": 116,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "BiedermannK": {
     "district": 73,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "LambertS": {
     "district": 71,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "WalleA": {
     "district": 140,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "Cyrier J": {
     "district": 17,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "HarlessES": {
     "district": 126,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "VanDeaverG": {
     "district": 1,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "GerenC": {
     "district": 99,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "ReynoldsR": {
     "district": 27,
-    "chamber": "HOUSE"
-  },
-  "HawkinsB": {
-    "district": 120,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "LemanB": {
     "district": 13,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "MunozS": {
     "district": 36,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "NevarezP": {
     "district": 74,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "GonzalezJ": {
     "district": 104,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "GonzalezME": {
     "district": 75,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "NevarezA": {
     "district": 74,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "BuckleyB": {
     "district": 54,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "BonnenJG": {
     "district": 24,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "ButtonA": {
     "district": 112,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "OliversonT": {
     "district": 130,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "ZweinerE": {
     "district": 45,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "LopezR": {
     "district": 125,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "FierroPA": {
     "district": 79,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
   "MoralesC": {
     "district": 145,
-    "chamber": "HOUSE"
+    "chamber": "House"
   },
 
   "HallR": {
     "district": 2,
-    "chamber": "SENATE"
+    "chamber": "Senate"
   },
   "HughesDB": {
     "district": 1,
-    "chamber": "SENATE"
+    "chamber": "Senate"
   },
   "FallonP": {
     "district": 30,
-    "chamber": "SENATE"
+    "chamber": "Senate"
   },
   "RodriguezJose": {
     "district": 29,
-    "chamber": "SENATE"
+    "chamber": "Senate"
   },
   "HuffmanCJ": {
     "district": 17,
-    "chamber": "SENATE"
+    "chamber": "Senate"
   },
   "RodriguezJR": {
     "district": 29,
-    "chamber": "SENATE"
+    "chamber": "Senate"
   },
   "MenendezJ": {
     "district": 26,
-    "chamber": "SENATE"
+    "chamber": "Senate"
+  },
+  "KolkhurstLW": {
+    "district": 18,
+    "chamber": "Senate"
+  },
+  "AlvaradoC": {
+    "district": 6,
+    "chamber": "Senate"
+  },
+  "HallRL": {
+    "district": 2,
+    "chamber": "Senate"
+  },
+  "LucioE Jr": {
+    "district": 27,
+    "chamber": "Senate"
+  },
+  "JohnsonN": {
+    "district": 16,
+    "chamber": "Senate"
+  },
+  "SchaeferMR": {
+    "district": 6,
+    "chamber": "House"
+  },
+  "LucioEAIII": {
+    "district": 38,
+    "chamber": "House"
+  },
+  "Martinez-FischerT": {
+    "district": 116,
+    "chamber": "House"
+  },
+  "BurrowsDR": {
+    "district": 83,
+    "chamber": "House"
+  },
+  "LeachJC": {
+    "district": 67,
+    "chamber": "House"
+  },
+  "LambertSD": {
+    "district": 71,
+    "chamber": "House"
+  },
+  "HubertyD": {
+    "district": 127,
+    "chamber": "House"
+  },
+  "WuEY": {
+    "district": 137,
+    "chamber": "House"
+  },
+  "Gervin-HawkinsB": {
+    "district": 120,
+    "chamber": "House"
+  },
+  "OliversonTJ": {
+    "district": 130,
+    "chamber": "House"
+  },
+  "LopezRT": {
+    "district": 125,
+    "chamber": "House"
+  },
+  "RaymondRP": {
+    "district": 42,
+    "chamber": "House"
+  },
+  "GonzalezJA": {
+    "district": 104,
+    "chamber": "House"
+  },
+  "TinderholtTD": {
+    "district": 94,
+    "chamber": "House"
+  },
+  "SwansonVH": {
+    "district": 150,
+    "chamber": "House"
+  },
+  "MeyerMD": {
+    "district": 108,
+    "chamber": "House"
+  },
+  "MetcalfWT": {
+    "district": 16,
+    "chamber": "House"
+  },
+  "PattersonJL": {
+    "district": 106,
+    "chamber": "House"
+  },
+  "LozanoJM": {
+    "district": 43,
+    "chamber": "House"
+  },
+  "MoodyJE": {
+    "district": 78,
+    "chamber": "House"
+  },
+  "GuerraRD": {
+    "district": 41,
+    "chamber": "House"
+  },
+  "ReynoldsRE": {
+    "district": 27,
+    "chamber": "House"
+  },
+  "GutierrezR": {
+    "district": 119,
+    "chamber": "House"
+  },
+  "CapriglioneG": {
+    "district": 98,
+    "chamber": "House"
+  },
+  "BurnsD": {
+    "district": 58,
+    "chamber": "House"
+  },
+  "HerreroA": {
+    "district": 34,
+    "chamber": "House"
+  },
+  "ParkerNW": {
+    "district": 63,
+    "chamber": "House"
+  },
+  "CainB": {
+    "district": 128,
+    "chamber": "House"
+  },
+  "LemanBH": {
+    "district": 13,
+    "chamber": "House"
+  },
+  "FrankJB": {
+    "district": 69,
+    "chamber": "House"
   }
 }
