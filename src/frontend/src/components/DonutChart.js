@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { PieChart, Pie, Tooltip, Cell } from 'recharts'
 import { numberWithCommas } from 'utils'
 import { legTheme } from 'theme'
+import { useTheme } from '@material-ui/core'
 
 const Wrapper = styled.div`
   .large {
@@ -41,6 +42,7 @@ function DonutChart({
     paddingAngle: 2,
     dataKey: 'value',
   }
+  const { palette } = useTheme()
   return (
     <Wrapper>
       <PieChart width={CHART_WIDTH} height={CHART_WIDTH}>
@@ -48,7 +50,7 @@ function DonutChart({
           {...props}
           innerRadius={CHART_WIDTH / 2 - 30}
           outerRadius={CHART_WIDTH / 2 - 10}
-          fill={legTheme.palette.primary.main}
+          fill={palette.primary.main}
         >
           {data.map((entry, index) => {
             return (
@@ -63,7 +65,7 @@ function DonutChart({
           {...props}
           innerRadius={CHART_WIDTH / 2 - 30}
           outerRadius={CHART_WIDTH / 2 - 10}
-          fill={loading ? '#ccc' : legTheme.palette.primary.main}
+          fill={loading ? '#ccc' : palette.primary.main}
         ></Pie>
 
         <text x={CHART_WIDTH / 2} y={CHART_WIDTH / 2 + 20} textAnchor="middle">

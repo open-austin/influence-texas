@@ -22,6 +22,8 @@ import {
   MANY_SPONSORS_FILTER,
   PARTY_FILTERS,
 } from './BillsPage'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import { billTheme } from 'theme'
 
 const GET_LEG = gql`
   query Legislator($id: Int!) {
@@ -286,6 +288,7 @@ function LegislatorDetailPage() {
             label: `Top Donors (${
               loading ? 'loading' : fullLegData.contributions.edges.length
             })`,
+            className: 'donor-theme',
             content: (
               <div>
                 <PaginatedList
@@ -349,30 +352,35 @@ function LegislatorDetailPage() {
             label: `Bills Sponsored (${
               loading ? 'loading' : fullLegData.billsSponsored.totalCount
             })`,
+            className: 'bill-theme',
             content: (
-              <BillsWrapper>
-                <BillList
-                  gqlQuery={BILLS_SPONSORED}
-                  gqlVariables={{ sponsorId: id }}
-                  rowsPerPage={100}
-                  title={
-                    <>
-                      <FilterSection
-                        hr={false}
-                        style={{ width: '100%' }}
-                        title={
-                          <Typography variant="h6">Bills Sponsored</Typography>
-                        }
-                        tags={{
-                          party: PARTY_FILTERS,
-                          multipleSponsors: MANY_SPONSORS_FILTER,
-                          classification: CLASSIFICATION_FILTERS,
-                        }}
-                      />
-                    </>
-                  }
-                />
-              </BillsWrapper>
+              <MuiThemeProvider theme={billTheme}>
+                <BillsWrapper>
+                  <BillList
+                    gqlQuery={BILLS_SPONSORED}
+                    gqlVariables={{ sponsorId: id }}
+                    rowsPerPage={100}
+                    title={
+                      <>
+                        <FilterSection
+                          hr={false}
+                          style={{ width: '100%' }}
+                          title={
+                            <Typography variant="h6">
+                              Bills Sponsored
+                            </Typography>
+                          }
+                          tags={{
+                            party: PARTY_FILTERS,
+                            multipleSponsors: MANY_SPONSORS_FILTER,
+                            classification: CLASSIFICATION_FILTERS,
+                          }}
+                        />
+                      </>
+                    }
+                  />
+                </BillsWrapper>
+              </MuiThemeProvider>
             ),
           },
           {
