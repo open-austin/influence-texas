@@ -12444,7 +12444,8 @@
         "owned_businesses": [],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Angie"
     },
     {
         "chamber": "House",
@@ -41309,7 +41310,8 @@
         "owned_businesses": [],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Candace"
     },
     {
         "chamber": "House",
@@ -48868,7 +48870,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Andrew"
     },
     {
         "chamber": "House",
@@ -70074,177 +70077,6 @@
     {
         "chamber": "Senate",
         "year": "2019",
-        "file_name": "JohnsonN 2020 PFS (1)",
-        "occupational_income": [
-            {
-                "held_by": "filer",
-                "employer": "Spector & Johnson, PLLC",
-                "address": "12770 Coit Road /n Suite 1100",
-                "position": "Manager/Member"
-            },
-            {
-                "held_by": "spouse",
-                "employer": "Haynes & Boone, LLP",
-                "address": "2323 Victory Avenue /n Suite 700",
-                "position": "Partner"
-            },
-            {
-                "held_by": "filer",
-                "employer": "Thompson & Knight LLP",
-                "address": "1722 Routh Street Suite 1500 /n Dallas, TX 75201",
-                "position": "Counsel"
-            }
-        ],
-        "stocks": [
-            {
-                "name": "Microsoft",
-                "held_by": "filer",
-                "num_shares": "1,000 TO 4,999"
-            }
-        ],
-        "mutual_fund": [
-            {
-                "name": "Parnassus Core Equity",
-                "held_by": "filer",
-                "num_shares": "100 TO 499"
-            },
-            {
-                "name": "Schwab Fundamentals US",
-                "held_by": "filer",
-                "num_shares": "500 TO 999"
-            },
-            {
-                "name": "American FD Fundamental",
-                "held_by": "filer",
-                "num_shares": "100 TO 499"
-            },
-            {
-                "name": "American FD Growth",
-                "held_by": "filer",
-                "num_shares": "100 TO 499"
-            },
-            {
-                "name": "American FD New Perspective",
-                "held_by": "filer",
-                "num_shares": "100 TO 499"
-            },
-            {
-                "name": "American FD Small Cap",
-                "held_by": "filer",
-                "num_shares": "100 TO 499"
-            },
-            {
-                "name": "PIMCO Total Return I",
-                "held_by": "spouse",
-                "num_shares": "LESS THAN 100",
-                "net_loss": "LESS THAN $5,000"
-            },
-            {
-                "name": "Vanguard Target Rtmnt 2040-Inv",
-                "held_by": "spouse",
-                "num_shares": "1,000 TO 4,999",
-                "net_loss": "LESS THAN $5,000"
-            },
-            {
-                "name": "Vanguard Mid Cap Index Inst'l",
-                "held_by": "spouse",
-                "num_shares": "100 TO 499"
-            },
-            {
-                "name": "Dodge & Cox Stock",
-                "held_by": "spouse",
-                "num_shares": "100 TO 499"
-            },
-            {
-                "name": "Vanguard Target Rtmt 2035",
-                "held_by": "spouse",
-                "num_shares": "1,000 TO 4,999"
-            },
-            {
-                "name": "Vanguard Balanced Index I",
-                "held_by": "spouse",
-                "num_shares": "1,000 TO 4,999"
-            },
-            {
-                "name": "American Funds Growth of America R5",
-                "held_by": "spouse",
-                "num_shares": "1,000 TO 4,999",
-                "net_loss": "LESS THAN $5,000"
-            },
-            {
-                "name": "Vanguard Institutional Index",
-                "held_by": "spouse",
-                "num_shares": "100 TO 499"
-            },
-            {
-                "name": "Vanguard Small Cap Index I",
-                "held_by": "spouse",
-                "num_shares": "1,000 TO 4,999"
-            },
-            {
-                "name": "MassMutual Mid Cap Growth",
-                "held_by": "spouse",
-                "num_shares": "1,000 TO 4,999"
-            }
-        ],
-        "boards": [],
-        "lobbyists": [
-            {
-                "name": "Haynes & Boone, LLP",
-                "held_by": "spouse"
-            }
-        ],
-        "gifts": [],
-        "property": [
-            {
-                "held_by": "filer",
-                "address": " \n ",
-                "home_address": true,
-                "county": "Dallas",
-                "lots": 1.0
-            }
-        ],
-        "business_interests": [
-            {
-                "held_by": "filer",
-                "name": "Spector & Johnson, PLLC"
-            },
-            {
-                "held_by": "filer",
-                "name": "Nathan M Johnson, P.C."
-            },
-            {
-                "held_by": "spouse",
-                "name": "Haynes & Boone, LLP"
-            }
-        ],
-        "owned_businesses": [
-            {
-                "name": "Nathan M Johnson PC",
-                "type": null,
-                "held_by": "filer"
-            },
-            {
-                "name": "Haynes and Boone, LLP",
-                "type": null,
-                "held_by": "spouse"
-            },
-            {
-                "name": "Spector & Johnson, PLLC",
-                "type": null,
-                "held_by": "filer"
-            }
-        ],
-        "lobbyists_fees": [],
-        "gov_contracts": [],
-        "bond_counsel": [],
-        "first_name": "Nathan",
-        "elected_officer": "Senate District 16",
-        "district": 16
-    },
-    {
-        "chamber": "Senate",
-        "year": "2019",
         "file_name": "LucioE Jr",
         "occupational_income": [
             {
@@ -70505,7 +70337,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Nathan"
     },
     {
         "chamber": "Senate",
@@ -78521,7 +78354,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Dustin"
     },
     {
         "chamber": "House",
@@ -79106,7 +78940,8 @@
         "owned_businesses": [],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Jeff"
     },
     {
         "chamber": "House",
@@ -80725,6 +80560,306 @@
         "first_name": "Ana-Maria",
         "elected_officer": "Texas House District 102",
         "district": 102
+    },
+    {
+        "chamber": "House",
+        "year": "2019",
+        "file_name": "StuckyLD",
+        "occupational_income": [
+            {
+                "held_by": "filer",
+                "employer": "House of Representatives",
+                "address": "105 W 15th St /n Asutin, TX 76266",
+                "position": "Legislator"
+            }
+        ],
+        "stocks": [
+            {
+                "name": "Stucky Inc",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "Sanger Bancshares Inc",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "Dallas Ft. Worth Veterinary Imaging DFW VIC Inc",
+                "held_by": "filer",
+                "num_shares": "LESS THAN 100"
+            },
+            {
+                "name": "Animal Hospital on Milam Road, PC DVM",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "Weyerhaeuser Co",
+                "held_by": "filer",
+                "num_shares": "100 TO 499"
+            }
+        ],
+        "mutual_fund": [
+            {
+                "name": "Schwab Govt Money Fund",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "Schwab Permanent Portfolio",
+                "held_by": "filer",
+                "num_shares": "100 TO 499"
+            },
+            {
+                "name": "Pimco VIT High Yield",
+                "held_by": "filer",
+                "num_shares": "500 TO 999"
+            },
+            {
+                "name": "Pimco VIT Low Duration",
+                "held_by": "filer",
+                "num_shares": "500 TO 999"
+            },
+            {
+                "name": "Pimco VIT Total Return",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "TVST Touchstone Common Stock Fund (previously Sentinel VP Common)",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "Royce Capital Small-Cap",
+                "held_by": "filer",
+                "num_shares": "500 TO 999"
+            },
+            {
+                "name": "MFS VIT II International",
+                "held_by": "filer",
+                "num_shares": "500 TO 999"
+            },
+            {
+                "name": "AB VPS Real Estate A",
+                "held_by": "filer",
+                "num_shares": "100 TO 499",
+                "net_gain": "LESS THAN $5,000"
+            },
+            {
+                "name": "Van Eck VIP Global Hard",
+                "held_by": "filer",
+                "num_shares": "100 TO 499"
+            },
+            {
+                "name": "DFA Investment Grade Bond PTF",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999",
+                "net_gain": "LESS THAN $5,000"
+            },
+            {
+                "name": "DFA Short Term EXT Quality Bond PTF",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "DFA Global Equity PTF",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999",
+                "net_gain": "LESS THAN $5,000"
+            },
+            {
+                "name": "Schwab Govt Money Fund",
+                "held_by": "spouse",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "Schwab Permanent Portfolio Fund",
+                "held_by": "spouse",
+                "num_shares": "100 TO 499"
+            },
+            {
+                "name": "Pimco Short Term Instl",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "Champlain Small Company",
+                "held_by": "filer",
+                "num_shares": "100 TO 499"
+            },
+            {
+                "name": "First Eagle Overseas",
+                "held_by": "filer",
+                "num_shares": "500 TO 999"
+            },
+            {
+                "name": "Gateway Fund CL Y",
+                "held_by": "filer",
+                "num_shares": "100 TO 499"
+            },
+            {
+                "name": "Hussman Strategic Growth",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "Oakmark Equity and Income",
+                "held_by": "filer",
+                "num_shares": "100 TO 499"
+            },
+            {
+                "name": "Market Vectors Gold",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "American Funds 2025 Target Date - A",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "Fidelity Treasury MMKT Capital Reserves",
+                "held_by": "filer",
+                "num_shares": "10,000 OR MORE"
+            },
+            {
+                "name": "iPath Dow Jones - UBS Commodity Index",
+                "held_by": "filer",
+                "num_shares": "500 TO 999"
+            },
+            {
+                "name": "Market Vectors RVE Hard Assets Prod ETF",
+                "held_by": "filer",
+                "num_shares": "100 TO 499"
+            },
+            {
+                "name": "Oil Services HOLDRS ETF",
+                "held_by": "filer",
+                "num_shares": "100 TO 499"
+            },
+            {
+                "name": "DFA Global Small Company",
+                "held_by": "filer",
+                "num_shares": "1,000 TO 4,999"
+            },
+            {
+                "name": "DFA US Large CAP Value",
+                "held_by": "filer",
+                "num_shares": "100 TO 499"
+            },
+            {
+                "name": "TD Bank USA Money Market",
+                "held_by": "filer",
+                "num_shares": "500 TO 999",
+                "net_gain": "LESS THAN $5,000"
+            },
+            {
+                "name": "Wasatch Hoisington US",
+                "held_by": "filer",
+                "num_shares": "500 TO 999"
+            }
+        ],
+        "boards": [],
+        "lobbyists": [],
+        "gifts": [],
+        "property": [
+            {
+                "held_by": "filer",
+                "address": "",
+                "county": "Denton"
+            },
+            {
+                "held_by": "filer",
+                "address": "X",
+                "county": "X  McPherson Kansas",
+                "acres": 39.7
+            },
+            {
+                "held_by": "filer",
+                "address": "X",
+                "county": "X  McPherson Kansas",
+                "acres": 79.5
+            },
+            {
+                "held_by": "filer",
+                "address": "800 Brazos Street",
+                "county": "Travis"
+            }
+        ],
+        "business_interests": [
+            {
+                "held_by": "filer",
+                "name": "3,IF SOLD NET GAIN"
+            },
+            {
+                "held_by": "filer",
+                "name": "IF SOLD NET GAIN"
+            },
+            {
+                "held_by": "filer",
+                "name": "IF SOLD NET GAIN"
+            },
+            {
+                "held_by": "filer",
+                "name": "IF SOLD NET GAIN"
+            },
+            {
+                "held_by": "filer",
+                "name": "3,IF SOLD NET GAIN"
+            },
+            {
+                "held_by": "filer",
+                "name": "6112 Riverside"
+            },
+            {
+                "held_by": "filer",
+                "name": "IF SOLD NET GAIN"
+            }
+        ],
+        "owned_businesses": [
+            {
+                "name": "2,BUSINESS TYPE Corporation X Limited Partnership Profesional Association",
+                "type": "Limited Partnership",
+                "held_by": "filer"
+            },
+            {
+                "name": "2,BUSINESS TYPE Corporation X Limited Partnership Profesional Association",
+                "type": "Limited Partnership",
+                "held_by": "filer"
+            },
+            {
+                "name": "2,BUSINESS TYPE Corporation Limited Partnership Profesional Association",
+                "type": null,
+                "held_by": "filer"
+            },
+            {
+                "name": "2,BUSINESS TYPE X Corporation Limited Partnership Profesional Association",
+                "type": "Corporation",
+                "held_by": "filer"
+            },
+            {
+                "name": "6112 Riverside",
+                "type": "Corporation",
+                "held_by": "filer"
+            },
+            {
+                "name": "2,BUSINESS TYPE Corporation Limited Partnership Profesional Association",
+                "type": null,
+                "held_by": "filer"
+            },
+            {
+                "name": "2,BUSINESS TYPE Corporation Limited Partnership Profesional Association",
+                "type": null,
+                "held_by": "filer"
+            }
+        ],
+        "lobbyists_fees": [],
+        "gov_contracts": [],
+        "bond_counsel": [],
+        "first_name": "Lynn",
+        "candidate": "State Representative District 64"
     },
     {
         "chamber": "House",
@@ -82993,7 +83128,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Dan"
     },
     {
         "chamber": "House",
@@ -85153,7 +85289,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Thomas"
     },
     {
         "chamber": "House",
@@ -85582,7 +85719,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "James"
     },
     {
         "chamber": "House",
@@ -86382,7 +86520,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Benjamin"
     },
     {
         "chamber": "House",
@@ -86488,7 +86627,8 @@
         "owned_businesses": [],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Briscoe"
     },
     {
         "chamber": "House",
@@ -86713,7 +86853,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Nathaniel"
     },
     {
         "chamber": "House",
@@ -87260,7 +87401,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Abel"
     },
     {
         "chamber": "House",
@@ -87865,7 +88007,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "DeWayne"
     },
     {
         "chamber": "House",
@@ -88687,7 +88830,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Giovanni"
     },
     {
         "chamber": "House",
@@ -89979,7 +90123,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Rolando"
     },
     {
         "chamber": "House",
@@ -91406,7 +91551,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Roberto"
     },
     {
         "chamber": "House",
@@ -91863,7 +92009,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Joseph"
     },
     {
         "chamber": "House",
@@ -92656,7 +92803,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Dan"
     },
     {
         "chamber": "House",
@@ -92692,7 +92840,8 @@
         "owned_businesses": [],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Jose"
     },
     {
         "chamber": "House",
@@ -93082,7 +93231,8 @@
         "owned_businesses": [],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Jared"
     },
     {
         "chamber": "House",
@@ -96042,7 +96192,8 @@
         "owned_businesses": [],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Morgan"
     },
     {
         "chamber": "House",
@@ -97021,7 +97172,8 @@
         "owned_businesses": [],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Valoree"
     },
     {
         "chamber": "House",
@@ -97044,7 +97196,8 @@
         ],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Tony"
     },
     {
         "chamber": "House",
@@ -97650,7 +97803,8 @@
         "owned_businesses": [],
         "lobbyists_fees": [],
         "gov_contracts": [],
-        "bond_counsel": []
+        "bond_counsel": [],
+        "first_name": "Richard"
     },
     {
         "chamber": "House",

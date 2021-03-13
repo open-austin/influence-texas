@@ -20,7 +20,6 @@ def getHeldBy(choice):
     return "Filer"
 
 
-# will always be one year behind, can't get disclosures for a while
 CURRENT_YEAR = "2019"
 
 
@@ -32,7 +31,7 @@ class Command(BaseCommand):
         FinancialDisclosure.objects.all().delete()
         result = get_sample_json("../../data/sample_financial_disclosures.json")
         mappings = get_sample_json("../../data/mappings.json")
-        latest_legs = {}
+        created_year = {}
 
         for item in result:
             split_name = re.findall("[A-Z][^A-Z]*", item["file_name"])
@@ -57,24 +56,25 @@ class Command(BaseCommand):
                 chamber = mapping["chamber"]
                 legQuery = Legislator.objects.filter(district=district, chamber=chamber)
 
-                # # to double check manual matches didn't get mixed up
-                # if len(legQuery and legQuery[0] and legQuery[0].last_name):
-                #     if legQuery[0].last_name[0] != last_name[0]:
-                #         print("")
-                #         print(
-                #             f"--- WARNING --- Matched {item['file_name']} with {legQuery[0].last_name}"
-                #         )
-                #     elif legQuery[0].last_name != last_name:
-                #         print(
-                #             f"Matched {item['file_name']} with {legQuery[0].last_name}"
-                #         )
+                # to double check manual matches didn't get mixed up
+                if len(legQuery and legQuery[0] and legQuery[0].last_name):
+                    if legQuery[0].last_name[0] != last_name[0]:
+                        continue
+                        # print("")
+                        # print(
+                        #     f"--- WARNING --- Matched {item['file_name']} with {legQuery[0].last_name}"
+                        # )
+                    # elif legQuery[0].last_name != last_name:
+                    #     print(
+                    #         f"Matched {item['file_name']} {item.get('first_name', 'NONE')} with {legQuery[0].last_name}"
+                    #     )
 
             if len(legQuery) == 1:
                 currentItem = FinancialDisclosure.objects.filter(
                     legislator=legQuery[0].id, year=item["year"]
                 )
                 if item["year"] == CURRENT_YEAR:
-                    latest_legs[f"{legQuery[0].chamber}{legQuery[0].district}"] = {
+                    created_year[f"{legQuery[0].chamber}{legQuery[0].district}"] = {
                         "name": f"{legQuery[0].first_name} {legQuery[0].last_name}",
                         "file_name": item["file_name"],
                     }
@@ -119,16 +119,22 @@ class Command(BaseCommand):
                             recipient=getHeldBy(gift["recipient"]),
                             description=gift["description"],
                         ).save()
-                print(".", end=" ")
 
-        ## Probably just new legislators
+            # elif item["year"] == CURRENT_YEAR:
+            #     # the ones left these are not current legislators as far as I can tell
+            #     print(
+            #         f"\nCould not determine legId for {item.get('first_name')} {last_name}, {item.get('chamber')} {item.get('district')}, {item.get('file_name')}"
+            #     )
+            #     if len(legQuery):
+            #         print(f"More than 1 possibility for {item.get('file_name')}")
+
         # print(
         #     "House missing districts ",
-        #     [i for i in range(1, 151) if not latest_legs.get(f"House{i}")],
+        #     [i for i in range(1, 151) if not created_year.get(f"House{i}")],
         # )
         # print(
         #     "Senate missing districts ",
-        #     [i for i in range(1, 32) if not latest_legs.get(f"Senate{i}")],
+        #     [i for i in range(1, 32) if not created_year.get(f"Senate{i}")],
         # )
         print(
             f"\n\033[92m{len(FinancialDisclosure.objects.all())} Financial Disclosures created"
