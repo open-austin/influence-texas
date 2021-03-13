@@ -57,6 +57,35 @@ const ALL_BILLS = gql`
   }
 `
 
+export const CHAMBER_FILTERS = [
+  { name: 'House', value: 'HOUSE' },
+  { name: 'Senate', value: 'SENATE' },
+]
+export const PARTY_FILTERS = [
+  { name: 'Republican', value: 'R' },
+  { name: 'Bipartisan', value: 'Bipartisan' },
+  { name: 'Democratic', value: 'D' },
+]
+export const MANY_SPONSORS_FILTER = [{ name: '10+ Sponsors', value: true }]
+
+export const CLASSIFICATION_FILTERS = [
+  {
+    name: 'Filing',
+    value: 'filing',
+    group: 'classification',
+  },
+  {
+    name: 'Committee Passage',
+    value: 'committee-passage',
+    group: 'classification',
+  },
+  {
+    name: 'Became Law',
+    value: 'became-law',
+    group: 'classification',
+  },
+]
+
 function BillsPage() {
   document.title = `Bills - Influence Texas`
   const history = useHistory()
@@ -68,11 +97,7 @@ function BillsPage() {
   const billClassificationStats = listData
     ? listData.billClassificationStats
     : []
-  const classificationTags = billClassificationStats.map((d) => ({
-    name: dashesToSpaces(d.name),
-    value: d.name,
-    group: 'classification',
-  }))
+
   const summaryData =
     listData &&
     billClassificationStats.map((d) => ({
@@ -85,17 +110,10 @@ function BillsPage() {
       <FilterSection
         title={<Typography variant="h6">Texas Bills</Typography>}
         tags={{
-          chamber: [
-            { name: 'House', value: 'HOUSE' },
-            { name: 'Senate', value: 'SENATE' },
-          ],
-          party: [
-            { name: 'Republican', value: 'R' },
-            { name: 'Bipartisan', value: 'Bipartisan' },
-            { name: 'Democratic', value: 'D' },
-          ],
-          multipleSponsors: [{ name: 'Many Sponsors', value: true }],
-          classification: classificationTags,
+          chamber: CHAMBER_FILTERS,
+          party: PARTY_FILTERS,
+          multipleSponsors: MANY_SPONSORS_FILTER,
+          classification: CLASSIFICATION_FILTERS,
         }}
       />
       <div className="two-column">

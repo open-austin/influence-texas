@@ -1,16 +1,15 @@
 ---
 - name: Ensure old versions of Docker are not installed.
   package:
-    name: '{{ item }}'
+    name:
+      - docker
+      - docker-common
+      - docker-engine
     state: absent
-  with_items:
-    - docker
-    - docker-common
-    - docker-engine
 
 - name: Add Docker GPG key.
   rpm_key:
-    key: https://download.docker.com/linux/centos/gpg
+    key: "{{ docker_yum_gpg_key }}"
     state: present
 
 - name: Add Docker repository.
@@ -21,12 +20,13 @@
     group: root
     mode: 0644
 
-- name: Configure Docker Edge repo.
+- name: Configure Docker Nightly repo.
   ini_file:
     dest: '/etc/yum.repos.d/docker-{{ docker_edition }}.repo'
-    section: 'docker-{{ docker_edition }}-edge'
+    section: 'docker-{{ docker_edition }}-nightly'
     option: enabled
-    value: '{{ docker_yum_repo_enable_edge }}'
+    value: '{{ docker_yum_repo_enable_nightly }}'
+    mode: 0644
 
 - name: Configure Docker Test repo.
   ini_file:
@@ -34,3 +34,17 @@
     section: 'docker-{{ docker_edition }}-test'
     option: enabled
     value: '{{ docker_yum_repo_enable_test }}'
+    mode: 0644
+
+- name: Configure containerd on RHEL 8.
+  block:
+    - name: Ensure container-selinux is installed.
+      package:
+        name: container-selinux
+        state: present
+
+    - name: Ensure containerd.io is installed.
+      package:
+        name: containerd.io
+        state: present
+  when: ansible_distribution_major_version | int == 8

@@ -15,7 +15,7 @@ class Command(BaseCommand):
                             help='Max number of bills to sync. Mainly used for testing.')
         parser.add_argument('--force-update', action='store_true', default=False,
                             help='Force update, even if database is up-to-date.')
-        parser.add_argument('--session', type=str, default=86,
+        parser.add_argument('--session', type=str, default=87,
                             help='Pull data for specified session. Defaults to most recent.')
         parser.add_argument('--start', type=str, default=None,
                             help='Start pulling data from OpenState cursor. Defaults to None.')

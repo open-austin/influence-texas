@@ -2,7 +2,7 @@
 - hosts: all
   become: yes
   roles:
-    - role-postgresql
+    - ansible-role-postgresql
     - ansible-role-docker
   tasks:
     - name: setup root key
