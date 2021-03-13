@@ -81,17 +81,23 @@ function SocialButtons() {
   )
 }
 
-function FilterSection({ tags = [], title, ...props }) {
+function FilterSection({ tags = [], title, hr = true, ...props }) {
   const history = useHistory()
-  const { page, first, after, last, before, ...otherParams } = getQueryString(
-    history,
-  )
+  const {
+    page,
+    first,
+    after,
+    last,
+    before,
+    tab,
+    ...otherParams
+  } = getQueryString(history)
   const isUsingFilters = !!Object.keys(otherParams).length
   const [isFilterOpen, onChangeFilterOpen] = useState(isUsingFilters)
   const [isShareOpen, onChangeShareOpen] = useState(false)
 
   return (
-    <div>
+    <div {...props}>
       <Collapse in={isShareOpen} style={{ width: '100%', textAlign: 'right' }}>
         <SocialButtons />
       </Collapse>
@@ -123,7 +129,7 @@ function FilterSection({ tags = [], title, ...props }) {
           )
         })}
       </Collapse>
-      <hr />
+      {hr && <hr />}
     </div>
   )
 }

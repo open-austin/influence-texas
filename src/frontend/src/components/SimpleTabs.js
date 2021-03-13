@@ -45,7 +45,6 @@ export default function SimpleTabs({ tabs = [], startTabIdx = 0, saveToUrl }) {
   const handleChange = (event, newValue) => {
     setValue(newValue)
     if (saveToUrl) {
-      const queryObj = getQueryString(history)
       // need to clear out old pagination for search page
       setQueryString({ tab: newValue }, history)
     }
