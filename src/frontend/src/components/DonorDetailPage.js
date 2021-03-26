@@ -8,7 +8,6 @@ import { formatMoney, getDebugQuery } from 'utils'
 import CustomLink from 'components/CustomLink'
 import { BlankLoadingLine } from 'styles'
 import { RoundSquare } from 'styles'
-import { legTheme } from 'theme'
 import { useTheme } from '@material-ui/core'
 
 const GET_DONOR = gql`

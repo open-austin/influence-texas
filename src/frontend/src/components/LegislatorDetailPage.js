@@ -2,13 +2,20 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
-import { Typography, Button } from '@material-ui/core'
+import {
+  Typography,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@material-ui/core'
 
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 import SimpleTabs from 'components/SimpleTabs'
 import PaginatedList, {
   LoadingListItem,
-  SimpleList,
+  ShowMoreList,
 } from 'components/PaginatedList'
 import BillList from 'components/BillList'
 import TexasDistrictMap from 'components/TexasDistrictMap'
@@ -140,12 +147,18 @@ export const BillsWrapper = styled.div`
   }
 `
 
-function HeldByRow(rowData) {
+function HeldByDiv({ heldBy }) {
   return (
-    <div style={{ float: 'right' }}>
-      {rowData.heldBy === 'FILER' ? '' : rowData.heldBy}
-    </div>
+    HeldByName[heldBy] && (
+      <span style={{ opacity: 0.5 }}> ({HeldByName[heldBy]})</span>
+    )
   )
+}
+
+const HeldByName = {
+  FILER: '',
+  SPOUSE: 'Spouse',
+  DEPENDENT: 'Dependent',
 }
 
 function heldByOrder(a, b) {
@@ -156,82 +169,108 @@ function FinancialDisclosure({ disclosure, loading }) {
   if (!disclosure) return null
   return (
     <div>
-      <div style={{ margin: '1rem', opacity: 0.8 }}>{disclosure.year}</div>
-      <SimpleList
+      <ShowMoreList
         title="Employers"
         rows={disclosure.jobs.sort(heldByOrder) || []}
         totalCount={!loading && disclosure.jobs.length}
-        columns={[
-          {
-            render: (rowData) => (
-              <LabelDetail label={rowData.employer} detail={rowData.position} />
-            ),
-          },
-          { render: HeldByRow },
-        ]}
+        render={(rowData) => (
+          <LabelDetail
+            label={
+              <span>
+                {rowData.employer} <HeldByDiv {...rowData} />
+              </span>
+            }
+            detail={rowData.position}
+          />
+        )}
         collapsable
       />
       <div style={{ margin: '3rem' }} />
-      <SimpleList
+      <ShowMoreList
         hideIfNoResults
         title="Boards"
         rows={disclosure.boards.sort(heldByOrder) || []}
         totalCount={!loading && disclosure.boards.length}
-        columns={[
-          {
-            render: (rowData) => (
-              <LabelDetail label={rowData.name} detail={rowData.position} />
-            ),
-          },
-          { render: HeldByRow },
-        ]}
+        render={(rowData) => (
+          <LabelDetail
+            label={
+              <span>
+                {rowData.name} <HeldByDiv {...rowData} />
+              </span>
+            }
+            detail={rowData.position}
+          />
+        )}
         collapsable
       />
       <div style={{ margin: '3rem' }} />
-      <SimpleList
+      <ShowMoreList
         hideIfNoResults
         title="Stocks"
         rows={disclosure.stocks.sort(heldByOrder)}
         totalCount={!loading && disclosure.stocks.length}
-        columns={[
-          {
-            render: (rowData) => (
-              <LabelDetail label={rowData.name} detail={rowData.numShares} />
-            ),
-          },
-          {
-            render: HeldByRow,
-          },
-        ]}
+        render={(rowData) => (
+          <LabelDetail
+            label={
+              <span>
+                {rowData.name} <HeldByDiv {...rowData} />
+              </span>
+            }
+            detail={rowData.numShares}
+          />
+        )}
         collapsable
         defaultOpen={disclosure.stocks.length < 10}
       />
       <div style={{ margin: '3rem' }} />
 
-      <SimpleList
+      <ShowMoreList
         hideIfNoResults
         title="Gifts"
         rows={disclosure.gifts}
         totalCount={!loading && disclosure.gifts.length}
-        columns={[
-          {
-            render: (rowData) => (
-              <LabelDetail label={rowData.donor} detail={rowData.description} />
-            ),
-          },
-          {
-            render: (rowData) => (
-              <div style={{ float: 'right' }}>
-                {rowData.heldBy === 'FILER' ? '' : rowData.heldBy}
-              </div>
-            ),
-          },
-        ]}
+        render={(rowData) => (
+          <LabelDetail
+            label={
+              <span>
+                {rowData.donor} <HeldByDiv {...rowData} />
+              </span>
+            }
+            detail={rowData.description}
+          />
+        )}
       />
     </div>
   )
 }
 
+function FinancialDisclosureSection({ disclosures = [], loading }) {
+  const [disclosureIdx, setDisclosureIdx] = React.useState(0)
+
+  return (
+    <div>
+      <div style={{ padding: '1em', textAlign: 'center' }}>
+        <FormControl>
+          <InputLabel id="demo-simple-select-label">Year</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={disclosureIdx}
+            onChange={(e) => setDisclosureIdx(e.target.value)}
+          >
+            {disclosures.map((d, i) => (
+              <MenuItem value={i}> {d.year} </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+      <FinancialDisclosure
+        disclosure={disclosures[disclosureIdx]}
+        loading={loading}
+      />
+    </div>
+  )
+}
 function LabelDetail({ label, detail }) {
   return (
     <div>
@@ -341,11 +380,10 @@ function LegislatorDetailPage() {
               loading ? 'loading' : fullLegData.financialDisclosures?.length
             })`,
             content: (
-              <div>
-                {fullLegData.financialDisclosures?.map((disclosure) => (
-                  <FinancialDisclosure disclosure={disclosure} />
-                ))}
-              </div>
+              <FinancialDisclosureSection
+                disclosures={fullLegData.financialDisclosures}
+                loading={loading}
+              />
             ),
           },
           {

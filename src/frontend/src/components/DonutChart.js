@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { PieChart, Pie, Tooltip, Cell } from 'recharts'
 import { numberWithCommas } from 'utils'
-import { legTheme } from 'theme'
 import { useTheme } from '@material-ui/core'
 
 const Wrapper = styled.div`
