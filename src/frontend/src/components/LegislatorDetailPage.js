@@ -244,8 +244,10 @@ function FinancialDisclosure({ disclosure, loading }) {
   )
 }
 
-function FinancialDisclosureSection({ disclosures = [], loading }) {
+function FinancialDisclosureSection({ disclosures, loading }) {
   const [disclosureIdx, setDisclosureIdx] = React.useState(0)
+  if (!disclosures) return null
+  if (disclosures.length === 0) return 'No disclosures found.'
 
   return (
     <div>

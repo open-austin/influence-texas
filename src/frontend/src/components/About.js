@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography } from '@material-ui/core'
+import { Link, Typography } from '@material-ui/core'
 
 export default function About() {
   return (
@@ -11,73 +11,83 @@ export default function About() {
           Are you passionate about government transparency? Please sign up for
           our mailing list to stay up to date on our progress and give us
           feedback on features you would like to see.
-          <a
+          <Link
             href="https://www.influencetexas.com/sign-up/"
             target="_blank"
             rel="noopener noreferrer"
           >
             {' '}
             Sign up here!
-          </a>
+          </Link>
         </p>
         <p>
           This nonpartisan open-source project creates access to campaign
           finance information and bill information for Texas state politicians
           from the most recent (86th) legislative session. The project began at{' '}
-          <a
+          <Link
             href="http://atxhackforchange.org/"
             target="_blank"
             rel="noopener noreferrer"
           >
             ATX Hack for Change
-          </a>{' '}
+          </Link>{' '}
           in 2017, and is supported by{' '}
-          <a
+          <Link
             href="https://www.open-austin.org/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Open Austin
-          </a>{' '}
+          </Link>{' '}
           and{' '}
-          <a
+          <Link
             href="https://influencetexas.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             Influence Texas P.B.C.
-          </a>
+          </Link>
         </p>
         <h4>About Our Data</h4>
         <p>
+          Lawmakers’ <b>Personal Financial Statement</b> records were obtained{' '}
+          byInfluence Texas via an open records request to the Texas{' '}
+          EthicsCommission. Lawmakers and state officials are required to{' '}
+          disclose business entities that have ownership in, as well as stocks{' '}
+          and other financial interests. The state’s annual filing deadline is{' '}
+          April. Thus, the data in the current Influence Texas app represents
+          the January 2019 throughDecember 2019 calendar year. The date for the
+          2020 calendar year will not be available until April 2021.
+        </p>
+        <p>
           <b>Legislature, Bill, and Voting</b> records are provided by{' '}
-          <a
+          <Link
             href="https://openstates.org/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Open States
-          </a>
+          </Link>
           , a project supported by the nonprofit{' '}
-          <a
+          <Link
             href="http://openmediafoundation.org/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Open Media Foundation
-          </a>{' '}
+          </Link>{' '}
           that scrapes data from the Texas House and Senate journals. This app
           features records from the most recent legislative session.
         </p>
         <p>
           <b>Campaign finance</b> records are supplied by the nonprofit{' '}
-          <a
+          <Link
             href="http://www.tpj.org/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Texans for Public Justice
-          </a>
+          </Link>
           , which obtains <i>Contribution and Expenditure</i> data dutifully
           filed with the Texas Ethics Commission by all candidates, political
           committees, and political parties from the campaign cycle just prior
@@ -105,21 +115,21 @@ export default function About() {
         </p>
         <h4>TOS and Privacy</h4>
         Please read our{' '}
-        <a
+        <Link
           href="https://influencetexas.com/os-tos"
           target="_blank"
           rel="noopener noreferrer"
         >
           TOS
-        </a>{' '}
+        </Link>{' '}
         and{' '}
-        <a
+        <Link
           href="https://influencetexas.com/os-privacy"
           target="_blank"
           rel="noopener noreferrer"
         >
           Privacy Policy
-        </a>
+        </Link>
         .
         <br />
         <br />
