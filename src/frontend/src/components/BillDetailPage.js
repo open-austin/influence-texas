@@ -165,6 +165,7 @@ function BillDetailPage() {
             label: `Sponsors (${
               loading ? 'loading' : fullBillData.sponsors.totalCount
             })`,
+            className: 'leg-theme',
             content: (
               <div className="detail-page">
                 <LegislatorsList

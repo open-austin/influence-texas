@@ -8,7 +8,7 @@ import { formatMoney, getDebugQuery } from 'utils'
 import CustomLink from 'components/CustomLink'
 import { BlankLoadingLine } from 'styles'
 import { RoundSquare } from 'styles'
-import { legTheme } from 'theme'
+import { useTheme } from '@material-ui/core'
 
 const GET_DONOR = gql`
   query Donor($id: Int!) {
@@ -32,6 +32,7 @@ const GET_DONOR = gql`
 `
 
 function DonorDetailPage() {
+  const { palette } = useTheme()
   const { id } = useParams()
   const { data, loading, error } = useQuery(GET_DONOR, {
     variables: { id },
@@ -84,9 +85,7 @@ function DonorDetailPage() {
                     marginTop: 10,
                     width: 20,
                     height: 20,
-                    background: rowData.legId
-                      ? legTheme.palette.primary.main
-                      : '#bbb',
+                    background: rowData.legId ? palette.primary.main : '#bbb',
                   }}
                 />
                 <div style={{ margin: '0 1em' }}>

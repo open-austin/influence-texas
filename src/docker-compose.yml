@@ -10,6 +10,8 @@ services:
       - POSTGRES_DB=influencetx
     volumes:
       - data:/var/lib/postgres
+    ports:
+      - "5432:5432"
 
   web:
     container_name: web

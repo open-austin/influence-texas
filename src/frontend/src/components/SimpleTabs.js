@@ -6,11 +6,25 @@ import Box from '@material-ui/core/Box'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { getQueryString, setQueryString } from 'utils'
+import { donorTheme, legTheme, billTheme } from 'theme'
 
 export const TabWrapper = styled.div`
   button {
     border-bottom: solid !important;
     border-bottom-style: inset !important;
+  }
+  span[class^='MuiTabs-indicator'],
+  span[class*=' MuiTabs-indicator'] {
+    background-color: ${legTheme.palette.grey[600]};
+  }
+  .leg-theme.Mui-selected {
+    color: ${legTheme.palette.primary.main};
+  }
+  .donor-theme.Mui-selected {
+    color: ${donorTheme.palette.primary.main};
+  }
+  .bill-theme.Mui-selected {
+    color: ${billTheme.palette.primary.main};
   }
 `
 
@@ -71,7 +85,12 @@ export default function SimpleTabs({ tabs = [], startTabIdx = 0, saveToUrl }) {
           onChange={handleChange}
         >
           {tabs.map((t, i) => (
-            <Tab key={t.label} label={t.label} {...a11yProps(i)} />
+            <Tab
+              key={t.label}
+              label={t.label}
+              className={t.className}
+              {...a11yProps(i)}
+            />
           ))}
         </Tabs>
       </div>

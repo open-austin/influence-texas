@@ -4,7 +4,12 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableRow from '@material-ui/core/TableRow'
-import { IconButton, Typography, Collapse } from '@material-ui/core'
+import {
+  IconButton,
+  Typography,
+  Collapse,
+  Link as MaterialLink,
+} from '@material-ui/core'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
 import styled from 'styled-components'
@@ -284,6 +289,86 @@ export function SimpleList({
             )}
           </Table>
         </Collapse>
+      </TableContainer>
+    </StyleWrapper>
+  )
+}
+
+export function ShowMoreList({
+  totalCount,
+  rows = [],
+  title,
+  render,
+  rowsToShow = 6,
+  loadingListBody = LoadingListBody,
+  loading = false,
+  hideIfNoResults = false,
+}) {
+  const [open, setOpen] = React.useState(false)
+  if (hideIfNoResults && rows.length === 0) {
+    return null
+  }
+  return (
+    <StyleWrapper>
+      <TableContainer
+        style={{
+          overflowX: 'initial',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            margin: '0 1em',
+          }}
+        >
+          <Typography variant="h6" style={{ width: '100%' }}>
+            {title}
+            <span
+              variant="subtitle2"
+              style={{ fontSize: '.75em', opacity: 0.5, margin: '1em' }}
+            >
+              {loading ? 'loading' : `${totalCount} Results`}
+            </span>
+          </Typography>
+        </div>
+        <Table aria-label="simple table">
+          {loading ? (
+            loadingListBody
+          ) : (
+            <TableBody>
+              {rows.slice(0, rowsToShow).map((row, i) => (
+                <TableRow key={i}>
+                  <TableCell>{render(row)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
+        </Table>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <Table aria-label="simple table">
+            <TableBody>
+              {rows.slice(rowsToShow).map((row, i) => (
+                <TableRow key={i}>
+                  <TableCell>{render(row)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Collapse>
+        {!open && rows.length > rowsToShow && (
+          <MaterialLink
+            style={{
+              justifyContent: 'center',
+              padding: '1em',
+              cursor: 'pointer',
+            }}
+            onClick={() => setOpen(!open)}
+            color="primary"
+          >
+            Show {rows.length - rowsToShow} More <ExpandMore />
+          </MaterialLink>
+        )}
       </TableContainer>
     </StyleWrapper>
   )
