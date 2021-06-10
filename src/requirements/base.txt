@@ -4,7 +4,7 @@
 # Verified bug on Python 3.5.1
 wheel==0.33.1
 
-django==2.2.14
+django==2.2.24
 graphene==2.1.8
 graphene-django==2.13.0
 django-cors-headers==3.5.0
