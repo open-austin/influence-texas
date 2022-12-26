@@ -2,7 +2,7 @@
 # like Pillow and psycopg2
 # See http://bitly.com/wheel-building-fails-CPython-35
 # Verified bug on Python 3.5.1
-wheel==0.33.1
+wheel==0.38.1
 
 django==2.2.14
 graphene==2.1.8
